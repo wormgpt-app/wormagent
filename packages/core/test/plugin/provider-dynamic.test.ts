@@ -1,16 +1,16 @@
-import { Npm } from "@opencode/util/npm"
+import { Npm } from "@wormagent/util/npm"
 import { describe, expect } from "bun:test"
 import { Cause, Effect, Layer } from "effect"
 import fs from "fs/promises"
 import os from "os"
 import path from "path"
-import { AISDK } from "@opencode/core/aisdk"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Model } from "@opencode/core/model"
-import { Plugin } from "@opencode/core/plugin"
-import { PluginHost } from "@opencode/core/plugin/host"
-import { DynamicProviderPlugin } from "@opencode/core/plugin/provider/dynamic"
-import { Provider } from "@opencode/core/provider"
+import { AISDK } from "@wormagent/core/aisdk"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Model } from "@wormagent/core/model"
+import { Plugin } from "@wormagent/core/plugin"
+import { PluginHost } from "@wormagent/core/plugin/host"
+import { DynamicProviderPlugin } from "@wormagent/core/plugin/provider/dynamic"
+import { Provider } from "@wormagent/core/provider"
 import { testEffect } from "../lib/effect"
 import { PluginTestLayer } from "./fixture"
 
@@ -39,7 +39,7 @@ const addPlugin = Effect.fn(function* (npm?: Npm.Interface) {
 function tempPackage(source: string) {
   return Effect.acquireRelease(
     Effect.promise(async () => {
-      const directory = await fs.mkdtemp(path.join(os.tmpdir(), "opencode-provider-dynamic-"))
+      const directory = await fs.mkdtemp(path.join(os.tmpdir(), "wormagent-provider-dynamic-"))
       await Bun.write(path.join(directory, "provider.mjs"), source)
       await Bun.write(
         path.join(directory, "package.json"),

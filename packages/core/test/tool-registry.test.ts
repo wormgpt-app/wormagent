@@ -1,17 +1,17 @@
 import { describe, expect } from "bun:test"
-import { Agent } from "@opencode/core/agent"
-import { Permission } from "@opencode/core/permission"
-import { Flag } from "@opencode/core/flag"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Image } from "@opencode/core/image"
-import { PluginHooks } from "@opencode/core/plugin/hooks"
-import { Session } from "@opencode/core/session"
-import { SessionMessage } from "@opencode/core/session/message"
-import { State } from "@opencode/core/state"
-import { CodeModeJob } from "@opencode/core/codemode/job"
-import { Tool } from "@opencode/core/tool"
-import type { Info } from "@opencode/schema/tool"
-import { LayerNode } from "@opencode/util/effect/layer-node"
+import { Agent } from "@wormagent/core/agent"
+import { Permission } from "@wormagent/core/permission"
+import { Flag } from "@wormagent/core/flag"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Image } from "@wormagent/core/image"
+import { PluginHooks } from "@wormagent/core/plugin/hooks"
+import { Session } from "@wormagent/core/session"
+import { SessionMessage } from "@wormagent/core/session/message"
+import { State } from "@wormagent/core/state"
+import { CodeModeJob } from "@wormagent/core/codemode/job"
+import { Tool } from "@wormagent/core/tool"
+import type { Info } from "@wormagent/schema/tool"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
 import { codeModeListings, executeTool, toolDefinitions, toolNodeReplacements } from "./lib/tool"
 import { Deferred, Effect, Exit, Fiber, Layer, Logger, Schema, SchemaGetter, SchemaIssue, Scope } from "effect"
 import { z } from "zod"
@@ -1053,16 +1053,16 @@ describe("Tool", () => {
   it.effect("denies a nested-namespace tool by its flattened name in Code Mode and as a direct tool", () =>
     Effect.gen(function* () {
       const service = yield* Tool.Service
-      yield* transform(service, { move: make(), rename: make() }, { namespace: "opencode.session" })
-      const deny: Permission.Ruleset = [{ action: "opencode_session_move", resource: "*", effect: "deny" }]
+      yield* transform(service, { move: make(), rename: make() }, { namespace: "wormagent.session" })
+      const deny: Permission.Ruleset = [{ action: "wormagent_session_move", resource: "*", effect: "deny" }]
 
       const codeMode = yield* service.snapshot(deny)
       const paths = codeModeListings(codeMode.codeModeCatalog!).map((entry) => entry.path)
-      expect(paths).toContain("opencode.session.rename")
-      expect(paths).not.toContain("opencode.session.move")
+      expect(paths).toContain("wormagent.session.rename")
+      expect(paths).not.toContain("wormagent.session.move")
 
       const direct = yield* service.snapshot([...deny, { action: "execute", resource: "*", effect: "deny" }])
-      expect(direct.definitions.map((tool) => tool.name)).toEqual(["opencode_session_rename"])
+      expect(direct.definitions.map((tool) => tool.name)).toEqual(["wormagent_session_rename"])
     }),
   )
 

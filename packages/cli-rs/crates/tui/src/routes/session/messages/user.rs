@@ -1,7 +1,7 @@
 //! User prompts, attachments, and mention chips.
 
-use opencode_api::generated::{PromptFileSource, SessionInboxDelivery, SessionMessageUser};
-use opencode_ui::theme::ThemeMode;
+use wormagent_api::generated::{PromptFileSource, SessionInboxDelivery, SessionMessageUser};
+use wormagent_ui::theme::ThemeMode;
 
 use super::images::{self, Images};
 use super::list::Context;

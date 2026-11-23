@@ -1,9 +1,9 @@
 import fs from "node:fs/promises"
 import path from "node:path"
 import { expect } from "bun:test"
-import { Generate } from "@opencode/core/generate"
-import { makeLocationNode } from "@opencode/util/effect/app-node"
-import { Global } from "@opencode/util/global"
+import { Generate } from "@wormagent/core/generate"
+import { makeLocationNode } from "@wormagent/util/effect/app-node"
+import { Global } from "@wormagent/util/global"
 import { Effect, Layer, Stream } from "effect"
 import { tmpdirScoped } from "../../core/test/fixture/tmpdir"
 import { it } from "../../core/test/lib/effect"
@@ -37,7 +37,7 @@ const serve = (dir: string) =>
   ServerFetch.make(
     {
       app: { version: "test" },
-      database: { path: path.join(dir, "opencode.db") },
+      database: { path: path.join(dir, "wormagent.db") },
       config: {
         directory: dir,
         project: false,
@@ -54,12 +54,12 @@ const serve = (dir: string) =>
     },
   )
 
-const base = "http://opencode.local/api/experimental"
+const base = "http://wormagent.local/api/experimental"
 const unknown = `video_${"0".repeat(12)}${"A".repeat(14)}`
 
 it.live("generates a video in the background and serves its blob with Range and ETag support", () =>
   Effect.gen(function* () {
-    const dir = (yield* tmpdirScoped("opencode-video-route-")).path
+    const dir = (yield* tmpdirScoped("wormagent-video-route-")).path
     const handler = yield* serve(dir)
     const call = (url: string, init?: RequestInit) => Effect.promise(() => handler(new Request(url, init)))
 

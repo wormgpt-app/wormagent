@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test"
-import { AIError, ProviderInternalError, TransportError } from "@opencode/ai/effect"
-import { ModelRetry } from "@opencode/core/model-retry"
-import { Agent } from "@opencode/schema/agent"
-import { Model } from "@opencode/schema/model"
-import { Provider } from "@opencode/core/provider"
-import { SessionSchema } from "@opencode/core/session/schema"
-import { SessionRunnerRetry } from "@opencode/core/session/runner/retry"
-import { toSessionError } from "@opencode/core/session/to-session-error"
+import { AIError, ProviderInternalError, TransportError } from "@wormagent/ai/effect"
+import { ModelRetry } from "@wormagent/core/model-retry"
+import { Agent } from "@wormagent/schema/agent"
+import { Model } from "@wormagent/schema/model"
+import { Provider } from "@wormagent/core/provider"
+import { SessionSchema } from "@wormagent/core/session/schema"
+import { SessionRunnerRetry } from "@wormagent/core/session/runner/retry"
+import { toSessionError } from "@wormagent/core/session/to-session-error"
 import { Clock, Duration, Effect } from "effect"
 import { TestClock } from "effect/testing"
 import { it } from "./lib/effect"
@@ -17,11 +17,11 @@ const timeout = new AIError({
 const internal = new AIError({ reason: new ProviderInternalError({ message: "internal" }) })
 const dnsFailure = new AIError({
   reason: new TransportError({
-    message: "getaddrinfo ENOTFOUND opencode.ai",
+    message: "getaddrinfo ENOTFOUND wormagent.net",
     transport: "http",
     operation: "request",
     code: "ENOTFOUND",
-    url: "https://opencode.ai/zen/v1/responses",
+    url: "https://wormagent.net/zen/v1/responses",
   }),
 })
 const refused = new AIError({
@@ -123,7 +123,7 @@ describe("toSessionError", () => {
   test("names the network when the provider's host can't be reached", () => {
     expect(toSessionError(dnsFailure)).toEqual({
       type: "provider.transport",
-      message: "Can't reach opencode.ai. Check the network connection. (getaddrinfo ENOTFOUND opencode.ai)",
+      message: "Can't reach wormagent.net. Check the network connection. (getaddrinfo ENOTFOUND wormagent.net)",
     })
     expect(toSessionError(refused)).toEqual({ type: "provider.transport", message: "Unable to connect" })
   })

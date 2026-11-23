@@ -11,8 +11,8 @@ import Notifications from "../feature-plugins/system/notifications"
 import Plugins from "../feature-plugins/system/plugins"
 import Storybook from "../feature-plugins/system/storybook"
 import Stats from "../feature-plugins/system/stats"
-import Latex from "@opencode/latex/plugin"
-import Merman from "@opencode/merman/plugin"
+import Latex from "@wormagent/latex/plugin"
+import Merman from "@wormagent/merman/plugin"
 
 export const builtins = [
   HomeFooter,
@@ -29,7 +29,7 @@ export const builtins = [
   Merman,
   Latex,
   // The storybook is a development tool; keep its route and palette commands out of
-  // normal launches and register it only for OPENCODE_STORY runs.
-  ...(process.env.OPENCODE_STORY ? [Storybook] : []),
+  // normal launches and register it only for WORMAGENT_STORY runs.
+  ...(process.env.WORMAGENT_STORY ? [Storybook] : []),
   DiffViewer,
 ]

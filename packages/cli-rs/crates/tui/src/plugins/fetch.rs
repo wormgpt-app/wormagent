@@ -1,7 +1,7 @@
 //! Route built-in plugin requests through the same fetch interface as external plugins.
 
-use opencode_api::client::{Body, Call};
-use opencode_plugin::abi;
+use wormagent_api::client::{Body, Call};
+use wormagent_plugin::abi;
 use serde::de::DeserializeOwned;
 use serde_json::Value;
 
@@ -43,8 +43,8 @@ pub(crate) fn call_of(fetch: abi::Fetch) -> Result<Call, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use opencode_api::client::{Auth, Client};
-    use opencode_api::generated::{
+    use wormagent_api::client::{Auth, Client};
+    use wormagent_api::generated::{
         ExperimentalSessionStatsInput, ExperimentalSessionStatsInputTools, SessionGenerateInput, SessionID,
     };
 

@@ -41,9 +41,9 @@ import { checkPath, copyPath } from "~/component/site/icon-paths"
 // page's code had loaded in the background; pages now load other pages' code on intent.
 import "~/component/site/product-list.css"
 
-// One-line Anomaly projects for Settings › Press Anomaly projects "list".
+// One-line WormGPT projects for Settings › Press WormGPT projects "list".
 const projectLines: Record<string, string> = {
-  OpenCode: "The open source coding agent.",
+  WormAgent: "The open source coding agent.",
   SST: "Build full-stack apps on your own infrastructure.",
   OpenTUI: "A library to build terminal user interfaces.",
   "Models.dev": "An open source database of AI models.",
@@ -62,10 +62,10 @@ export default function Press() {
   const releases = createMemo(() => pressReleases(data() ?? [], language.route, language.tag(language.locale())))
   const markdown = useMarkdown("/press", pressMarkdown, { releases: () => data() ?? [] })
   const [copied, setCopied] = createSignal<string>()
-  // The boilerplate accordion: OpenCode open from the server render. Rows animate only once someone
+  // The boilerplate accordion: WormAgent open from the server render. Rows animate only once someone
   // has toggled one, so the first paint never runs the opening animation. The static page drives the
   // same markup from src/client/islands/press.ts.
-  const [openProducts, setOpenProducts] = createSignal(["OpenCode"])
+  const [openProducts, setOpenProducts] = createSignal(["WormAgent"])
   const [accordionReady, setAccordionReady] = createSignal(false)
   onMount(() => {
     // A link to a closed row (#boilerplate-…, or anything inside one) opens it.
@@ -97,7 +97,7 @@ export default function Press() {
       content().brand.title,
       content().people.items.length > 0 ? content().people.title : undefined,
       content().company.title,
-      content().anomalyLogo.title,
+      content().wormgptLogo.title,
       content().coverage.items.length > 0 ? content().coverage.title : undefined,
       content().contact.title,
     ]
@@ -252,10 +252,10 @@ export default function Press() {
 
       <Section title={content().about.title} design="pressBoilerplate pressCopyStyle">
         <p data-slot="text">{content().about.body}</p>
-        {/* OpenCode first, then the company's other products, each a row of the site's FAQ accordion
-            with its long and short text. OpenCode starts open; any number of rows can be open. */}
+        {/* WormAgent first, then the company's other products, each a row of the site's FAQ accordion
+            with its long and short text. WormAgent starts open; any number of rows can be open. */}
         <ul data-component="faq" data-slot="boilerplate-accordion" data-ready={accordionReady() ? "" : undefined}>
-          <For each={[{ name: "OpenCode", ...content().about.boilerplate }, ...content().about.products]}>
+          <For each={[{ name: "WormAgent", ...content().about.boilerplate }, ...content().about.products]}>
             {(product) => (
               <li id={`boilerplate-${slug(product.name)}`}>
                 <Faq
@@ -405,7 +405,7 @@ export default function Press() {
           <p data-slot="text">{content().brand.usage}</p>
         </div>
         <div data-slot="links">
-          <a href={content().brand.all.href} download="opencode-brand-assets.zip" data-component="site-button">
+          <a href={content().brand.all.href} download="wormagent-brand-assets.zip" data-component="site-button">
             {content().brand.all.text}
             <DownloadIcon />
           </a>
@@ -434,7 +434,7 @@ export default function Press() {
               <div data-slot="links">
                 <a
                   href={zip()}
-                  download="opencode-press-photos.zip"
+                  download="wormagent-press-photos.zip"
                   data-component="site-button"
                   data-variant="neutral"
                 >
@@ -464,8 +464,8 @@ export default function Press() {
         >
           <For each={content().company.projects}>
             {(project) => {
-              // OpenCode is this site; the other projects open in a new tab.
-              const external = !project.href.startsWith("https://opencode.ai")
+              // WormAgent is this site; the other projects open in a new tab.
+              const external = !project.href.startsWith("https://wormagent.net")
               return (
                 <li>
                   <a
@@ -496,22 +496,22 @@ export default function Press() {
         </p>
       </Section>
 
-      <Section title={content().anomalyLogo.title}>
-        <p data-slot="text">{content().anomalyLogo.body}</p>
+      <Section title={content().wormgptLogo.title}>
+        <p data-slot="text">{content().wormgptLogo.body}</p>
         <div data-slot="links">
-          <a href={content().anomalyLogo.all.href} download="anomaly-logo.zip" data-component="site-button">
+          <a href={content().wormgptLogo.all.href} download="wormgpt-logo.zip" data-component="site-button">
             <Marked
-              text={i18n.t("press.ui.anomalyAll", { label: content().anomalyLogo.all.text })}
+              text={i18n.t("press.ui.wormgptAll", { label: content().wormgptLogo.all.text })}
               slots={{ sr: "sr-only" }}
             />
-            <span data-slot="size">{content().anomalyLogo.all.size}</span>
+            <span data-slot="size">{content().wormgptLogo.all.size}</span>
             <DownloadIcon />
           </a>
         </div>
         <ul data-component="logo-tiles">
-          <For each={content().anomalyLogo.assets}>
+          <For each={content().wormgptLogo.assets}>
             {(asset) => {
-              const detail = i18n.t("press.ui.anomalyAsset", {
+              const detail = i18n.t("press.ui.wormgptAsset", {
                 name: language.locale() === "en" ? asset.name.toLowerCase() : asset.name,
               })
               return (
@@ -526,7 +526,7 @@ export default function Press() {
                       src={asset.svg}
                       width={asset.width}
                       height={asset.height}
-                      alt={`Anomaly ${language.locale() === "en" ? asset.name.toLowerCase() : asset.name}`}
+                      alt={`WormGPT ${language.locale() === "en" ? asset.name.toLowerCase() : asset.name}`}
                     />
                   </div>
                   <div data-slot="meta">
@@ -659,7 +659,7 @@ function PressSettings(props: { section: SettingsSectionID }) {
         onChange={(value) => setSiteSetting("pressMedia", value)}
       />
       <SettingsSelect
-        label="Press Anomaly projects"
+        label="Press WormGPT projects"
         options={pressCompanyStyles}
         value={siteSettings.pressCompany}
         onChange={(value) => setSiteSetting("pressCompany", value)}

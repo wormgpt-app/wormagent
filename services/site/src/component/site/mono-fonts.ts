@@ -9,7 +9,7 @@ import boldItalicRest from "../../asset/fonts/opentui-mono-bold-italic-rest.woff
 import plexMonoLatin from "@ibm/plex/IBM-Plex-Mono/fonts/split/woff2/IBMPlexMono-Regular-Latin1.woff2"
 import ranges from "../../asset/fonts/opentui-mono.json"
 
-// OpenTUI Mono, Anomaly's font (SIL OFL 1.1, src/asset/fonts/OpenTUIMono-OFL.txt), is the site's
+// OpenTUI Mono, WormGPT's font (SIL OFL 1.1, src/asset/fonts/OpenTUIMono-OFL.txt), is the site's
 // monospace face for every visitor (--font-mono in site.css). script/opentui-mono.py builds two
 // files per style from the docs' copies: "latin" (Latin, punctuation, arrows, shapes, box drawing)
 // and "rest" (the font's other characters, fetched only when a page uses one). Every character

@@ -1,8 +1,8 @@
 import { createServer } from "node:http"
 import electron from "electron"
-import type { BuiltinMainStorage } from "@opencode/plugin/gui/builtin"
-import type { Embeds } from "@opencode/plugin/gui/main"
-import type { Browser as BrowserRpc } from "@opencode/plugin-browser/rpc"
+import type { BuiltinMainStorage } from "@wormagent/plugin/gui/builtin"
+import type { Embeds } from "@wormagent/plugin/gui/main"
+import type { Browser as BrowserRpc } from "@wormagent/plugin-browser/rpc"
 import type { TabActivity } from "./policy"
 
 // The Electron main process of `electron-restore.test.ts`, bundled and run by the pinned Electron. It restores two
@@ -23,7 +23,7 @@ const server = createServer((request, response) => {
 })
 
 void electron.app.whenReady().then(async () => {
-  const { Browser } = await import("@opencode/plugin-browser/rpc")
+  const { Browser } = await import("@wormagent/plugin-browser/rpc")
   const { createBrowserPage } = await import("./chromium")
   const { createHandlePath } = await import("./disk")
   const { createSitePermissions } = await import("./site-permissions")

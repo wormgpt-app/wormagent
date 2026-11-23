@@ -1,9 +1,9 @@
 export * as Permission from "./permission.js"
 
-import { makeLocationNode } from "@opencode/util/effect/app-node"
+import { makeLocationNode } from "@wormagent/util/effect/app-node"
 import { Context, Deferred, Effect, Layer, Schema, Scope } from "effect"
-import { Permission } from "@opencode/schema/permission"
-import type { Tool } from "@opencode/schema/tool"
+import { Permission } from "@wormagent/schema/permission"
+import type { Tool } from "@wormagent/schema/tool"
 import { Bus } from "./bus.js"
 import { Location } from "./location.js"
 import { Agent } from "./agent.js"
@@ -16,7 +16,7 @@ import { PluginHooks } from "./plugin/hooks.js"
 
 const PermissionEffect = Permission.Effect
 export { PermissionEffect as Effect }
-export { Rule, Ruleset } from "@opencode/schema/permission"
+export { Rule, Ruleset } from "@wormagent/schema/permission"
 const missingAgentPermissions: Permission.Ruleset = [{ action: "*", resource: "*", effect: "deny" }]
 
 export const ID = Permission.ID
@@ -54,13 +54,13 @@ export interface AskResult {
   readonly effect: Permission.Effect
 }
 
-export { Event } from "@opencode/schema/permission"
+export { Event } from "@wormagent/schema/permission"
 
 /**
  * Rules that settle a request which would otherwise ask, for work nobody is present to answer, such as a schedule's
  * check. A request they do not allow is denied. Configured denies still win, as they are evaluated first.
  */
-export const Unattended = Context.Reference<Permission.Ruleset | undefined>("@opencode/Permission/Unattended", {
+export const Unattended = Context.Reference<Permission.Ruleset | undefined>("@wormagent/Permission/Unattended", {
   defaultValue: () => undefined,
 })
 
@@ -94,7 +94,7 @@ export type Error = BlockedError | CorrectedError
 /** Actions whose resources are file paths. */
 export const pathActions = ["external_directory", "read", "edit"] as const
 
-/** macOS volumes ignore case by default, so `.OPENCODE/x` opens `.opencode/x`; rules for file paths must match it too. */
+/** macOS volumes ignore case by default, so `.WORMAGENT/x` opens `.wormagent/x`; rules for file paths must match it too. */
 export function ignoresCase(action: string) {
   return process.platform === "darwin" && pathActions.some((item) => item === action)
 }
@@ -137,7 +137,7 @@ export interface Interface {
   readonly nested: (call: Tool.CallID, parent: Tool.CallID) => Effect.Effect<void, never, Scope.Scope>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/Permission") {}
+export class Service extends Context.Service<Service, Interface>()("@wormagent/Permission") {}
 
 interface Pending {
   readonly request: Request

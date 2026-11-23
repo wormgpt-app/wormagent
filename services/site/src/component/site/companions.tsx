@@ -5,12 +5,12 @@ import { useLanguage } from "~/context/language"
 import "./companions.css"
 import { For, Show } from "solid-js"
 import { NewTab } from "./icons"
-import { anomalyApps, appLink } from "./links"
+import { wormgptApps, appLink } from "./links"
 import { SectionHeading } from "./on-this-page"
 import { siteSettings } from "./settings"
 
 /**
- * "Works great with OpenCode": Anomaly's apps in one row (icon, name and category), the same on
+ * "Works great with WormAgent": WormGPT's apps in one row (icon, name and category), the same on
  * every product page. On phones the row scrolls sideways. The `companionStyle` setting swaps the
  * ruled grid for grey tiles or a ruled list.
  */
@@ -20,10 +20,10 @@ export function Companions() {
   const appCopy = useArea("apps", appsSource)
   return (
     <section data-component="block" data-slot="product-companions" data-section="companions">
-      <SectionHeading id="works-with-opencode" title={i18n.t("site.companions")} label />
+      <SectionHeading id="works-with-wormagent" title={i18n.t("site.companions")} label />
       <div data-component="companions" data-design="companionStyle" data-style={siteSettings.companionStyle}>
         <ul data-slot="track">
-          <For each={anomalyApps}>
+          <For each={wormgptApps}>
             {(app) => {
               const link = appLink(app, language.route)
               const target = link.external ? "_blank" : undefined

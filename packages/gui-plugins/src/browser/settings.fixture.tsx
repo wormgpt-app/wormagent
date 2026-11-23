@@ -1,9 +1,9 @@
-import { DialogProvider, useDialog } from "@opencode/ui/context/dialog"
+import { DialogProvider, useDialog } from "@wormagent/ui/context/dialog"
 import type { Component, JSX } from "solid-js"
 import { createStore, produce } from "solid-js/store"
 import { render } from "solid-js/web"
-import { liveAccessor, PluginContext } from "@opencode/plugin/gui/host"
-import type { ConfirmOptions, Context, SetupContext, Ui } from "@opencode/plugin/gui"
+import { liveAccessor, PluginContext } from "@wormagent/plugin/gui/host"
+import type { ConfirmOptions, Context, SetupContext, Ui } from "@wormagent/plugin/gui"
 import browserEn from "./i18n/en"
 import type definition from "./index"
 import type { ExtensionAccess, ExtensionCompatibility, ImportResult, InstallResult, ProfileSource } from "./profile/ipc"
@@ -47,8 +47,8 @@ const sampleExtensionEntries: readonly (readonly [string, readonly SampleExtensi
         access: ["allSites", "cookies"],
       },
       {
-        id: "opencodebrowseextension000000000",
-        name: "OpenCode Browse",
+        id: "wormagentbrowseextension000000000",
+        name: "WormAgent Browse",
         version: "1.0.2",
         icon: badge("#1f2328", "#ffffff", '<rect x="5" y="5" width="10" height="10" rx="2" fill="none" stroke="FG" stroke-width="1.8"/>'),
         compatibility: { level: "unsupported", cause: "startup", missing: ["native", "sidePanel"] },

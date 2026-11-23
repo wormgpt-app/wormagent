@@ -19,7 +19,7 @@ const slugs = {
     "nb/config",
   ],
 }
-const route = (path: string, accept = "text/html") => docsRoute(new URL(path, "https://opencode.ai"), accept, slugs)
+const route = (path: string, accept = "text/html") => docsRoute(new URL(path, "https://wormagent.net"), accept, slugs)
 
 describe("docs routes", () => {
   test("serve V2 pages at /docs, with or without the trailing slash", () => {
@@ -134,13 +134,13 @@ describe("V1 docs routes", () => {
       expect(route(path)).toEqual({ type: "missing" })
   })
 
-  test("send docs.opencode.ai's addresses to the same path under /docs", () => {
+  test("send docs.wormagent.net's addresses to the same path under /docs", () => {
     const host = (url: string) => docsHostRedirect(new URL(url))
-    expect(host("https://docs.opencode.ai/")).toBe("https://opencode.ai/docs/")
-    expect(host("https://docs.opencode.ai/docs")).toBe("https://opencode.ai/docs/")
-    expect(host("https://docs.opencode.ai/docs/ide/?x=1")).toBe("https://opencode.ai/docs/ide/?x=1")
-    expect(host("https://docs.opencode.ai/s/abc")).toBe("https://opencode.ai/docs/s/abc")
-    expect(host("https://docs.dev.opencode.ai/docs/ja/")).toBe("https://dev.opencode.ai/docs/ja/")
-    expect(host("https://opencode.ai/docs/")).toBeUndefined()
+    expect(host("https://docs.wormagent.net/")).toBe("https://wormagent.net/docs/")
+    expect(host("https://docs.wormagent.net/docs")).toBe("https://wormagent.net/docs/")
+    expect(host("https://docs.wormagent.net/docs/ide/?x=1")).toBe("https://wormagent.net/docs/ide/?x=1")
+    expect(host("https://docs.wormagent.net/s/abc")).toBe("https://wormagent.net/docs/s/abc")
+    expect(host("https://docs.dev.wormagent.net/docs/ja/")).toBe("https://dev.wormagent.net/docs/ja/")
+    expect(host("https://wormagent.net/docs/")).toBeUndefined()
   })
 })

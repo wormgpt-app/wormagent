@@ -1,8 +1,8 @@
 use std::cell::Cell;
 use std::rc::Rc;
 
-use opencode_ui::keymap::{Keybinds, Options};
-use opencode_ui::theme::{Catalog, ThemeMode};
+use wormagent_ui::keymap::{Keybinds, Options};
+use wormagent_ui::theme::{Catalog, ThemeMode};
 use opentui::testing::TestApp;
 
 use super::slot::{self, Placed, Placement, Resolution};
@@ -23,7 +23,7 @@ impl Host for TestHost {
     }
 
     fn theme(&self) -> Theme {
-        Catalog::default().load("opencode", ThemeMode::Dark).unwrap().theme
+        Catalog::default().load("wormagent", ThemeMode::Dark).unwrap().theme
     }
 
     fn keymap(&self) -> &DialogKeymap {
@@ -121,12 +121,12 @@ fn resolve_degrades_missing_targets_to_the_nearest_ancestor() {
 #[test]
 fn selectors_match_as_in_ts() {
     let cases = [
-        ("*", "opencode.stats", true),
-        ("opencode.stats", "opencode.stats", true),
-        ("opencode.sidebar.*", "opencode.sidebar.todo", true),
-        ("opencode.sidebar.*", "opencode.stats", false),
-        ("opencode.side*", "opencode.sidebar.todo", false),
-        ("opencode.stat", "opencode.stats", false),
+        ("*", "wormagent.stats", true),
+        ("wormagent.stats", "wormagent.stats", true),
+        ("wormagent.sidebar.*", "wormagent.sidebar.todo", true),
+        ("wormagent.sidebar.*", "wormagent.stats", false),
+        ("wormagent.side*", "wormagent.sidebar.todo", false),
+        ("wormagent.stat", "wormagent.stats", false),
     ];
     for (selector, id, expected) in cases {
         assert_eq!(matches(selector, id), expected, "{selector} {id}");

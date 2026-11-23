@@ -1,8 +1,8 @@
 import { isDeepStrictEqual } from "node:util"
 import { Duration, Effect, Equal, FiberHandle, Option, Schema, Scope, Semaphore, Stream } from "effect"
-import type { IntegrationOAuthMethodRegistration } from "@opencode/plugin/effect/integration"
-import { define } from "@opencode/plugin/effect/plugin"
-import type { SessionHttpResponse } from "@opencode/plugin/effect/session"
+import type { IntegrationOAuthMethodRegistration } from "@wormagent/plugin/effect/integration"
+import { define } from "@wormagent/plugin/effect/plugin"
+import type { SessionHttpResponse } from "@wormagent/plugin/effect/session"
 import {
   FetchHttpClient,
   HttpBody,
@@ -30,11 +30,11 @@ import { SharedCache } from "../../shared-cache.js"
 import { Skill } from "../../skill.js"
 import { SkillDiscovery } from "../../skill/discovery.js"
 import { WebSearch } from "../../websearch.js"
-import { OpencodeArtifacts } from "./opencode-artifacts.js"
-import { OpencodeWatches } from "./opencode-watches.js"
+import { OpencodeArtifacts } from "./wormagent-artifacts.js"
+import { OpencodeWatches } from "./wormagent-watches.js"
 import { ProviderRefresh } from "./refresh.js"
 
-const clientID = "opencode-cli"
+const clientID = "wormagent-cli"
 const methodID = Integration.MethodID.make("device")
 const Device = Schema.Struct({
   device_code: Schema.String,
@@ -67,7 +67,7 @@ const ConsoleInstructions = Schema.Struct({
   instructions: Schema.Array(Schema.Struct({ id: Schema.String, content: Schema.String })),
 })
 /** The `GET /api/v2/config` response header Console sends while the caller has workspace instructions and skills. */
-const listsHeader = "x-opencode-instructions-skills"
+const listsHeader = "x-wormagent-instructions-skills"
 const ConsoleSkills = Schema.Struct({
   skills: Schema.Array(Schema.Struct({ slug: Schema.String, version: Schema.String })),
 })
@@ -80,9 +80,9 @@ type ConsoleConfig = NonNullable<Effect.Success<ReturnType<typeof fetchConfig>>>
   readonly instructions: (typeof ConsoleInstructions.Type)["instructions"]
   readonly skills: (typeof ConsoleSkills.Type)["skills"]
 }
-const signedOutMessage = "Reconnect OpenCode Console to continue"
+const signedOutMessage = "Reconnect WormAgent Console to continue"
 const ssoMessage = (organization: string | undefined) =>
-  `Sign in with SSO again to use ${organization ?? "your OpenCode Console organization"}`
+  `Sign in with SSO again to use ${organization ?? "your WormAgent Console organization"}`
 
 class SsoRequiredError extends Schema.TaggedError<SsoRequiredError>()("OpencodeConsole.SsoRequired", {
   organization: Schema.optional(Schema.String),
@@ -102,11 +102,11 @@ class SignedOutError extends Schema.TaggedError<SignedOutError>()("OpencodeConso
 
 function oauth(http: HttpClient.HttpClient) {
   return {
-    integrationID: Integration.ID.make("opencode"),
+    integrationID: Integration.ID.make("wormagent"),
     method: {
       id: methodID,
       type: "oauth",
-      label: "OpenCode account",
+      label: "WormAgent account",
       form: [
         {
           key: "server",
@@ -189,11 +189,11 @@ export const OpencodePlugin = define<
   | Skill.Service
   | Scope.Scope
 >({
-  id: "opencode.provider.opencode",
+  id: "wormagent.provider.wormagent",
   effect: Effect.fn(function* (ctx) {
-    const disableFree = ["1", "true"].includes(process.env.OPENCODE_DISABLE_FREE_MODELS?.toLowerCase() ?? "")
+    const disableFree = ["1", "true"].includes(process.env.WORMAGENT_DISABLE_FREE_MODELS?.toLowerCase() ?? "")
     const client = yield* HttpClient.HttpClient
-    // Every request here goes to the Console, which reads the User-Agent to tell which OpenCode a member runs
+    // Every request here goes to the Console, which reads the User-Agent to tell which WormAgent a member runs
     // and whether it evaluates the policies it is being sent.
     const http = HttpClient.mapRequest(client, HttpClientRequest.setHeader("User-Agent", App.useragent(ctx.app)))
     const config = yield* Config.Service
@@ -205,7 +205,7 @@ export const OpencodePlugin = define<
     const loading = Semaphore.makeUnsafe(1)
     type ActiveConnection = Effect.Success<ReturnType<typeof ctx.integration.connection.active>>
     let snapshot: {
-      // The Console's regular OpenCode config, merged as an integration config layer.
+      // The Console's regular WormAgent config, merged as an integration config layer.
       remote: ConsoleConfig | undefined
       connection: ActiveConnection
       organization: string | undefined
@@ -225,14 +225,14 @@ export const OpencodePlugin = define<
 
     // Every project signed in to the same workspace shares one fetch, reused while it is younger than `maxAge`.
     const load = Effect.fn("OpencodePlugin.load")(function* (maxAge: Duration.Input = Duration.minutes(1)) {
-      const connection = yield* ctx.integration.connection.active("opencode")
+      const connection = yield* ctx.integration.connection.active("wormagent")
       if (!connection) {
         reported = undefined
         return { remote: undefined, connection, organization: undefined }
       }
       const status = (status: IntegrationConnection.Status | undefined) => {
         reported = status
-        return ctx.integration.connection.status({ integrationID: "opencode", connection, status })
+        return ctx.integration.connection.status({ integrationID: "wormagent", connection, status })
       }
       return yield* ctx.integration.connection.resolve(connection).pipe(
         Effect.flatMap((credential) => {
@@ -243,11 +243,11 @@ export const OpencodePlugin = define<
           // holds back the config and its policies. `SharedCache` already logs the failure.
           const list = <A>(name: string, load: Effect.Effect<ReadonlyArray<A>, unknown>) =>
             cache
-              .get({ key: `opencode-console-${name}:${workspace}`, interval: maxAge, load })
+              .get({ key: `wormagent-console-${name}:${workspace}`, interval: maxAge, load })
               .pipe(Effect.orElseSucceed((): ReadonlyArray<A> => []))
           return cache
             .get({
-              key: `opencode-console:${workspace}`,
+              key: `wormagent-console:${workspace}`,
               interval: maxAge,
               // A sign-in error is Console's answer for this sign-in, so it is shared like a config rather than
               // replaced by the last config, as a network failure is.
@@ -296,7 +296,7 @@ export const OpencodePlugin = define<
             // Only well-formed Console errors change the connection status; anything else may be transient.
             const next = connectionStatus(cause)
             if (next) yield* status(next)
-            yield* Effect.logWarning("failed to load OpenCode provider config", { cause })
+            yield* Effect.logWarning("failed to load WormAgent provider config", { cause })
             // A load that fails for the connection already in place keeps its last config: dropping it
             // would lift organization policy while personal credentials keep working.
             return IntegrationConnection.key(connection) === IntegrationConnection.key(snapshot.connection)
@@ -310,10 +310,10 @@ export const OpencodePlugin = define<
     // while the rest of the document merges through config.
     let integrated: ConfigIntegration.Document | undefined
     const integrate = Effect.fnUntraced(function* (document: ConfigIntegration.Document | undefined) {
-      yield* config.integration?.(Integration.ID.make("opencode"), document) ?? Effect.void
+      yield* config.integration?.(Integration.ID.make("wormagent"), document) ?? Effect.void
       integrated = (yield* config.entries()).find(
         (entry): entry is ConfigIntegration.Document =>
-          entry instanceof ConfigIntegration.Document && entry.integrationID === Integration.ID.make("opencode"),
+          entry instanceof ConfigIntegration.Document && entry.integrationID === Integration.ID.make("wormagent"),
       )
     })
     // Policies and providers ride on the snapshot, so a credential switch, disconnect, or 404 replaces them too.
@@ -323,7 +323,7 @@ export const OpencodePlugin = define<
         next.remote &&
         next.connection &&
         ConfigIntegration.make({
-          integrationID: Integration.ID.make("opencode"),
+          integrationID: Integration.ID.make("wormagent"),
           connection:
             next.connection.type === "credential"
               ? { ...next.connection, id: Credential.ID.make(next.connection.id) }
@@ -357,7 +357,7 @@ export const OpencodePlugin = define<
               Effect.flatMap((current) =>
                 current && current.type !== "external"
                   ? Effect.succeed(ConsoleAccess.headers(current))
-                  : Effect.fail(new Error("OpenCode Console is not connected")),
+                  : Effect.fail(new Error("WormAgent Console is not connected")),
               ),
             ),
         })
@@ -368,7 +368,7 @@ export const OpencodePlugin = define<
       const remote = allowed ? next.remote : undefined
       instructions = (remote?.instructions ?? []).map(
         (item) =>
-          new InstructionDiscovery.File({ path: `OpenCode Console instruction ${item.id}`, content: item.content }),
+          new InstructionDiscovery.File({ path: `WormAgent Console instruction ${item.id}`, content: item.content }),
       )
       if (!allowed) consoleSkills = { owner: "", items: [] }
       // Skills download in the background, so startup and config changes never wait on them. The current ones stay
@@ -399,7 +399,7 @@ export const OpencodePlugin = define<
           listed,
           (item) => {
             const input = {
-              key: `opencode-console-skill:${workspace}:${item.slug}`,
+              key: `wormagent-console-skill:${workspace}:${item.slug}`,
               interval: Duration.infinity,
               load: downloadSkill(http, server, item.slug, ConsoleAccess.headers(credential)).pipe(
                 Effect.map((skill) => ({ version: item.version, skill })),
@@ -426,15 +426,15 @@ export const OpencodePlugin = define<
     )
     const search = (providerID: WebSearch.ID, connection: NonNullable<ActiveConnection>) => ({
       id: providerID,
-      name: "OpenCode Web Search",
+      name: "WormAgent Web Search",
       execute: (input: WebSearch.ProviderInput) =>
         Effect.gen(function* () {
-          const active = yield* ctx.integration.connection.active("opencode")
+          const active = yield* ctx.integration.connection.active("wormagent")
           if (!active || IntegrationConnection.key(active) !== IntegrationConnection.key(connection))
-            return yield* Effect.fail(new Error("OpenCode Console connection changed"))
+            return yield* Effect.fail(new Error("WormAgent Console connection changed"))
           const credential = yield* ctx.integration.connection.resolve(active)
           if (!credential || credential.type === "external")
-            return yield* Effect.fail(new Error("OpenCode Console is not connected"))
+            return yield* Effect.fail(new Error("WormAgent Console is not connected"))
           const metadata = credential.metadata
           const orgID = typeof metadata?.orgID === "string" ? metadata.orgID : undefined
           const token = credential.type === "oauth" ? credential.access : credential.key
@@ -453,12 +453,12 @@ export const OpencodePlugin = define<
             Effect.scoped,
             Effect.timeoutOrElse({
               duration: Duration.seconds(25),
-              orElse: () => Effect.fail(new Error("OpenCode web search request timed out")),
+              orElse: () => Effect.fail(new Error("WormAgent web search request timed out")),
             }),
           )
           if (response.providerID !== providerID) {
             return yield* Effect.fail(
-              new Error(`OpenCode web search returned provider ${response.providerID} instead of ${providerID}`),
+              new Error(`WormAgent web search returned provider ${response.providerID} instead of ${providerID}`),
             )
           }
           return response.results
@@ -466,11 +466,11 @@ export const OpencodePlugin = define<
     })
 
     yield* ctx.integration.transform((editor) => {
-      editor.update("opencode", (integration) => {
-        integration.name = "OpenCode"
+      editor.update("wormagent", (integration) => {
+        integration.name = "WormAgent"
       })
       editor.method.update(oauth(http))
-      editor.method.update({ integrationID: "opencode", method: { type: "key", label: "API key (service account)" } })
+      editor.method.update({ integrationID: "wormagent", method: { type: "key", label: "API key (service account)" } })
     })
 
     snapshot = yield* load()
@@ -479,9 +479,9 @@ export const OpencodePlugin = define<
       if (integrated) ConfigProviderPlugin.integrate(providers, integrated)
     })
     yield* ctx.provider.transform((providers) => {
-      const item = providers.get(Provider.ID.opencode)
+      const item = providers.get(Provider.ID.wormagent)
       if (!item) return
-      const hasKey = Boolean(process.env.OPENCODE_API_KEY || snapshot.connection || item.provider.settings?.apiKey)
+      const hasKey = Boolean(process.env.WORMAGENT_API_KEY || snapshot.connection || item.provider.settings?.apiKey)
       providers.update(item.provider.id, (provider) => {
         if (!hasKey && !disableFree) {
           provider.activation = "enabled"
@@ -490,10 +490,10 @@ export const OpencodePlugin = define<
       })
     })
     yield* ctx.model.transform((models) => {
-      const item = models.provider.get(Provider.ID.opencode)
+      const item = models.provider.get(Provider.ID.wormagent)
       if (!item) return
       const hasKey = Boolean(
-        process.env.OPENCODE_API_KEY ||
+        process.env.WORMAGENT_API_KEY ||
           snapshot.connection ||
           (item.provider.settings?.apiKey && item.provider.settings.apiKey !== "public"),
       )
@@ -509,7 +509,7 @@ export const OpencodePlugin = define<
     // allows it; otherwise its searches fail, so the provider is offered only then. The selection still merges as
     // config, where the user's own choice wins.
     yield* ctx.websearch.transform((editor) => {
-      const provider = WebSearch.ID.make("opencode")
+      const provider = WebSearch.ID.make("wormagent")
       if (snapshot.remote?.websearch && snapshot.remote.websearch.provider === provider && snapshot.connection)
         editor.add(search(provider, snapshot.connection))
     })
@@ -562,7 +562,7 @@ export const OpencodePlugin = define<
     const guard = Effect.fn("OpencodePlugin.guard")(function* (next: typeof snapshot) {
       yield* Effect.forEach(explainers, (registration) => registration.dispose, { discard: true })
       explainers = yield* Effect.forEach(
-        next.connection ? new Set([Provider.ID.opencode, ...Object.keys(next.remote?.providers ?? {})]) : [],
+        next.connection ? new Set([Provider.ID.wormagent, ...Object.keys(next.remote?.providers ?? {})]) : [],
         (providerID) => ctx.session.hook("http.response", explain, { providerID }).pipe(Scope.provide(scope)),
       )
     })
@@ -578,7 +578,7 @@ export const OpencodePlugin = define<
         onlyIfMissing: true,
       })
     })
-    yield* ProviderRefresh.onSwitch("opencode", refresh().pipe(Effect.andThen(poll())))
+    yield* ProviderRefresh.onSwitch("wormagent", refresh().pipe(Effect.andThen(poll())))
     yield* poll()
   }),
 })
@@ -793,7 +793,7 @@ function normalizeServer(input: unknown) {
       return `${url.origin}${url.pathname.replace(/\/+$/, "")}`
     },
     catch: (cause) =>
-      new Error(`Invalid OpenCode server URL: ${cause instanceof Error ? cause.message : String(cause)}`),
+      new Error(`Invalid WormAgent server URL: ${cause instanceof Error ? cause.message : String(cause)}`),
   })
 }
 
@@ -836,7 +836,7 @@ function credential(http: HttpClient.HttpClient, server: string, token: typeof T
         ? orgs.toSorted((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id))[0]
         : orgs.find((org) => org.id === token.org_id)
     if (token.org_id != null && !org) {
-      return yield* Effect.fail(new Error(`OpenCode organization not found: ${token.org_id}`))
+      return yield* Effect.fail(new Error(`WormAgent organization not found: ${token.org_id}`))
     }
     return Credential.OAuth.make({
       type: "oauth" as const,

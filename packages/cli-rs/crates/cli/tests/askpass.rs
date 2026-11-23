@@ -27,16 +27,16 @@ fn desktop(chunks: Vec<Vec<u8>>) -> (u16, std::thread::JoinHandle<String>) {
 }
 
 fn helper(port: u16, confirm: bool) -> std::process::Output {
-    let home = opencode_util::temp::tempdir().unwrap();
-    let mut command = Command::new(env!("CARGO_BIN_EXE_opencode-native"));
+    let home = wormagent_util::temp::tempdir().unwrap();
+    let mut command = Command::new(env!("CARGO_BIN_EXE_wormagent-native"));
     command
         .arg("Enter passphrase:")
         // Any log file would land here, never in the user's directories.
         .env("HOME", home.path())
         .env("XDG_DATA_HOME", home.path().join("data"))
-        .env("OPENCODE_SSH_ASKPASS_PORT", port.to_string())
-        .env("OPENCODE_SSH_ASKPASS_TOKEN", "fixture")
-        .env("OPENCODE_PRINT_LOGS", "1")
+        .env("WORMAGENT_SSH_ASKPASS_PORT", port.to_string())
+        .env("WORMAGENT_SSH_ASKPASS_TOKEN", "fixture")
+        .env("WORMAGENT_PRINT_LOGS", "1")
         .env_remove("SSH_ASKPASS_PROMPT")
         .stdin(Stdio::null());
     if confirm {

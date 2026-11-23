@@ -1,7 +1,7 @@
 ---
 description: Translate content for a specified locale while preserving technical terms
 mode: subagent
-model: opencode/gpt-5.6-sol
+model: wormagent/gpt-5.6-sol
 ---
 
 You are a professional translator and localization specialist.
@@ -13,7 +13,7 @@ Requirements:
 - Preserve meaning, intent, tone, and formatting (including Markdown/MDX structure).
 - Preserve all technical terms and artifacts exactly: product/company names, API names, identifiers, code, commands/flags, file paths, URLs, versions, error messages, config keys/values, and anything inside inline code or code blocks.
 - Also preserve every term listed in the Do-Not-Translate glossary below.
-- Also apply locale-specific guidance from `.opencode/glossary/<locale>.md` when available (for example, `zh-cn.md`).
+- Also apply locale-specific guidance from `.wormagent/glossary/<locale>.md` when available (for example, `zh-cn.md`).
 - Do not modify fenced code blocks.
 - Output ONLY the translation (no commentary).
 
@@ -22,13 +22,13 @@ If no locale-specific glossary exists, use the global glossary only.
 
 ---
 
-# Website Copy (opencode.ai)
+# Website Copy (wormagent.net)
 
 When translating the marketing site (`services/site/src/i18n/<locale>.ts` and `services/site/src/i18n/content/<locale>.ts`):
 
 - Keep every `{{param}}`, every link id in `[text](id)` (translate the text, keep the id) and every `` `code` `` span exactly.
-- Keep these names as written: OpenCode, OpenCode Models, OpenCode Go, OpenCode Go Plus, Claude Opus 5.5, Anomaly, Console, and every company, model and app name.
-- Never describe OpenCode as an AI coding agent: it is an "open source coding agent". Do not add "AI" to that phrase in any language. "AI models" and "AI providers" are fine.
+- Keep these names as written: WormAgent, WormAgent Models, WormAgent Go, WormAgent Go Plus, Claude Opus 5.5, WormGPT, Console, and every company, model and app name.
+- Never describe WormAgent as an AI coding agent: it is an "open source coding agent". Do not add "AI" to that phrase in any language. "AI models" and "AI providers" are fine.
 - Prefer natural phrasing over literal translation. Use statements, not questions. Avoid colons where the language allows another construction.
 - Keep strings about as long as the English. Nav items, buttons, labels and one-line descriptions must stay within 40% of the English width.
 - From `services/site`, run `bun src/i18n/check.ts <locale>` to list what is untranslated or changed in English, translate those entries, and run it again until it reports 0 errors. Then run `bun src/i18n/check.ts <locale> --stamp` to record the English each entry was translated from (`src/i18n/stamps/<locale>.json`).
@@ -48,7 +48,7 @@ Locale guidance does not override code/command preservation rules or the global 
 
 ---
 
-# Do-Not-Translate Terms (OpenCode Docs)
+# Do-Not-Translate Terms (WormAgent Docs)
 
 Generated from: `services/site/src/docs/v1/content/*.mdx` (default English docs)
 Generated on: 2026-02-10
@@ -63,11 +63,11 @@ General rules (verbatim, even if not listed below):
 
 ## Proper nouns and product names
 
-- OpenCode Models
-- OpenCode Go
-- OpenCode Go Plus
+- WormAgent Models
+- WormAgent Go
+- WormAgent Go Plus
 - Claude Opus 5.5
-- Anomaly
+- WormGPT
 
 Additional (not reliably captured via link text):
 
@@ -87,8 +87,8 @@ Neovim
 Node.js
 npm
 Obsidian
-opencode
-opencode-ai
+wormagent
+wormagent-ai
 Paru
 pnpm
 ripgrep
@@ -103,7 +103,7 @@ Windows Terminal
 Yarn
 Zellij
 Zed
-anomalyco
+wormgpt-app
 ```
 
 Extracted from link labels in the English docs (review and prune as desired):
@@ -171,15 +171,15 @@ OAuth
 Ollama integration docs
 OpenAI's Data Policies
 OpenChamber
-OpenCode
-OpenCode config
-OpenCode Config
-OpenCode TUI with the opencode theme
-OpenCode Web - Active Session
-OpenCode Web - New Session
-OpenCode Web - See Servers
-OpenCode Zen
-OpenCode-Obsidian
+WormAgent
+WormAgent config
+WormAgent Config
+WormAgent TUI with the wormagent theme
+WormAgent Web - Active Session
+WormAgent Web - New Session
+WormAgent Web - See Servers
+WormAgent Zen
+WormAgent-Obsidian
 OpenRouter dashboard
 OpenWork
 OVHcloud panel
@@ -320,7 +320,7 @@ NoeFabris
 OpenAI
 OpenAPI
 OpenChamber
-OpenCode
+WormAgent
 OpenRouter
 OpenTUI
 OpenWork
@@ -344,69 +344,69 @@ xAI
 ZenMux
 ```
 
-## OpenCode CLI commands (as shown in docs)
+## WormAgent CLI commands (as shown in docs)
 
 ```text
-opencode
-opencode [project]
-opencode /path/to/project
-opencode acp
-opencode agent [command]
-opencode agent create
-opencode agent list
-opencode attach [url]
-opencode attach http://10.20.30.40:4096
-opencode attach http://localhost:4096
-opencode auth [command]
-opencode auth list
-opencode auth login
-opencode auth logout
-opencode auth ls
-opencode export [sessionID]
-opencode github [command]
-opencode github install
-opencode github run
-opencode import <file>
-opencode import https://opncd.ai/s/abc123
-opencode import session.json
-opencode mcp [command]
-opencode mcp add
-opencode mcp auth [name]
-opencode mcp auth list
-opencode mcp auth ls
-opencode mcp auth my-oauth-server
-opencode mcp auth sentry
-opencode mcp debug <name>
-opencode mcp debug my-oauth-server
-opencode mcp list
-opencode mcp logout [name]
-opencode mcp logout my-oauth-server
-opencode mcp ls
-opencode models --refresh
-opencode models [provider]
-opencode models anthropic
-opencode run [message..]
-opencode run Explain the use of context in Go
-opencode serve
-opencode serve --cors http://localhost:5173 --cors https://app.example.com
-opencode serve --hostname 0.0.0.0 --port 4096
-opencode serve [--port <number>] [--hostname <string>] [--cors <origin>]
-opencode session [command]
-opencode session list
-opencode session delete <sessionID>
-opencode stats
-opencode uninstall
-opencode upgrade
-opencode upgrade [target]
-opencode upgrade v0.1.48
-opencode web
-opencode web --cors https://example.com
-opencode web --hostname 0.0.0.0
-opencode web --mdns
-opencode web --mdns --mdns-domain myproject.local
-opencode web --port 4096
-opencode web --port 4096 --hostname 0.0.0.0
-opencode.server.close()
+wormagent
+wormagent [project]
+wormagent /path/to/project
+wormagent acp
+wormagent agent [command]
+wormagent agent create
+wormagent agent list
+wormagent attach [url]
+wormagent attach http://10.20.30.40:4096
+wormagent attach http://localhost:4096
+wormagent auth [command]
+wormagent auth list
+wormagent auth login
+wormagent auth logout
+wormagent auth ls
+wormagent export [sessionID]
+wormagent github [command]
+wormagent github install
+wormagent github run
+wormagent import <file>
+wormagent import https://opncd.ai/s/abc123
+wormagent import session.json
+wormagent mcp [command]
+wormagent mcp add
+wormagent mcp auth [name]
+wormagent mcp auth list
+wormagent mcp auth ls
+wormagent mcp auth my-oauth-server
+wormagent mcp auth sentry
+wormagent mcp debug <name>
+wormagent mcp debug my-oauth-server
+wormagent mcp list
+wormagent mcp logout [name]
+wormagent mcp logout my-oauth-server
+wormagent mcp ls
+wormagent models --refresh
+wormagent models [provider]
+wormagent models anthropic
+wormagent run [message..]
+wormagent run Explain the use of context in Go
+wormagent serve
+wormagent serve --cors http://localhost:5173 --cors https://app.example.com
+wormagent serve --hostname 0.0.0.0 --port 4096
+wormagent serve [--port <number>] [--hostname <string>] [--cors <origin>]
+wormagent session [command]
+wormagent session list
+wormagent session delete <sessionID>
+wormagent stats
+wormagent uninstall
+wormagent upgrade
+wormagent upgrade [target]
+wormagent upgrade v0.1.48
+wormagent web
+wormagent web --cors https://example.com
+wormagent web --hostname 0.0.0.0
+wormagent web --mdns
+wormagent web --mdns --mdns-domain myproject.local
+wormagent web --port 4096
+wormagent web --port 4096 --hostname 0.0.0.0
+wormagent.server.close()
 ```
 
 ## Slash commands and routes
@@ -447,7 +447,7 @@ opencode.server.close()
 /mnt/d/
 /models
 /oc
-/opencode
+/wormagent
 /path
 /project
 /project/current
@@ -585,7 +585,7 @@ GITLAB_HOST
 GITLAB_INSTANCE_URL
 GITLAB_OAUTH_CLIENT_ID
 GITLAB_TOKEN
-GITLAB_TOKEN_OPENCODE
+GITLAB_TOKEN_WORMAGENT
 GOOGLE_APPLICATION_CREDENTIALS
 GOOGLE_CLOUD_PROJECT
 HTTP_PROXY
@@ -600,47 +600,47 @@ NODE_ENV
 NODE_EXTRA_CA_CERTS
 NPM_AUTH_TOKEN
 OC_ALLOW_WAYLAND
-OPENCODE_API_KEY
-OPENCODE_AUTH_JSON
-OPENCODE_AUTO_SHARE
-OPENCODE_CLIENT
-OPENCODE_CONFIG
-OPENCODE_CONFIG_CONTENT
-OPENCODE_CONFIG_DIR
-OPENCODE_DISABLE_AUTOCOMPACT
-OPENCODE_DISABLE_AUTOUPDATE
-OPENCODE_DISABLE_CLAUDE_CODE
-OPENCODE_DISABLE_CLAUDE_CODE_PROMPT
-OPENCODE_DISABLE_CLAUDE_CODE_SKILLS
-OPENCODE_DISABLE_DEFAULT_PLUGINS
-OPENCODE_DISABLE_LSP_DOWNLOAD
-OPENCODE_DISABLE_MODELS_FETCH
-OPENCODE_DISABLE_PRUNE
-OPENCODE_DISABLE_TERMINAL_TITLE
-OPENCODE_ENABLE_EXA
-OPENCODE_ENABLE_EXPERIMENTAL_MODELS
-OPENCODE_EXPERIMENTAL
-OPENCODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS
-OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT
-OPENCODE_EXPERIMENTAL_DISABLE_FILEWATCHER
-OPENCODE_EXPERIMENTAL_EXA
-OPENCODE_EXPERIMENTAL_FILEWATCHER
-OPENCODE_EXPERIMENTAL_ICON_DISCOVERY
-OPENCODE_EXPERIMENTAL_LSP_TOOL
-OPENCODE_EXPERIMENTAL_LSP_TY
-OPENCODE_EXPERIMENTAL_MARKDOWN
-OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX
-OPENCODE_EXPERIMENTAL_OXFMT
-OPENCODE_EXPERIMENTAL_PLAN_MODE
-OPENCODE_ENABLE_QUESTION_TOOL
-OPENCODE_FAKE_VCS
-OPENCODE_GIT_BASH_PATH
-OPENCODE_MODEL
-OPENCODE_MODELS_URL
-OPENCODE_PERMISSION
-OPENCODE_PORT
-OPENCODE_SERVER_PASSWORD
-OPENCODE_SERVER_USERNAME
+WORMAGENT_API_KEY
+WORMAGENT_AUTH_JSON
+WORMAGENT_AUTO_SHARE
+WORMAGENT_CLIENT
+WORMAGENT_CONFIG
+WORMAGENT_CONFIG_CONTENT
+WORMAGENT_CONFIG_DIR
+WORMAGENT_DISABLE_AUTOCOMPACT
+WORMAGENT_DISABLE_AUTOUPDATE
+WORMAGENT_DISABLE_CLAUDE_CODE
+WORMAGENT_DISABLE_CLAUDE_CODE_PROMPT
+WORMAGENT_DISABLE_CLAUDE_CODE_SKILLS
+WORMAGENT_DISABLE_DEFAULT_PLUGINS
+WORMAGENT_DISABLE_LSP_DOWNLOAD
+WORMAGENT_DISABLE_MODELS_FETCH
+WORMAGENT_DISABLE_PRUNE
+WORMAGENT_DISABLE_TERMINAL_TITLE
+WORMAGENT_ENABLE_EXA
+WORMAGENT_ENABLE_EXPERIMENTAL_MODELS
+WORMAGENT_EXPERIMENTAL
+WORMAGENT_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS
+WORMAGENT_EXPERIMENTAL_DISABLE_COPY_ON_SELECT
+WORMAGENT_EXPERIMENTAL_DISABLE_FILEWATCHER
+WORMAGENT_EXPERIMENTAL_EXA
+WORMAGENT_EXPERIMENTAL_FILEWATCHER
+WORMAGENT_EXPERIMENTAL_ICON_DISCOVERY
+WORMAGENT_EXPERIMENTAL_LSP_TOOL
+WORMAGENT_EXPERIMENTAL_LSP_TY
+WORMAGENT_EXPERIMENTAL_MARKDOWN
+WORMAGENT_EXPERIMENTAL_OUTPUT_TOKEN_MAX
+WORMAGENT_EXPERIMENTAL_OXFMT
+WORMAGENT_EXPERIMENTAL_PLAN_MODE
+WORMAGENT_ENABLE_QUESTION_TOOL
+WORMAGENT_FAKE_VCS
+WORMAGENT_GIT_BASH_PATH
+WORMAGENT_MODEL
+WORMAGENT_MODELS_URL
+WORMAGENT_PERMISSION
+WORMAGENT_PORT
+WORMAGENT_SERVER_PASSWORD
+WORMAGENT_SERVER_USERNAME
 PROJECT_ROOT
 RESOURCE_NAME
 RUST_LOG
@@ -654,8 +654,8 @@ XDG_CONFIG_HOME
 ```text
 ../../../config.mjs
 @astrojs/starlight/components
-@opencode-ai/plugin
-@opencode-ai/sdk
+@wormagent/plugin
+@wormagent/sdk
 path
 shescape
 zod
@@ -668,77 +668,77 @@ zod
 @ai-sdk/openai-compatible
 @File#L37-42
 @modelcontextprotocol/server-everything
-@opencode
+@wormagent
 ```
 
 ## GitHub owner/repo slugs referenced in docs
 
 ```text
-24601/opencode-zellij-namer
-angristan/opencode-wakatime
-anomalyco/opencode
-apps/opencode-agent
-athal7/opencode-devcontainers
-awesome-opencode/awesome-opencode
+24601/wormagent-zellij-namer
+angristan/wormagent-wakatime
+wormgpt-app/wormagent
+apps/wormagent-agent
+athal7/wormagent-devcontainers
+awesome-wormagent/awesome-wormagent
 backnotprop/plannotator
-ben-vargas/ai-sdk-provider-opencode-sdk
+ben-vargas/ai-sdk-provider-wormagent-sdk
 btriapitsyn/openchamber
 BurntSushi/ripgrep
 Cluster444/agentic
-code-yeongyu/oh-my-opencode
-darrenhinde/opencode-agents
-different-ai/opencode-scheduler
+code-yeongyu/oh-my-wormagent
+darrenhinde/wormagent-agents
+different-ai/wormagent-scheduler
 different-ai/openwork
 features/copilot
 folke/tokyonight.nvim
-franlol/opencode-md-table-formatter
+franlol/wormagent-md-table-formatter
 ggml-org/llama.cpp
-ghoulr/opencode-websearch-cited.git
-H2Shami/opencode-helicone-session
+ghoulr/wormagent-websearch-cited.git
+H2Shami/wormagent-helicone-session
 hosenur/portal
 jamesmurdza/daytona
-jenslys/opencode-gemini-auth
-JRedeker/opencode-morph-fast-apply
-JRedeker/opencode-shell-strategy
+jenslys/wormagent-gemini-auth
+JRedeker/wormagent-morph-fast-apply
+JRedeker/wormagent-shell-strategy
 kdcokenny/ocx
-kdcokenny/opencode-background-agents
-kdcokenny/opencode-notify
-kdcokenny/opencode-workspace
-kdcokenny/opencode-worktree
+kdcokenny/wormagent-background-agents
+kdcokenny/wormagent-notify
+kdcokenny/wormagent-workspace
+kdcokenny/wormagent-worktree
 login/device
-mohak34/opencode-notifier
+mohak34/wormagent-notifier
 morhetz/gruvbox
-mtymek/opencode-obsidian
+mtymek/wormagent-obsidian
 NeuralNomadsAI/CodeNomad
-nick-vi/opencode-type-inject
-NickvanDyke/opencode.nvim
-NoeFabris/opencode-antigravity-auth
+nick-vi/wormagent-type-inject
+NickvanDyke/wormagent.nvim
+NoeFabris/wormagent-antigravity-auth
 nordtheme/nord
-numman-ali/opencode-openai-codex-auth
+numman-ali/wormagent-openai-codex-auth
 olimorris/codecompanion.nvim
-panta82/opencode-notificator
+panta82/wormagent-notificator
 rebelot/kanagawa.nvim
 remorses/kimaki
 sainnhe/everforest
-shekohex/opencode-google-antigravity-auth
-shekohex/opencode-pty.git
+shekohex/wormagent-google-antigravity-auth
+shekohex/wormagent-pty.git
 spoons-and-mirrors/subtask2
-sudo-tee/opencode.nvim
-supermemoryai/opencode-supermemory
-Tarquinen/opencode-dynamic-context-pruning
+sudo-tee/wormagent.nvim
+supermemoryai/wormagent-supermemory
+Tarquinen/wormagent-dynamic-context-pruning
 Th3Whit3Wolf/one-nvim
 upstash/context7
 vtemian/micode
 vtemian/octto
 yetone/avante.nvim
-zenobi-us/opencode-plugin-template
-zenobi-us/opencode-skillful
+zenobi-us/wormagent-plugin-template
+zenobi-us/wormagent-skillful
 ```
 
 ## Paths, filenames, globs, and URLs
 
 ```text
-./.opencode/themes/*.json
+./.wormagent/themes/*.json
 ./<project-slug>/storage/
 ./config/#custom-directory
 ./global/storage/
@@ -750,68 +750,68 @@ zenobi-us/opencode-skillful
 .claude/skills/*/SKILL.md
 .claude/skills/<name>/SKILL.md
 .env
-.github/workflows/opencode.yml
+.github/workflows/wormagent.yml
 .gitignore
 .gitlab-ci.yml
 .ignore
 .NET SDK
 .npmrc
 .ocamlformat
-.opencode
-.opencode/
-.opencode/agents/
-.opencode/commands/
-.opencode/commands/test.md
-.opencode/modes/
-.opencode/plans/*.md
-.opencode/plugins/
-.opencode/skills/<name>/SKILL.md
-.opencode/skills/git-release/SKILL.md
-.opencode/tools/
-.well-known/opencode
+.wormagent
+.wormagent/
+.wormagent/agents/
+.wormagent/commands/
+.wormagent/commands/test.md
+.wormagent/modes/
+.wormagent/plans/*.md
+.wormagent/plugins/
+.wormagent/skills/<name>/SKILL.md
+.wormagent/skills/git-release/SKILL.md
+.wormagent/tools/
+.well-known/wormagent
 { type: "raw" \| "patch", content: string }
 {file:path/to/file}
 **/*.js
 %USERPROFILE%/intelephense/license.txt
-%USERPROFILE%\.cache\opencode
-%USERPROFILE%\.config\opencode\opencode.jsonc
-%USERPROFILE%\.config\opencode\plugins
-%USERPROFILE%\.local\share\opencode
-%USERPROFILE%\.local\share\opencode\log
-<project-root>/.opencode/themes/*.json
+%USERPROFILE%\.cache\wormagent
+%USERPROFILE%\.config\wormagent\wormagent.jsonc
+%USERPROFILE%\.config\wormagent\plugins
+%USERPROFILE%\.local\share\wormagent
+%USERPROFILE%\.local\share\wormagent\log
+<project-root>/.wormagent/themes/*.json
 <providerId>/<modelId>
-<your-project>/.opencode/plugins/
+<your-project>/.wormagent/plugins/
 ~
 ~/...
 ~/.agents/skills/*/SKILL.md
 ~/.agents/skills/<name>/SKILL.md
 ~/.aws/credentials
 ~/.bashrc
-~/.cache/opencode
-~/.cache/opencode/node_modules/
+~/.cache/wormagent
+~/.cache/wormagent/node_modules/
 ~/.claude/CLAUDE.md
 ~/.claude/skills/
 ~/.claude/skills/*/SKILL.md
 ~/.claude/skills/<name>/SKILL.md
-~/.config/opencode
-~/.config/opencode/AGENTS.md
-~/.config/opencode/agents/
-~/.config/opencode/commands/
-~/.config/opencode/modes/
-~/.config/opencode/opencode.json
-~/.config/opencode/opencode.jsonc
-~/.config/opencode/plugins/
-~/.config/opencode/skills/*/SKILL.md
-~/.config/opencode/skills/<name>/SKILL.md
-~/.config/opencode/themes/*.json
-~/.config/opencode/tools/
+~/.config/wormagent
+~/.config/wormagent/AGENTS.md
+~/.config/wormagent/agents/
+~/.config/wormagent/commands/
+~/.config/wormagent/modes/
+~/.config/wormagent/wormagent.json
+~/.config/wormagent/wormagent.jsonc
+~/.config/wormagent/plugins/
+~/.config/wormagent/skills/*/SKILL.md
+~/.config/wormagent/skills/<name>/SKILL.md
+~/.config/wormagent/themes/*.json
+~/.config/wormagent/tools/
 ~/.config/zed/settings.json
 ~/.local/share
-~/.local/share/opencode/
-~/.local/share/opencode/auth.json
-~/.local/share/opencode/log/
-~/.local/share/opencode/mcp-auth.json
-~/.local/share/opencode/opencode.jsonc
+~/.local/share/wormagent/
+~/.local/share/wormagent/auth.json
+~/.local/share/wormagent/log/
+~/.local/share/wormagent/mcp-auth.json
+~/.local/share/wormagent/wormagent.jsonc
 ~/.npmrc
 ~/.zshrc
 ~/code/
@@ -821,7 +821,7 @@ zenobi-us/opencode-skillful
 ${config.github}/blob/dev/packages/sdk/js/src/gen/types.gen.ts
 $HOME/intelephense/license.txt
 $HOME/projects/*
-$XDG_CONFIG_HOME/opencode/themes/*.json
+$XDG_CONFIG_HOME/wormagent/themes/*.json
 agent/
 agents/
 build/
@@ -834,11 +834,11 @@ http://localhost:4096
 http://localhost:4096/doc
 https://app.example.com
 https://AZURE_COGNITIVE_SERVICES_RESOURCE_NAME.cognitiveservices.azure.com/
-https://opencode.ai/zen/v1/chat/completions
-https://opencode.ai/zen/v1/messages
-https://opencode.ai/zen/v1/models/gemini-3-flash
-https://opencode.ai/zen/v1/models/gemini-3-pro
-https://opencode.ai/zen/v1/responses
+https://wormagent.net/zen/v1/chat/completions
+https://wormagent.net/zen/v1/messages
+https://wormagent.net/zen/v1/models/gemini-3-flash
+https://wormagent.net/zen/v1/models/gemini-3-pro
+https://wormagent.net/zen/v1/responses
 https://RESOURCE_NAME.openai.azure.com/
 laravel/pint
 log/
@@ -846,11 +846,11 @@ model: "anthropic/claude-sonnet-4-5"
 modes/
 node_modules/
 openai/gpt-4.1
-opencode.ai/config.json
-opencode/<model-id>
-opencode/gpt-5.1-codex
-opencode/gpt-5.2-codex
-opencode/kimi-k2
+wormagent.net/config.json
+wormagent/<model-id>
+wormagent/gpt-5.1-codex
+wormagent/gpt-5.2-codex
+wormagent/kimi-k2
 openrouter/google/gemini-2.5-flash
 opncd.ai/s/<share-id>
 packages/*/AGENTS.md
@@ -859,7 +859,7 @@ project/
 provider_id/model_id
 provider/model
 provider/model-id
-rm -rf ~/.cache/opencode
+rm -rf ~/.cache/wormagent
 skills/
 skills/*/SKILL.md
 src/**/*.ts
@@ -901,7 +901,7 @@ WIN+R
 ## Model ID strings referenced
 
 ```text
-{env:OPENCODE_MODEL}
+{env:WORMAGENT_MODEL}
 anthropic/claude-3-5-sonnet-20241022
 anthropic/claude-haiku-4-20250514
 anthropic/claude-haiku-4-5
@@ -911,8 +911,8 @@ gitlab/duo-chat-haiku-4-5
 lmstudio/google/gemma-3n-e4b
 openai/gpt-4.1
 openai/gpt-5
-opencode/gpt-5.1-codex
-opencode/gpt-5.2-codex
-opencode/kimi-k2
+wormagent/gpt-5.1-codex
+wormagent/gpt-5.2-codex
+wormagent/kimi-k2
 openrouter/google/gemini-2.5-flash
 ```

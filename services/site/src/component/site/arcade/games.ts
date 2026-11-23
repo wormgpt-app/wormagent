@@ -1,4 +1,4 @@
-/** The Anomaly Arcade games (anoma.ly/arcade) and their controls, from the arcade repo's docs/controls.md. */
+/** The WormGPT Arcade games (anoma.ly/arcade) and their controls, from the arcade repo's docs/controls.md. */
 
 export type ButtonAction = { label: string; code: string; key: string } | { label: string; mouse: true }
 
@@ -74,7 +74,7 @@ export const games: Game[] = [
  * the same-origin frame.
  * TODO(arcade-input-bridge): production cannot reach into the cross-origin frame. It needs the
  * arcade's embed mode: an allowlisted `postMessage` bridge (`arcade-input` key and pointer
- * messages fed into each game's input) plus `frame-ancestors https://opencode.ai`.
+ * messages fed into each game's input) plus `frame-ancestors https://wormagent.net`.
  */
 export const gameUrl = (game: Game) =>
   `${import.meta.env.DEV ? `/arcade-proxy/${game.id}/` : `https://anoma.ly/arcade/${game.id}/`}${game.launch}`

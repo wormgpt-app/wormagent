@@ -1,11 +1,11 @@
 //! Image previews for user messages and tool results. Inline data decodes locally; media references fetch by hash.
 
-use opencode_api::generated::{
+use wormagent_api::generated::{
     ExperimentalMediaGetInput, MediaHash, PromptFileAttachment, PromptFileSource, SessionMessageAssistantTool,
     SessionMessageAssistantToolState, ToolContent,
 };
-use opencode_store::Data;
-use opencode_ui::prompt_input::attach::data_uri;
+use wormagent_store::Data;
+use wormagent_ui::prompt_input::attach::data_uri;
 use opentui::native::ImageFit;
 use opentui::widget::ImageView;
 

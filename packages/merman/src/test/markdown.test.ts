@@ -92,8 +92,8 @@ flowchart TD
   repo[Organization profile repo] --> build[Build]
   build --> worker[Isolated organization Worker]
   worker --> sessions[SessionDOs]
-  sessions --> opencode[OpenCode + native plugins]
-  opencode --> modal[Modal workspaces]
+  sessions --> wormagent[WormAgent + native plugins]
+  wormagent --> modal[Modal workspaces]
 \`\`\``,
     syntaxStyle,
     renderBlock: createMermaidMarkdownRenderer(renderer),

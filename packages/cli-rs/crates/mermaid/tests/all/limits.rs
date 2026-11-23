@@ -1,13 +1,13 @@
 use std::time::{Duration, Instant};
 
-use opencode_mermaid::{Palette, Rendered, render};
-use opencode_plugin::node::Reader;
-use opencode_ui::theme::{Catalog, ThemeMode};
+use wormagent_mermaid::{Palette, Rendered, render};
+use wormagent_plugin::node::Reader;
+use wormagent_ui::theme::{Catalog, ThemeMode};
 
 /// Diagrams that once overflowed the stack, looped or froze draw, or fail as a syntax error, within seconds.
 #[test]
 fn hostile_diagrams_end_promptly() {
-    let theme = Catalog::default().load("opencode", ThemeMode::Dark).unwrap().theme;
+    let theme = Catalog::default().load("wormagent", ThemeMode::Dark).unwrap().theme;
     let palette = Palette::read(&Reader::new(&theme, ThemeMode::Dark));
     // A hundred parallel labeled transitions out of a choice, in a composite state with a note.
     let labels = format!(

@@ -1,5 +1,5 @@
-import type { SessionMessageInfo } from "@opencode/client/promise"
-import type { MotionKnob } from "@opencode/ui/motion-tuning"
+import type { SessionMessageInfo } from "@wormagent/client/promise"
+import type { MotionKnob } from "@wormagent/ui/motion-tuning"
 import { expect, sourceURL, story } from "../../stories/playwright/story"
 
 const source = (path: string) => sourceURL(new URL(path, import.meta.url))

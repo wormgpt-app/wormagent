@@ -1,7 +1,7 @@
-import { anomalyMark } from "./anomaly-mark"
+import { wormgptMark } from "./wormgpt-mark"
 
 /**
- * The hybrid 404's token: a silver arcade token stamped with the Anomaly mark, drawn with three.js
+ * The hybrid 404's token: a silver arcade token stamped with the WormGPT mark, drawn with three.js
  * in a transparent canvas over the painted stills. The image version still decides where the coin
  * is and how it is turned (its 2D pose, in stage pixels); this only draws it. It reflects the room
  * still itself (as an environment map), takes its key light from the painting's moonlit window, the
@@ -301,7 +301,7 @@ function faceCanvas(field: string, raised: string, blur: number) {
   ctx.save()
   ctx.translate(centre - mark / 2, centre - mark / 2 + size * 0.01 + mark)
   ctx.scale(mark / 7200, -mark / 7200)
-  ctx.fill(new Path2D(anomalyMark))
+  ctx.fill(new Path2D(wormgptMark))
   ctx.restore()
   return canvas
 }

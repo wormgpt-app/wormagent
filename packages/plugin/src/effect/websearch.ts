@@ -1,5 +1,5 @@
-import type { WebSearch } from "@opencode/schema/websearch"
-import type { WebSearchApi } from "@opencode/client/effect/api"
+import type { WebSearch } from "@wormagent/schema/websearch"
+import type { WebSearchApi } from "@wormagent/client/effect/api"
 import type { Effect } from "effect"
 import type { Transform } from "./registration.js"
 

@@ -1,9 +1,9 @@
 //! Catalog display names and per-model variant selection.
 
 use indexmap::IndexMap;
-use opencode_api::client::Client;
-use opencode_api::generated::{LocationQueryInput, ModelInfoStatus, ModelListInput, ProviderListInput};
-use opencode_local::model_pref::{self, ModelPreferences};
+use wormagent_api::client::Client;
+use wormagent_api::generated::{LocationQueryInput, ModelInfoStatus, ModelListInput, ProviderListInput};
+use wormagent_local::model_pref::{self, ModelPreferences};
 
 /// A model selection (`{ providerID, modelID }`).
 #[derive(Clone, Debug, PartialEq, Eq)]

@@ -1,6 +1,6 @@
 //! Todo tool summary and checklist.
 
-use opencode_ui::tool_info::{Todo as Item, TodoInput, TodoStatus, todo_marker};
+use wormagent_ui::tool_info::{Todo as Item, TodoInput, TodoStatus, todo_marker};
 
 use super::dispatch::{Block, BlockTool, Header, Inline, InlineTool, Props, Status, content_width};
 use crate::prelude::*;

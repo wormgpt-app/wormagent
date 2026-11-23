@@ -1,30 +1,30 @@
 import { describe, expect, test } from "bun:test"
-import { Agent } from "@opencode/core/agent"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { FileMutation } from "@opencode/core/file-mutation"
-import { FileWrite } from "@opencode/core/file-write"
-import { Flag } from "@opencode/core/flag"
-import { Formatter } from "@opencode/core/formatter"
-import { InstructionBuiltIns } from "@opencode/core/instructions/builtins"
-import { InstructionDiscovery } from "@opencode/core/instruction-discovery"
-import { Instructions } from "@opencode/core/instructions/index"
-import { Location } from "@opencode/core/location"
-import { Mcp } from "@opencode/core/mcp/index"
-import { Model } from "@opencode/core/model"
-import { Provider } from "@opencode/core/provider"
-import { ReferenceInstructions } from "@opencode/core/reference/instructions"
-import { AbsolutePath } from "@opencode/core/schema"
-import { Session } from "@opencode/core/session"
-import { SessionContext } from "@opencode/core/session/context"
-import { SessionRunnerModel } from "@opencode/core/session/runner/model"
-import { SkillInstructions } from "@opencode/core/skill/instructions"
-import { Tool } from "@opencode/core/tool"
-import { modelTools } from "@opencode/core/tool/model-policy"
-import { EditTool } from "@opencode/core/tool/plugin/edit"
-import { PatchTool } from "@opencode/core/tool/plugin/patch"
-import { WriteTool } from "@opencode/core/tool/plugin/write"
-import { WebSearch } from "@opencode/core/websearch"
-import { LayerNode } from "@opencode/util/effect/layer-node"
+import { Agent } from "@wormagent/core/agent"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { FileMutation } from "@wormagent/core/file-mutation"
+import { FileWrite } from "@wormagent/core/file-write"
+import { Flag } from "@wormagent/core/flag"
+import { Formatter } from "@wormagent/core/formatter"
+import { InstructionBuiltIns } from "@wormagent/core/instructions/builtins"
+import { InstructionDiscovery } from "@wormagent/core/instruction-discovery"
+import { Instructions } from "@wormagent/core/instructions/index"
+import { Location } from "@wormagent/core/location"
+import { Mcp } from "@wormagent/core/mcp/index"
+import { Model } from "@wormagent/core/model"
+import { Provider } from "@wormagent/core/provider"
+import { ReferenceInstructions } from "@wormagent/core/reference/instructions"
+import { AbsolutePath } from "@wormagent/core/schema"
+import { Session } from "@wormagent/core/session"
+import { SessionContext } from "@wormagent/core/session/context"
+import { SessionRunnerModel } from "@wormagent/core/session/runner/model"
+import { SkillInstructions } from "@wormagent/core/skill/instructions"
+import { Tool } from "@wormagent/core/tool"
+import { modelTools } from "@wormagent/core/tool/model-policy"
+import { EditTool } from "@wormagent/core/tool/plugin/edit"
+import { PatchTool } from "@wormagent/core/tool/plugin/patch"
+import { WriteTool } from "@wormagent/core/tool/plugin/write"
+import { WebSearch } from "@wormagent/core/websearch"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
 import { Effect, Layer, Schema } from "effect"
 import { testEffect } from "./lib/effect"
 import { readInitial } from "./lib/instructions"
@@ -206,7 +206,7 @@ const setupContext = Effect.gen(function* () {
       description: "Move session",
       input: Schema.Struct({}),
       output: Schema.String,
-      options: { namespace: "opencode", codemode: { pinned: true } },
+      options: { namespace: "wormagent", codemode: { pinned: true } },
       execute: () => Effect.succeed({ output: "moved" }),
     })
   })
@@ -259,7 +259,7 @@ describe("SessionContext.select model tool policy", () => {
         const gptListings = codeModeListings(gpt.tools.codeModeCatalog!)
         expect(gptListings.map((entry) => entry.path)).toEqual([
           "alpha.search",
-          "opencode.session_move",
+          "wormagent.session_move",
           "patch",
           "read",
           "shell",
@@ -284,11 +284,11 @@ describe("SessionContext.select model tool policy", () => {
 
         const claude = yield* select("anthropic", "claude-sonnet-4-5")
         expect(names(claude)).toEqual(["execute"])
-        expect(paths(claude).join(",")).toBe("alpha.search,edit,opencode.session_move,read,shell,websearch,write")
+        expect(paths(claude).join(",")).toBe("alpha.search,edit,wormagent.session_move,read,shell,websearch,write")
 
         const deepseek = yield* select("deepseek", "deepseek-reasoner")
         expect(names(deepseek)).toEqual(["execute"])
-        expect(paths(deepseek).join(",")).toBe("alpha.search,edit,opencode.session_move,read,shell,websearch,write")
+        expect(paths(deepseek).join(",")).toBe("alpha.search,edit,wormagent.session_move,read,shell,websearch,write")
 
         yield* websearch.select(false)
         expect(paths(yield* select("openai", "gpt-5"))).not.toContain("websearch")

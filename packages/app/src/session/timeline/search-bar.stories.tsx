@@ -1,8 +1,8 @@
-import type { SessionMessageInfo } from "@opencode/client/promise"
-import type { SessionDocument } from "@opencode/session-ui/document"
-import { CurrentSessionProviders, emptySessionDocument, STORY_MODEL, STORY_TIME } from "@opencode/session-ui/storybook"
-import { SessionTimeline } from "@opencode/session-ui/timeline"
-import { Button } from "@opencode/ui/button"
+import type { SessionMessageInfo } from "@wormagent/client/promise"
+import type { SessionDocument } from "@wormagent/session-ui/document"
+import { CurrentSessionProviders, emptySessionDocument, STORY_MODEL, STORY_TIME } from "@wormagent/session-ui/storybook"
+import { SessionTimeline } from "@wormagent/session-ui/timeline"
+import { Button } from "@wormagent/ui/button"
 import { createEffect, createSignal, on, Show } from "solid-js"
 import { TimelineSearchBar } from "./search-bar"
 import { createTranscriptSearch } from "./search-controller"
@@ -105,7 +105,7 @@ function FindStory(props: Args) {
 }
 
 export default {
-  title: "OpenCode/Session/Find in transcript",
+  title: "WormAgent/Session/Find in transcript",
   id: "session-transcript-find",
   args: { query: "trail", open: true, empty: false } satisfies Args,
   render: (args: Args) => <FindStory {...args} />,

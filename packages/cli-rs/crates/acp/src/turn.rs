@@ -8,13 +8,13 @@ use std::time::Duration;
 
 use futures_util::StreamExt;
 use futures_util::future::BoxFuture;
-use opencode_api::client::Client;
-use opencode_api::events::CONNECTED;
-use opencode_api::generated::{
+use wormagent_api::client::Client;
+use wormagent_api::events::CONNECTED;
+use wormagent_api::generated::{
     PromptInputFileAttachment, SessionCommandInput, SessionCompactInput, SessionGetInput, SessionID,
     SessionInboxDelivery, SessionInterruptInput, SessionMessageID, SessionPromptInput, SessionSyntheticInput,
 };
-use opencode_util::lock;
+use wormagent_util::lock;
 use serde_json::{Value, json};
 use tokio::sync::{mpsc, oneshot, watch};
 use tokio_util::sync::CancellationToken;
@@ -35,7 +35,7 @@ use crate::translate::{self, Output, StartKind, Terminal, TurnContext, TurnState
 /// Core acknowledges an interrupt before its cleanup settles, and its shell tool waits 3 s before SIGKILL.
 pub const CANCEL_DRAIN_TIMEOUT: Duration = Duration::from_secs(5);
 
-type Event = Result<translate::Event, opencode_api::error::Error>;
+type Event = Result<translate::Event, wormagent_api::error::Error>;
 type Job = BoxFuture<'static, ()>;
 
 struct Subscription {

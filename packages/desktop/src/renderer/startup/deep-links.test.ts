@@ -18,18 +18,18 @@ describe("renderer deep links", () => {
     }
 
     startDeepLinks(api)
-    deliveries.forEach((deliver) => deliver({ attempt: 1, urls: ["opencode://open-project?directory=/a"] }))
+    deliveries.forEach((deliver) => deliver({ attempt: 1, urls: ["wormagent://open-project?directory=/a"] }))
 
     const first: string[][] = []
     const second: string[][] = []
     const stop = onDeepLinks((urls) => first.push(urls))
     onDeepLinks((urls) => second.push(urls))
-    deliveries.forEach((deliver) => deliver({ attempt: 2, urls: ["opencode://open-project?directory=/b"] }))
+    deliveries.forEach((deliver) => deliver({ attempt: 2, urls: ["wormagent://open-project?directory=/b"] }))
     stop()
-    deliveries.forEach((deliver) => deliver({ attempt: 3, urls: ["opencode://open-project?directory=/c"] }))
+    deliveries.forEach((deliver) => deliver({ attempt: 3, urls: ["wormagent://open-project?directory=/c"] }))
 
     expect(acknowledged).toEqual([1, 2, 3])
-    expect(first).toEqual([["opencode://open-project?directory=/a"], ["opencode://open-project?directory=/b"]])
-    expect(second).toEqual([["opencode://open-project?directory=/b"], ["opencode://open-project?directory=/c"]])
+    expect(first).toEqual([["wormagent://open-project?directory=/a"], ["wormagent://open-project?directory=/b"]])
+    expect(second).toEqual([["wormagent://open-project?directory=/b"], ["wormagent://open-project?directory=/c"]])
   })
 })

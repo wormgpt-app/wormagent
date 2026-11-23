@@ -2,28 +2,28 @@ import { describe, expect } from "bun:test"
 import { SqliteClient } from "@effect/sql-sqlite-bun"
 import { DateTime, Effect, Exit, Layer, Schema, SchemaAST } from "effect"
 import { and, eq, sql } from "drizzle-orm"
-import { Agent } from "@opencode/core/agent"
-import { DatabaseMigration } from "@opencode/core/database/migration"
-import { migrations } from "@opencode/core/database/migration.gen"
-import { EffectDrizzleSqlite } from "@opencode/core/database/drizzle"
-import { KVTable } from "@opencode/core/kv/sql"
-import { Model } from "@opencode/core/model"
-import { Project } from "@opencode/core/project"
-import { ProjectTable } from "@opencode/core/project/sql"
-import { Provider } from "@opencode/core/provider"
-import { AbsolutePath } from "@opencode/core/schema"
-import { SessionMessage } from "@opencode/core/session/message"
-import { SessionSearchIndex } from "@opencode/core/session/search-index"
-import { SessionMessageTable, SessionPartTable, SessionTable } from "@opencode/core/session/sql"
-import { SessionID } from "@opencode/schema/session-id"
-import { Skill } from "@opencode/schema/skill"
-import { Global } from "@opencode/util/global"
+import { Agent } from "@wormagent/core/agent"
+import { DatabaseMigration } from "@wormagent/core/database/migration"
+import { migrations } from "@wormagent/core/database/migration.gen"
+import { EffectDrizzleSqlite } from "@wormagent/core/database/drizzle"
+import { KVTable } from "@wormagent/core/kv/sql"
+import { Model } from "@wormagent/core/model"
+import { Project } from "@wormagent/core/project"
+import { ProjectTable } from "@wormagent/core/project/sql"
+import { Provider } from "@wormagent/core/provider"
+import { AbsolutePath } from "@wormagent/core/schema"
+import { SessionMessage } from "@wormagent/core/session/message"
+import { SessionSearchIndex } from "@wormagent/core/session/search-index"
+import { SessionMessageTable, SessionPartTable, SessionTable } from "@wormagent/core/session/sql"
+import { SessionID } from "@wormagent/schema/session-id"
+import { Skill } from "@wormagent/schema/skill"
+import { Global } from "@wormagent/util/global"
 import { testEffect } from "./lib/effect"
 
 const it = testEffect(
   Layer.mergeAll(
     SqliteClient.layer({ filename: ":memory:", disableWAL: true }),
-    Layer.succeed(Global.Service, Global.make({ data: "/nonexistent/opencode-session-search" })),
+    Layer.succeed(Global.Service, Global.make({ data: "/nonexistent/wormagent-session-search" })),
   ),
 )
 

@@ -1,7 +1,7 @@
 //! Offer to background a running shell after three seconds. Subagents already run in the background.
 
-use opencode_api::generated::{SessionMessageAssistantContentItem, SessionMessageAssistantToolState};
-use opencode_ui::tool_info::ToolKind;
+use wormagent_api::generated::{SessionMessageAssistantContentItem, SessionMessageAssistantToolState};
+use wormagent_ui::tool_info::ToolKind;
 
 use crate::prelude::*;
 

@@ -1,13 +1,13 @@
-import { Badge } from "@opencode/ui/badge"
-import { Icon } from "@opencode/ui/icon"
-import { IconButton } from "@opencode/ui/icon-button"
-import { iconNames, type IconName } from "@opencode/ui/icons/provider"
-import { Menu } from "@opencode/ui/menu"
-import { ProviderIcon } from "@opencode/ui/provider-icon"
+import { Badge } from "@wormagent/ui/badge"
+import { Icon } from "@wormagent/ui/icon"
+import { IconButton } from "@wormagent/ui/icon-button"
+import { iconNames, type IconName } from "@wormagent/ui/icons/provider"
+import { Menu } from "@wormagent/ui/menu"
+import { ProviderIcon } from "@wormagent/ui/provider-icon"
 import type { JSX } from "solid-js"
 import { createMemo, For, Match, Show, Switch } from "solid-js"
 import { consoleProviderGroup, consoleProviderName } from "@/providers/catalog/console"
-import { OpenCodeLogo } from "@/providers/opencode-logo"
+import { WormAgentLogo } from "@/providers/wormagent-logo"
 import { useLanguage } from "@/runtime/i18n/language"
 import customManagedProvider from "@/providers/custom-managed-provider.svg"
 import "@/settings/settings.css"
@@ -18,7 +18,7 @@ type ModelItem = { provider: ModelProvider & { integrationID?: string }; cost?: 
 
 type ModelGroup<T> = { category: string; items: T[] }
 
-export const CONSOLE_GROUP_KEY = "console:opencode"
+export const CONSOLE_GROUP_KEY = "console:wormagent"
 
 function CustomManagedProviderIcon(props: { class?: string }) {
   return <img data-component="custom-managed-provider-icon" src={customManagedProvider} alt="" class={props.class} />
@@ -35,8 +35,8 @@ export function ProviderModelIcon(props: { provider: ModelProvider; class?: stri
 
   return (
     <Switch>
-      <Match when={props.provider.id === "opencode"}>
-        <OpenCodeLogo class={`size-4 ${props.class ?? ""}`} />
+      <Match when={props.provider.id === "wormagent"}>
+        <WormAgentLogo class={`size-4 ${props.class ?? ""}`} />
       </Match>
       <Match when={icon()} keyed>
         {(id) => <ProviderIcon id={id} width={16} height={16} class={props.class} />}
@@ -53,7 +53,7 @@ export function consoleModelGroup<T extends ModelItem>(items: readonly T[]) {
   return consoleProviderGroup([...new Map(items.map((item) => [item.provider.id, item.provider])).values()])
 }
 
-/** Provider sections for a model list, with Console workspace providers nested under one OpenCode Console section. */
+/** Provider sections for a model list, with Console workspace providers nested under one WormAgent Console section. */
 export function ProviderModelSections<T extends ModelItem>(props: {
   groups: ModelGroup<T>[]
   managed: ReturnType<typeof consoleModelGroup<T>>
@@ -94,8 +94,8 @@ export function ProviderModelSections<T extends ModelItem>(props: {
 
   // Only the keyless catalog is free; a Zen key or Console account keeps the provider's own name.
   const name = (group: ModelGroup<T>) =>
-    group.category === "opencode" && group.items.every((item) => !item.cost?.input)
-      ? language.t("provider.connect.opencode.freeName")
+    group.category === "wormagent" && group.items.every((item) => !item.cost?.input)
+      ? language.t("provider.connect.wormagent.freeName")
       : group.items[0].provider.name
 
   function Header(input: { id: string; icon: JSX.Element; title: JSX.Element; badge?: string; action?: JSX.Element }) {
@@ -177,8 +177,8 @@ export function ProviderModelSections<T extends ModelItem>(props: {
             >
               <Header
                 id={CONSOLE_GROUP_KEY}
-                icon={<OpenCodeLogo class="size-4 shrink-0" />}
-                title={language.t("provider.connect.opencode.name")}
+                icon={<WormAgentLogo class="size-4 shrink-0" />}
+                title={language.t("provider.connect.wormagent.name")}
                 badge={managed().group.workspace}
               />
               <Show when={props.expanded(CONSOLE_GROUP_KEY)}>

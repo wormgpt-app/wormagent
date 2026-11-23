@@ -2,7 +2,7 @@ import { MemoryRouter, createMemoryHistory } from "@solidjs/router"
 import { createMemo, Show } from "solid-js"
 import { createStore, unwrap } from "solid-js/store"
 import { render } from "solid-js/web"
-import type { Bridge, BridgeMessage } from "@opencode/plugin/gui/host"
+import type { Bridge, BridgeMessage } from "@wormagent/plugin/gui/host"
 import type { SshItem, SshState } from "../../../gui-plugins/src/ssh/contract"
 import type { WslServerRuntime, WslServersState } from "../../../gui-plugins/src/wsl/contract"
 import { AppBaseProviders, AppInterface } from "../../src/app"
@@ -16,7 +16,7 @@ type FixtureInput = { id?: string; name?: string; target?: string; prompt?: stri
 /** A main-side method: SSH `start` answers with the state revision, the others with nothing. */
 type FixtureMethod = (input: FixtureInput) => number | void
 
-// A desktop window. `wsl` is the Ubuntu server's endpoint (default `server`); updating OpenCode restarts it on `restart`
+// A desktop window. `wsl` is the Ubuntu server's endpoint (default `server`); updating WormAgent restarts it on `restart`
 // (default `wsl`). `ssh` adds a saved SSH server `box`, ready on that endpoint with password `ssh-1`; each connect
 // brings up a new remote server with the next password (`ssh-2`, ...). `storage=async` stores in localStorage behind
 // asynchronous reads like the desktop app's; reads of keys matching the pattern `hold` wait for "Load held storage".
@@ -114,7 +114,7 @@ export function mount(input: {
             )[input.mode],
           },
         ],
-        opencodeChecks: {
+        wormagentChecks: {
           ...Object.fromEntries(
             distros.map((name) => [
               name,
@@ -130,7 +130,7 @@ export function mount(input: {
           ),
           Ubuntu: {
             distro: "Ubuntu",
-            resolvedPath: "/usr/bin/opencode",
+            resolvedPath: "/usr/bin/wormagent",
             version: "old",
             expectedVersion: "current",
             matchesDesktop: false,
@@ -160,7 +160,7 @@ export function mount(input: {
       }))
 
     const wsl = {
-      // Like main: stops the distro's server, updates OpenCode, then starts the server again on a new endpoint.
+      // Like main: stops the distro's server, updates WormAgent, then starts the server again on a new endpoint.
       installOpencode(value) {
         const name = value.name ?? ""
         const id = store.state.servers.find((server) => server.config.distro === name)?.config.id
@@ -168,9 +168,9 @@ export function mount(input: {
         setRuntime(id, { kind: "stopped" })
         publish("wsl")
         setStore("state", (state) => ({
-          opencodeChecks: {
-            ...state.opencodeChecks,
-            [name]: { ...state.opencodeChecks[name]!, version: "current", matchesDesktop: true },
+          wormagentChecks: {
+            ...state.wormagentChecks,
+            [name]: { ...state.wormagentChecks[name]!, version: "current", matchesDesktop: true },
           },
         }))
         endpoint.url = input.restart ?? endpoint.url

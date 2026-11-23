@@ -1,8 +1,8 @@
 {
-  "name": "opencode-legacy-production",
+  "name": "wormagent-legacy-production",
   "compatibilityDate": "2026-07-25",
   "compatibilityFlags": ["nodejs_compat"],
-  "domains": ["opncd.ai", "api.opencode.ai"],
+  "domains": ["opncd.ai", "api.wormagent.net"],
   "logpush": true,
   "observability": { "enabled": true },
   "workersDev": false,

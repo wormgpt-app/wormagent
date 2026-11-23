@@ -3,12 +3,12 @@
 use std::cell::Ref;
 use std::collections::VecDeque;
 
-use opencode_api::js::number_to_string;
-use opencode_local::cli_config::{CliConfig, Info, Permissions, Resolved, merge};
-use opencode_local::serial::Serial;
-use opencode_local::watch::Watch;
-use opencode_ui::select::{Choice, Detail, select};
-use opencode_ui::theme::ModeSetting;
+use wormagent_api::js::number_to_string;
+use wormagent_local::cli_config::{CliConfig, Info, Permissions, Resolved, merge};
+use wormagent_local::serial::Serial;
+use wormagent_local::watch::Watch;
+use wormagent_ui::select::{Choice, Detail, select};
+use wormagent_ui::theme::ModeSetting;
 use serde_json::Map;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -121,7 +121,7 @@ pub const SETTINGS: &[Setting] = &[
         "Appearance",
         &["theme", "name"],
         "Color theme used across the interface",
-        S("opencode"),
+        S("wormagent"),
         &[],
         &[],
         &["color scheme", "colors"],
@@ -614,15 +614,15 @@ fn apply(tui: &Tui, info: Info) {
     if changed {
         tui.theme_changed();
     }
-    opencode_ui::motion::set_running(&tui.app, opencode_ui::motion::enabled(info.animations));
+    wormagent_ui::motion::set_running(&tui.app, wormagent_ui::motion::enabled(info.animations));
     let leader = tui.settings.config().leader_timeout;
     tui.keymap.set_leader_timeout(leader);
     let keybinds = tui.settings.config().keybinds();
     if keybinds != before.keybinds() {
-        tui.keymap.set_keybinds(opencode_ui::keymap::Keybinds::resolve(&keybinds, !cfg!(windows)).unwrap_or_else(
+        tui.keymap.set_keybinds(wormagent_ui::keymap::Keybinds::resolve(&keybinds, !cfg!(windows)).unwrap_or_else(
             |error| {
                 log::warn!("invalid keybinds config: {error}");
-                opencode_ui::keymap::Keybinds::defaults()
+                wormagent_ui::keymap::Keybinds::defaults()
             },
         ));
     }
@@ -788,7 +788,7 @@ pub fn show(tui: &Tui, current: Option<&str>) {
 }
 
 /// Calls `refresh` after each config change while the dialog of `cx` is open.
-pub(crate) fn refresh_on_change(tui: &Tui, cx: Weak<opencode_ui::dialog::DialogCx>, refresh: impl Fn(&Tui) + 'static) {
+pub(crate) fn refresh_on_change(tui: &Tui, cx: Weak<wormagent_ui::dialog::DialogCx>, refresh: impl Fn(&Tui) + 'static) {
     if let Some(cx) = cx.upgrade() {
         cx.on_close(tui.settings.subscribe(refresh));
     }
@@ -804,9 +804,9 @@ pub fn install(tui: &Rc<Tui>) {
             .slash(slash)
     };
     let layer = KeymapLayer::global(vec![
-        command("opencode.settings", "Open settings", "settings", |tui| show(tui, None))
+        command("wormagent.settings", "Open settings", "settings", |tui| show(tui, None))
             .suggested(opentui::keymap::Condition::Always),
-        command("opencode.debug", "View debug info", "debug", super::debug::show),
+        command("wormagent.debug", "View debug info", "debug", super::debug::show),
     ]);
     match tui.keymap.layer(layer) {
         Ok(disposer) => tui.settings.layers.borrow_mut().push(disposer),

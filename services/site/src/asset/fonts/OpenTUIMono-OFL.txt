@@ -1,7 +1,7 @@
 The opentui-mono-*.woff2 files in this folder are subsets of OpenTUI Mono
-(anomalyco/opentui packages/web/public/fonts), made by script/opentui-mono.py.
+(wormgpt-app/opentui packages/web/public/fonts), made by script/opentui-mono.py.
 Iosevka v34.4.0 compiled OpenTUI Mono with the plan in
-packages/web/src/font/private-build-plans.toml (anomalyco/opentui). The font
+packages/web/src/font/private-build-plans.toml (wormgpt-app/opentui). The font
 declares no Reserved Font Name.
 
 Copyright (c) 2015-2026, Belleve Invis (belleve@typeof.net).

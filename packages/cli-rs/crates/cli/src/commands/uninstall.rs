@@ -1,5 +1,5 @@
-use opencode_service::delegate;
-use opencode_util::error;
+use wormagent_service::delegate;
+use wormagent_util::error;
 
 use super::Context;
 use crate::args::UninstallArgs;

@@ -48,7 +48,7 @@ Change the package import, replace the exported plugin function with `Plugin.def
 `setup`.
 
 ```ts title="V1"
-import type { Plugin } from "@opencode-ai/plugin"
+import type { Plugin } from "@wormagent/plugin"
 
 export const ExamplePlugin: Plugin = async ({ directory, project, client }) => {
   await client.app.log({
@@ -62,7 +62,7 @@ export const ExamplePlugin: Plugin = async ({ directory, project, client }) => {
 ```
 
 ```ts title="V2"
-import { Plugin } from "@opencode/plugin"
+import { Plugin } from "@wormagent/plugin"
 
 export default Plugin.define({
   id: "example",
@@ -74,7 +74,7 @@ export default Plugin.define({
 ```
 
 Every V2 plugin needs a stable `id`. Plugin storage is scoped by this ID, and the ID also identifies the plugin in status
-and diagnostics. Published plugins should depend on a version of `@opencode/plugin` compatible with the OpenCode release
+and diagnostics. Published plugins should depend on a version of `@wormagent/plugin` compatible with the OpenCode release
 they target.
 
 ## Migrate the context
@@ -105,7 +105,7 @@ V1 returns hooks by string key. V2 registers each hook on the domain that owns t
 mutable event instead of separate `input` and `output` objects.
 
 ```ts title="V1"
-import type { Plugin } from "@opencode-ai/plugin"
+import type { Plugin } from "@wormagent/plugin"
 
 export const GuardPlugin: Plugin = async () => ({
   "tool.execute.before": async (input, output) => {
@@ -120,7 +120,7 @@ export const GuardPlugin: Plugin = async () => ({
 ```
 
 ```ts title="V2"
-import { Plugin } from "@opencode/plugin"
+import { Plugin } from "@wormagent/plugin"
 
 export default Plugin.define({
   id: "company.guard",
@@ -183,7 +183,7 @@ V2 separates prompt admission, model-visible context, semantic model options, an
 layer your plugin needs.
 
 ```ts title="V1"
-import type { Plugin } from "@opencode-ai/plugin"
+import type { Plugin } from "@wormagent/plugin"
 
 export const RequestPlugin: Plugin = async () => ({
   "chat.params": async (_input, output) => {
@@ -200,7 +200,7 @@ export const RequestPlugin: Plugin = async () => ({
 ```
 
 ```ts title="V2"
-import { Plugin } from "@opencode/plugin"
+import { Plugin } from "@wormagent/plugin"
 
 export default Plugin.define({
   id: "review-request",
@@ -228,7 +228,7 @@ V1 returns a `tool` map built with the old `tool()` helper. V2 registers tool de
 `ctx.tool.transform` editor. Tool schemas use JSON Schema, and execution returns structured content.
 
 ```ts title="V1"
-import { tool } from "@opencode-ai/plugin"
+import { tool } from "@wormagent/plugin"
 
 export const ToolsPlugin = async () => ({
   tool: {
@@ -244,7 +244,7 @@ export const ToolsPlugin = async () => ({
 ```
 
 ```ts title="V2"
-import { Plugin } from "@opencode/plugin"
+import { Plugin } from "@wormagent/plugin"
 
 export default Plugin.define({
   id: "greeting",
@@ -298,7 +298,7 @@ V1's `event` callback becomes an async subscription to the public server event s
 returned by `setup`.
 
 ```ts title="V2"
-import { Plugin } from "@opencode/plugin"
+import { Plugin } from "@wormagent/plugin"
 
 export default Plugin.define({
   id: "notifications",
@@ -336,7 +336,7 @@ A package can temporarily expose both implementations from one default export. V
 `setup()`. The APIs remain separate; this shape does not translate hooks automatically.
 
 ```ts title="src/index.ts"
-import { Plugin } from "@opencode/plugin"
+import { Plugin } from "@wormagent/plugin"
 
 export default {
   ...Plugin.define({

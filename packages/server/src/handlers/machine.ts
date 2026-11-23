@@ -1,19 +1,19 @@
 import { NodeHttpServerRequest } from "@effect/platform-node"
 import { type WebSocket, WebSocketServer } from "@effect/platform-node-shared/NodeWS"
-import { Environment } from "@opencode/core/environment/index"
-import { Flag } from "@opencode/core/flag"
-import { Location } from "@opencode/core/location"
-import { LocationServiceMap } from "@opencode/core/location-services"
-import { Frames } from "@opencode/core/machine/frames"
-import { Identity } from "@opencode/core/machine/identity"
-import { Iroh } from "@opencode/core/machine/iroh"
-import { Join } from "@opencode/core/machine/join"
-import { Link } from "@opencode/core/machine/link"
-import { Machines } from "@opencode/core/machine/machines"
-import { AbsolutePath } from "@opencode/core/schema"
-import { ConflictError, ForbiddenError, InvalidRequestError, MachineNotFoundError } from "@opencode/protocol/errors"
-import { isWebSocketUpgrade, type MachineAddPayload } from "@opencode/protocol/groups/machine"
-import { Global } from "@opencode/util/global"
+import { Environment } from "@wormagent/core/environment/index"
+import { Flag } from "@wormagent/core/flag"
+import { Location } from "@wormagent/core/location"
+import { LocationServiceMap } from "@wormagent/core/location-services"
+import { Frames } from "@wormagent/core/machine/frames"
+import { Identity } from "@wormagent/core/machine/identity"
+import { Iroh } from "@wormagent/core/machine/iroh"
+import { Join } from "@wormagent/core/machine/join"
+import { Link } from "@wormagent/core/machine/link"
+import { Machines } from "@wormagent/core/machine/machines"
+import { AbsolutePath } from "@wormagent/core/schema"
+import { ConflictError, ForbiddenError, InvalidRequestError, MachineNotFoundError } from "@wormagent/protocol/errors"
+import { isWebSocketUpgrade, type MachineAddPayload } from "@wormagent/protocol/groups/machine"
+import { Global } from "@wormagent/util/global"
 import { Context, Effect, Latch, Option, Scope, Semaphore } from "effect"
 import { HttpMiddleware, type HttpServerRequest, HttpServerResponse } from "effect/http"
 import { HttpApiSchema } from "effect/http-api"
@@ -49,7 +49,7 @@ const CLOSE = 1008
  * Only for tests, as `Link.Fixed` is: called with the endpoint's `ws` server when it is made, so a test can count its
  * clients and watch a socket from the home's side. Production never sets it.
  */
-export const Watch = Context.Reference<(sockets: WebSocketServer) => void>("@opencode/MachineLink/Watch", {
+export const Watch = Context.Reference<(sockets: WebSocketServer) => void>("@wormagent/MachineLink/Watch", {
   defaultValue: () => () => {},
 })
 

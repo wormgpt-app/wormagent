@@ -1,15 +1,15 @@
 // The image preview over the prompt's Kitty thumbnail, on a terminal that shows Kitty graphics with 20x40-pixel cells.
 // In the preview a 1600x1200 noise image is no smaller than its source, so its upload is larger than one frame's
-// output. TS sends it with Kitty across frames; Rust, since anomalyco/opentui#2135, sends one copy that fits a frame.
+// output. TS sends it with Kitty across frames; Rust, since wormgpt-app/opentui#2135, sends one copy that fits a frame.
 // Both show it with Kitty, so the open preview compares, and closing it leaves no block glyph over the thumbnail
-// (anomalyco/opentui#2130, which cleared the half blocks Rust drew there before #2135).
+// (wormgpt-app/opentui#2130, which cleared the half blocks Rust drew there before #2135).
 import { tmpdir } from "node:os"
 import path from "node:path"
 import { deflateSync } from "node:zlib"
 import { definePty } from "../../pty/run"
 import { homeMasks, paste, press, release } from "./home"
 
-const png = path.join(tmpdir(), "opencode-parity-kitty-preview.png")
+const png = path.join(tmpdir(), "wormagent-parity-kitty-preview.png")
 const config = { experimental: { "new-designs": true }, debug: { devtools: false }, prompt: { image_preview: true } }
 // Block glyphs other than the logo's (`█▀▄`).
 const quadrants = /[▖▗▘▙▚▛▜▝▞▟▌▐]/
@@ -18,7 +18,7 @@ export default definePty({
   args: [],
   cols: 120,
   rows: 40,
-  env: { OPENCODE_CLI_CONFIG_CONTENT: JSON.stringify(config) },
+  env: { WORMAGENT_CLI_CONFIG_CONTENT: JSON.stringify(config) },
   server: { fallback: "tui" },
   graphics: { cell: 20 },
   setup: async () => {

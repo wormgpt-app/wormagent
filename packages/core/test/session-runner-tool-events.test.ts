@@ -1,29 +1,29 @@
 import { expect, test } from "bun:test"
 import { Cause, Deferred, Effect, Exit, Fiber, Schema } from "effect"
 import { eq } from "drizzle-orm"
-import { LLMEvent } from "@opencode/ai/effect"
-import { Money } from "@opencode/schema/money"
-import { Bus } from "@opencode/core/bus"
-import { Database } from "@opencode/core/database/database"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { EventTable } from "@opencode/core/event/sql"
-import { Event } from "@opencode/schema/event"
-import { Agent } from "@opencode/core/agent"
-import { SessionEvent } from "@opencode/core/session/event"
-import { SessionMessage } from "@opencode/core/session/message"
-import { Session } from "@opencode/core/session"
-import { SessionProjector } from "@opencode/core/session/projector"
-import { SessionMessageTable, SessionTable } from "@opencode/core/session/sql"
-import { SessionHistory } from "@opencode/core/session/history"
-import { Project } from "@opencode/core/project"
-import { ProjectTable } from "@opencode/core/project/sql"
-import { Model } from "@opencode/core/model"
-import { Provider } from "@opencode/core/provider"
-import { AbsolutePath, RelativePath } from "@opencode/core/schema"
-import { Snapshot } from "@opencode/core/snapshot"
-import { createLLMEventPublisher } from "@opencode/core/session/runner/publish-llm-event"
-import { SessionUsage } from "@opencode/core/session/usage"
-import { LayerNode } from "@opencode/util/effect/layer-node"
+import { LLMEvent } from "@wormagent/ai/effect"
+import { Money } from "@wormagent/schema/money"
+import { Bus } from "@wormagent/core/bus"
+import { Database } from "@wormagent/core/database/database"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { EventTable } from "@wormagent/core/event/sql"
+import { Event } from "@wormagent/schema/event"
+import { Agent } from "@wormagent/core/agent"
+import { SessionEvent } from "@wormagent/core/session/event"
+import { SessionMessage } from "@wormagent/core/session/message"
+import { Session } from "@wormagent/core/session"
+import { SessionProjector } from "@wormagent/core/session/projector"
+import { SessionMessageTable, SessionTable } from "@wormagent/core/session/sql"
+import { SessionHistory } from "@wormagent/core/session/history"
+import { Project } from "@wormagent/core/project"
+import { ProjectTable } from "@wormagent/core/project/sql"
+import { Model } from "@wormagent/core/model"
+import { Provider } from "@wormagent/core/provider"
+import { AbsolutePath, RelativePath } from "@wormagent/core/schema"
+import { Snapshot } from "@wormagent/core/snapshot"
+import { createLLMEventPublisher } from "@wormagent/core/session/runner/publish-llm-event"
+import { SessionUsage } from "@wormagent/core/session/usage"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
 import { it, testEffect } from "./lib/effect"
 import { TestClock } from "effect/testing"
 
@@ -63,7 +63,7 @@ const capture = (
       agent: Agent.ID.make("build"),
       model: {
         id: Model.ID.make("model"),
-        providerID: Provider.ID.opencode,
+        providerID: Provider.ID.wormagent,
       },
       providerMetadataKey,
       pendingSnapshot: options?.pendingSnapshot,
@@ -169,7 +169,7 @@ testEffect(
         sessionID,
         assistantMessageID,
         agent: Agent.defaultID,
-        model: { id: Model.ID.make("test-model"), providerID: Provider.ID.opencode },
+        model: { id: Model.ID.make("test-model"), providerID: Provider.ID.wormagent },
         providerMetadataKey: "openai",
         started: 0,
       },

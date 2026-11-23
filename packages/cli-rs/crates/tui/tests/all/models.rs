@@ -6,21 +6,21 @@ use std::rc::Rc;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
-use opencode_api::client::Client;
-use opencode_api::transport::{BoxFuture, Request, Response, Transport};
-use opencode_local::model_pref::Model;
-use opencode_local::storage::Storage;
-use opencode_parity::fixtures_dir;
-use opencode_store::{Data, Options as StoreOptions};
-use opencode_tui::dialogs::go_upsell::{self, Offer};
-use opencode_tui::dialogs::model;
-use opencode_tui::dialogs::{agent, speed, usage, usage_model, variant};
-use opencode_tui::local::{Files, Local};
-use opencode_tui::{Deps, Route};
-use opencode_ui::dialog::{DialogKeymap, Dialogs, route_keys};
-use opencode_ui::keymap::{Keybinds, Options};
-use opencode_ui::theme::{Catalog, Theme, ThemeMode};
-use opencode_ui::toast::Toasts;
+use wormagent_api::client::Client;
+use wormagent_api::transport::{BoxFuture, Request, Response, Transport};
+use wormagent_local::model_pref::Model;
+use wormagent_local::storage::Storage;
+use wormagent_parity::fixtures_dir;
+use wormagent_store::{Data, Options as StoreOptions};
+use wormagent_tui::dialogs::go_upsell::{self, Offer};
+use wormagent_tui::dialogs::model;
+use wormagent_tui::dialogs::{agent, speed, usage, usage_model, variant};
+use wormagent_tui::local::{Files, Local};
+use wormagent_tui::{Deps, Route};
+use wormagent_ui::dialog::{DialogKeymap, Dialogs, route_keys};
+use wormagent_ui::keymap::{Keybinds, Options};
+use wormagent_ui::theme::{Catalog, Theme, ThemeMode};
+use wormagent_ui::toast::Toasts;
 use opentui::prelude::*;
 use opentui::testing::TestApp;
 use serde_json::{Value, json};
@@ -99,7 +99,7 @@ fn shift_resets(value: &mut Value) {
     match value {
         Value::Object(fields) => fields.iter_mut().for_each(|(key, field)| match field.as_i64() {
             Some(at) if key == "resetsAt" => {
-                *field = json!(at - i64::from(opencode_util::time::Zone::Local.offset(at)) * 1000)
+                *field = json!(at - i64::from(wormagent_util::time::Zone::Local.offset(at)) * 1000)
             }
             _ => shift_resets(field),
         }),
@@ -114,12 +114,12 @@ fn preferences() -> Value {
 }
 
 fn theme() -> Theme {
-    Catalog::default().load("opencode", ThemeMode::Dark).unwrap().theme
+    Catalog::default().load("wormagent", ThemeMode::Dark).unwrap().theme
 }
 
 /// A temporary state directory holding the fixture's `model.json`.
-fn state() -> opencode_util::temp::TempDir {
-    let dir = opencode_util::temp::tempdir().unwrap();
+fn state() -> wormagent_util::temp::TempDir {
+    let dir = wormagent_util::temp::tempdir().unwrap();
     std::fs::write(dir.path().join("model.json"), preferences().to_string()).unwrap();
     dir
 }
@@ -129,7 +129,7 @@ struct Kit {
     local: Rc<Local>,
     data: Data,
     fixture: Arc<Server>,
-    _state: opencode_util::temp::TempDir,
+    _state: wormagent_util::temp::TempDir,
 }
 
 fn kit(width: u16, height: u16) -> Kit {
@@ -142,7 +142,7 @@ fn kit_with(width: u16, height: u16, fixture: Arc<Server>) -> Kit {
     route_keys(&app, keymap.clone());
     let toasts = Toasts::new(&app, theme(), &app.root());
     let dialogs = Dialogs::new(&app, keymap, theme());
-    let client = Client::with_transport("http://opencode.local", fixture.clone()).unwrap();
+    let client = Client::with_transport("http://wormagent.local", fixture.clone()).unwrap();
     let state = state();
     let data = support::store(&app, client, StoreOptions { directory: "/project".into(), ..StoreOptions::default() });
     let local = Local::new(
@@ -186,7 +186,7 @@ fn a_connection_reads_the_catalogs_again_after_the_server_answered_before_its_pr
     assert!(kit.local.current().is_none());
 
     fixture.models_empty.store(false, std::sync::atomic::Ordering::SeqCst);
-    kit.local.sync(&opencode_store::Changes::everything(&kit.data));
+    kit.local.sync(&wormagent_store::Changes::everything(&kit.data));
     let loaded = kit.app.wait_until(WAIT, || !kit.local.models(|models| models.is_empty()));
     assert!(loaded, "the catalogs were not read again: {:?}", fixture.seen());
     let reads =
@@ -278,16 +278,16 @@ fn go_upsell_art_moves_while_animations_run() {
         Offer { reset: Some("3:00 PM".into()), can_continue: Rc::new(|| true), on_subscribe: Rc::new(|| {}) },
     );
     kit.wait_for("subscribe");
-    let first = opencode_parity::Fixture::from_capture(&kit.app.render());
+    let first = wormagent_parity::Fixture::from_capture(&kit.app.render());
     kit.app.advance(Duration::from_millis(500));
-    let later = opencode_parity::Fixture::from_capture(&kit.app.render());
-    assert!(!opencode_parity::compare(&first, &later).is_equal());
+    let later = wormagent_parity::Fixture::from_capture(&kit.app.render());
+    assert!(!wormagent_parity::compare(&first, &later).is_equal());
 }
 
 #[test]
 fn go_upsell_art_matches_typescript_when_still() {
     let kit = kit(90, 34);
-    opencode_ui::motion::set_running(&kit.app, false);
+    wormagent_ui::motion::set_running(&kit.app, false);
     go_upsell::show(
         &kit.local,
         Offer { reset: Some("3:00 PM".into()), can_continue: Rc::new(|| true), on_subscribe: Rc::new(|| {}) },
@@ -295,16 +295,16 @@ fn go_upsell_art_matches_typescript_when_still() {
     kit.wait_for("subscribe");
     support::wait_fixture(&kit.app, "E.16/go-upsell-art");
     // Without truecolor the reference uses full blocks for the logo; this renderer keeps its half blocks.
-    let fixtures = opencode_parity::fixtures_dir();
-    let expected = opencode_parity::Fixture::load(fixtures.join("E.16/go-upsell-art-256.json")).unwrap();
-    let comparison = opencode_parity::compare(&expected, &opencode_parity::Fixture::from_capture(&kit.app.render()));
+    let fixtures = wormagent_parity::fixtures_dir();
+    let expected = wormagent_parity::Fixture::load(fixtures.join("E.16/go-upsell-art-256.json")).unwrap();
+    let comparison = wormagent_parity::compare(&expected, &wormagent_parity::Fixture::from_capture(&kit.app.render()));
     assert!(fixtures.join("../deviations/DLG07-go-upsell-art.md").exists());
     assert_eq!(comparison.differences.len(), 7, "{comparison}");
     assert!(
         comparison.differences.iter().all(|&(x, y)| expected.cell(x, y).is_some_and(|cell| cell.symbol == "█")),
         "{comparison}"
     );
-    opencode_ui::motion::set_running(&kit.app, true);
+    wormagent_ui::motion::set_running(&kit.app, true);
 }
 
 #[test]
@@ -339,13 +339,13 @@ struct Models {
     harness: Harness,
     fixture: Arc<Server>,
     state: PathBuf,
-    _home: opencode_util::temp::TempDir,
+    _home: wormagent_util::temp::TempDir,
 }
 
 deref_harness!(Models);
 
 fn mount() -> Models {
-    let home = opencode_util::temp::tempdir().unwrap();
+    let home = wormagent_util::temp::tempdir().unwrap();
     let paths = support::home_paths(home.path());
     std::fs::create_dir_all(&paths.state).unwrap();
     std::fs::write(paths.state.join("model.json"), preferences().to_string()).unwrap();
@@ -426,7 +426,7 @@ fn a_search_with_spaces_ranks_by_its_words_across_title_and_provider() {
     h.app.press("ctrl+x");
     h.app.press("m");
     h.wait_for("Search models");
-    // fuzzysort's default score sums each word's best key: "Grok Code" (OpenCode) before "Claude Haiku".
+    // fuzzysort's default score sums each word's best key: "Grok Code" (WormAgent) before "Claude Haiku".
     h.app.type_text("o c");
     let screen = h.wait_for("Grok Code");
     let at = |name: &str| screen.find(name).unwrap_or_else(|| panic!("no {name}:\n{screen}"));
@@ -509,10 +509,10 @@ fn a_reload_that_read_the_file_before_a_pending_write_keeps_the_change() {
     let local = h.tui.local.clone();
     // Holding the lock keeps the variant's write from landing.
     let file = h.state.join("model.json");
-    let lock = opencode_local::lock::acquire(
+    let lock = wormagent_local::lock::acquire(
         &h.state.join("locks"),
         &file.to_string_lossy(),
-        &opencode_local::lock::Options::default(),
+        &wormagent_local::lock::Options::default(),
     )
     .unwrap();
     h.app.press("ctrl+t");
@@ -568,7 +568,7 @@ fn a_speed_switches_the_model_and_shows_beside_its_name() {
 
 #[test]
 fn a_model_runs_at_its_last_speed_and_lists_name_it_once() {
-    let home = opencode_util::temp::tempdir().unwrap();
+    let home = wormagent_util::temp::tempdir().unwrap();
     let paths = support::home_paths(home.path());
     std::fs::create_dir_all(&paths.state).unwrap();
     let fast = model_ref("anthropic", "claude-sonnet-fast");
@@ -701,6 +701,6 @@ fn assert_no_writes(fixture: &Server) {
 }
 
 fn run(script: &Path, args: &[&str]) -> Value {
-    let cache = std::env::temp_dir().join("opencode-rs-e16-bun-cache");
+    let cache = std::env::temp_dir().join("wormagent-rs-e16-bun-cache");
     support::bun_json(Command::new("bun").arg(script).args(args).env("BUN_RUNTIME_TRANSPILER_CACHE_PATH", cache), None)
 }

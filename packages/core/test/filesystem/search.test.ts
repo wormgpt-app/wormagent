@@ -5,14 +5,14 @@ import os from "os"
 import path from "path"
 import { Context, Deferred, Effect, Exit, Fiber, Layer, Scope } from "effect"
 import { TestClock } from "effect/testing"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { FileSystem } from "@opencode/core/filesystem"
-import { Protected } from "@opencode/core/filesystem/protected"
-import { FileSystemSearch } from "@opencode/core/filesystem/search"
-import { Location } from "@opencode/core/location"
-import { Ripgrep } from "@opencode/core/ripgrep"
-import { AbsolutePath, RelativePath } from "@opencode/core/schema"
-import { Workspace } from "@opencode/core/workspace"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { FileSystem } from "@wormagent/core/filesystem"
+import { Protected } from "@wormagent/core/filesystem/protected"
+import { FileSystemSearch } from "@wormagent/core/filesystem/search"
+import { Location } from "@wormagent/core/location"
+import { Ripgrep } from "@wormagent/core/ripgrep"
+import { AbsolutePath, RelativePath } from "@wormagent/core/schema"
+import { Workspace } from "@wormagent/core/workspace"
 import { location } from "../fixture/location"
 import { tmpdir } from "../fixture/tmpdir"
 import { it } from "../lib/effect"
@@ -59,7 +59,7 @@ const fakeFff = () => {
     Layer.provide(
       Layer.succeed(
         Location.Service,
-        Location.Service.of(location({ directory: AbsolutePath.make(path.join(os.tmpdir(), "opencode-fff-fake")) })),
+        Location.Service.of(location({ directory: AbsolutePath.make(path.join(os.tmpdir(), "wormagent-fff-fake")) })),
       ),
     ),
   )
@@ -146,7 +146,7 @@ describe("FileSystemSearch", () => {
 
   it.live("honors wildcard directory rules from .gitignore", () =>
     Effect.gen(function* () {
-      const directory = (yield* Effect.acquireDisposable(Effect.promise(() => tmpdir("opencode-fff-ignore-")))).path
+      const directory = (yield* Effect.acquireDisposable(Effect.promise(() => tmpdir("wormagent-fff-ignore-")))).path
       yield* Effect.promise(() => mkdir(path.join(directory, "rust/target/debug/deps"), { recursive: true }))
       yield* Effect.promise(() => Bun.write(path.join(directory, ".gitignore"), "**/target/\n"))
       yield* Effect.promise(() => Bun.write(path.join(directory, "rust/target/debug/deps/ignored.rs"), "ignored"))
@@ -175,7 +175,7 @@ describe("FileSystemSearch", () => {
 
   it.live("real fff finds files on first search", () =>
     Effect.gen(function* () {
-      const directory = (yield* Effect.acquireDisposable(Effect.promise(() => tmpdir("opencode-fff-lazy-")))).path
+      const directory = (yield* Effect.acquireDisposable(Effect.promise(() => tmpdir("wormagent-fff-lazy-")))).path
       yield* Effect.promise(() => Bun.write(path.join(directory, "src/existing-alpha.ts"), "alpha"))
       expect(Bun.spawnSync(["git", "init", "-q"], { cwd: directory }).exitCode).toBe(0)
 
@@ -202,7 +202,7 @@ describe("FileSystemSearch", () => {
 
   it.live("selects the ripgrep layer for workspace-backed locations even when vcs would pick fff", () =>
     Effect.gen(function* () {
-      const directory = (yield* Effect.acquireDisposable(Effect.promise(() => tmpdir("opencode-search-workspace-"))))
+      const directory = (yield* Effect.acquireDisposable(Effect.promise(() => tmpdir("wormagent-search-workspace-"))))
         .path
       // A local file that only an fff index of the server directory could surface.
       // The fff-vs-ripgrep discrimination only bites where Fff.available() is
@@ -277,7 +277,7 @@ describe("FileSystemSearch", () => {
           Layer.succeed(
             Location.Service,
             Location.Service.of(
-              location({ directory: AbsolutePath.make(path.join(os.tmpdir(), "opencode-search-atomic")) }),
+              location({ directory: AbsolutePath.make(path.join(os.tmpdir(), "wormagent-search-atomic")) }),
             ),
           ),
         ),
@@ -346,7 +346,7 @@ describe("FileSystemSearch", () => {
           Layer.succeed(
             Location.Service,
             Location.Service.of(
-              location({ directory: AbsolutePath.make(path.join(os.tmpdir(), "opencode-search-cache")) }),
+              location({ directory: AbsolutePath.make(path.join(os.tmpdir(), "wormagent-search-cache")) }),
             ),
           ),
         ),

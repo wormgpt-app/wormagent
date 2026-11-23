@@ -1,6 +1,6 @@
 //! Select the current model's speed (`DialogSpeed`).
 
-use opencode_ui::locale::titlecase;
+use wormagent_ui::locale::titlecase;
 
 use crate::local::{Local, Speed};
 use crate::prelude::*;

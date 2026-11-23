@@ -1,7 +1,7 @@
 //! Selection and clipboard handling. The focused editor keeps its own selection; Ctrl+C copies or clears a selection
 //! before the exit binding runs.
 
-use opencode_local::cli_config::TerminalCopy;
+use wormagent_local::cli_config::TerminalCopy;
 
 use crate::prelude::*;
 

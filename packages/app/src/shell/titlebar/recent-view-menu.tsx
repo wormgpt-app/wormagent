@@ -1,7 +1,7 @@
 import { For, type JSX } from "solid-js"
-import { Icon } from "@opencode/ui/icon"
-import { IconButton } from "@opencode/ui/icon-button"
-import { Menu } from "@opencode/ui/menu"
+import { Icon } from "@wormagent/ui/icon"
+import { IconButton } from "@wormagent/ui/icon-button"
+import { Menu } from "@wormagent/ui/menu"
 import { useLanguage } from "@/runtime/i18n/language"
 import {
   DEFAULT_RECENT_VIEW,

@@ -1,7 +1,7 @@
 //! Adopts sessions into their project when `worktree.resolved` supplies the repository root.
 use std::collections::HashSet;
 
-use opencode_api::generated::*;
+use wormagent_api::generated::*;
 
 use crate::changes::Touched;
 use crate::core::Effect;

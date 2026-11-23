@@ -1,10 +1,10 @@
 export * as ShellTool from "./shell.js"
 
-import { ToolFailure } from "@opencode/ai/effect"
-import type { Context } from "@opencode/plugin/effect/plugin"
-import type { ShellCreateBefore } from "@opencode/plugin/effect/shell"
-import type { Shell as ShellSchema } from "@opencode/schema/shell"
-import type { Tool } from "@opencode/schema/tool"
+import { ToolFailure } from "@wormagent/ai/effect"
+import type { Context } from "@wormagent/plugin/effect/plugin"
+import type { ShellCreateBefore } from "@wormagent/plugin/effect/shell"
+import type { Shell as ShellSchema } from "@wormagent/schema/shell"
+import type { Tool } from "@wormagent/schema/tool"
 import { Clock, Deferred, Effect, Fiber, Option, Schema, Stream, Struct } from "effect"
 import { Agent } from "../../agent.js"
 import { Bus } from "../../bus.js"
@@ -52,7 +52,7 @@ const description = (shell?: string, codeMode = false) =>
     "Commands still running after their timeout move to the background.",
     // Code Mode has no background parameter.
     ...(codeMode ? [] : ["Background commands return immediately, and you will be notified when they complete."]),
-    "The current session ID is available in the OPENCODE_SESSION_ID environment variable.",
+    "The current session ID is available in the WORMAGENT_SESSION_ID environment variable.",
   ].join(" ")
 
 const timeoutInput = (foreground: number) =>
@@ -301,7 +301,7 @@ export const reattach = Effect.fnUntraced(function* (input: {
 })
 
 export const Plugin = {
-  id: "opencode.tool.shell",
+  id: "wormagent.tool.shell",
   effect: Effect.fn("ShellTool.Plugin")(function* (ctx: Context) {
     const sessions = yield* Session.Service
     const agents = yield* Agent.Service
@@ -478,9 +478,9 @@ export const Plugin = {
                     (invocation) =>
                       Effect.gen(function* () {
                         invocation.env.AGENT = "1"
-                        invocation.env.OPENCODE = "1"
-                        invocation.env.AI_AGENT ||= "opencode"
-                        invocation.env.OPENCODE_SESSION_ID = context.sessionID
+                        invocation.env.WORMAGENT = "1"
+                        invocation.env.AI_AGENT ||= "wormagent"
+                        invocation.env.WORMAGENT_SESSION_ID = context.sessionID
                         // Asking for permission can take a while; a stop then ends the call before any command starts.
                         finalTimeout = yield* restore(
                           Effect.raceFirst(prepare(invocation, context, { cwd, target }), stoppedBeforeStart),
@@ -556,7 +556,7 @@ export const Plugin = {
               // Shell spans, including the job that waits for a backgrounded command, name the call that started them.
               Effect.annotateSpans({
                 "gen_ai.tool.call.id": context.id,
-                ...(background ? { "opencode.shell.background": true } : {}),
+                ...(background ? { "wormagent.shell.background": true } : {}),
               }),
               Effect.map((output) => toolResult(output, finalTimeout)),
               Effect.mapError(toolFailure(`Unable to execute command: ${input.command}`)),

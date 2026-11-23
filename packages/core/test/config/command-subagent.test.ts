@@ -1,21 +1,21 @@
 import { describe, expect } from "bun:test"
 import path from "path"
 import { Effect, Layer } from "effect"
-import { LanguageModel } from "@opencode/ai/effect"
-import { OpenAIChat } from "@opencode/ai/protocols/openai-chat"
-import { TestLLM } from "@opencode/ai/testing"
-import { Agent } from "@opencode/core/agent"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { LayerNodePlatform } from "@opencode/core/effect/app-node-platform"
-import { Watcher } from "@opencode/core/filesystem/watcher"
-import { LocationServiceMap } from "@opencode/core/location-service-map"
-import { Model } from "@opencode/core/model"
-import { Provider } from "@opencode/core/provider"
-import { AbsolutePath } from "@opencode/core/schema"
-import { Session } from "@opencode/core/session"
-import { SessionRunnerModel } from "@opencode/core/session/runner/model"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { Global } from "@opencode/util/global"
+import { LanguageModel } from "@wormagent/ai/effect"
+import { OpenAIChat } from "@wormagent/ai/protocols/openai-chat"
+import { TestLLM } from "@wormagent/ai/testing"
+import { Agent } from "@wormagent/core/agent"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { LayerNodePlatform } from "@wormagent/core/effect/app-node-platform"
+import { Watcher } from "@wormagent/core/filesystem/watcher"
+import { LocationServiceMap } from "@wormagent/core/location-service-map"
+import { Model } from "@wormagent/core/model"
+import { Provider } from "@wormagent/core/provider"
+import { AbsolutePath } from "@wormagent/core/schema"
+import { Session } from "@wormagent/core/session"
+import { SessionRunnerModel } from "@wormagent/core/session/runner/model"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { Global } from "@wormagent/util/global"
 import { tempGlobalLayer } from "../fixture/global"
 import { offlineModels } from "../fixture/models"
 import { tmpdirScoped } from "../fixture/tmpdir"
@@ -134,7 +134,7 @@ function project(
     const definition = { description: "Review code", template: "Review $ARGUMENTS: !`printf ready`", ...command }
     yield* Effect.promise(() =>
       Bun.write(
-        path.join(tmp.path, "opencode.json"),
+        path.join(tmp.path, "wormagent.json"),
         JSON.stringify({
           agents: { reviewer: { mode: "subagent", model: "test/child" } },
           ...(format === "markdown" ? {} : { commands: { review: definition } }),
@@ -144,7 +144,7 @@ function project(
     if (format === "markdown")
       yield* Effect.promise(() =>
         Bun.write(
-          path.join(tmp.path, ".opencode/commands/review.md"),
+          path.join(tmp.path, ".wormagent/commands/review.md"),
           [
             "---",
             "description: Review code",

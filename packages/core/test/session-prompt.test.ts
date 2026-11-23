@@ -1,54 +1,54 @@
 import { describe, expect } from "bun:test"
-import type { FileSystem } from "@opencode/core/filesystem"
+import type { FileSystem } from "@wormagent/core/filesystem"
 import { DateTime, Effect, Fiber, Layer, LayerMap, Schema, Stream } from "effect"
 import path from "path"
 import { pathToFileURL } from "url"
 import { eq } from "drizzle-orm"
-import { Database } from "@opencode/core/database/database"
-import { Agent } from "@opencode/core/agent"
-import { App } from "@opencode/core/app"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { makeGlobalNode } from "@opencode/util/effect/app-node"
-import { Bus } from "@opencode/core/bus"
-import { EventTable } from "@opencode/core/event/sql"
-import { Location } from "@opencode/schema/location"
-import { SessionEvent } from "@opencode/core/session/event"
-import { Model } from "@opencode/core/model"
-import { Provider } from "@opencode/core/provider"
-import { Project } from "@opencode/core/project"
-import { ProjectTable } from "@opencode/core/project/sql"
-import { AbsolutePath } from "@opencode/core/schema"
-import { Session } from "@opencode/core/session"
-import { SessionMessage } from "@opencode/core/session/message"
-import { SessionProjector } from "@opencode/core/session/projector"
-import { SessionExecution } from "@opencode/core/session/execution"
-import { SessionInbox } from "@opencode/core/session/inbox"
+import { Database } from "@wormagent/core/database/database"
+import { Agent } from "@wormagent/core/agent"
+import { App } from "@wormagent/core/app"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { makeGlobalNode } from "@wormagent/util/effect/app-node"
+import { Bus } from "@wormagent/core/bus"
+import { EventTable } from "@wormagent/core/event/sql"
+import { Location } from "@wormagent/schema/location"
+import { SessionEvent } from "@wormagent/core/session/event"
+import { Model } from "@wormagent/core/model"
+import { Provider } from "@wormagent/core/provider"
+import { Project } from "@wormagent/core/project"
+import { ProjectTable } from "@wormagent/core/project/sql"
+import { AbsolutePath } from "@wormagent/core/schema"
+import { Session } from "@wormagent/core/session"
+import { SessionMessage } from "@wormagent/core/session/message"
+import { SessionProjector } from "@wormagent/core/session/projector"
+import { SessionExecution } from "@wormagent/core/session/execution"
+import { SessionInbox } from "@wormagent/core/session/inbox"
 import {
   BlobRefTable,
   BlobTable,
   SessionInboxTable,
   SessionMessageTable,
   SessionTable,
-} from "@opencode/core/session/sql"
-import { SessionStore } from "@opencode/core/session/store"
-import { LocationServiceMap } from "@opencode/core/location-service-map"
-import type { LocationServices } from "@opencode/core/location-services"
-import { Image } from "@opencode/core/image"
-import { Plugin } from "@opencode/core/plugin"
-import { PluginHooks } from "@opencode/core/plugin/hooks"
-import { Snapshot } from "@opencode/core/snapshot"
-import { Skill } from "@opencode/core/skill"
+} from "@wormagent/core/session/sql"
+import { SessionStore } from "@wormagent/core/session/store"
+import { LocationServiceMap } from "@wormagent/core/location-service-map"
+import type { LocationServices } from "@wormagent/core/location-services"
+import { Image } from "@wormagent/core/image"
+import { Plugin } from "@wormagent/core/plugin"
+import { PluginHooks } from "@wormagent/core/plugin/hooks"
+import { Snapshot } from "@wormagent/core/snapshot"
+import { Skill } from "@wormagent/core/skill"
 import { tmpdirScoped } from "./fixture/tmpdir"
 import { testEffect } from "./lib/effect"
-import { Config } from "@opencode/core/config"
-import { Flag } from "@opencode/core/flag"
-import { Document, Info } from "@opencode/schema/config"
-import { ConfigExperimental } from "@opencode/schema/config/experimental"
-import { SessionStored } from "@opencode/core/session/stored"
-import { SessionBlob } from "@opencode/core/session/blob"
-import { SessionTransfer } from "@opencode/core/session/transfer"
-import { PromptInput } from "@opencode/schema/prompt-input"
+import { Config } from "@wormagent/core/config"
+import { Flag } from "@wormagent/core/flag"
+import { Document, Info } from "@wormagent/schema/config"
+import { ConfigExperimental } from "@wormagent/schema/config/experimental"
+import { SessionStored } from "@wormagent/core/session/stored"
+import { SessionBlob } from "@wormagent/core/session/blob"
+import { SessionTransfer } from "@wormagent/core/session/transfer"
+import { PromptInput } from "@wormagent/schema/prompt-input"
 
 const executionCalls: Session.ID[] = []
 const interruptCalls: Session.ID[] = []
@@ -519,7 +519,7 @@ describe("Session.prompt", () => {
     Effect.gen(function* () {
       yield* setup
       const session = yield* Session.Service
-      const directory = yield* tmpdirScoped("opencode-session-prompt-")
+      const directory = yield* tmpdirScoped("wormagent-session-prompt-")
       const source = path.join(directory.path, "image.png")
       const bytes = Buffer.from(
         "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=",
@@ -551,7 +551,7 @@ describe("Session.prompt", () => {
     Effect.gen(function* () {
       yield* setup
       const session = yield* Session.Service
-      const directory = yield* tmpdirScoped("opencode-session-prompt-")
+      const directory = yield* tmpdirScoped("wormagent-session-prompt-")
       const source = path.join(directory.path, "screenshot.png")
       yield* Effect.promise(() => Bun.write(source, Buffer.from(pngBase64, "base64")))
       const bytes = yield* Effect.promise(() => Bun.file(source).arrayBuffer())

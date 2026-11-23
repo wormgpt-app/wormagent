@@ -1,12 +1,12 @@
 export * as SdkInstances from "./instances"
 
-import { Instance } from "@opencode/core/instance"
-import { LocationServiceMap } from "@opencode/core/location-service-map"
-import { Plugin } from "@opencode/core/plugin"
-import type { InstancePlugins } from "@opencode/core/plugin/instance"
-import type { Session } from "@opencode/schema/session"
-import { makeGlobalNode } from "@opencode/util/effect/app-node"
-import type { LayerNode } from "@opencode/util/effect/layer-node"
+import { Instance } from "@wormagent/core/instance"
+import { LocationServiceMap } from "@wormagent/core/location-service-map"
+import { Plugin } from "@wormagent/core/plugin"
+import type { InstancePlugins } from "@wormagent/core/plugin/instance"
+import type { Session } from "@wormagent/schema/session"
+import { makeGlobalNode } from "@wormagent/util/effect/app-node"
+import type { LayerNode } from "@wormagent/util/effect/layer-node"
 import { Context, Duration, Effect, Layer, LayerMap, RcMap, Scope } from "effect"
 
 export interface Configuration {

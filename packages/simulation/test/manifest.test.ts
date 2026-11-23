@@ -22,7 +22,7 @@ test("loads and validates a Drive manifest through Effect services", async () =>
           }),
           ConfigProvider.layer(
             ConfigProvider.fromUnknown({
-              OPENCODE_DRIVE: "test-instance",
+              WORMAGENT_DRIVE: "test-instance",
               DRIVE_REGISTRY_DIR: "/tmp/drive",
             }),
           ),
@@ -55,7 +55,7 @@ test("accepts an explicit port 0, which asks the endpoint for a port of its own"
               ),
           }),
           ConfigProvider.layer(
-            ConfigProvider.fromUnknown({ OPENCODE_DRIVE: "test-instance", DRIVE_REGISTRY_DIR: "/tmp/drive" }),
+            ConfigProvider.fromUnknown({ WORMAGENT_DRIVE: "test-instance", DRIVE_REGISTRY_DIR: "/tmp/drive" }),
           ),
         ),
       ),
@@ -85,7 +85,7 @@ test("reports schema-invalid manifests as typed decode failures", async () => {
             }),
             ConfigProvider.layer(
               ConfigProvider.fromUnknown({
-                OPENCODE_DRIVE: "test-instance",
+                WORMAGENT_DRIVE: "test-instance",
                 DRIVE_REGISTRY_DIR: "/tmp/drive",
               }),
             ),

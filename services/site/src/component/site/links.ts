@@ -16,9 +16,9 @@ export function siteLinks(t: Translate, route: (path: string) => string) {
       // Data lives on this site under /data, so no arrow. Settings › Product nav demo sends Data and
       // Console to their header demos instead.
       { id: "data", label: t("nav.data"), href: route("/data"), demo: route("/data-demo") },
-      // Anomaly's commercial products: the Console, its models list, its subscriptions page (OpenCode
+      // WormGPT's commercial products: the Console, its models list, its subscriptions page (WormAgent
       // Go, which the home page's subscriptions section links) and its enterprise page ("Talk to our
-      // team"). Settings › Nav groups moves them under an "Anomaly" label.
+      // team"). Settings › Nav groups moves them under an "WormGPT" label.
       {
         id: "console",
         label: t("site.nav.console"),
@@ -45,8 +45,8 @@ export function siteLinks(t: Translate, route: (path: string) => string) {
       { label: t("legal.brand"), href: route("/brand") },
       { label: t("site.footer.legal"), href: route("/legal") },
     ],
-    status: { label: t("site.footer.status"), href: "https://status.opencode.ai" },
-    // Settings › Footer › columns: the open source project first, Anomaly's products last.
+    status: { label: t("site.footer.status"), href: "https://status.wormagent.net" },
+    // Settings › Footer › columns: the open source project first, WormGPT's products last.
     columns: [
       {
         title: t("site.nav.product"),
@@ -81,13 +81,13 @@ export function siteLinks(t: Translate, route: (path: string) => string) {
       },
       {
         title: t("site.footer.moreOpenSource"),
-        links: anomalyApps.map((app) => ({ label: app.name, ...appLink(app, route) })),
+        links: wormgptApps.map((app) => ({ label: app.name, ...appLink(app, route) })),
       },
       {
-        title: "Anomaly",
+        title: "WormGPT",
         links: [
           { label: t("site.nav.console"), href: "/console" },
-          { label: "OpenCode Models", href: "/console/models" },
+          { label: "WormAgent Models", href: "/console/models" },
           { label: t("site.nav.subscriptions"), href: "/console/go" },
           { label: t("nav.enterprise"), href: "/console/enterprise" },
           { label: t("legal.privacy"), href: route("/legal/privacy-policy") },
@@ -98,11 +98,11 @@ export function siteLinks(t: Translate, route: (path: string) => string) {
   }
 }
 
-// Anomaly's shipped open source apps, as listed in Abattoir (content/projects/*.md with
+// WormGPT's shipped open source apps, as listed in Abattoir (content/projects/*.md with
 // `stage: shipped` and a public repo). A category line sits under each name, like an app store.
 // The description and icon (public/apps) are for /product. Browse has a page on this site, so its
 // href is a path (see appLink); the others are other sites.
-export const anomalyApps = [
+export const wormgptApps = [
   {
     id: "browse",
     name: "Browse",
@@ -119,7 +119,7 @@ export const anomalyApps = [
     icon: "/apps/hex.png",
     href: "https://anoma.ly/hex",
   },
-  // Isocast is left out for now; to bring it back everywhere (More from Anomaly, the footer and the
+  // Isocast is left out for now; to bring it back everywhere (More from WormGPT, the footer and the
   // Markdown pages), uncomment it:
   // {
   //   id: "isocast",
@@ -140,11 +140,11 @@ export const anomalyApps = [
 ] as const
 
 /**
- * "More from Anomaly" on the product pages: the apps above, then OpenTUI from the press kit
+ * "More from WormGPT" on the product pages: the apps above, then OpenTUI from the press kit
  * (lib/press-content.ts), which has no app icon (the list draws its logo mark).
  */
-export const anomalyProducts = [
-  ...anomalyApps,
+export const wormgptProducts = [
+  ...wormgptApps,
   {
     id: "opentui",
     name: "OpenTUI",

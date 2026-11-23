@@ -1,6 +1,6 @@
 ---
 name: focus-states
-description: Focus indicators and focus movement in OpenCode Desktop and the web app. Use when adding or reviewing an interactive component, a :focus/:focus-visible/:focus-within rule, an outline on focus, a list/menu/palette row, a text field, a dialog, menu or popover, a selected state, removing or closing a focused item, or anything that moves focus programmatically.
+description: Focus indicators and focus movement in WormAgent Desktop and the web app. Use when adding or reviewing an interactive component, a :focus/:focus-visible/:focus-within rule, an outline on focus, a list/menu/palette row, a text field, a dialog, menu or popover, a selected state, removing or closing a focused item, or anything that moves focus programmatically.
 ---
 
 # Focus States

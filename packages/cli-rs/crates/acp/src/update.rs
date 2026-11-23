@@ -50,11 +50,11 @@ pub enum Kind<'a> {
 #[derive(Debug, Clone, Default, Serialize)]
 pub struct Meta<'a> {
     /// `Some(None)` clears the retry.
-    #[serde(rename = "opencode/retry", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "wormagent/retry", skip_serializing_if = "Option::is_none")]
     pub retry: Option<Option<Retry>>,
-    #[serde(rename = "opencode/compaction", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "wormagent/compaction", skip_serializing_if = "Option::is_none")]
     pub compaction: Option<Marker<'a>>,
-    #[serde(rename = "opencode/child-session", skip_serializing_if = "Option::is_none", serialize_with = "shared")]
+    #[serde(rename = "wormagent/child-session", skip_serializing_if = "Option::is_none", serialize_with = "shared")]
     pub child: Option<Arc<child::Session>>,
 }
 

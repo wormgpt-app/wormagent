@@ -1,10 +1,10 @@
 //! One-line tool summaries shared by `run`, mini and the full TUI.
 
 use indexmap::IndexMap;
-use opencode_api_types::js::js_string;
-pub use opencode_api_types::tool::*;
-use opencode_api_types::{SessionMessageAssistantTool, SessionMessageAssistantToolState, ToolContent};
-use opencode_util::json_object;
+use wormagent_api_types::js::js_string;
+pub use wormagent_api_types::tool::*;
+use wormagent_api_types::{SessionMessageAssistantTool, SessionMessageAssistantToolState, ToolContent};
+use wormagent_util::json_object;
 use serde_json::{Map, Value};
 
 /// The summary of one tool call.
@@ -114,8 +114,8 @@ pub fn call_summary<'a>(tool: &str, input: impl IntoIterator<Item = (&'a String,
 
 pub fn web_search_provider_name(provider: &Value) -> String {
     let Some(provider) = provider.as_str().filter(|provider| !provider.is_empty()) else { return String::new() };
-    if provider == "opencode" {
-        return "OpenCode".to_owned();
+    if provider == "wormagent" {
+        return "WormAgent".to_owned();
     }
     let mut chars = provider.chars();
     chars.next().map(|first| first.to_uppercase().chain(chars).collect()).unwrap_or_default()

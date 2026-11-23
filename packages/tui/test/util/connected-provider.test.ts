@@ -1,14 +1,14 @@
 import { describe, expect, test } from "bun:test"
 import { hasConnectedProvider } from "../../src/util/connected-provider"
 
-const opencode = { providerID: "opencode", status: "active" } as const
+const wormagent = { providerID: "wormagent", status: "active" } as const
 const ollama = { providerID: "ollama", status: "active" } as const
-const providers = [{ id: "opencode" }, { id: "ollama" }]
+const providers = [{ id: "wormagent" }, { id: "ollama" }]
 
 describe("hasConnectedProvider", () => {
   test.each<[string, Parameters<typeof hasConnectedProvider>[0], boolean]>([
     ["nothing listed", { integrations: [], providers: [], models: [] }, false],
-    ["only OpenCode's keyless models", { integrations: [{ connections: [] }], providers, models: [opencode] }, false],
+    ["only WormAgent's keyless models", { integrations: [{ connections: [] }], providers, models: [wormagent] }, false],
     [
       "a stored credential",
       {
@@ -38,7 +38,7 @@ describe("hasConnectedProvider", () => {
       },
       true,
     ],
-    ["a provider declared only in config", { integrations: [], providers, models: [opencode, ollama] }, true],
+    ["a provider declared only in config", { integrations: [], providers, models: [wormagent, ollama] }, true],
     [
       "only deprecated models",
       {
@@ -50,7 +50,7 @@ describe("hasConnectedProvider", () => {
     ],
     [
       "models of a provider that is not listed",
-      { integrations: [], providers: [{ id: "opencode" }], models: [ollama] },
+      { integrations: [], providers: [{ id: "wormagent" }], models: [ollama] },
       false,
     ],
   ])("%s", (_, input, expected) => {

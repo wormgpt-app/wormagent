@@ -1,11 +1,11 @@
 export * as BlobStore from "./blob-store.js"
 
 import path from "path"
-import { Media } from "@opencode/ai/effect"
-import { BlobStore } from "@opencode/schema/blob-store"
-import { makeGlobalNode } from "@opencode/util/effect/app-node"
-import { FSUtil } from "@opencode/util/fs-util"
-import { Global } from "@opencode/util/global"
+import { Media } from "@wormagent/ai/effect"
+import { BlobStore } from "@wormagent/schema/blob-store"
+import { makeGlobalNode } from "@wormagent/util/effect/app-node"
+import { FSUtil } from "@wormagent/util/fs-util"
+import { Global } from "@wormagent/util/global"
 import { Context, Duration, Effect, Layer, Schedule, Schema, Stream } from "effect"
 import { FileRetention } from "./file-retention.js"
 
@@ -39,7 +39,7 @@ export interface Interface {
   readonly remove: (id: ID) => Effect.Effect<void>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/BlobStore") {}
+export class Service extends Context.Service<Service, Interface>()("@wormagent/BlobStore") {}
 
 /** Files under `<data>/blobs/`, each deleted a week after it was written. */
 const layer = Layer.effect(

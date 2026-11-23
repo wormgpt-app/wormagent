@@ -39,7 +39,7 @@ export function legalFeedEntries() {
 export function legalHubMarkdown(context: MarkdownContext) {
   return blocks(
     "# Legal",
-    "The legal documents for the OpenCode website and hosted services.",
+    "The legal documents for the WormAgent website and hosted services.",
     legalPages
       .map(
         (document) =>
@@ -49,7 +49,7 @@ export function legalHubMarkdown(context: MarkdownContext) {
     [
       `[Follow changes by RSS](${absoluteUrl("/legal/feed.xml")})`,
       `[Brand and trademark guidelines](${absoluteUrl(context.route("/brand"))})`,
-      "[Open source license (MIT)](https://github.com/anomalyco/opencode/blob/dev/LICENSE)",
+      "[Open source license (MIT)](https://github.com/wormgpt-app/wormagent/blob/dev/LICENSE)",
     ].join(" · "),
   )
 }

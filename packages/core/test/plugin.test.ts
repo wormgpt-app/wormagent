@@ -4,19 +4,19 @@ import { tmpdir } from "node:os"
 import path from "path"
 import { Clock, Deferred, Effect, Fiber, Logger, Stream } from "effect"
 import { TestClock } from "effect/testing"
-import { Command } from "@opencode/core/command"
-import { Bus } from "@opencode/core/bus"
-import { Credential } from "@opencode/core/credential"
-import { Integration } from "@opencode/core/integration"
-import { Plugin } from "@opencode/core/plugin"
-import { PluginHost } from "@opencode/core/plugin/host"
-import { Rpc } from "@opencode/core/rpc"
-import { Event } from "@opencode/schema/config"
-import { PluginModule } from "@opencode/core/plugin/module"
-import { Session } from "@opencode/core/session"
-import { SessionSchema } from "@opencode/core/session/schema"
-import { Watcher } from "@opencode/core/filesystem/watcher"
-import { fromPromise } from "@opencode/plugin/promise/adapter"
+import { Command } from "@wormagent/core/command"
+import { Bus } from "@wormagent/core/bus"
+import { Credential } from "@wormagent/core/credential"
+import { Integration } from "@wormagent/core/integration"
+import { Plugin } from "@wormagent/core/plugin"
+import { PluginHost } from "@wormagent/core/plugin/host"
+import { Rpc } from "@wormagent/core/rpc"
+import { Event } from "@wormagent/schema/config"
+import { PluginModule } from "@wormagent/core/plugin/module"
+import { Session } from "@wormagent/core/session"
+import { SessionSchema } from "@wormagent/core/session/schema"
+import { Watcher } from "@wormagent/core/filesystem/watcher"
+import { fromPromise } from "@wormagent/plugin/promise/adapter"
 import { testEffect } from "./lib/effect"
 import { PluginTestLayer } from "./plugin/fixture"
 
@@ -116,7 +116,7 @@ it.live("serves a local plugin's GUI bundle, and reloads it alone when only the 
     const bus = yield* Bus.Service
     yield* plugins.awaitActivation
     const directory = yield* Effect.acquireRelease(
-      Effect.promise(() => mkdtemp(path.join(tmpdir(), "opencode-plugin-gui-"))),
+      Effect.promise(() => mkdtemp(path.join(tmpdir(), "wormagent-plugin-gui-"))),
       (directory) => Effect.promise(() => rm(directory, { recursive: true, force: true })),
     )
     const starts = path.join(directory, "starts")

@@ -31,9 +31,9 @@ pub fn no_proxy(upper: Option<&str>, lower: Option<&str>) -> String {
     entries.join(",")
 }
 
-/// `OPENCODE_CLIENT` defaults to `opencode-native`. An explicitly empty value is retained.
+/// `WORMAGENT_CLIENT` defaults to `wormagent-native`. An explicitly empty value is retained.
 pub fn client() -> String {
-    std::env::var("OPENCODE_CLIENT").unwrap_or_else(|_| "opencode-native".to_owned())
+    std::env::var("WORMAGENT_CLIENT").unwrap_or_else(|_| "wormagent-native".to_owned())
 }
 
 #[cfg(test)]

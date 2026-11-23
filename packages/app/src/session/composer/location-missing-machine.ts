@@ -1,5 +1,5 @@
-import type { WorktreeDirectory } from "@opencode/client/promise"
-import { getFilename, sameDirectory } from "@opencode/util/path"
+import type { WorktreeDirectory } from "@wormagent/client/promise"
+import { getFilename, sameDirectory } from "@wormagent/util/path"
 
 /** The menu shows what it already has, with an error, once a worktree refresh and list take this long. */
 export const WORKTREES_LOAD_TIMEOUT_MS = 15_000

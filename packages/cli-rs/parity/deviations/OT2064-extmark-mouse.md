@@ -1,6 +1,6 @@
 # OT2064: when the mouse moves the prompt cursor out of an attachment label
 
-TypeScript (`@opentui/core` 0.9.4, since #63989, which includes anomalyco/opentui#2064): a click, a drag, a
+TypeScript (`@opentui/core` 0.9.4, since #63989, which includes wormgpt-app/opentui#2064): a click, a drag, a
 double-click or a wheel step that ends inside an `[Image 1]` label moves the cursor out, as Rust does: the click to
 the nearer edge, the drag to the side it came from, the double-click and Right to the label's end, the wheel step to
 the label's start. Core already moves the cursor on the press: in `parity/scenarios/OT/extmark-mouse.pty.ts` the

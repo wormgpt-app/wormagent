@@ -1,10 +1,10 @@
 export * as ToolInputRepairPlugin from "./tool-input-repair.js"
 
-import { ToolFailure } from "@opencode/ai/effect"
-import { define } from "@opencode/plugin/effect/plugin"
+import { ToolFailure } from "@wormagent/ai/effect"
+import { define } from "@wormagent/plugin/effect/plugin"
 import { Effect, JsonSchema, Option, Predicate, Schema } from "effect"
-import { toolExpression } from "@opencode/codemode"
-import { isRecord } from "@opencode/util/record"
+import { toolExpression } from "@wormagent/codemode"
+import { isRecord } from "@wormagent/util/record"
 import { CodeModeTool } from "../codemode/tool.js"
 import { definition, normalizeContent } from "../tool/runtime.js"
 
@@ -29,7 +29,7 @@ const aliases = new Map([
 ])
 
 export const Plugin = define({
-  id: "opencode.tool.input.repair",
+  id: "wormagent.tool.input.repair",
   effect: (ctx) =>
     Effect.gen(function* () {
       // Calls run under another tool or inside Code Mode, so the result can say how to call it next time. Keyed by the

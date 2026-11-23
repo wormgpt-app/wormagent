@@ -9,10 +9,10 @@ pub mod strip;
 use std::collections::{BTreeMap, HashSet};
 use std::sync::{Arc, Mutex};
 
-use opencode_api::generated::{SessionInboxInfo, SessionInboxItem, SessionInfoOutcome, SessionViewInput};
-use opencode_local::cli_config::TabsScope;
-use opencode_local::storage::Storage;
-use opencode_store::{Catalog, Location, SessionStatus, State};
+use wormagent_api::generated::{SessionInboxInfo, SessionInboxItem, SessionInfoOutcome, SessionViewInput};
+use wormagent_local::cli_config::TabsScope;
+use wormagent_local::storage::Storage;
+use wormagent_store::{Catalog, Location, SessionStatus, State};
 use opentui::input::{KeyCode, Modifiers};
 use serde::{Deserialize, Serialize};
 
@@ -89,7 +89,7 @@ pub struct Tabs {
     writes: Cell<u64>,
     /// Outstanding `tabs.json` writes in revision order.
     pending: Arc<Mutex<Vec<(u64, Write)>>>,
-    writer: std::cell::OnceCell<opencode_local::serial::Serial>,
+    writer: std::cell::OnceCell<wormagent_local::serial::Serial>,
     history: RefCell<History>,
     closed: RefCell<Vec<Closed>>,
     /// Closed tabs that a write still in flight must not bring back (`cancelledTabs`).
@@ -113,7 +113,7 @@ pub struct Tabs {
     fetched_tabs: RefCell<Option<Rc<[Tab]>>>,
     prefetch: Cell<Option<opentui::prelude::TimerId>>,
     retention: RefCell<Retention>,
-    _watch: RefCell<Option<opencode_local::watch::Watch>>,
+    _watch: RefCell<Option<wormagent_local::watch::Watch>>,
 }
 
 impl Tabs {
@@ -691,7 +691,7 @@ fn cycle(tui: &Tui, forward: bool, unread: bool) {
 fn update(tui: &Tui, mutation: impl Fn(&mut Scope) + Send + Sync + 'static) {
     let mutation: Mutation = Arc::new(mutation);
     let cwd = tui.tabs.cwd.borrow().clone();
-    let scoped = matches!(tui.config().tabs.scope, opencode_local::cli_config::TabsScope::Cwd);
+    let scoped = matches!(tui.config().tabs.scope, wormagent_local::cli_config::TabsScope::Cwd);
     let apply = {
         let mutation = mutation.clone();
         move |file: &mut Persisted| {
@@ -712,7 +712,7 @@ fn update(tui: &Tui, mutation: impl Fn(&mut Scope) + Send + Sync + 'static) {
     }
     let pending = tui.tabs.pending.clone();
     let proxy = tui.app.proxy();
-    tui.tabs.writer.get_or_init(|| opencode_local::serial::Serial::new("tabs")).run(move || {
+    tui.tabs.writer.get_or_init(|| wormagent_local::serial::Serial::new("tabs")).run(move || {
         let Ok(batch) = pending.lock().map(|pending| pending.clone()) else { return };
         let Some(&(revision, _)) = batch.last() else { return };
         let result = storage.update("tabs", &serde_json::json!({}), |value| {

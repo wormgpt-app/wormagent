@@ -261,7 +261,7 @@ mod tests {
 
     #[test]
     fn an_empty_variant_is_dropped_as_typescript_drops_it() {
-        let state = opencode_util::temp::tempdir().unwrap();
+        let state = wormagent_util::temp::tempdir().unwrap();
         let prefs = ModelPreferences::new(state.path());
         prefs.save_variant(&Model::new("p", "a"), Some("high")).unwrap();
         prefs.save_variant(&Model::new("p", "a"), Some("")).unwrap();
@@ -283,7 +283,7 @@ mod tests {
 
     #[test]
     fn the_standard_speed_is_the_absence_of_an_entry() {
-        let state = opencode_util::temp::tempdir().unwrap();
+        let state = wormagent_util::temp::tempdir().unwrap();
         let prefs = ModelPreferences::new(state.path());
         prefs.save_speed(&Model::new("openai", "gpt-5"), Some("fast")).unwrap();
         assert_eq!(prefs.load().speed.get("openai/gpt-5").map(String::as_str), Some("fast"));

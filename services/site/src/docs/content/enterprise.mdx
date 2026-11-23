@@ -1,9 +1,9 @@
 ---
 title: "Enterprise"
-description: "Control which models, providers, and integrations people in your organization can use in OpenCode."
+description: "Control which models, providers, and integrations people in your organization can use in WormAgent."
 ---
 
-Use [policies](/policies) to control what OpenCode can use on your organization's machines. Put them in managed
+Use [policies](/policies) to control what WormAgent can use on your organization's machines. Put them in managed
 configuration so users and projects can't change them.
 
 ## Deploy
@@ -12,17 +12,17 @@ Put the policies in the system configuration file:
 
 | Platform | File                                                  |
 | -------- | ----------------------------------------------------- |
-| macOS    | `/Library/Application Support/opencode/opencode.json` |
-| Linux    | `/etc/opencode/opencode.json`                         |
-| Windows  | `%ProgramData%\opencode\opencode.json`                |
+| macOS    | `/Library/Application Support/wormagent/wormagent.json` |
+| Linux    | `/etc/wormagent/wormagent.json`                         |
+| Windows  | `%ProgramData%\wormagent\wormagent.json`                |
 
-On macOS, you can also deploy them with MDM as managed preferences for the `ai.opencode.managed` domain. See
+On macOS, you can also deploy them with MDM as managed preferences for the `ai.wormagent.managed` domain. See
 [config locations](/config#locations).
 
-```jsonc title="/etc/opencode/opencode.json"
+```jsonc title="/etc/wormagent/wormagent.json"
 {
-  "$schema": "https://opencode.ai/config.json",
-  "policies": [{ "action": "integration.use", "resource": "opencode", "effect": "deny" }],
+  "$schema": "https://wormagent.net/config.json",
+  "policies": [{ "action": "integration.use", "resource": "wormagent", "effect": "deny" }],
 }
 ```
 
@@ -35,18 +35,18 @@ Deny the signed-out free tier. Everything else still works, and people can conne
 
 ```jsonc
 {
-  "policies": [{ "action": "integration.use", "resource": "opencode", "effect": "deny" }],
+  "policies": [{ "action": "integration.use", "resource": "wormagent", "effect": "deny" }],
 }
 ```
 
-The free tier is the `opencode` integration with no account. Signed-in Console accounts are `opencode#<account>`, so
+The free tier is the `wormagent` integration with no account. Signed-in Console accounts are `wormagent#<account>`, so
 this statement doesn't affect them.
 
 A Console workspace can also offer free models. To block them:
 
 - In your own workspace, turn off **Free models** on the Console's Models tab. See
-  [OpenCode models](/console/providers#opencode-models).
-- To hide free models in every account, set `OPENCODE_DISABLE_FREE_MODELS=1` on the OpenCode service. See
+  [WormAgent models](/console/providers#wormagent-models).
+- To hide free models in every account, set `WORMAGENT_DISABLE_FREE_MODELS=1` on the WormAgent service. See
   [free models](/models#free-models).
 
 ## Require your Console workspace
@@ -57,16 +57,16 @@ Allow only your organization's Console workspace. Nothing else can be connected 
 {
   "policies": [
     { "action": "integration.connect", "resource": "*", "effect": "deny" },
-    { "action": "integration.connect", "resource": "opencode", "effect": "allow" },
+    { "action": "integration.connect", "resource": "wormagent", "effect": "allow" },
     { "action": "integration.use", "resource": "*", "effect": "deny" },
-    { "action": "integration.use", "resource": "opencode#org_01M3CAP8H43Z49CER6NT0Y3ZF1", "effect": "allow" },
+    { "action": "integration.use", "resource": "wormagent#org_01M3CAP8H43Z49CER6NT0Y3ZF1", "effect": "allow" },
   ],
 }
 ```
 
-- `/connect` lists only the OpenCode Console, so people can sign in.
+- `/connect` lists only the WormAgent Console, so people can sign in.
 - Only your workspace works. The free tier, personal Console accounts, other organizations, API keys from environment
-  variables, and providers from `opencode.json` are blocked.
+  variables, and providers from `wormagent.json` are blocked.
 - Your workspace's models, MCP servers, and web search work. Change them in the Console without redeploying the policy.
 
 Replace `org_01M3CAP8H43Z49CER6NT0Y3ZF1` with your workspace's organization ID. To block free models in the workspace
@@ -80,7 +80,7 @@ Deny every provider, then allow the ones you approve. This example allows only a
 {
   "providers": {
     "company-ai": {
-      "package": "@opencode/ai/providers/openai-compatible",
+      "package": "@wormagent/ai/providers/openai-compatible",
       "settings": { "baseURL": "https://ai.company.example/v1" },
     },
   },

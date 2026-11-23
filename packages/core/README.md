@@ -1,3 +1,3 @@
-# @opencode/core
+# @wormagent/core
 
-Core runtime services for OpenCode.
+Core runtime services for WormAgent.

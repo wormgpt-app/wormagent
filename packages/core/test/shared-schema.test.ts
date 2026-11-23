@@ -1,32 +1,32 @@
 import { expect, test } from "bun:test"
 import { Schema } from "effect"
-import { Agent } from "@opencode/core/agent"
-import { Session } from "@opencode/core/session"
-import { SessionStore } from "@opencode/core/session/store"
-import { Location } from "@opencode/schema/location"
-import { Model } from "@opencode/schema/model"
-import { Provider } from "@opencode/schema/provider"
-import { Project } from "@opencode/schema/project"
-import { Worktree } from "@opencode/schema/worktree"
-import { Prompt } from "@opencode/schema/prompt"
-import { SessionInbox } from "@opencode/schema/session-inbox"
-import { SessionMessage } from "@opencode/schema/session-message"
-import { Workspace } from "@opencode/schema/workspace"
-import { Command } from "@opencode/schema/command"
-import { Connection } from "@opencode/schema/connection"
-import { Credential } from "@opencode/schema/credential"
-import { FileSystem } from "@opencode/schema/filesystem"
-import { Integration } from "@opencode/schema/integration"
-import { LLM } from "@opencode/schema/llm"
-import { Permission } from "@opencode/schema/permission"
-import { Pty } from "@opencode/schema/pty"
-import { Reference } from "@opencode/schema/reference"
-import { Skill } from "@opencode/schema/skill"
-import { AbsolutePath, optional, statics } from "@opencode/schema/schema"
+import { Agent } from "@wormagent/core/agent"
+import { Session } from "@wormagent/core/session"
+import { SessionStore } from "@wormagent/core/session/store"
+import { Location } from "@wormagent/schema/location"
+import { Model } from "@wormagent/schema/model"
+import { Provider } from "@wormagent/schema/provider"
+import { Project } from "@wormagent/schema/project"
+import { Worktree } from "@wormagent/schema/worktree"
+import { Prompt } from "@wormagent/schema/prompt"
+import { SessionInbox } from "@wormagent/schema/session-inbox"
+import { SessionMessage } from "@wormagent/schema/session-message"
+import { Workspace } from "@wormagent/schema/workspace"
+import { Command } from "@wormagent/schema/command"
+import { Connection } from "@wormagent/schema/connection"
+import { Credential } from "@wormagent/schema/credential"
+import { FileSystem } from "@wormagent/schema/filesystem"
+import { Integration } from "@wormagent/schema/integration"
+import { LLM } from "@wormagent/schema/llm"
+import { Permission } from "@wormagent/schema/permission"
+import { Pty } from "@wormagent/schema/pty"
+import { Reference } from "@wormagent/schema/reference"
+import { Skill } from "@wormagent/schema/skill"
+import { AbsolutePath, optional, statics } from "@wormagent/schema/schema"
 
 test("Core reuses the canonical shared schemas", async () => {
-  const schemaAgent = await import("@opencode/schema/agent")
-  const schemaSession = await import("@opencode/schema/session")
+  const schemaAgent = await import("@wormagent/schema/agent")
+  const schemaSession = await import("@wormagent/schema/session")
   const [
     coreCommand,
     coreConnection,
@@ -48,25 +48,25 @@ test("Core reuses the canonical shared schemas", async () => {
     coreSchema,
     coreWorkspace,
   ] = await Promise.all([
-    import("@opencode/core/command"),
-    import("@opencode/core/integration/connection"),
-    import("@opencode/core/credential"),
-    import("@opencode/core/filesystem"),
-    import("@opencode/core/integration"),
-    import("@opencode/core/location"),
-    import("@opencode/ai/effect"),
-    import("@opencode/core/model"),
-    import("@opencode/core/permission"),
-    import("@opencode/core/worktree"),
-    import("@opencode/core/pty"),
-    import("@opencode/core/project/schema"),
-    import("@opencode/core/provider"),
-    import("@opencode/core/reference"),
-    import("@opencode/core/session/inbox"),
-    import("@opencode/core/session/message"),
-    import("@opencode/core/skill"),
-    import("@opencode/core/schema"),
-    import("@opencode/core/workspace"),
+    import("@wormagent/core/command"),
+    import("@wormagent/core/integration/connection"),
+    import("@wormagent/core/credential"),
+    import("@wormagent/core/filesystem"),
+    import("@wormagent/core/integration"),
+    import("@wormagent/core/location"),
+    import("@wormagent/ai/effect"),
+    import("@wormagent/core/model"),
+    import("@wormagent/core/permission"),
+    import("@wormagent/core/worktree"),
+    import("@wormagent/core/pty"),
+    import("@wormagent/core/project/schema"),
+    import("@wormagent/core/provider"),
+    import("@wormagent/core/reference"),
+    import("@wormagent/core/session/inbox"),
+    import("@wormagent/core/session/message"),
+    import("@wormagent/core/skill"),
+    import("@wormagent/core/schema"),
+    import("@wormagent/core/workspace"),
   ])
 
   const schemas = [

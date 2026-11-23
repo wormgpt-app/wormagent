@@ -37,7 +37,7 @@ type Data = {
   readonly installed: readonly WslInstalledDistro[]
   readonly online: readonly WslOnlineDistro[]
   readonly distroProbes: Readonly<Record<string, WslDistroProbe>>
-  readonly opencodeChecks: Readonly<Record<string, WslOpencodeCheck>>
+  readonly wormagentChecks: Readonly<Record<string, WslOpencodeCheck>>
   readonly pendingRestart: boolean
   readonly configured: readonly WslServerConfig[]
 }
@@ -172,7 +172,7 @@ export function createWslMachineState(configured: readonly WslServerConfig[]): W
     installed: [],
     online: [],
     distroProbes: {},
-    opencodeChecks: {},
+    wormagentChecks: {},
     pendingRestart: false,
     configured,
     host: { status: "idle" },
@@ -246,7 +246,7 @@ export function toServersState(state: WslMachineState): WslServersState {
     installed: state.installed,
     online: state.online,
     distroProbes: state.distroProbes,
-    opencodeChecks: state.opencodeChecks,
+    wormagentChecks: state.wormagentChecks,
     pendingRestart: state.pendingRestart,
     servers: state.configured.map((config) => ({
       config,
@@ -291,7 +291,7 @@ function close(state: OpenState): WslMachineTransition {
       installed: state.installed,
       online: state.online,
       distroProbes: state.distroProbes,
-      opencodeChecks: state.opencodeChecks,
+      wormagentChecks: state.wormagentChecks,
       pendingRestart: state.pendingRestart,
       configured: state.configured,
     },
@@ -614,7 +614,7 @@ function distroOf(state: OpenState, distro: string): WslDistro {
 function needsCliCheck(state: OpenState, distro: string) {
   const probe = state.distroProbes[distro]
 
-  return !!probe && probe.canExecute && probe.hasBash && probe.hasCurl && !state.opencodeChecks[distro]
+  return !!probe && probe.canExecute && probe.hasBash && probe.hasCurl && !state.wormagentChecks[distro]
 }
 
 function configuredDistro(state: OpenState, distro: string) {
@@ -626,7 +626,7 @@ function put(state: OpenState, distro: string, job: WslDistro): OpenState {
 }
 
 function withCheck(state: OpenState, distro: string, check: WslOpencodeCheck): OpenState {
-  return { ...state, opencodeChecks: { ...state.opencodeChecks, [distro]: check } }
+  return { ...state, wormagentChecks: { ...state.wormagentChecks, [distro]: check } }
 }
 
 function withoutDistro(state: OpenState, distro: string): OpenState {
@@ -635,7 +635,7 @@ function withoutDistro(state: OpenState, distro: string): OpenState {
     configured: state.configured.filter((item) => item.distro !== distro),
     distros: Object.fromEntries(Object.entries(state.distros).filter(([name]) => name !== distro)),
     distroProbes: Object.fromEntries(Object.entries(state.distroProbes).filter(([name]) => name !== distro)),
-    opencodeChecks: Object.fromEntries(Object.entries(state.opencodeChecks).filter(([name]) => name !== distro)),
+    wormagentChecks: Object.fromEntries(Object.entries(state.wormagentChecks).filter(([name]) => name !== distro)),
   }
 }
 

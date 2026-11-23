@@ -1,6 +1,6 @@
 import { Show, createEffect, createMemo, createSignal, on, onCleanup, untrack } from "solid-js"
-import { TextShimmer } from "@opencode/ui/text-shimmer"
-import { prefersReducedMotion } from "@opencode/ui/motion"
+import { TextShimmer } from "@wormagent/ui/text-shimmer"
+import { prefersReducedMotion } from "@wormagent/ui/motion"
 import {
   createToolStatusTitleState,
   DISPOSED_TOOL_STATUS_TITLE_EVENT,

@@ -9,7 +9,7 @@ test("lists models of a provider declared only in config", async () => {
     models: [
       {
         ...model("free"),
-        providerID: "opencode",
+        providerID: "wormagent",
         name: "Free Model",
         cost: [freeCost],
       },
@@ -33,10 +33,10 @@ test("lists models of a provider declared only in config", async () => {
           location: { directory },
           data: [
             {
-              id: "opencode",
-              name: "OpenCode",
+              id: "wormagent",
+              name: "WormAgent",
               activation: "auto",
-              package: "opencode",
+              package: "wormagent",
             },
             {
               id: "ollama",
@@ -61,7 +61,7 @@ test("opens the free models list without a connection or a configured provider",
     models: [
       {
         ...model("free"),
-        providerID: "opencode",
+        providerID: "wormagent",
         name: "Free Model",
         cost: [freeCost],
       },
@@ -72,10 +72,10 @@ test("opens the free models list without a connection or a configured provider",
           location: { directory },
           data: [
             {
-              id: "opencode",
-              name: "OpenCode",
+              id: "wormagent",
+              name: "WormAgent",
               activation: "auto",
-              package: "opencode",
+              package: "wormagent",
             },
           ],
         })

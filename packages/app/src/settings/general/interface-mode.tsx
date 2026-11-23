@@ -1,6 +1,6 @@
 import { For, Show, createUniqueId } from "solid-js"
-import { Icon } from "@opencode/ui/icon"
-import { Select } from "@opencode/ui/select"
+import { Icon } from "@wormagent/ui/icon"
+import { Select } from "@wormagent/ui/select"
 import { useLanguage } from "@/runtime/i18n/language"
 import { type TabLayout, useSettings } from "@/settings/model"
 import { SettingsRow } from "@/settings/row"

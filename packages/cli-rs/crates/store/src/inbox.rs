@@ -3,7 +3,7 @@
 use std::collections::HashSet;
 
 use indexmap::IndexMap;
-use opencode_api::generated::*;
+use wormagent_api::generated::*;
 
 use crate::changes::Touched;
 use crate::core::{Effect, List, Ticket};
@@ -326,7 +326,7 @@ fn optimistic_files(files: Option<&Vec<PromptInputFileAttachment>>) -> Option<Ve
 
 /// `Date.now()`, on the sim's clock when it sets one.
 pub(crate) fn now() -> f64 {
-    opencode_util::time::now_ms() as f64
+    wormagent_util::time::now_ms() as f64
 }
 
 impl State {
@@ -564,16 +564,16 @@ fn release_updates(state: &mut State, session: &SessionID, token: u64) -> Option
 
 #[cfg(test)]
 mod tests {
-    /// Queued prompts and optimistic sessions take their time from the sim's fixed clock (`OPENCODE_DRIVE_NOW`). A
+    /// Queued prompts and optimistic sessions take their time from the sim's fixed clock (`WORMAGENT_DRIVE_NOW`). A
     /// process reads that once, so a child of this test binary sets it.
     #[test]
     fn local_times_read_the_sim_clock() {
         const FIXED: f64 = 1_600_000_000_000.0;
-        if std::env::var_os("OPENCODE_RS_CLOCK_CHILD").is_none() {
+        if std::env::var_os("WORMAGENT_RS_CLOCK_CHILD").is_none() {
             let output = std::process::Command::new(std::env::current_exe().unwrap())
                 .args(["--exact", "inbox::tests::local_times_read_the_sim_clock"])
-                .env("OPENCODE_RS_CLOCK_CHILD", "1")
-                .env("OPENCODE_DRIVE_NOW", (FIXED as i64).to_string())
+                .env("WORMAGENT_RS_CLOCK_CHILD", "1")
+                .env("WORMAGENT_DRIVE_NOW", (FIXED as i64).to_string())
                 .output()
                 .unwrap();
             let (stdout, stderr) = (String::from_utf8_lossy(&output.stdout), String::from_utf8_lossy(&output.stderr));

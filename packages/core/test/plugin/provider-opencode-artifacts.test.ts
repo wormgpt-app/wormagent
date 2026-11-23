@@ -1,15 +1,15 @@
 import { describe, expect } from "bun:test"
 import { Effect, Layer } from "effect"
 import { TestClock } from "effect/testing"
-import { Artifact } from "@opencode/core/artifact"
-import { Credential } from "@opencode/core/credential"
-import { Flag } from "@opencode/core/flag"
-import { Integration } from "@opencode/core/integration"
-import { Plugin } from "@opencode/core/plugin"
-import { PluginHost } from "@opencode/core/plugin/host"
-import { OpencodePlugin } from "@opencode/core/plugin/provider/opencode"
-import { OpencodeArtifacts } from "@opencode/core/plugin/provider/opencode-artifacts"
-import { OpencodeWatches } from "@opencode/core/plugin/provider/opencode-watches"
+import { Artifact } from "@wormagent/core/artifact"
+import { Credential } from "@wormagent/core/credential"
+import { Flag } from "@wormagent/core/flag"
+import { Integration } from "@wormagent/core/integration"
+import { Plugin } from "@wormagent/core/plugin"
+import { PluginHost } from "@wormagent/core/plugin/host"
+import { OpencodePlugin } from "@wormagent/core/plugin/provider/wormagent"
+import { OpencodeArtifacts } from "@wormagent/core/plugin/provider/wormagent-artifacts"
+import { OpencodeWatches } from "@wormagent/core/plugin/provider/wormagent-watches"
 import { eventually } from "../lib/eventually"
 import { testEffect } from "../lib/effect"
 import { PluginTestLayer } from "./fixture"
@@ -74,7 +74,7 @@ function fakeConsole() {
       if (url.pathname.startsWith("/api/artifacts/") && request.method === "PUT") {
         const body = (await request.json()) as Record<string, unknown>
         state.published.push({ slug, body })
-        return Response.json({ url: `https://opencode.ai/console/org_1/artifacts/${slug}`, watching: false })
+        return Response.json({ url: `https://wormagent.net/console/org_1/artifacts/${slug}`, watching: false })
       }
       if (url.pathname.startsWith("/api/artifacts/") && request.method === "DELETE") {
         state.deleted.push(slug)
@@ -93,7 +93,7 @@ const withConsole = <A, E, R>(use: (console: ReturnType<typeof fakeConsole>) => 
 const start = Effect.fnUntraced(function* (console: ReturnType<typeof fakeConsole>) {
   const credentials = yield* Credential.Service
   yield* credentials.create({
-    integrationID: Integration.ID.make("opencode"),
+    integrationID: Integration.ID.make("wormagent"),
     value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: console.server.url.origin } }),
   })
   const host = yield* PluginHost.make(yield* Plugin.Service, "test")
@@ -127,7 +127,7 @@ describe("OpencodePlugin artifacts", () => {
         expect(yield* artifacts.providers()).toContainEqual(
           Artifact.Provider.make({
             id: Artifact.ProviderID.make("console"),
-            name: "OpenCode Console",
+            name: "WormAgent Console",
             capabilities: ["static"],
             default: true,
           }),
@@ -154,7 +154,7 @@ describe("OpencodePlugin artifacts", () => {
           expect(slug).toMatch(/^q3-report-[a-z0-9]{6}$/)
           expect(created).toMatchObject({
             provider: "console",
-            url: `https://opencode.ai/console/org_1/artifacts/${slug}`,
+            url: `https://wormagent.net/console/org_1/artifacts/${slug}`,
           })
           expect(console.state.uploads).toHaveLength(2)
           expect(console.state.prepared[0]).not.toHaveProperty("replace")
@@ -167,7 +167,7 @@ describe("OpencodePlugin artifacts", () => {
             title: "Q4 Report",
             files: { ...files, "index.html": "<h1>Bye</h1>" },
           })
-          expect(updated.url).toBe(`https://opencode.ai/console/org_1/artifacts/${slug}`)
+          expect(updated.url).toBe(`https://wormagent.net/console/org_1/artifacts/${slug}`)
           expect(console.state.uploads).toHaveLength(3)
           expect(console.state.prepared[1]).toMatchObject({ slug, replace: true })
           expect(console.state.published[1]).toMatchObject({
@@ -202,7 +202,7 @@ describe("OpencodePlugin artifacts", () => {
         const created = yield* artifacts.create({ title: "Report", files })
         console.state.gone = true
         const error = yield* Effect.flip(artifacts.get(created.id))
-        expect(String(error)).toContain(`OpenCode Console has no artifact named ${console.state.published[0]?.slug}`)
+        expect(String(error)).toContain(`WormAgent Console has no artifact named ${console.state.published[0]?.slug}`)
       }),
     ),
   )

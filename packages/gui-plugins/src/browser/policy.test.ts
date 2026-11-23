@@ -1,5 +1,5 @@
 import { expect, setSystemTime, test } from "bun:test"
-import { Browser } from "@opencode/plugin-browser/rpc"
+import { Browser } from "@wormagent/plugin-browser/rpc"
 import {
   agentFrame,
   agentDriven,

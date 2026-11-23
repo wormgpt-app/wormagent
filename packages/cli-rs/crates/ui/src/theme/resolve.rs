@@ -14,7 +14,7 @@ use super::color::{from_hex, is_hex};
 use super::document::{STATES, STEP_KEYS, STEPS, VARIANTS, modes};
 use super::tokens::Tokens;
 use super::{Scale, ThemeMode, Views, mode_name};
-use opencode_api_types::js::truthy;
+use wormagent_api_types::js::truthy;
 
 const SECTIONS: [&str; 7] = ["text", "background", "border", "scrollbar", "diff", "syntax", "markdown"];
 /// The document keys of [`STATES`].

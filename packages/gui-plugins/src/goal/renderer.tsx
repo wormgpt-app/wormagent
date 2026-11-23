@@ -1,8 +1,8 @@
 import { createSignal, Match, onCleanup, Show, Switch, untrack } from "solid-js"
-import { ComposerPill, createKeyed, Style, type ComposerPillProps, type Plugin } from "@opencode/plugin/gui"
-import { Goal } from "@opencode/schema/goal"
-import { Button } from "@opencode/ui/button"
-import { showToast } from "@opencode/ui/toast"
+import { ComposerPill, createKeyed, Style, type ComposerPillProps, type Plugin } from "@wormagent/plugin/gui"
+import { Goal } from "@wormagent/schema/goal"
+import { Button } from "@wormagent/ui/button"
+import { showToast } from "@wormagent/ui/toast"
 import styles from "./goal.css?inline"
 import type GoalDefinition from "./index"
 import {

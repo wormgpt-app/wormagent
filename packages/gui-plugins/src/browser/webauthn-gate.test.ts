@@ -78,7 +78,7 @@ test("ignores calls that are not the gate's own, and leaves no fixed name for a 
   const page = await gate(false)
   const other = await gate(false)
   expect(page.report).not.toBe(other.report)
-  expect(page.report).not.toMatch(/opencode|webauthn/i)
+  expect(page.report).not.toMatch(/wormagent|webauthn/i)
   page.call(JSON.stringify({ id: 1, kind: "get" }), 1, undefined, "openCodeWebAuthn")
   page.call(JSON.stringify({ id: 0, kind: "get" }))
   page.call(JSON.stringify({ id: 1, kind: "sign" }))

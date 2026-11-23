@@ -2,15 +2,15 @@ import { expect } from "bun:test"
 import { Deferred, Effect, Fiber, Layer, Queue, Scope, Sink, Stream } from "effect"
 import { ChildProcessSpawner } from "effect/process"
 import { ExitCode, makeHandle, ProcessId } from "effect/process/ChildProcessSpawner"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Config } from "@opencode/core/config"
-import { Environment } from "@opencode/core/environment/index"
-import { Location } from "@opencode/core/location"
-import { AbsolutePath } from "@opencode/core/schema"
-import { Shell } from "@opencode/core/shell"
-import { Workspace } from "@opencode/core/workspace"
-import { Global } from "@opencode/util/global"
-import { PersistentPty } from "@opencode/core/persistent-pty"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Config } from "@wormagent/core/config"
+import { Environment } from "@wormagent/core/environment/index"
+import { Location } from "@wormagent/core/location"
+import { AbsolutePath } from "@wormagent/core/schema"
+import { Shell } from "@wormagent/core/shell"
+import { Workspace } from "@wormagent/core/workspace"
+import { Global } from "@wormagent/util/global"
+import { PersistentPty } from "@wormagent/core/persistent-pty"
 import { disabledPersistentPtyLayer } from "./fixture/persistent-pty"
 import { hostEnvironmentLayer } from "./fixture/environment"
 import { tempGlobalLayer } from "./fixture/global"
@@ -156,7 +156,7 @@ it.live("does not inherit host process.env when creating a shell in a workspace-
     expect(process.env.PATH).toBeDefined()
     expect(capturedEnv).toEqual({
       TERM: "xterm-256color",
-      OPENCODE_TERMINAL: "1",
+      WORMAGENT_TERMINAL: "1",
     })
   }),
 )

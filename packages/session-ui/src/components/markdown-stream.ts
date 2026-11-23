@@ -1,5 +1,5 @@
-import { createMarkdownStream, type MarkdownBlock, type PatchmarkStream } from "@opencode/patchmark"
-import { isMathFence } from "@opencode/ui/context/marked-parser"
+import { createMarkdownStream, type MarkdownBlock, type PatchmarkStream } from "@wormagent/patchmark"
+import { isMathFence } from "@wormagent/ui/context/marked-parser"
 import { completedProjection } from "./markdown-projection"
 
 export type Block = {

@@ -1,13 +1,13 @@
 export * as Tool from "./tool.js"
-export { CallID, Content, Error, FileContent, TextContent } from "@opencode/schema/tool"
-export type { Context, Info, Metadata, Namespace, Options, Result } from "@opencode/schema/tool"
+export { CallID, Content, Error, FileContent, TextContent } from "@wormagent/schema/tool"
+export type { Context, Info, Metadata, Namespace, Options, Result } from "@wormagent/schema/tool"
 
-import { ToolDefinition, type ToolCall } from "@opencode/ai/effect"
-import type { CodeMode } from "@opencode/codemode"
-import { Tool } from "@opencode/schema/tool"
-import { isRecord } from "@opencode/util/record"
+import { ToolDefinition, type ToolCall } from "@wormagent/ai/effect"
+import type { CodeMode } from "@wormagent/codemode"
+import { Tool } from "@wormagent/schema/tool"
+import { isRecord } from "@wormagent/util/record"
 import { Context, Effect, Layer, Ref, Result, Schema, SchemaIssue, Types } from "effect"
-import { makeLocationNode } from "@opencode/util/effect/app-node"
+import { makeLocationNode } from "@wormagent/util/effect/app-node"
 import type { Agent } from "./agent.js"
 import { CodeModeCatalog } from "./codemode/catalog.js"
 import { CodeModeJob } from "./codemode/job.js"
@@ -71,7 +71,7 @@ export interface SnapshotOptions {
    * session's Location and file services.
    */
   readonly services?: Context.Context<CodeModeTool.Services>
-  /** What `opencode://` fetch sends requests through; see the `opencode_api` flag. */
+  /** What `wormagent://` fetch sends requests through; see the `wormagent_api` flag. */
   readonly api?: Context.Context<CodeModeTool.Api>
   readonly tools?: Policy
 }
@@ -118,7 +118,7 @@ export interface Snapshot {
   }) => Effect.Effect<NormalizedResult, Tool.Error>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/Tool") {}
+export class Service extends Context.Service<Service, Interface>()("@wormagent/Tool") {}
 
 const layer = Layer.effect(
   Service,

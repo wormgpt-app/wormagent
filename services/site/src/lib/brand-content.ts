@@ -4,36 +4,36 @@ import { absoluteUrl, blocks, link, type MarkdownContext } from "~/lib/markdown"
 import { brandAssets, mediaUrl } from "~/lib/media"
 // Brand files at stable public URLs (public/brand/files), so links in /brand.md and the page never
 // change between builds. The sources stay in src/asset/brand.
-const logoLightPng = "/brand/files/opencode-logo-light.png"
-const logoDarkPng = "/brand/files/opencode-logo-dark.png"
-const logoLightSquarePng = "/brand/files/opencode-logo-light-square.png"
-const logoDarkSquarePng = "/brand/files/opencode-logo-dark-square.png"
-const wordmarkLightPng = "/brand/files/opencode-wordmark-light.png"
-const wordmarkDarkPng = "/brand/files/opencode-wordmark-dark.png"
-const wordmarkSimpleLightPng = "/brand/files/opencode-wordmark-simple-light.png"
-const wordmarkSimpleDarkPng = "/brand/files/opencode-wordmark-simple-dark.png"
-const logoLightSvg = "/brand/files/opencode-logo-light.svg"
-const logoDarkSvg = "/brand/files/opencode-logo-dark.svg"
-const logoLightSquareSvg = "/brand/files/opencode-logo-light-square.svg"
-const logoDarkSquareSvg = "/brand/files/opencode-logo-dark-square.svg"
-const wordmarkLightSvg = "/brand/files/opencode-wordmark-light.svg"
-const wordmarkDarkSvg = "/brand/files/opencode-wordmark-dark.svg"
-const wordmarkSimpleLightSvg = "/brand/files/opencode-wordmark-simple-light.svg"
-const wordmarkSimpleDarkSvg = "/brand/files/opencode-wordmark-simple-dark.svg"
-const logoTransparentLightPng = "/brand/files/opencode-logo-transparent-light.png"
-const logoTransparentDarkPng = "/brand/files/opencode-logo-transparent-dark.png"
-const wordmarkTransparentLightPng = "/brand/files/opencode-wordmark-transparent-light.png"
-const wordmarkTransparentDarkPng = "/brand/files/opencode-wordmark-transparent-dark.png"
-const wordmarkSolidLightPng = "/brand/files/opencode-wordmark-solid-light.png"
-const wordmarkSolidDarkPng = "/brand/files/opencode-wordmark-solid-dark.png"
-const logoTransparentLightSvg = "/brand/files/opencode-logo-transparent-light.svg"
-const logoTransparentDarkSvg = "/brand/files/opencode-logo-transparent-dark.svg"
-const wordmarkTransparentLightSvg = "/brand/files/opencode-wordmark-transparent-light.svg"
-const wordmarkTransparentDarkSvg = "/brand/files/opencode-wordmark-transparent-dark.svg"
-const wordmarkSolidLightSvg = "/brand/files/opencode-wordmark-solid-light.svg"
-const wordmarkSolidDarkSvg = "/brand/files/opencode-wordmark-solid-dark.svg"
-const avatarDark1024Png = "/brand/files/opencode-avatar-dark-1024.png"
-const avatarLight1024Png = "/brand/files/opencode-avatar-light-1024.png"
+const logoLightPng = "/brand/files/wormagent-logo-light.png"
+const logoDarkPng = "/brand/files/wormagent-logo-dark.png"
+const logoLightSquarePng = "/brand/files/wormagent-logo-light-square.png"
+const logoDarkSquarePng = "/brand/files/wormagent-logo-dark-square.png"
+const wordmarkLightPng = "/brand/files/wormagent-wordmark-light.png"
+const wordmarkDarkPng = "/brand/files/wormagent-wordmark-dark.png"
+const wordmarkSimpleLightPng = "/brand/files/wormagent-wordmark-simple-light.png"
+const wordmarkSimpleDarkPng = "/brand/files/wormagent-wordmark-simple-dark.png"
+const logoLightSvg = "/brand/files/wormagent-logo-light.svg"
+const logoDarkSvg = "/brand/files/wormagent-logo-dark.svg"
+const logoLightSquareSvg = "/brand/files/wormagent-logo-light-square.svg"
+const logoDarkSquareSvg = "/brand/files/wormagent-logo-dark-square.svg"
+const wordmarkLightSvg = "/brand/files/wormagent-wordmark-light.svg"
+const wordmarkDarkSvg = "/brand/files/wormagent-wordmark-dark.svg"
+const wordmarkSimpleLightSvg = "/brand/files/wormagent-wordmark-simple-light.svg"
+const wordmarkSimpleDarkSvg = "/brand/files/wormagent-wordmark-simple-dark.svg"
+const logoTransparentLightPng = "/brand/files/wormagent-logo-transparent-light.png"
+const logoTransparentDarkPng = "/brand/files/wormagent-logo-transparent-dark.png"
+const wordmarkTransparentLightPng = "/brand/files/wormagent-wordmark-transparent-light.png"
+const wordmarkTransparentDarkPng = "/brand/files/wormagent-wordmark-transparent-dark.png"
+const wordmarkSolidLightPng = "/brand/files/wormagent-wordmark-solid-light.png"
+const wordmarkSolidDarkPng = "/brand/files/wormagent-wordmark-solid-dark.png"
+const logoTransparentLightSvg = "/brand/files/wormagent-logo-transparent-light.svg"
+const logoTransparentDarkSvg = "/brand/files/wormagent-logo-transparent-dark.svg"
+const wordmarkTransparentLightSvg = "/brand/files/wormagent-wordmark-transparent-light.svg"
+const wordmarkTransparentDarkSvg = "/brand/files/wormagent-wordmark-transparent-dark.svg"
+const wordmarkSolidLightSvg = "/brand/files/wormagent-wordmark-solid-light.svg"
+const wordmarkSolidDarkSvg = "/brand/files/wormagent-wordmark-solid-dark.svg"
+const avatarDark1024Png = "/brand/files/wormagent-avatar-dark-1024.png"
+const avatarLight1024Png = "/brand/files/wormagent-avatar-light-1024.png"
 
 /** The brand page copy, shared by the page and its Markdown version. */
 export function brandContent(t: Translate) {
@@ -52,9 +52,9 @@ export function brandContent(t: Translate) {
     },
     naming: {
       title: "Naming",
-      body: "Write OpenCode as one word, with a capital O and a capital C. Do not write Opencode, Open Code, OpenCode AI or Open-Code.",
+      body: "Write WormAgent as one word, with a capital O and a capital C. Do not write Opencode, Open Code, WormAgent AI or Open-Code.",
       // Names between backticks show as code.
-      code: "Use the lowercase `opencode` only in code and package names, such as `opencode-figma` or `@acme/opencode-plugin`.",
+      code: "Use the lowercase `wormagent` only in code and package names, such as `wormagent-figma` or `@acme/wormagent-plugin`.",
     },
     families: [
       {
@@ -62,18 +62,18 @@ export function brandContent(t: Translate) {
         body: "The logo on its own, for app icons, avatars and other small spaces. The square versions add padding for places that crop to a square.",
         kind: "logo",
         assets: [
-          { name: "Light", file: "opencode-logo-light", tone: "light", png: logoLightPng, svg: logoLightSvg },
-          { name: "Dark", file: "opencode-logo-dark", tone: "dark", png: logoDarkPng, svg: logoDarkSvg },
+          { name: "Light", file: "wormagent-logo-light", tone: "light", png: logoLightPng, svg: logoLightSvg },
+          { name: "Dark", file: "wormagent-logo-dark", tone: "dark", png: logoDarkPng, svg: logoDarkSvg },
           {
             name: "Square, light",
-            file: "opencode-logo-light-square",
+            file: "wormagent-logo-light-square",
             tone: "light",
             png: logoLightSquarePng,
             svg: logoLightSquareSvg,
           },
           {
             name: "Square, dark",
-            file: "opencode-logo-dark-square",
+            file: "wormagent-logo-dark-square",
             tone: "dark",
             png: logoDarkSquarePng,
             svg: logoDarkSquareSvg,
@@ -82,17 +82,17 @@ export function brandContent(t: Translate) {
       },
       {
         title: "Wordmark",
-        body: "The full name in the OpenCode letterforms. Use it wherever there is room to spell out the name.",
+        body: "The full name in the WormAgent letterforms. Use it wherever there is room to spell out the name.",
         kind: "wordmark",
         assets: [
           {
             name: "Light",
-            file: "opencode-wordmark-light",
+            file: "wormagent-wordmark-light",
             tone: "light",
             png: wordmarkLightPng,
             svg: wordmarkLightSvg,
           },
-          { name: "Dark", file: "opencode-wordmark-dark", tone: "dark", png: wordmarkDarkPng, svg: wordmarkDarkSvg },
+          { name: "Dark", file: "wormagent-wordmark-dark", tone: "dark", png: wordmarkDarkPng, svg: wordmarkDarkSvg },
         ],
       },
       {
@@ -102,14 +102,14 @@ export function brandContent(t: Translate) {
         assets: [
           {
             name: "Light",
-            file: "opencode-wordmark-simple-light",
+            file: "wormagent-wordmark-simple-light",
             tone: "light",
             png: wordmarkSimpleLightPng,
             svg: wordmarkSimpleLightSvg,
           },
           {
             name: "Dark",
-            file: "opencode-wordmark-simple-dark",
+            file: "wormagent-wordmark-simple-dark",
             tone: "dark",
             png: wordmarkSimpleDarkPng,
             svg: wordmarkSimpleDarkSvg,
@@ -124,14 +124,14 @@ export function brandContent(t: Translate) {
         {
           name: "Dark",
           tone: "light",
-          file: "opencode-avatar-dark",
+          file: "wormagent-avatar-dark",
           png: avatarDark1024Png,
           kind: "avatar",
         },
         {
           name: "Light",
           tone: "dark",
-          file: "opencode-avatar-light",
+          file: "wormagent-avatar-light",
           png: avatarLight1024Png,
           kind: "avatar",
         },
@@ -177,11 +177,11 @@ export function brandContent(t: Translate) {
                 tile(
                   "Dark",
                   "light",
-                  "opencode-logo-transparent-light",
+                  "wormagent-logo-transparent-light",
                   logoTransparentLightPng,
                   logoTransparentLightSvg,
                 ),
-                tile("Light", "dark", "opencode-logo-transparent-dark", logoTransparentDarkPng, logoTransparentDarkSvg),
+                tile("Light", "dark", "wormagent-logo-transparent-dark", logoTransparentDarkPng, logoTransparentDarkSvg),
               ],
             },
             {
@@ -190,14 +190,14 @@ export function brandContent(t: Translate) {
                 tile(
                   "Dark",
                   "light",
-                  "opencode-wordmark-transparent-light",
+                  "wormagent-wordmark-transparent-light",
                   wordmarkTransparentLightPng,
                   wordmarkTransparentLightSvg,
                 ),
                 tile(
                   "Light",
                   "dark",
-                  "opencode-wordmark-transparent-dark",
+                  "wormagent-wordmark-transparent-dark",
                   wordmarkTransparentDarkPng,
                   wordmarkTransparentDarkSvg,
                 ),
@@ -213,8 +213,8 @@ export function brandContent(t: Translate) {
             {
               title: "Wordmark",
               tiles: [
-                tile("Dark", "light", "opencode-wordmark-solid-light", wordmarkSolidLightPng, wordmarkSolidLightSvg),
-                tile("Light", "dark", "opencode-wordmark-solid-dark", wordmarkSolidDarkPng, wordmarkSolidDarkSvg),
+                tile("Dark", "light", "wormagent-wordmark-solid-light", wordmarkSolidLightPng, wordmarkSolidLightSvg),
+                tile("Light", "dark", "wormagent-wordmark-solid-dark", wordmarkSolidDarkPng, wordmarkSolidDarkSvg),
               ],
             },
           ],
@@ -300,23 +300,23 @@ export function brandContent(t: Translate) {
     },
     integrations: {
       title: "Integrations",
-      body: "Plugins, providers and tools that work with OpenCode, and projects built with it, can say so. Use a badge or a partner lockup, and name your project so it is clear that it is yours.",
+      body: "Plugins, providers and tools that work with WormAgent, and projects built with it, can say so. Use a badge or a partner lockup, and name your project so it is clear that it is yours.",
       badges: {
-        body: "Put a badge in your README, docs or website and link it to opencode.ai. Pick the light or dark file for your background (the HTML switches by itself), and do not change the colors or the text.",
+        body: "Put a badge in your README, docs or website and link it to wormagent.net. Pick the light or dark file for your background (the HTML switches by itself), and do not change the colors or the text.",
         sizes: "Every style comes in 20, 32 and 44px (Shields only in 20px), as SVG and as PNG at 2×.",
-        mono: "Each file also comes with OpenTUI Mono text. Add -mono before the extension, as in opencode-works-with-a-light-20-mono.svg, or -mono-caps for uppercase OpenTUI Mono.",
+        mono: "Each file also comes with OpenTUI Mono text. Add -mono before the extension, as in wormagent-works-with-a-light-20-mono.svg, or -mono-caps for uppercase OpenTUI Mono.",
         groups: [
           {
             label: "works-with",
             title: "Works with",
-            alt: "Works with OpenCode",
-            body: "For plugins, providers and tools that run with OpenCode.",
+            alt: "Works with WormAgent",
+            body: "For plugins, providers and tools that run with WormAgent.",
           },
           {
             label: "built-with",
             title: "Built with",
-            alt: "Built with OpenCode",
-            body: "For projects made with OpenCode.",
+            alt: "Built with WormAgent",
+            body: "For projects made with WormAgent.",
           },
         ],
         // The styles David picked from the badge options (A, C, F, G); G is shields.io "flat", 20px only.
@@ -329,19 +329,19 @@ export function brandContent(t: Translate) {
       },
       lockup: {
         title: "Partner lockup",
-        body: "Put the OpenCode logo and the partner logo side by side, with a × between them. Leave 3 strokes of space on each side of the ×, size the partner logo to look as tall as the OpenCode logo, and keep clear space around the whole lockup.",
+        body: "Put the WormAgent logo and the partner logo side by side, with a × between them. Leave 3 strokes of space on each side of the ×, size the partner logo to look as tall as the WormAgent logo, and keep clear space around the whole lockup.",
         partners: [{ name: "GitHub", tones: ["light", "dark"] }],
       },
       naming: {
         title: "Naming your project",
         body: "Lead with your own name, so it is clear that the project is yours.",
         // Names between backticks show as code.
-        rule: "Write `Linear for OpenCode` or name the package `opencode-linear`. Do not write `OpenCode Linear` or `Linear by OpenCode`.",
+        rule: "Write `Linear for WormAgent` or name the package `wormagent-linear`. Do not write `WormAgent Linear` or `Linear by WormAgent`.",
       },
     },
     trademarks: {
       title: "Trademarks",
-      body: "OpenCode and the OpenCode logo are trademarks of Anomaly. Do not use them to suggest that Anomaly endorses or sponsors you, in your product or company name, or on merchandise without permission.",
+      body: "WormAgent and the WormAgent logo are trademarks of WormGPT. Do not use them to suggest that WormGPT endorses or sponsors you, in your product or company name, or on merchandise without permission.",
       contact: { before: "For questions, email ", email: pressEmail, after: "." },
     },
   }
@@ -384,7 +384,7 @@ export function badgeFile(
   extension: "svg" | "png",
   font: BadgeFont = "sans",
 ) {
-  return `/brand/badges/opencode-${label}-${style}-${theme}-${size}${fontSuffix(font)}.${extension}`
+  return `/brand/badges/wormagent-${label}-${style}-${theme}-${size}${fontSuffix(font)}.${extension}`
 }
 
 /**
@@ -393,11 +393,11 @@ export function badgeFile(
  */
 export function badgeZip(label: string, style?: string, font: BadgeFont = "sans", theme?: string) {
   return mediaUrl(
-    `/brand/badges/opencode-${label}${style ? `-${style}` : ""}${theme ? `-${theme}` : ""}${fontSuffix(font)}.zip`,
+    `/brand/badges/wormagent-${label}${style ? `-${style}` : ""}${theme ? `-${theme}` : ""}${fontSuffix(font)}.zip`,
   )
 }
 
-/** The Markdown for a README: one badge (light by default), linked to opencode.ai. */
+/** The Markdown for a README: one badge (light by default), linked to wormagent.net. */
 export function badgeMarkdown(
   label: string,
   alt: string,
@@ -406,13 +406,13 @@ export function badgeMarkdown(
   font: BadgeFont = "sans",
   theme = "light",
 ) {
-  return `[![${alt}](${absoluteUrl(badgeFile(label, style, theme, size, "svg", font))})](https://opencode.ai)`
+  return `[![${alt}](${absoluteUrl(badgeFile(label, style, theme, size, "svg", font))})](https://wormagent.net)`
 }
 
 /** The HTML for GitHub and websites: the dark file where the reader's color scheme is dark. */
 export function badgeHtml(label: string, alt: string, style: string, size: number, font: BadgeFont = "sans") {
   return [
-    `<a href="https://opencode.ai">`,
+    `<a href="https://wormagent.net">`,
     `  <picture>`,
     `    <source media="(prefers-color-scheme: dark)" srcset="${absoluteUrl(badgeFile(label, style, "dark", size, "svg", font))}">`,
     `    <img alt="${alt}" src="${absoluteUrl(badgeFile(label, style, "light", size, "svg", font))}" height="${size}">`,
@@ -539,9 +539,9 @@ export function brandMarkdown(context: MarkdownContext) {
 // For agents only: the "Rules for agent" copy and /brand.md end with it, and the page doesn't show it.
 // The values are the shared interface scale in site.css (--grey-1 to --grey-11), kept in step by
 // script/check-greys.ts, and the type tokens there (--fs-*). Change them together.
-const brandAgentStyle = `## Making it look like OpenCode
+const brandAgentStyle = `## Making it look like WormAgent
 
-For agents that make a page, a slide, a document or an interface that should look like OpenCode. Partners who only use the logo can skip it.
+For agents that make a page, a slide, a document or an interface that should look like WormAgent. Partners who only use the logo can skip it.
 
 ### Color
 
@@ -586,6 +586,6 @@ Use one grey scale. Each step has one job, the same in light and dark. Use no ot
 
 ### Writing
 
-- Write OpenCode as one word with a capital O and C. Call it an "open source coding agent".
+- Write WormAgent as one word with a capital O and C. Call it an "open source coding agent".
 - Write statements, not rhetorical questions, and use no colons in headings, buttons or captions.
 - Write short, plain sentences.`

@@ -1,4 +1,4 @@
-import type { SessionMessageAssistant } from "@opencode/client/promise"
+import type { SessionMessageAssistant } from "@wormagent/client/promise"
 import { Match, Switch } from "solid-js"
 import { AssistantTextContent } from "../../message/message-content"
 import {

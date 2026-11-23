@@ -1,7 +1,7 @@
 export * as AutomationCode from "./code.js"
 
-import { CodeMode } from "@opencode/codemode"
-import { Automation } from "@opencode/schema/automation"
+import { CodeMode } from "@wormagent/codemode"
+import { Automation } from "@wormagent/schema/automation"
 import { Array, Effect, Option, Result, Schema } from "effect"
 import { Agent } from "../agent.js"
 import { CodeModeTool } from "../codemode/tool.js"
@@ -39,7 +39,7 @@ const FORBIDDEN_TOOLS = new Set([
   "automation.pause",
   "automation.resume",
   "automation.delete",
-  "opencode.session.move",
+  "wormagent.session.move",
 ])
 
 export interface RunInput {

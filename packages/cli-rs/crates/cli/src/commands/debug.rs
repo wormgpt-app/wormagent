@@ -1,14 +1,14 @@
-use opencode_api::client::Client;
-use opencode_api::error::Error as ApiError;
-use opencode_api::generated::types::{AgentListInput, ConfigGetInput, DebugHeapDumpInput};
-use opencode_api::transport::{Reqwest, Transport};
-use opencode_local::channel::Channels;
-use opencode_local::paths::Paths;
-use opencode_service::connect::{self, Env, Options};
-use opencode_service::discover;
-use opencode_service::probe::Endpoint;
-use opencode_util::path::{Flavor, strip_verbatim};
-use opencode_util::{bail, err, error};
+use wormagent_api::client::Client;
+use wormagent_api::error::Error as ApiError;
+use wormagent_api::generated::types::{AgentListInput, ConfigGetInput, DebugHeapDumpInput};
+use wormagent_api::transport::{Reqwest, Transport};
+use wormagent_local::channel::Channels;
+use wormagent_local::paths::Paths;
+use wormagent_service::connect::{self, Env, Options};
+use wormagent_service::discover;
+use wormagent_service::probe::Endpoint;
+use wormagent_util::path::{Flavor, strip_verbatim};
+use wormagent_util::{bail, err, error};
 use regex::Regex;
 use serde_json::Value;
 use std::path::Path;
@@ -74,7 +74,7 @@ fn redact_entry(key: &str, item: &Value, headers: bool) -> Value {
         }
         let lower = text.get(..8).unwrap_or(text).to_ascii_lowercase();
         if lower.starts_with("http://") || lower.starts_with("https://") {
-            let Ok(url) = opencode_api::js::parse_url(text) else { return hidden() };
+            let Ok(url) = wormagent_api::js::parse_url(text) else { return hidden() };
             if !url.username().is_empty()
                 || url.password().is_some()
                 || url.query_pairs().any(|(name, _)| SECRET_NAME.is_match(&name))
@@ -240,11 +240,11 @@ fn paths(args: &PathsArgs) -> error::Result<()> {
 }
 
 fn database(data: &Path) -> String {
-    let filename = std::env::var("OPENCODE_DB").unwrap_or_else(|_| {
+    let filename = std::env::var("WORMAGENT_DB").unwrap_or_else(|_| {
         let channel = Channels::from_env().channel;
-        let disabled = matches!(std::env::var("OPENCODE_DISABLE_CHANNEL_DB").as_deref(), Ok("1" | "true"));
+        let disabled = matches!(std::env::var("WORMAGENT_DISABLE_CHANNEL_DB").as_deref(), Ok("1" | "true"));
         if disabled || matches!(channel.as_str(), "latest" | "dev" | "beta" | "next" | "prod") {
-            return "opencode.db".to_owned();
+            return "wormagent.db".to_owned();
         }
         let safe: String = channel
             .chars()
@@ -253,7 +253,7 @@ fn database(data: &Path) -> String {
                 false => '-',
             })
             .collect();
-        format!("opencode-{safe}.db")
+        format!("wormagent-{safe}.db")
     });
     if filename == ":memory:" {
         return filename;

@@ -13,14 +13,14 @@ use std::rc::Rc;
 use std::sync::Arc;
 use std::time::Duration;
 
-use opencode_api::memory::{Memory, Route as MemoryRoute};
+use wormagent_api::memory::{Memory, Route as MemoryRoute};
 #[cfg(luau)]
-use opencode_plugin::Status;
+use wormagent_plugin::Status;
 #[cfg(luau)]
-use opencode_plugin::loader::{Configured, Loader};
+use wormagent_plugin::loader::{Configured, Loader};
 #[cfg(luau)]
-use opencode_tui::plugins::host::host;
-use opencode_tui::{Deps, Route};
+use wormagent_tui::plugins::host::host;
+use wormagent_tui::{Deps, Route};
 use serde_json::{Value, json};
 
 const MACHINES: &str = include_str!("../../../../parity/machines/plugins.json");
@@ -37,18 +37,18 @@ struct Life {
     init: PathBuf,
     target: String,
     builds: Cell<u8>,
-    _root: opencode_util::temp::TempDir,
+    _root: wormagent_util::temp::TempDir,
 }
 
 #[cfg(luau)]
 impl Life {
     fn open(project: bool, failing: bool) -> Self {
         let harness = support::mount(80, 24, Deps { route: Route::Home, ..support::deps(Arc::new(support::empty())) });
-        let root = opencode_util::temp::tempdir().unwrap();
+        let root = wormagent_util::temp::tempdir().unwrap();
         // The project root, so the loader looks for plugins in this directory and none above it.
         std::fs::create_dir(root.path().join(".git")).unwrap();
         let config = root.path().join("config");
-        let plugins = if project { root.path().join(".opencode/plugins") } else { config.join("plugins") };
+        let plugins = if project { root.path().join(".wormagent/plugins") } else { config.join("plugins") };
         let copy = |name: &str| {
             let dir = plugins.join(format!("parity.{name}"));
             std::fs::create_dir_all(&dir).unwrap();

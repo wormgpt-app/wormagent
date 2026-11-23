@@ -61,7 +61,7 @@ test("reads a Chromium history: visited web pages, most used and most recent fir
   const source = await database("History", (db) => {
     db.exec(CHROMIUM_URLS)
     const insert = db.prepare("INSERT INTO urls (url, title, visit_count, typed_count, last_visit_time, hidden) VALUES (?, ?, ?, ?, ?, ?)")
-    insert.run("https://github.com/anomalyco/rune-desktop", "anomalyco/rune-desktop", 40, 2, chromiumTime(1), 0)
+    insert.run("https://github.com/wormgpt-app/rune-desktop", "wormgpt-app/rune-desktop", 40, 2, chromiumTime(1), 0)
     insert.run("https://old.test/guide", "Guide", 40, 2, chromiumTime(300), 0)
     insert.run("http://localhost:3000/", "Local app", 1, 0, chromiumTime(0), 0)
     // What an import never brings: other schemes, credentials, an address too long, a hidden row, no visit.
@@ -78,12 +78,12 @@ test("reads a Chromium history: visited web pages, most used and most recent fir
   })
 
   expect(await readChromiumHistory(source.file, source.scratch, { now: NOW })).toEqual([
-    { url: "https://github.com/anomalyco/rune-desktop", title: "anomalyco/rune-desktop", visits: 40, typed: 2, visited: NOW - DAY },
+    { url: "https://github.com/wormgpt-app/rune-desktop", title: "wormgpt-app/rune-desktop", visits: 40, typed: 2, visited: NOW - DAY },
     { url: "https://old.test/guide", title: "Guide", visits: 40, typed: 2, visited: NOW - 300 * DAY },
     { url: "https://damaged.test/title", title: "", visits: 2, typed: 0, visited: NOW - 5 * DAY },
     { url: "http://localhost:3000/", title: "Local app", visits: 1, typed: 0, visited: NOW },
   ])
-  expect((await readdir(source.scratch.directory)).filter((entry) => entry.startsWith("opencode-browser-import-"))).toEqual([])
+  expect((await readdir(source.scratch.directory)).filter((entry) => entry.startsWith("wormagent-browser-import-"))).toEqual([])
 })
 
 test("reads a Chromium history that lacks the optional columns, and nothing from one without addresses", async () => {
@@ -137,9 +137,9 @@ test("reads a Safari history: each page with its latest visit's title and time",
     db.exec(SAFARI_TABLES)
     const item = db.prepare("INSERT INTO history_items (id, url, visit_count, daily_visit_counts, should_recompute_derived_visit_counts, visit_count_score) VALUES (?, ?, ?, x'', 0, 0)")
     const visit = db.prepare("INSERT INTO history_visits (history_item, visit_time, title) VALUES (?, ?, ?)")
-    item.run(1, "https://github.com/anomalyco/rune-desktop", 3)
+    item.run(1, "https://github.com/wormgpt-app/rune-desktop", 3)
     visit.run(1, safariTime(9), "Loading…")
-    visit.run(1, safariTime(1), "anomalyco/rune-desktop")
+    visit.run(1, safariTime(1), "wormgpt-app/rune-desktop")
     visit.run(1, safariTime(4), null)
     item.run(2, "https://www.apple.com/", 1)
     visit.run(2, safariTime(20), "Apple")
@@ -150,7 +150,7 @@ test("reads a Safari history: each page with its latest visit's title and time",
   })
 
   expect(await readSafariHistory(source.file, source.scratch, { now: NOW })).toEqual([
-    { url: "https://github.com/anomalyco/rune-desktop", title: "anomalyco/rune-desktop", visits: 3, typed: 0, visited: NOW - DAY },
+    { url: "https://github.com/wormgpt-app/rune-desktop", title: "wormgpt-app/rune-desktop", visits: 3, typed: 0, visited: NOW - DAY },
     { url: "https://www.apple.com/", title: "Apple", visits: 1, typed: 0, visited: NOW - 20 * DAY },
   ])
 })
@@ -166,7 +166,7 @@ test("a profile's history comes from Firefox's own table, and with chosen sites 
   if ("failure" in all) throw new Error(`The made-up profile did not read: ${all.failure}`)
   // The bookmark never visited and the hidden redirect hop stay behind; a page without a title has none.
   expect(all.map((page) => [page.url, page.title, page.visits, page.typed])).toEqual([
-    ["https://github.com/anomalyco/rune-desktop", "anomalyco/rune-desktop", 12, 1],
+    ["https://github.com/wormgpt-app/rune-desktop", "wormgpt-app/rune-desktop", 12, 1],
     ["https://www.bank.test/accounts", "", 2, 0],
     ["https://github.com/", "GitHub", 3, 0],
   ])

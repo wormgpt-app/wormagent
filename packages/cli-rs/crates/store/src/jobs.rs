@@ -3,7 +3,7 @@
 use std::collections::HashSet;
 
 use indexmap::IndexMap;
-use opencode_api::generated::*;
+use wormagent_api::generated::*;
 
 use crate::changes::Touched;
 use crate::core::{Effect, Jobs, Ticket};

@@ -1,14 +1,14 @@
 import { expect } from "bun:test"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Database } from "@opencode/core/database/database"
-import { Environment } from "@opencode/core/environment/index"
-import { Identity } from "@opencode/core/machine/identity"
-import { Join } from "@opencode/core/machine/join"
-import { Machine } from "@opencode/core/machine/index"
-import { Machines } from "@opencode/core/machine/machines"
-import { Global } from "@opencode/util/global"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { MachineTable } from "@opencode/core/machine/sql"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Database } from "@wormagent/core/database/database"
+import { Environment } from "@wormagent/core/environment/index"
+import { Identity } from "@wormagent/core/machine/identity"
+import { Join } from "@wormagent/core/machine/join"
+import { Machine } from "@wormagent/core/machine/index"
+import { Machines } from "@wormagent/core/machine/machines"
+import { Global } from "@wormagent/util/global"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { MachineTable } from "@wormagent/core/machine/sql"
 import { eq } from "drizzle-orm"
 import { randomBytes } from "node:crypto"
 import path from "node:path"
@@ -63,7 +63,7 @@ const buildLayers = (directory: string, replacements: LayerNode.Replacements) =>
   ])
 
 const tempLayers = (directory: string) =>
-  buildLayers(directory, [Database.node.replace(Database.configured({ path: path.join(directory, "opencode.db") }))])
+  buildLayers(directory, [Database.node.replace(Database.configured({ path: path.join(directory, "wormagent.db") }))])
 
 // Holds the first write of a `join` or the delete of a `remove` so a test can interleave another call while it waits.
 const holdBuilder = <T extends object>(
@@ -107,7 +107,7 @@ const gatedDatabase = (directory: string, gate: Deferred.Deferred<void>, entered
     }),
   ).pipe(
     Layer.provide(
-      Database.layer({ path: path.join(directory, "opencode.db") }).pipe(
+      Database.layer({ path: path.join(directory, "wormagent.db") }).pipe(
         Layer.provide(Layer.succeed(Global.Service, Global.make({ data: directory, state: directory }))),
       ),
     ),
@@ -529,7 +529,7 @@ it.effect("refuses an invite whose machine is paired while it loads the home key
     const gate = yield* Deferred.make<void>()
     const entered = yield* Deferred.make<void>()
     const layers = buildLayers(tmp.path, [
-      Database.node.replace(Database.configured({ path: path.join(tmp.path, "opencode.db") })),
+      Database.node.replace(Database.configured({ path: path.join(tmp.path, "wormagent.db") })),
       Identity.node.replace(gatedIdentity(new Uint8Array(32).fill(5), gate, entered)),
     ])
     yield* Effect.scoped(

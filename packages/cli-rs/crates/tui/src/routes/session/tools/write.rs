@@ -54,7 +54,7 @@ impl Write {
             width: content_width(cx),
         });
         let path = path.unwrap_or_default();
-        let content = opencode_ui::tool_info::WriteInput(props.input).content().text();
+        let content = wormagent_ui::tool_info::WriteInput(props.input).content().text();
         let shown = fingerprint(&(content, path, props.metadata.get("diagnostics")));
         if self.shown.get() == Some(shown) {
             return;
@@ -63,8 +63,8 @@ impl Write {
         children.clear();
         self.paints.clear();
         let filetype = opentui::syntax::filetype_for_path(path);
-        let code = opencode_ui::code::view_painted(cx.app, cx.theme, filetype, content, &self.paints);
-        let numbered = opencode_ui::code::numbered(cx.app, cx.theme, &code);
+        let code = wormagent_ui::code::view_painted(cx.app, cx.theme, filetype, content, &self.paints);
+        let numbered = wormagent_ui::code::numbered(cx.app, cx.theme, &code);
         children.add(&numbered);
         self.paints.keep(move |theme| {
             numbered.fg(theme.text.muted);

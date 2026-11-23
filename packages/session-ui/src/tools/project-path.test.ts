@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { getDirectory } from "@opencode/util/path"
+import { getDirectory } from "@wormagent/util/path"
 import { relativizeProjectPath } from "./project-path"
 
 describe("relativizeProjectPath", () => {

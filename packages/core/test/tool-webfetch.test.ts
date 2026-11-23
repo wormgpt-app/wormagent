@@ -2,16 +2,16 @@ import { describe, expect, test } from "bun:test"
 import { Duration, Effect, Fiber, Layer, Schema } from "effect"
 import * as TestClock from "effect/testing/TestClock"
 import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Config } from "@opencode/core/config"
-import { Flag } from "@opencode/core/flag"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { LayerNodePlatform } from "@opencode/util/effect/app-node-platform"
-import { Permission } from "@opencode/core/permission"
-import { Session } from "@opencode/core/session"
-import { Tool } from "@opencode/core/tool"
-import { WebFetchTool } from "@opencode/core/tool/plugin/webfetch"
-import { makeLocationNode } from "@opencode/util/effect/app-node"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Config } from "@wormagent/core/config"
+import { Flag } from "@wormagent/core/flag"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { LayerNodePlatform } from "@wormagent/util/effect/app-node-platform"
+import { Permission } from "@wormagent/core/permission"
+import { Session } from "@wormagent/core/session"
+import { Tool } from "@wormagent/core/tool"
+import { WebFetchTool } from "@wormagent/core/tool/plugin/webfetch"
+import { makeLocationNode } from "@wormagent/util/effect/app-node"
 import { testEffect } from "./lib/effect"
 import { permissionLayer } from "./lib/permission"
 import { toolIdentity, executeTool, registerToolPlugin, toolDefinitions, toolNodeReplacements } from "./lib/tool"
@@ -24,7 +24,7 @@ const webFetchToolNode = makeLocationNode({
 
 const sessionID = Session.ID.make("ses_webfetch_test")
 const webFetchUserAgent =
-  "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; OpenCode-User/1.0; +https://opencode.ai"
+  "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; WormAgent-User/1.0; +https://wormagent.net"
 const requests: Array<{ readonly url: string; readonly headers: Record<string, string> }> = []
 const assertions: Permission.AssertInput[] = []
 const checks: Permission.AssertInput[] = []
@@ -698,7 +698,7 @@ describe("WebFetchTool registration", () => {
       })
       expect(requests).toHaveLength(2)
       expect(requests[0]?.headers["user-agent"]).toBe(webFetchUserAgent)
-      expect(requests[1]?.headers["user-agent"]).toBe("opencode")
+      expect(requests[1]?.headers["user-agent"]).toBe("wormagent")
     }),
   )
 

@@ -5,37 +5,37 @@ test.each([
   {
     channel: "dev",
     packaged: true,
-    appName: "OpenCode Dev",
-    appID: "ai.opencode.desktop.dev",
-    appUserModelID: "ai.opencode.desktop.dev",
+    appName: "WormAgent Dev",
+    appID: "ai.wormagent.desktop.dev",
+    appUserModelID: "ai.wormagent.desktop.dev",
   },
   {
     channel: "beta",
     packaged: true,
-    appName: "OpenCode Beta",
-    appID: "ai.opencode.desktop.beta",
-    appUserModelID: "ai.opencode.desktop.beta",
+    appName: "WormAgent Beta",
+    appID: "ai.wormagent.desktop.beta",
+    appUserModelID: "ai.wormagent.desktop.beta",
   },
   {
     channel: "prod",
     packaged: true,
-    appName: "OpenCode",
-    appID: "ai.opencode.desktop",
-    appUserModelID: "ai.opencode.desktop",
+    appName: "WormAgent",
+    appID: "ai.wormagent.desktop",
+    appUserModelID: "ai.wormagent.desktop",
   },
   {
     channel: "local",
     packaged: false,
-    appName: "OpenCode Dev",
-    appID: "ai.opencode.desktop.dev",
-    appUserModelID: "ai.opencode.desktop.local",
+    appName: "WormAgent Dev",
+    appID: "ai.wormagent.desktop.dev",
+    appUserModelID: "ai.wormagent.desktop.local",
   },
   {
     channel: "dev",
     packaged: false,
-    appName: "OpenCode Dev",
-    appID: "ai.opencode.desktop.dev",
-    appUserModelID: "ai.opencode.desktop.local",
+    appName: "WormAgent Dev",
+    appID: "ai.wormagent.desktop.dev",
+    appUserModelID: "ai.wormagent.desktop.local",
   },
 ] as const)(
   "identity for $channel (packaged=$packaged) isolates unpackaged AUMID from installed channels",
@@ -44,24 +44,24 @@ test.each([
   },
 )
 
-const installedExe = "C:\\Users\\user\\AppData\\Local\\Programs\\ai.opencode.desktop.dev\\OpenCode Dev.exe"
+const installedExe = "C:\\Users\\user\\AppData\\Local\\Programs\\ai.wormagent.desktop.dev\\WormAgent Dev.exe"
 
 const devElectron = "D:\\repo\\node_modules\\electron\\dist\\electron.exe"
 
 test.each([
   {
     name: "unpackaged Electron.lnk claiming the installed dev AUMID",
-    shortcut: { appUserModelId: "ai.opencode.desktop.dev", target: devElectron },
+    shortcut: { appUserModelId: "ai.wormagent.desktop.dev", target: devElectron },
     expected: true,
   },
   {
     name: "case-insensitive AUMID match",
-    shortcut: { appUserModelId: "AI.OpenCode.Desktop.Dev", target: devElectron },
+    shortcut: { appUserModelId: "AI.WormAgent.Desktop.Dev", target: devElectron },
     expected: true,
   },
   {
     name: "unpackaged Electron.lnk with the isolated local AUMID",
-    shortcut: { appUserModelId: "ai.opencode.desktop.local", target: devElectron },
+    shortcut: { appUserModelId: "ai.wormagent.desktop.local", target: devElectron },
     expected: false,
   },
   {
@@ -76,9 +76,9 @@ test.each([
   },
   {
     name: "shortcut targeting the installed executable itself",
-    shortcut: { appUserModelId: "ai.opencode.desktop.dev", target: installedExe.toLowerCase() },
+    shortcut: { appUserModelId: "ai.wormagent.desktop.dev", target: installedExe.toLowerCase() },
     expected: false,
   },
 ])("isCollidingDevShortcut returns $expected for $name", ({ shortcut, expected }) => {
-  expect(isCollidingDevShortcut(shortcut, "ai.opencode.desktop.dev", installedExe)).toBe(expected)
+  expect(isCollidingDevShortcut(shortcut, "ai.wormagent.desktop.dev", installedExe)).toBe(expected)
 })

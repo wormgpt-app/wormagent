@@ -1,19 +1,19 @@
 import { describe, expect } from "bun:test"
 import { Context, Effect, Layer } from "effect"
 import type { HttpClientError } from "effect/http"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Config } from "@opencode/core/config"
-import { Flag } from "@opencode/core/flag"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { Permission } from "@opencode/core/permission"
-import { KV } from "@opencode/core/kv"
-import { Form } from "@opencode/core/form"
-import { WebSearch } from "@opencode/core/websearch"
-import { Session } from "@opencode/core/session"
-import { toSessionError } from "@opencode/core/session/to-session-error"
-import { Tool } from "@opencode/core/tool"
-import { WebSearchTool } from "@opencode/core/tool/plugin/websearch"
-import { makeLocationNode } from "@opencode/util/effect/app-node"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Config } from "@wormagent/core/config"
+import { Flag } from "@wormagent/core/flag"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { Permission } from "@wormagent/core/permission"
+import { KV } from "@wormagent/core/kv"
+import { Form } from "@wormagent/core/form"
+import { WebSearch } from "@wormagent/core/websearch"
+import { Session } from "@wormagent/core/session"
+import { toSessionError } from "@wormagent/core/session/to-session-error"
+import { Tool } from "@wormagent/core/tool"
+import { WebSearchTool } from "@wormagent/core/tool/plugin/websearch"
+import { makeLocationNode } from "@wormagent/util/effect/app-node"
 import { testEffect } from "./lib/effect"
 import { permissionLayer } from "./lib/permission"
 import { toolIdentity, executeTool, registerToolPlugin, toolDefinitions, toolNodeReplacements } from "./lib/tool"
@@ -237,7 +237,7 @@ describe("WebSearchTool registration", () => {
           fields: [
             {
               key: "choice",
-              description: "Allow OpenCode to search the web for up-to-date information?",
+              description: "Allow WormAgent to search the web for up-to-date information?",
               type: "string",
               required: true,
               custom: false,

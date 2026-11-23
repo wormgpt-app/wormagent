@@ -1,4 +1,4 @@
-// anomalyco/opentui#2056 tells a text-sizing probe reply (row 2) from a modified F3 key (`CSI 1;m R`). The settings
+// wormgpt-app/opentui#2056 tells a text-sizing probe reply (row 2) from a modified F3 key (`CSI 1;m R`). The settings
 // dialog is bound to Shift+F3. After startup the terminal sends the legacy form `CSI 1;2R`, which TS opens the dialog
 // on since Core 0.9.4 and Rust reads as a reply under the Kitty protocol (parity/deviations/OT094-legacy-shift-f3.md),
 // then the Kitty form `CSI 13;2~`, which both open it on.
@@ -8,7 +8,7 @@ import { home, homeMasks } from "./home"
 const config = JSON.stringify({
   experimental: { "new-designs": true },
   debug: { devtools: false },
-  keybinds: { "opencode.settings": "shift+f3" },
+  keybinds: { "wormagent.settings": "shift+f3" },
 })
 
 export default definePty({
@@ -16,7 +16,7 @@ export default definePty({
   cols: 100,
   rows: 30,
   ...home,
-  env: { OPENCODE_CLI_CONFIG_CONTENT: config },
+  env: { WORMAGENT_CLI_CONFIG_CONTENT: config },
   steps: [
     { until: { screen: "█▀▀█" }, settle: 500, timeout: 30_000 },
     {

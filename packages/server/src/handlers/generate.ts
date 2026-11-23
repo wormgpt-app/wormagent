@@ -1,8 +1,8 @@
-import { Generate } from "@opencode/core/generate"
-import { VideoGeneration } from "@opencode/core/video-generation"
-import { Location } from "@opencode/core/location"
-import { LocationServiceMap } from "@opencode/core/location-services"
-import { AbsolutePath } from "@opencode/core/schema"
+import { Generate } from "@wormagent/core/generate"
+import { VideoGeneration } from "@wormagent/core/video-generation"
+import { Location } from "@wormagent/core/location"
+import { LocationServiceMap } from "@wormagent/core/location-services"
+import { AbsolutePath } from "@wormagent/core/schema"
 import {
   VideoNotFoundError,
   InvalidRequestError,
@@ -10,10 +10,10 @@ import {
   ProviderRequestError,
   ServiceUnavailableError,
   UnsupportedModelError,
-} from "@opencode/protocol/errors"
-import type { DecisionRequest, VideoID, ImageRequest, VideoRequest } from "@opencode/schema/generate"
-import { Global } from "@opencode/util/global"
-import { Model } from "@opencode/schema/model"
+} from "@wormagent/protocol/errors"
+import type { DecisionRequest, VideoID, ImageRequest, VideoRequest } from "@wormagent/schema/generate"
+import { Global } from "@wormagent/util/global"
+import { Model } from "@wormagent/schema/model"
 import { Effect } from "effect"
 import { HttpApiBuilder } from "effect/http-api"
 import { Api } from "../api"

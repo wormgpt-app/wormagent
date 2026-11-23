@@ -126,7 +126,7 @@ mod tests {
     /// is written after finish, which returns the path each time.
     #[test]
     fn frames_become_a_timeline() {
-        let directory = opencode_util::temp::tempdir().unwrap();
+        let directory = wormagent_util::temp::tempdir().unwrap();
         let path = directory.path().join("media").join("recording.jsonl");
         let mut recorder = Recorder::create(&path, 2, 1).unwrap();
         let red = Color::rgb(255, 0, 0);

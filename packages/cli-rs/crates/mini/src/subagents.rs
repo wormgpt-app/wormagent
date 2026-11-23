@@ -4,13 +4,13 @@
 use std::collections::VecDeque;
 
 use indexmap::{IndexMap, IndexSet};
-use opencode_api::generated::{
+use wormagent_api::generated::{
     FormInfo, PromptFileAttachment, SessionInboxInfo, SessionInboxItem, SessionInfo,
     SessionMessageAssistantContentItem as ContentItem, SessionMessageAssistantToolState as ToolPartState,
     SessionMessageAssistantToolTime, SessionMessageToolStateCompleted, SessionMessageToolStateError,
     SessionMessageToolStateRunning, SessionMessageToolStateStreaming, tag,
 };
-use opencode_ui::tool_info::{ToolKind, titlecase, tool_display_content, tool_output_text};
+use wormagent_ui::tool_info::{ToolKind, titlecase, tool_display_content, tool_output_text};
 
 use crate::footers::permission::Request;
 use crate::prelude::*;

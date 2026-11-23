@@ -1,11 +1,11 @@
 use std::collections::HashSet;
 use std::sync::{Arc, LazyLock};
 
-use opencode_api::client::Client;
-use opencode_api::generated::{
+use wormagent_api::client::Client;
+use wormagent_api::generated::{
     FormID, FormValue, SessionFormCancelInput, SessionFormReplyInput, SessionID, SessionInterruptInput,
 };
-use opencode_util::json_object;
+use wormagent_util::json_object;
 use regex::Regex;
 use serde_json::{Map, Value, json};
 
@@ -183,7 +183,7 @@ fn field_answer(field: &Value, content: &Map<String, Value>) -> Option<Value> {
     let custom = content
         .get(&custom_key(field))
         .and_then(Value::as_str)
-        .filter(|custom| !custom.trim_matches(opencode_api::js::is_whitespace).is_empty());
+        .filter(|custom| !custom.trim_matches(wormagent_api::js::is_whitespace).is_empty());
     let Some(custom) = custom else { return value };
     if kind == "string" {
         return Some(json!(custom));

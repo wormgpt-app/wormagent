@@ -3,11 +3,11 @@
 use std::collections::HashSet;
 
 use indexmap::IndexMap;
-use opencode_api::generated::{FormField, FormID, FormValue, SessionFormCancelInput, SessionFormReplyInput};
-use opencode_api::js::number_to_string;
-use opencode_store::State;
-use opencode_store::forms::{Form, GLOBAL};
-use opencode_store::location::Location;
+use wormagent_api::generated::{FormField, FormID, FormValue, SessionFormCancelInput, SessionFormReplyInput};
+use wormagent_api::js::number_to_string;
+use wormagent_store::State;
+use wormagent_store::forms::{Form, GLOBAL};
+use wormagent_store::location::Location;
 use opentui::input::strip_ansi_sequences;
 
 use crate::prelude::*;
@@ -18,7 +18,7 @@ thread_local! {
     static DRAFTS: RefCell<HashMap<FormID, Draft>> = RefCell::default();
 }
 
-pub use opencode_ui::form::*;
+pub use wormagent_ui::form::*;
 
 fn truncate(label: &str, max: usize) -> String {
     if label.chars().count() <= max {
@@ -158,7 +158,7 @@ fn first_form(state: &State, owners: &[String], location: Option<&Location>) -> 
         .cloned()
 }
 
-pub(crate) fn quiet(tui: &Tui, task: opencode_store::Task<()>) {
+pub(crate) fn quiet(tui: &Tui, task: wormagent_store::Task<()>) {
     tui.app.spawn(task, |_, result| {
         if let Err(error) = result {
             log::debug!("read failed: {error}");
@@ -360,7 +360,7 @@ impl Inner {
     }
 
     fn placeholder(&self) -> String {
-        use opencode_api::generated::FormStringFieldFormat as Format;
+        use wormagent_api::generated::FormStringFieldFormat as Format;
         let range = |minimum: Option<f64>, maximum: Option<f64>| match (minimum, maximum) {
             (Some(minimum), Some(maximum)) => {
                 Some(format!("{}-{}", number_to_string(minimum), number_to_string(maximum)))

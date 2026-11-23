@@ -1,4 +1,4 @@
-//! Gives the system back the memory freed rows leave in the allocator (`opencode_util::memory::release`, glibc only).
+//! Gives the system back the memory freed rows leave in the allocator (`wormagent_util::memory::release`, glibc only).
 //!
 //! Rows the transcript drops free their memory into glibc's heap, which keeps the pages while anything above them
 //! lives: after a long scroll, most of what the rows held stays resident. A release runs once the drops stop: when at
@@ -53,7 +53,7 @@ pub fn dropped(app: &App, rows: usize) {
         }
         (state.rows, state.last, state.runs) = (0, Some(cx.app().now()), state.runs + 1);
         STATE.set(state);
-        opencode_util::memory::release();
+        wormagent_util::memory::release();
     });
 }
 

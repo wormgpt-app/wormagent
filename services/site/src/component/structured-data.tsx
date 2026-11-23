@@ -14,21 +14,21 @@ export function JsonLd(props: { data: Record<string, unknown> }) {
   )
 }
 
-/** Anomaly, the company behind OpenCode. Other blocks refer to it by its `@id`. */
+/** WormGPT, the company behind WormAgent. Other blocks refer to it by its `@id`. */
 export const organizationData = {
   "@type": "Organization",
   "@id": organizationId,
-  name: "Anomaly",
+  name: "WormGPT",
   url: "https://anoma.ly",
   logo: "https://anoma.ly/apple-touch-icon.png",
-  sameAs: ["https://github.com/anomalyco", config.social.twitter, config.social.discord],
+  sameAs: ["https://github.com/wormgpt-app", config.social.twitter, config.social.discord],
 }
 
 export function websiteData(language: string) {
   return {
     "@type": "WebSite",
     "@id": `${config.baseUrl}/#website`,
-    name: "OpenCode",
+    name: "WormAgent",
     url: `${config.baseUrl}/`,
     inLanguage: language,
     publisher: { "@id": organizationId },

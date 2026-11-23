@@ -1,14 +1,14 @@
 // Scrolling the background activity menu with 20 long-running subagents open, both quiet and while the parent
 // session streams tool progress and child sessions update in the background.
 import { bench, web } from "@hona/strobe"
-import { base64Encode } from "@opencode/util/encode"
-import type { OpenCodeEvent, SessionMessageAssistantTool, SessionMessageInfo } from "@opencode/client/promise"
-import { mockOpenCodeServer } from "../e2e/utils/mock-server"
+import { base64Encode } from "@wormagent/util/encode"
+import type { WormAgentEvent, SessionMessageAssistantTool, SessionMessageInfo } from "@wormagent/client/promise"
+import { mockWormAgentServer } from "../e2e/utils/mock-server"
 import { cached } from "./fixtures/mock"
 import { eventSource } from "./fixtures/events"
 import { composer, timeline } from "./fixtures/timeline"
 
-const directory = "C:/OpenCode/SubagentPillPerf"
+const directory = "C:/WormAgent/SubagentPillPerf"
 
 const projectID = "proj_subagent_pill_perf"
 
@@ -16,7 +16,7 @@ const parentID = "ses_subagent_pill_parent"
 
 const assistantMessageID = "msg_assistant_subagents"
 
-const model = { providerID: "opencode", modelID: "claude-opus-4-6", variant: "max" }
+const model = { providerID: "wormagent", modelID: "claude-opus-4-6", variant: "max" }
 
 const chip = '[data-slot="session-activity-chip"]'
 
@@ -70,7 +70,7 @@ let seq = 0
 export default bench({
   targets: {
     web: web({
-      expect: { title: "OpenCode" },
+      expect: { title: "WormAgent" },
       viewport: { width: 1366, height: 768 },
       prepare: async (ctx) => {
         const now = Date.now()
@@ -180,7 +180,7 @@ export default bench({
 
         const source = await eventSource(page, server)
 
-        await mockOpenCodeServer(page, {
+        await mockWormAgentServer(page, {
           server,
           directory,
           project: {
@@ -194,15 +194,15 @@ export default bench({
           provider: {
             all: [
               {
-                id: "opencode",
-                name: "OpenCode",
+                id: "wormagent",
+                name: "WormAgent",
                 models: {
                   "claude-opus-4-6": { id: "claude-opus-4-6", name: "Claude Opus 4.6", limit: { context: 200_000 } },
                 },
               },
             ],
-            connected: ["opencode"],
-            default: { providerID: "opencode", modelID: "claude-opus-4-6" },
+            connected: ["wormagent"],
+            default: { providerID: "wormagent", modelID: "claude-opus-4-6" },
           },
           sessions: [parentSession, ...children, ...extra],
           sessionStatus,
@@ -277,7 +277,7 @@ export default bench({
           const childID = prepared.childIDs[tick % prepared.childIDs.length]!
           const created = Date.now()
 
-          const events: OpenCodeEvent[] = [
+          const events: WormAgentEvent[] = [
             {
               id: `evt_live_${++seq}`,
               created,
@@ -290,7 +290,7 @@ export default bench({
                 id: toolID,
                 name: "read",
               },
-            } satisfies Extract<OpenCodeEvent, { type: "session.tool.input.started" }>,
+            } satisfies Extract<WormAgentEvent, { type: "session.tool.input.started" }>,
             {
               id: `evt_live_${++seq}`,
               created: created + 1,
@@ -304,7 +304,7 @@ export default bench({
                 input: { path: `src/check-${tick}.ts` },
                 executed: true,
               },
-            } satisfies Extract<OpenCodeEvent, { type: "session.tool.called" }>,
+            } satisfies Extract<WormAgentEvent, { type: "session.tool.called" }>,
             {
               id: `evt_live_${++seq}`,
               created: created + 2,
@@ -319,7 +319,7 @@ export default bench({
                 metadata: {},
                 executed: true,
               },
-            } satisfies Extract<OpenCodeEvent, { type: "session.tool.success" }>,
+            } satisfies Extract<WormAgentEvent, { type: "session.tool.success" }>,
             {
               id: `evt_live_${++seq}`,
               created: created + 3,
@@ -327,7 +327,7 @@ export default bench({
               durable: { aggregateID: childID, seq, version: 1 },
               type: "session.execution.started",
               data: { sessionID: childID },
-            } satisfies Extract<OpenCodeEvent, { type: "session.execution.started" }>,
+            } satisfies Extract<WormAgentEvent, { type: "session.execution.started" }>,
           ]
 
           prepared.source.send(events)

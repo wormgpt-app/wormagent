@@ -3,7 +3,7 @@
 use std::borrow::Cow;
 use std::path::Path;
 
-pub use opencode_util::path::Flavor;
+pub use wormagent_util::path::Flavor;
 
 /// `abbreviateHome`: `~` or `~/…` when `input` is inside `home`, else `input`.
 pub fn abbreviate_home(input: &str, home: &str) -> String {

@@ -1,10 +1,10 @@
 import { expect } from "bun:test"
-import { Credential } from "@opencode/core/credential"
-import { Integration } from "@opencode/core/integration"
-import { UsageLimits } from "@opencode/core/usage-limits"
-import { Model } from "@opencode/schema/model"
-import { Money } from "@opencode/schema/money"
-import { Provider } from "@opencode/schema/provider"
+import { Credential } from "@wormagent/core/credential"
+import { Integration } from "@wormagent/core/integration"
+import { UsageLimits } from "@wormagent/core/usage-limits"
+import { Model } from "@wormagent/schema/model"
+import { Money } from "@wormagent/schema/money"
+import { Provider } from "@wormagent/schema/provider"
 import { Effect, Exit, Layer } from "effect"
 import { HttpClient, type HttpClientRequest, HttpClientResponse } from "effect/http"
 import { testEffect } from "./lib/effect"
@@ -19,7 +19,7 @@ const signedIn = Credential.OAuth.make({
   access: "console-access",
   refresh: "console-refresh",
   expires: 1,
-  metadata: { server: "https://dev.opencode.ai/console", orgID: "wrk_anomaly", orgName: "Anomaly" },
+  metadata: { server: "https://dev.wormagent.net/console", orgID: "wrk_wormgpt", orgName: "WormGPT" },
 })
 
 const budget = {
@@ -33,7 +33,7 @@ const budget = {
   coverage: "models",
   models: [
     {
-      providerID: "opencode",
+      providerID: "wormagent",
       connectionID: "conn_managed",
       modelID: "gpt-6-astra",
       name: "GPT-6 Astra",
@@ -49,7 +49,7 @@ const budget = {
 
 const meter = (status: string, percent: number) => ({ status, percent, resetsAt: "2026-10-24T17:00:00.000Z" })
 
-/** Reads usage limits for a location whose active OpenCode Console connection resolves to `credential`. */
+/** Reads usage limits for a location whose active WormAgent Console connection resolves to `credential`. */
 const read = (
   credential: Credential.Value | undefined,
   respond: (url: string) => Response,
@@ -69,7 +69,7 @@ const read = (
                     credential && {
                       type: "credential" as const,
                       id: Credential.ID.make("console"),
-                      label: "Anomaly",
+                      label: "WormGPT",
                       method: "oauth" as const,
                     },
                   ),
@@ -115,9 +115,9 @@ it.effect("reads the member's Go allowance and budgets from the Console they sig
 
     expect(limits).toEqual({
       workspace: {
-        id: "wrk_anomaly",
-        name: "Anomaly",
-        usageURL: "https://dev.opencode.ai/console/wrk_anomaly/activity/overview",
+        id: "wrk_wormgpt",
+        name: "WormGPT",
+        usageURL: "https://dev.wormagent.net/console/wrk_wormgpt/activity/overview",
       },
       go: {
         rolling: { percent: 42, limited: false, resetsAt: Date.parse("2026-10-24T17:00:00.000Z") },
@@ -134,7 +134,7 @@ it.effect("reads the member's Go allowance and budgets from the Console they sig
           coverage: "models",
           models: [
             {
-              providerID: Provider.ID.make("opencode"),
+              providerID: Provider.ID.make("wormagent"),
               modelID: Model.ID.make("gpt-6-astra"),
               name: "GPT-6 Astra",
               spent: Money.USD.make(15),
@@ -148,7 +148,7 @@ it.effect("reads the member's Go allowance and budgets from the Console they sig
         },
       ],
     })
-    // Console reads the workspace from x-org-id; inference, which serves Go, from x-opencode-org-id.
+    // Console reads the workspace from x-org-id; inference, which serves Go, from x-wormagent-org-id.
     expect(
       requests
         .map((request) => ({
@@ -159,14 +159,14 @@ it.effect("reads the member's Go allowance and budgets from the Console they sig
         .toSorted((a, b) => a.url.localeCompare(b.url)),
     ).toEqual([
       {
-        url: "https://dev.opencode.ai/console/api/policies/current-budgets",
+        url: "https://dev.wormagent.net/console/api/policies/current-budgets",
         authorization: "Bearer console-access",
-        workspace: [["x-org-id", "wrk_anomaly"]],
+        workspace: [["x-org-id", "wrk_wormgpt"]],
       },
       {
-        url: "https://dev.opencode.ai/zen/go/v1/usage",
+        url: "https://dev.wormagent.net/zen/go/v1/usage",
         authorization: "Bearer console-access",
-        workspace: [["x-opencode-org-id", "wrk_anomaly"]],
+        workspace: [["x-wormagent-org-id", "wrk_wormgpt"]],
       },
     ])
   }),
@@ -179,16 +179,16 @@ it.effect("has no Go allowance or budgets to show where Console refuses them", (
 
     expect(limits).toEqual({
       workspace: {
-        id: "wrk_anomaly",
-        name: "Anomaly",
-        usageURL: "https://dev.opencode.ai/console/wrk_anomaly/activity/overview",
+        id: "wrk_wormgpt",
+        name: "WormGPT",
+        usageURL: "https://dev.wormagent.net/console/wrk_wormgpt/activity/overview",
       },
       budgets: [],
     })
   }),
 )
 
-it.effect("has nothing to show for a location that isn't signed in to OpenCode Console", () =>
+it.effect("has nothing to show for a location that isn't signed in to WormAgent Console", () =>
   Effect.gen(function* () {
     expect(yield* read(undefined, () => Response.json([budget]))).toBeUndefined()
   }),

@@ -2,7 +2,7 @@ use std::collections::{HashMap, HashSet};
 use std::ops::{Index, IndexMut};
 
 use indexmap::IndexMap;
-use opencode_api::generated::*;
+use wormagent_api::generated::*;
 
 use crate::changes::Touched;
 use crate::core::{Effect, Info, Ticket};
@@ -756,7 +756,7 @@ impl State {
     /// Admits an optimistic session under `input.id` or a fresh ID, so a session view can open at once, and says how
     /// to create it. Admissions to it wait for the creation.
     pub(crate) fn begin_creation(&mut self, input: CreateSession) -> Creation {
-        let id = input.id.clone().unwrap_or_else(|| SessionID(opencode_api::id::session()));
+        let id = input.id.clone().unwrap_or_else(|| SessionID(wormagent_api::id::session()));
         let location = input.location.clone().unwrap_or_else(|| LocationPublicRef {
             directory: AbsolutePath(self.default_location().directory.clone()),
         });

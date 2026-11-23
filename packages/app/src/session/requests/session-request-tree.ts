@@ -1,5 +1,5 @@
-import type { FormInfo, PermissionRequest, SessionInfo } from "@opencode/client/promise"
-import type { Data } from "@opencode/client/solid"
+import type { FormInfo, PermissionRequest, SessionInfo } from "@wormagent/client/promise"
+import type { Data } from "@wormagent/client/solid"
 
 function sessionTreeRequest<T>(
   session: SessionInfo[],

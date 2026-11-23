@@ -26,7 +26,7 @@ export const faces: { login: string; id: number; contributions: number; avatar?:
   { login: "simonklee", id: 52795, contributions: 136 },
   { login: "neriousy", id: 34747899, contributions: 133 },
   { login: "vimtor", id: 36263538, contributions: 112 },
-  // Anomaly employees outside the top 200 or without a face on GitHub, added for `employees`.
+  // WormGPT employees outside the top 200 or without a face on GitHub, added for `employees`.
   // Stefan's GitHub avatar is an illustration, so the wall uses a crop around his head from his X
   // profile photo, saved at 160×160 from https://unavatar.io/x/savram8 (x.com/savram8) on Nov 5, 2026.
   { login: "Slickstef11", id: 98915060, contributions: 6, avatar: "/avatars/slickstef11.jpg" },
@@ -109,10 +109,10 @@ export const faces: { login: string; id: number; contributions: number; avatar?:
 
 // Always first on the wall, in this order, whatever the contribution order (David's request):
 // thdxr, jayair (Jay), fwang (Frank), adamdotdevin, iamdavidhill, rekram1-node, kitlangton (Kit).
-// The rest of the Anomaly team follows (`employees`), then everyone else by contributions.
+// The rest of the WormGPT team follows (`employees`), then everyone else by contributions.
 export const pinned = [826656, 53023, 83515, 2363879, 1879069, 63023139, 7587245]
 
-// The rest of the Anomaly team (the team in humans.txt, matched to GitHub on Nov 5, 2026), right
+// The rest of the WormGPT team (the team in humans.txt, matched to GitHub on Nov 5, 2026), right
 // after `pinned` and ordered among themselves like everyone else. Only those in `faces` show;
 // Brendonovich, usrnk1, kommander (Sebastian) and arvsrn (Aarav) are listed but left off the wall
 // until there's a photo of them, as neither their GitHub nor their X avatar is one.

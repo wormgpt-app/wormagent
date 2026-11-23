@@ -35,15 +35,15 @@ export default {
   "move.recovery.remove": "Strika arbeiðstræið",
   "mcp.manage": "Umsit MCP ambætarar",
   timedOut: "Ambætarin var ov leingi um at svara",
-  "setup.mcp": "Legg ein ambætara afturat við OpenCode",
+  "setup.mcp": "Legg ein ambætara afturat við WormAgent",
   "setup.mcp.prompt":
-    "Hjálp mær at leggja ein MCP ambætara afturat í globalu OpenCode uppsetingina hjá mær. Spyr meg, hvørja tænastu eg vil knýta saman við, set hana síðani upp og kanna, at sambandið virkar.",
-  "setup.plugins": "Legg eitt tilskot afturat við OpenCode",
+    "Hjálp mær at leggja ein MCP ambætara afturat í globalu WormAgent uppsetingina hjá mær. Spyr meg, hvørja tænastu eg vil knýta saman við, set hana síðani upp og kanna, at sambandið virkar.",
+  "setup.plugins": "Legg eitt tilskot afturat við WormAgent",
   "setup.plugins.prompt":
-    "Hjálp mær at leggja eitt tilskot afturat í globalu OpenCode uppsetingina hjá mær. Spyr meg, hvat tað skal gera, mæl til eitt tilskot og legg tað síðani afturat.",
-  "setup.skills": "Nýggjur førleiki við OpenCode",
+    "Hjálp mær at leggja eitt tilskot afturat í globalu WormAgent uppsetingina hjá mær. Spyr meg, hvat tað skal gera, mæl til eitt tilskot og legg tað síðani afturat.",
+  "setup.skills": "Nýggjur førleiki við WormAgent",
   "setup.skills.prompt":
-    "Hjálp mær at skriva ein nýggjan OpenCode førleika í globalu uppsetingini hjá mær. Spyr meg, hvat hann skal læra teg, og skriva síðani SKILL.md hansara.",
+    "Hjálp mær at skriva ein nýggjan WormAgent førleika í globalu uppsetingini hjá mær. Spyr meg, hvat hann skal læra teg, og skriva síðani SKILL.md hansara.",
   changesFailed: "Kundi ikki heinta broytingar",
   changesOffline: "Fái ikki samband við henda ambætaran",
   "mcp.signIn": "Rita inn",
@@ -55,7 +55,7 @@ export default {
   "mcp.error.actionLabel": "Smálutir fyri {{name}}",
   "mcp.signIn.open": "Rita inn á {{name}}",
   "mcp.signIn.description":
-    "Kagin verður latin upp, so tú kanst rita inn á {{name}}. Um hann ikki røkkur telduna, sum koyrir OpenCode, so set URL-in, sum hann varð víðarisendur til, inn niðanfyri.",
+    "Kagin verður latin upp, so tú kanst rita inn á {{name}}. Um hann ikki røkkur telduna, sum koyrir WormAgent, so set URL-in, sum hann varð víðarisendur til, inn niðanfyri.",
   "mcp.signIn.waiting": "Bíðar eftir heimild…",
   "mcp.signIn.failed": "Heimild miseydnaðist: {{error}}",
   "mcp.signIn.expired": "Heimildin er útgingin",

@@ -1,11 +1,11 @@
 //! Collect integration credentials one field at a time.
 
-use opencode_api::generated::{
+use wormagent_api::generated::{
     FormAnswer, FormBooleanField, FormExternalField, FormField, FormMultiselectField, FormStringField, FormValue,
     FormWhenOp, FormWhenValue,
 };
-use opencode_ui::dialog::{DIALOG_INSET, DialogCx, FooterAction, FooterProps, footer, layout_view};
-use opencode_ui::prompt::{PromptProps, prompt};
+use wormagent_ui::dialog::{DIALOG_INSET, DialogCx, FooterAction, FooterProps, footer, layout_view};
+use wormagent_ui::prompt::{PromptProps, prompt};
 
 use crate::local::Local;
 use crate::prelude::*;

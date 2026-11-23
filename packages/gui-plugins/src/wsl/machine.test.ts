@@ -17,7 +17,7 @@ const readyProbe = { name: "Debian", canExecute: true, hasBash: true, hasCurl: t
 function check(distro: string, version: string): WslOpencodeCheck {
   return {
     distro,
-    resolvedPath: "/usr/bin/opencode",
+    resolvedPath: "/usr/bin/wormagent",
     version,
     expectedVersion: "2",
     matchesDesktop: version === "2",
@@ -37,7 +37,7 @@ function play(state: WslMachineState, ...events: WslMachineEvent[]) {
   )
 }
 
-// Ubuntu is added with its server up as start `s0`, reporting an older OpenCode than the desktop.
+// Ubuntu is added with its server up as start `s0`, reporting an older WormAgent than the desktop.
 function readyUbuntu() {
   return play(
     createWslMachineState([ubuntu]),
@@ -222,7 +222,7 @@ describe("updates", () => {
 
     expect(spawns(updated.effects)).toEqual([])
     expect(updated.effects).toContainEqual({ type: "resolve", attempt: "u1" })
-    expect(toServersState(updated.state).opencodeChecks.Debian).toEqual(check("Debian", "2"))
+    expect(toServersState(updated.state).wormagentChecks.Debian).toEqual(check("Debian", "2"))
   })
 
   test("a failed update keeps the check it read and leaves the server stopped", () => {
@@ -261,7 +261,7 @@ describe("removal and shutdown", () => {
     expect(removed.effects).toContainEqual({ type: "stop", distro: "Ubuntu", attempt: "r1", server: "s1" })
     expect(removed.effects).toContainEqual({ type: "persist", servers: [] })
     expect(removed.effects).toContainEqual({ type: "resolve", attempt: "r1" })
-    expect(toServersState(removed.state)).toMatchObject({ servers: [], opencodeChecks: {}, distroJobs: {} })
+    expect(toServersState(removed.state)).toMatchObject({ servers: [], wormagentChecks: {}, distroJobs: {} })
   })
 
   test("closing answers every running job and turns away later requests", () => {

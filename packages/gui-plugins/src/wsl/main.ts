@@ -1,6 +1,6 @@
 import { Option, Schema } from "effect"
-import { builtinMainContext } from "@opencode/plugin/gui/builtin"
-import type { Plugin } from "@opencode/plugin/gui/main"
+import { builtinMainContext } from "@wormagent/plugin/gui/builtin"
+import type { Plugin } from "@wormagent/plugin/gui/main"
 import { Wsl } from "./contract"
 import { createWslRuntime } from "./runtime"
 import { createWslServersController, wslServerIdForDistro } from "./servers"
@@ -30,9 +30,9 @@ const setup: Plugin.MainSetup = (ctx) => {
 
   // Development builds of the desktop app can build the Linux CLI from this checkout.
   const local =
-    packaged || !process.env.OPENCODE_DESKTOP_WSL_CLI_BUILD || !process.env.OPENCODE_DESKTOP_WSL_CLI_OUTPUT
+    packaged || !process.env.WORMAGENT_DESKTOP_WSL_CLI_BUILD || !process.env.WORMAGENT_DESKTOP_WSL_CLI_OUTPUT
       ? undefined
-      : { script: process.env.OPENCODE_DESKTOP_WSL_CLI_BUILD, output: process.env.OPENCODE_DESKTOP_WSL_CLI_OUTPUT }
+      : { script: process.env.WORMAGENT_DESKTOP_WSL_CLI_BUILD, output: process.env.WORMAGENT_DESKTOP_WSL_CLI_OUTPUT }
 
   const log = <Data extends Readonly<Record<string, unknown>>>(level: "info" | "error", message: string, data: Data) =>
     desktopLog.write(level, `[wsl] ${message}`, data)

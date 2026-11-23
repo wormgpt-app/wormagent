@@ -1,9 +1,9 @@
 //! Model picker for users without a connected provider.
 
-use opencode_api::generated::ModelInfoStatus;
-use opencode_local::model_pref::Model;
-use opencode_ui::fuzzy;
-use opencode_ui::select::{ActionRun, SelectAction};
+use wormagent_api::generated::ModelInfoStatus;
+use wormagent_local::model_pref::Model;
+use wormagent_ui::fuzzy;
+use wormagent_ui::select::{ActionRun, SelectAction};
 
 use crate::dialogs::model::{self, is_free};
 use crate::local::Local;

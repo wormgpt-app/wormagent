@@ -1,4 +1,4 @@
-import { TimelineRow } from "@opencode/session-ui/timeline/projection"
+import { TimelineRow } from "@wormagent/session-ui/timeline/projection"
 import { createComputed, createMemo, createSignal, onCleanup } from "solid-js"
 import { createStore } from "solid-js/store"
 import { render } from "solid-js/web"

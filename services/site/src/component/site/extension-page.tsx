@@ -14,7 +14,7 @@ import { ExtensionDownload } from "./download-sections"
 import { extensionPages, type ExtensionSlug } from "./extension-data"
 import { NewTab } from "./icons"
 import { heroStills, ProductHero } from "./product-hero"
-import { MoreFromAnomaly } from "./product-list"
+import { MoreFromWormGPT } from "./product-list"
 import { siteSettings } from "./settings"
 import { Site } from "./site"
 import { useMarkdown } from "./use-markdown"
@@ -61,7 +61,7 @@ export function ExtensionPage(props: { slug: ExtensionSlug; path?: string }) {
       <Meta name="description" content={extension().description} />
       <JsonLd
         data={softwareData({
-          name: `OpenCode ${extension().name}`,
+          name: `WormAgent ${extension().name}`,
           description: extension().description,
           path: language.route(path()),
           image: ogImage(path()).src,
@@ -164,7 +164,7 @@ export function ExtensionPage(props: { slug: ExtensionSlug; path?: string }) {
         store={data().store}
       />
 
-      <MoreFromAnomaly slot="more-from-anomaly" exclude={props.slug} />
+      <MoreFromWormGPT slot="more-from-wormgpt" exclude={props.slug} />
     </Site>
   )
 }

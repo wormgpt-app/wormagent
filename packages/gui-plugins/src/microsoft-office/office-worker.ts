@@ -1,5 +1,5 @@
 import { createMemo, createSignal, onCleanup, untrack } from "solid-js"
-import { createKeyed } from "@opencode/plugin/gui"
+import { createKeyed } from "@wormagent/plugin/gui"
 import {
   transitionWorker,
   workerLoading,

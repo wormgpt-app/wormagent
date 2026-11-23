@@ -1,20 +1,20 @@
 //! Status of services at the default location.
 
-use opencode_api::generated::{McpServer, McpServerStatus};
-use opencode_store::Catalog;
-use opencode_ui::dialog::{DialogCx, layout};
+use wormagent_api::generated::{McpServer, McpServerStatus};
+use wormagent_store::Catalog;
+use wormagent_ui::dialog::{DialogCx, layout};
 
 use crate::prelude::*;
 
 pub fn install(tui: &Rc<Tui>) {
-    let command = TuiCommand::new("opencode.status", bind!(tui, |tui, _, _| show(&tui)))
+    let command = TuiCommand::new("wormagent.status", bind!(tui, |tui, _, _| show(&tui)))
         .bind(Bind::Off)
         .title("View status")
         .group("System")
         .palette()
         .slash("status");
     tui.keymap
-        .install("status", [KeymapLayer::global(vec![command]), KeymapLayer::default().bindings(["opencode.status"])]);
+        .install("status", [KeymapLayer::global(vec![command]), KeymapLayer::default().bindings(["wormagent.status"])]);
 }
 
 pub fn show(tui: &Tui) {

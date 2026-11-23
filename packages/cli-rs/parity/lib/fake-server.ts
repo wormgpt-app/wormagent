@@ -1,4 +1,4 @@
-// A fake OpenCode server for P-CLI and P-PTY: it serves a scenario's route table and logs every
+// A fake WormAgent server for P-CLI and P-PTY: it serves a scenario's route table and logs every
 // request, so both clients can run with `--server <url>` and never touch the user's service.
 
 import { createEventStream, createFetch } from "../../../tui/test/fixture/tui-client"
@@ -74,7 +74,7 @@ export async function startFakeServer(options: Options = {}) {
       streams.clear()
     })
   const password = crypto.randomUUID()
-  const authorization = "Basic " + Buffer.from(`opencode:${password}`).toString("base64")
+  const authorization = "Basic " + Buffer.from(`wormagent:${password}`).toString("base64")
   const server = Bun.serve({
     hostname: "127.0.0.1",
     port: 0,

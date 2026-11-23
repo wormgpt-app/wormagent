@@ -1,3 +1,3 @@
-export { RegistrationError } from "@opencode/core/tool"
-export { Error } from "@opencode/schema/tool"
-export type { Context, Info } from "@opencode/schema/tool"
+export { RegistrationError } from "@wormagent/core/tool"
+export { Error } from "@wormagent/schema/tool"
+export type { Context, Info } from "@wormagent/schema/tool"

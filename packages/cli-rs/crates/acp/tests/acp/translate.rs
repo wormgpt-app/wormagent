@@ -1,4 +1,4 @@
-use opencode_acp::translate::{self, Event, Output, StartKind, Terminal, TurnContext, TurnStart, TurnState};
+use wormagent_acp::translate::{self, Event, Output, StartKind, Terminal, TurnContext, TurnStart, TurnState};
 use serde_json::{Value, json};
 
 use crate::wire::{
@@ -93,7 +93,7 @@ fn translated(events: &[Value], ctx: &TurnContext) -> Value {
 }
 
 fn child_meta(id: &str, parent: &str, depth: u64, title: &str) -> Value {
-    json!({ "opencode/child-session": { "id": id, "parentID": parent, "depth": depth, "title": title } })
+    json!({ "wormagent/child-session": { "id": id, "parentID": parent, "depth": depth, "title": title } })
 }
 
 fn step_failed(error: Value, tokens: Option<Value>) -> Value {
@@ -405,11 +405,11 @@ fn reports_a_pending_retry_and_clears_it_when_the_next_step_starts() {
     let pending = run(&live(vec![retry.clone()]), &ctx(false));
     assert_matches(
         &json!(pending.updates),
-        &json!([{ "sessionUpdate": "session_info_update", "_meta": { "opencode/retry": { "attempt": 2, "nextRetryAt": "1970-01-01T00:00:01.000Z", "error": error } } }]),
+        &json!([{ "sessionUpdate": "session_info_update", "_meta": { "wormagent/retry": { "attempt": 2, "nextRetryAt": "1970-01-01T00:00:01.000Z", "error": error } } }]),
     );
     assert_eq!(
         translate::response(&pending.state, ROOT, Terminal::Interrupted)["_meta"],
-        json!({ "opencode/retry": { "attempt": 2, "nextRetryAt": "1970-01-01T00:00:01.000Z", "error": error } })
+        json!({ "wormagent/retry": { "attempt": 2, "nextRetryAt": "1970-01-01T00:00:01.000Z", "error": error } })
     );
 
     let cleared = run(
@@ -424,7 +424,7 @@ fn reports_a_pending_retry_and_clears_it_when_the_next_step_starts() {
     );
     assert_eq!(
         cleared.updates[1],
-        json!({ "sessionUpdate": "session_info_update", "_meta": { "opencode/retry": null } })
+        json!({ "sessionUpdate": "session_info_update", "_meta": { "wormagent/retry": null } })
     );
     assert_eq!(translate::response(&cleared.state, ROOT, Terminal::Succeeded)["_meta"], json!({}));
 }
@@ -453,7 +453,7 @@ fn marker(value: Value) -> Value {
     if let (Some(marker), Value::Object(value)) = (marker.as_object_mut(), value) {
         marker.extend(value);
     }
-    json!({ "sessionUpdate": "session_info_update", "_meta": { "opencode/compaction": marker } })
+    json!({ "sessionUpdate": "session_info_update", "_meta": { "wormagent/compaction": marker } })
 }
 
 fn provider_error() -> Value {
@@ -488,7 +488,7 @@ fn tool_location_and_compaction_rows() {
     );
     let child = |compaction: Value| {
         let mut meta = child_meta("ses_child", ROOT, 1, "Explore");
-        meta["opencode/compaction"] = compaction;
+        meta["wormagent/compaction"] = compaction;
         json!({ "_meta": meta })
     };
     // (name, compaction, child updates, events, expected)
@@ -615,7 +615,7 @@ fn tool_location_and_compaction_rows() {
             false,
             false,
             live(vec![compaction_failed(provider_error(), "auto")]),
-            json!({ "updates": [{ "_meta": { "opencode/compaction": {
+            json!({ "updates": [{ "_meta": { "wormagent/compaction": {
                 "status": "failed", "messageId": "msg_2", "reason": "auto", "error": provider_error(),
             } } }] }),
         ),
@@ -708,7 +708,7 @@ fn replay_rows() {
             vec![compaction_message("completed", json!({ "summary": "Summary" }))],
             json!([{
                 "sessionUpdate": "session_info_update",
-                "_meta": { "opencode/compaction": { "status": "completed", "messageId": "msg_compaction", "reason": "auto" } },
+                "_meta": { "wormagent/compaction": { "status": "completed", "messageId": "msg_compaction", "reason": "auto" } },
             }]),
         ),
         (
@@ -730,7 +730,7 @@ fn replay_rows() {
         ),
     ];
     for (name, compaction, messages, expected) in rows {
-        let capabilities = opencode_acp::capabilities::Capabilities {
+        let capabilities = wormagent_acp::capabilities::Capabilities {
             child_session_updates: false,
             form_elicitation: false,
             compaction,
@@ -738,7 +738,7 @@ fn replay_rows() {
         let actual = json!(
             messages
                 .iter()
-                .flat_map(|message| opencode_acp::replay::updates(message, "/workspace", &capabilities))
+                .flat_map(|message| wormagent_acp::replay::updates(message, "/workspace", &capabilities))
                 .map(|(update, _)| json!(update))
                 .collect::<Vec<_>>()
         );

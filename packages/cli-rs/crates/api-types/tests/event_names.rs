@@ -5,7 +5,7 @@
 
 use std::path::{Path, PathBuf};
 
-use opencode_api_types::types::V2Event;
+use wormagent_api_types::types::V2Event;
 
 const SOURCES: &[&str] = &["acp/src", "mini/src", "tui/src/plugins"];
 

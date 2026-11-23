@@ -1,23 +1,23 @@
 import { describe, expect } from "bun:test"
 import fs from "fs/promises"
 import path from "path"
-import type { Media } from "@opencode/ai/effect"
-import { Bus } from "@opencode/core/bus"
-import { Config } from "@opencode/core/config"
-import { Generate } from "@opencode/core/generate"
-import { Location } from "@opencode/core/location"
-import { Model } from "@opencode/core/model"
-import { Permission } from "@opencode/core/permission"
-import { Plugin } from "@opencode/core/plugin"
-import { PluginHost } from "@opencode/core/plugin/host"
-import { Provider } from "@opencode/core/provider"
-import { Session } from "@opencode/core/session"
-import { SessionEvent } from "@opencode/core/session/event"
-import { Tool } from "@opencode/core/tool"
-import { OpenCodeTools } from "@opencode/core/tool/plugin/opencode"
-import { VideoGenerateTool } from "@opencode/core/tool/plugin/video-generate"
-import { Document, Event, Info } from "@opencode/schema/config"
-import { ConfigExperimental } from "@opencode/schema/config/experimental"
+import type { Media } from "@wormagent/ai/effect"
+import { Bus } from "@wormagent/core/bus"
+import { Config } from "@wormagent/core/config"
+import { Generate } from "@wormagent/core/generate"
+import { Location } from "@wormagent/core/location"
+import { Model } from "@wormagent/core/model"
+import { Permission } from "@wormagent/core/permission"
+import { Plugin } from "@wormagent/core/plugin"
+import { PluginHost } from "@wormagent/core/plugin/host"
+import { Provider } from "@wormagent/core/provider"
+import { Session } from "@wormagent/core/session"
+import { SessionEvent } from "@wormagent/core/session/event"
+import { Tool } from "@wormagent/core/tool"
+import { WormAgentTools } from "@wormagent/core/tool/plugin/wormagent"
+import { VideoGenerateTool } from "@wormagent/core/tool/plugin/video-generate"
+import { Document, Event, Info } from "@wormagent/schema/config"
+import { ConfigExperimental } from "@wormagent/schema/config/experimental"
 import { Effect, Layer, Schedule, Stream } from "effect"
 import { advance } from "./lib/clock"
 import { testEffect } from "./lib/effect"
@@ -94,7 +94,7 @@ const setup = (providerID = "test") =>
     const location = yield* Location.Service
     const host = yield* PluginHost.make(plugins, "test")
     yield* VideoGenerateTool.Plugin.effect(host)
-    yield* OpenCodeTools.Plugin.effect(host)
+    yield* WormAgentTools.Plugin.effect(host)
     const session = yield* sessions.create({
       location: Location.Ref.make({ directory: location.directory }),
       model: Model.Ref.make({ providerID: Provider.ID.make(providerID), id: Model.ID.make("chat") }),

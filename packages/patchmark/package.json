@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@opencode/patchmark",
+  "name": "@wormagent/patchmark",
   "version": "2.4.0",
   "private": true,
   "type": "module",

@@ -1,25 +1,25 @@
 ---
 title: "Plugins"
-description: "Add npm packages or local plugin directories to OpenCode in opencode.json, and enable or disable plugins by ID or wildcard."
+description: "Add npm packages or local plugin directories to WormAgent in wormagent.json, and enable or disable plugins by ID or wildcard."
 ---
 
-Add published packages, versioned packages, scoped packages, or local plugin directories to `opencode.json(c)`.
+Add published packages, versioned packages, scoped packages, or local plugin directories to `wormagent.json(c)`.
 
 ## Configure
 
-```jsonc title="opencode.jsonc"
+```jsonc title="wormagent.jsonc"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://wormagent.net/config.json",
   "plugins": [
-    "opencode-acme-plugin",
-    "opencode-acme-plugin@1.2.0",
-    "@acme/opencode-plugin",
+    "wormagent-acme-plugin",
+    "wormagent-acme-plugin@1.2.0",
+    "@acme/wormagent-plugin",
     "./plugins/local",
     "../shared/plugin",
     "/absolute/path/plugin",
     "file:///home/me/plugins/local",
     {
-      "package": "@acme/opencode-plugin",
+      "package": "@acme/wormagent-plugin",
       "options": {
         "agent": "reviewer",
         "strict": true,
@@ -32,40 +32,40 @@ Add published packages, versioned packages, scoped packages, or local plugin dir
 Relative paths resolve from the config file containing the entry.
 
 Configured local paths must be directories. A path to a single file is skipped. See [Load](/build/plugins#load) for
-how OpenCode finds each part in a directory.
+how WormAgent finds each part in a directory.
 
 Plugin arrays from applicable config files are applied from lowest to highest precedence instead of replacing one
 another.
 
 ```text
-~/.config/opencode/opencode.jsonc
-./opencode.jsonc
-./.opencode/opencode.jsonc
+~/.config/wormagent/wormagent.jsonc
+./wormagent.jsonc
+./.wormagent/wormagent.jsonc
 ```
 
 ## Discover
 
-OpenCode also loads direct `.ts` and `.js` files and immediate plugin package directories from every discovered
-`.opencode/plugins/` directory.
+WormAgent also loads direct `.ts` and `.js` files and immediate plugin package directories from every discovered
+`.wormagent/plugins/` directory.
 
 ```text
-.opencode/
+.wormagent/
 └── plugins/
     ├── concise.ts
     ├── reviewer.js
     └── acme-package/
 ```
 
-Global plugins use the same discovery layout under the OpenCode config directory.
+Global plugins use the same discovery layout under the WormAgent config directory.
 
 ```text
-~/.config/opencode/plugins/
+~/.config/wormagent/plugins/
 ```
 
-A `plugins/` directory beside a project-root `opencode.json(c)` is not discovered automatically; configure its plugin
-directories explicitly or move it under `.opencode/`.
+A `plugins/` directory beside a project-root `wormagent.json(c)` is not discovered automatically; configure its plugin
+directories explicitly or move it under `.wormagent/`.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="wormagent.jsonc"
 {
   "plugins": ["./plugins/local"]
 }
@@ -76,17 +76,17 @@ directories explicitly or move it under `.opencode/`.
 Plugin entries are processed in order. Prefix an ID or wildcard with `-` to disable it, use `*` for every plugin, and
 use `.*` to match an ID prefix. A later ID re-enables a plugin.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="wormagent.jsonc"
 {
-  "plugins": ["*", "-opencode.provider.*", "opencode.provider.openai", "-acme.reviewer"]
+  "plugins": ["*", "-wormagent.provider.*", "wormagent.provider.openai", "-acme.reviewer"]
 }
 ```
 
-To disable the notice added to new forks, add `"-opencode.fork-notice"` to `plugins`.
+To disable the notice added to new forks, add `"-wormagent.fork-notice"` to `plugins`.
 
 Two built-in plugins ignore removals so that a repository cannot switch off
-[policy](/policies) enforcement: `opencode.config.policy` and
-`opencode.provider.opencode`, the Console connection that delivers organization
+[policy](/policies) enforcement: `wormagent.config.policy` and
+`wormagent.provider.wormagent`, the Console connection that delivers organization
 policy.
 
 ## Manage
@@ -94,13 +94,13 @@ policy.
 Install, list, check, update, or remove global package plugins with the CLI.
 
 ```sh
-opencode plugin add opencode-acme-plugin@1.2.0
-opencode plugin list
-opencode plugin list --builtin
-opencode plugin check
-opencode plugin update
-opencode plugin update opencode-acme-plugin
-opencode plugin remove opencode-acme-plugin@1.2.0
+wormagent plugin add wormagent-acme-plugin@1.2.0
+wormagent plugin list
+wormagent plugin list --builtin
+wormagent plugin check
+wormagent plugin update
+wormagent plugin update wormagent-acme-plugin
+wormagent plugin remove wormagent-acme-plugin@1.2.0
 ```
 
 `plugin check` checks server, GUI-only, and TUI-only package plugins for updates. `plugin update` updates every outdated package;
@@ -109,7 +109,7 @@ skipped.
 
 A package updates itself when it names what to follow: `name@latest`, a version range such as `name@^1.2.0`,
 `name@~1.2.0`, `name@1.x` or `name@>=1.2.0 <2`, a Git branch such as `github:acme/plugin#main`, or a Git `semver:` range.
-OpenCode checks it on startup and every 24 hours, installs a newer version, and reloads it. A range only moves to versions
+WormAgent checks it on startup and every 24 hours, installs a newer version, and reloads it. A range only moves to versions
 inside it. If the new version fails to load, the previous one keeps running and stays installed.
 
 A bare name (`name`) or repository (`github:acme/plugin`) stays on the version it installed. So do other npm tags such as
@@ -121,10 +121,10 @@ Git repositories can use hosted shortcuts, HTTPS, or SSH, including private repo
 Git credentials.
 
 ```sh
-opencode plugin add @acme/opencode-plugin@latest
-opencode plugin add github:acme/opencode-plugin
-opencode plugin add git+ssh://git@github.com/acme/opencode-plugin.git#main
-opencode plugin add 'github:acme/plugins#main::path:packages/opencode-plugin'
+wormagent plugin add @acme/wormagent-plugin@latest
+wormagent plugin add github:acme/wormagent-plugin
+wormagent plugin add git+ssh://git@github.com/acme/wormagent-plugin.git#main
+wormagent plugin add 'github:acme/plugins#main::path:packages/wormagent-plugin'
 ```
 
 Branches, tags, complete commit hashes, and npm's `::path:` repository-subdirectory selectors are supported. Configure
@@ -135,21 +135,21 @@ local paths directly; tarball and npm alias targets are not accepted by `plugin 
 Changes under watched config directories reload automatically. Server startup loads cached package plugins immediately,
 installs missing packages in the background, and checks unpinned npm and Git plugins for updates. Exact npm versions and
 full Git commit hashes stay pinned. Changes to unwatched local dependencies
-may still require restarting OpenCode.
+may still require restarting WormAgent.
 
 ```sh
-touch .opencode/plugins/concise/index.ts
-opencode service restart
+touch .wormagent/plugins/concise/index.ts
+wormagent service restart
 ```
 
 ## Desktop
 
-A plugin that exports `./gui-experimental` also adds panels, commands, or settings to OpenCode Desktop. The app loads
-plugins from the server it runs, so configure the plugin in your global `opencode.json(c)` to use it in every window.
+A plugin that exports `./gui-experimental` also adds panels, commands, or settings to WormAgent Desktop. The app loads
+plugins from the server it runs, so configure the plugin in your global `wormagent.json(c)` to use it in every window.
 
-```jsonc title="~/.config/opencode/opencode.jsonc"
+```jsonc title="~/.config/wormagent/wormagent.jsonc"
 {
-  "plugins": ["opencode-acme-plugin"],
+  "plugins": ["wormagent-acme-plugin"],
 }
 ```
 
@@ -163,7 +163,7 @@ TUI-only plugins are configured separately and remain active when connected to a
 
 ```json title="cli.json"
 {
-  "plugins": ["opencode-acme-cli"]
+  "plugins": ["wormagent-acme-cli"]
 }
 ```
 

@@ -1,11 +1,11 @@
-// P-PTY: runs one command with the TS CLI and with `opencode-native` under a fixed-size
+// P-PTY: runs one command with the TS CLI and with `wormagent-native` under a fixed-size
 // pseudo-terminal, renders the output through OpenTUI's embedded terminal (which also answers the
 // program's terminal queries), and compares the OSC log, the screens at checkpoints, and the exit.
 //
 //   bun run parity/pty/run.ts [--sides ts,rs] [scenario.pty.ts ...]
 //
 // Without files it runs every `parity/scenarios/**/*.pty.ts`. Sides run one after the other. Each
-// side's record goes to `$TMPDIR/opencode-parity/pty/<name>.<n>-<side>.json`.
+// side's record goes to `$TMPDIR/wormagent-parity/pty/<name>.<n>-<side>.json`.
 
 import { parseArgs } from "node:util"
 import { Glob } from "bun"
@@ -135,7 +135,7 @@ export async function runPty(side: Side, value: PtyCase) {
   const server = value.server ? await startFakeServer(value.server) : undefined
   // The fake server answers only its run's clients: the password goes in their environment, and a client left
   // over from another run cannot log a request that the comparison would see.
-  if (server) box.env.OPENCODE_PASSWORD = server.password
+  if (server) box.env.WORMAGENT_PASSWORD = server.password
   await value.setup?.(box.root, server?.url, server?.password)
   // Large enough for any `resize` step.
   const setup = await createTestRenderer({ width: 300, height: 120 })
@@ -519,7 +519,7 @@ if (import.meta.main) {
     await Promise.all(
       records.map((record, index) =>
         Bun.write(
-          path.join(tmpdir(), "opencode-parity/pty", `${name}.${index}-${sides[index]}.json`),
+          path.join(tmpdir(), "wormagent-parity/pty", `${name}.${index}-${sides[index]}.json`),
           JSON.stringify(record, null, 2) + "\n",
         ),
       ),

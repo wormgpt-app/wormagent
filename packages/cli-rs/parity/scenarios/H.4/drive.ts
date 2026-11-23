@@ -1,16 +1,16 @@
-// H.4 proof: sends the same simulation UI requests to the TS and the Rust `OPENCODE_DRIVE` endpoints, checks
+// H.4 proof: sends the same simulation UI requests to the TS and the Rust `WORMAGENT_DRIVE` endpoints, checks
 // every response against the protocol schema (`packages/protocol/src/simulation.ts`), and compares the captures.
 //
 //   bun run parity/scenarios/H.4/drive.ts
 //
-// One TS server runs in simulation mode (`OPENCODE_SIMULATE=1`) in a fresh sandbox home, never the user's service.
+// One TS server runs in simulation mode (`WORMAGENT_SIMULATE=1`) in a fresh sandbox home, never the user's service.
 // Each client runs headless against it with its own drive manifest. Captures go to `parity/out/H.4/` (ignored by git).
-// Build the Rust binary first (`cargo build -p opencode-cli --bin opencode-native`) or set OPENCODE_RS_BIN.
+// Build the Rust binary first (`cargo build -p wormagent-cli --bin wormagent-native`) or set WORMAGENT_RS_BIN.
 
 import { mkdir, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { Schema } from "effect"
-import { Frontend, Handshake } from "@opencode/protocol/simulation"
+import { Frontend, Handshake } from "@wormagent/protocol/simulation"
 import { buildRust, command, parityRoot, sandbox, type Side } from "../../cli/client"
 import { connectDrive } from "../../sim/drive"
 
@@ -60,10 +60,10 @@ const steps: Step[] = [
   { method: "ui.state", result: Frontend.State },
 ]
 
-const box = await sandbox({ OPENCODE_PASSWORD: password })
-await mkdir(path.join(box.env.XDG_CONFIG_HOME, "opencode"), { recursive: true })
+const box = await sandbox({ WORMAGENT_PASSWORD: password })
+await mkdir(path.join(box.env.XDG_CONFIG_HOME, "wormagent"), { recursive: true })
 await writeFile(
-  path.join(box.env.XDG_CONFIG_HOME, "opencode", "cli.json"),
+  path.join(box.env.XDG_CONFIG_HOME, "wormagent", "cli.json"),
   // The TS CLI from source is the `local` channel, which shows the DevTools bar by default.
   JSON.stringify({ experimental: { "new-designs": true }, animations: false, debug: { devtools: false } }),
 )
@@ -72,7 +72,7 @@ await buildRust(["rs"])
 // take a checked-then-bound port in between (flakes-n).
 const serve = Bun.spawn(command("ts", ["serve", "--port", "0"]), {
   cwd: box.cwd,
-  env: { ...box.env, OPENCODE_SIMULATE: "1" },
+  env: { ...box.env, WORMAGENT_SIMULATE: "1" },
   stdout: Bun.file(path.join(box.root, "server.stdout")),
   stderr: Bun.file(path.join(box.root, "server.log")),
 })
@@ -121,9 +121,9 @@ async function drive(side: Side, server: string) {
     cwd: box.cwd,
     env: {
       ...box.env,
-      OPENCODE_DRIVE: "parity",
+      WORMAGENT_DRIVE: "parity",
       DRIVE_REGISTRY_DIR: registry,
-      OPENCODE_DRIVE_RENDERER: "headless",
+      WORMAGENT_DRIVE_RENDERER: "headless",
       TERM: "xterm-256color",
     },
     stdin: "ignore",
@@ -133,7 +133,7 @@ async function drive(side: Side, server: string) {
   children.push(client)
   const endpoint = await waitForEndpoint(
     path.join(box.root, `${side}.stderr`),
-    /opencode drive ui websocket: (ws:\/\/\S+)/,
+    /wormagent drive ui websocket: (ws:\/\/\S+)/,
   )
   const drive = await connectDrive(endpoint, side)
   const call = drive.call

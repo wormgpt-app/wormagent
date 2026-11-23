@@ -1,7 +1,7 @@
-# @opencode/codemode
+# @wormagent/codemode
 
 This is our take on code mode: a lightweight, pure interpreter for a JavaScript-like language built around calling
-tools. The language itself is [psychoscript](https://github.com/anomalyco/psychoscript); see its interpreter support
+tools. The language itself is [psychoscript](https://github.com/wormgpt-app/psychoscript); see its interpreter support
 checklist for what is supported.
 
 Rather than trying to sandbox arbitrary JavaScript, CodeMode only runs the language features we implement. Programs
@@ -34,7 +34,7 @@ and Extension.make.
 ## Quick Start
 
 ```ts
-import { CodeMode, Namespace, Tool } from "@opencode/codemode"
+import { CodeMode, Namespace, Tool } from "@wormagent/codemode"
 import { Effect, Schema } from "effect"
 
 const lookupOrder = Tool.make({
@@ -321,7 +321,7 @@ create namespaces:
 
 ```ts
 const api = OpenAPI.fromSpec({ spec, auth: { resolve } })
-const runtime = CodeMode.make({ tools: { opencode: api.tools } })
+const runtime = CodeMode.make({ tools: { wormagent: api.tools } })
 ```
 
 The synchronous result is `{ tools, skipped }`. Operations with unsupported parameter encodings, request bodies
@@ -334,7 +334,7 @@ responses pass through unchanged. See `src/codemode/openapi/types.ts` for option
 
 ## The language layer
 
-Code Mode is built on [psychoscript](https://github.com/anomalyco/psychoscript), which runs programs over any host
+Code Mode is built on [psychoscript](https://github.com/wormgpt-app/psychoscript), which runs programs over any host
 globals given through Host and Runtime.make. See its README for that API.
 
 ## Results

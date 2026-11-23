@@ -2,15 +2,15 @@
 
 use std::cell::RefCell;
 
-use opencode_api::generated::{ModelInfo, SessionMessageCompaction, SessionMessageInfo};
-use opencode_plugin::abi::v2::{Node, Place, Surface};
-use opencode_plugin::abi::{self, Changed, Placement, Span};
-use opencode_plugin::slot;
+use wormagent_api::generated::{ModelInfo, SessionMessageCompaction, SessionMessageInfo};
+use wormagent_plugin::abi::v2::{Node, Place, Surface};
+use wormagent_plugin::abi::{self, Changed, Placement, Span};
+use wormagent_plugin::slot;
 
 use super::{hidden, kept};
 
 pub fn plugin() -> abi::Plugin {
-    abi::Plugin { id: "opencode.sidebar.context", setup }
+    abi::Plugin { id: "wormagent.sidebar.context", setup }
 }
 
 const ROOT: &str = "context";

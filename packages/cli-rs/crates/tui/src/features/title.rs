@@ -12,7 +12,7 @@ pub struct Title {
 
 impl Title {
     fn set(&self, tui: &Tui, title: String) {
-        let title = opencode_ui::terminal_title(&title);
+        let title = wormagent_ui::terminal_title(&title);
         if self.sent.borrow().as_deref() == Some(title.as_str()) {
             return;
         }
@@ -45,7 +45,7 @@ pub fn route_changed(tui: &Tui) {
         return;
     }
     let title = match &*tui.route() {
-        Route::Home => "OpenCode".to_owned(),
+        Route::Home => "WormAgent".to_owned(),
         Route::Session { .. } => session_title(session.as_ref().and_then(|(_, title)| title.as_deref())),
         Route::Plugin { name, .. } => format!("OC | {name}"),
     };
@@ -85,11 +85,11 @@ fn enabled(tui: &Tui) -> bool {
     crate::features::system_commands::title_enabled(&tui.config().info)
 }
 
-/// "OpenCode" without a title or with a fallback title; otherwise "OC | " and the title cut to 40 characters.
+/// "WormAgent" without a title or with a fallback title; otherwise "OC | " and the title cut to 40 characters.
 fn session_title(title: Option<&str>) -> String {
     match title {
-        None => "OpenCode".to_owned(),
-        Some(title) if is_fallback(title) => "OpenCode".to_owned(),
+        None => "WormAgent".to_owned(),
+        Some(title) if is_fallback(title) => "WormAgent".to_owned(),
         Some(title) if title.chars().count() > 40 => {
             format!("OC | {}…", title.chars().take(37).collect::<String>())
         }

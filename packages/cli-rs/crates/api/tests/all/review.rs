@@ -1,5 +1,5 @@
-use opencode_api::error::{DeclaredError, TaggedError};
-use opencode_api::generated::*;
+use wormagent_api::error::{DeclaredError, TaggedError};
+use wormagent_api::generated::*;
 use serde_json::json;
 
 #[test]

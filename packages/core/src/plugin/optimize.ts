@@ -1,8 +1,8 @@
 export * as OptimizePlugin from "./optimize.js"
 
-import { define, type Context } from "@opencode/plugin/effect/plugin"
-import type { SessionHooks } from "@opencode/plugin/effect/session"
-import { Model } from "@opencode/schema/model"
+import { define, type Context } from "@wormagent/plugin/effect/plugin"
+import type { SessionHooks } from "@wormagent/plugin/effect/session"
+import { Model } from "@wormagent/schema/model"
 import { Effect } from "effect"
 import { SessionSystemPrompt } from "../session/system-prompt.js"
 
@@ -13,14 +13,14 @@ import PROMPT_META from "./system-prompt/meta.txt"
 import PROMPT_TRINITY from "./system-prompt/trinity.txt"
 import PROMPT_ANTHROPIC from "./system-prompt/anthropic.txt"
 
-export const OpenAIPlugin = make("opencode.prompt.openai", (model) => {
+export const OpenAIPlugin = make("wormagent.prompt.openai", (model) => {
   const id = model.id.toLowerCase()
   if (!id.includes("gpt")) return undefined
   return id.includes("astra") ? PROMPT_ASTRA : PROMPT_GPT
 })
 
 export const AnthropicPlugin = make(
-  "opencode.prompt.anthropic",
+  "wormagent.prompt.anthropic",
   (model) => {
     const id = model.id.toLowerCase()
     if (!id.includes("claude")) return undefined
@@ -29,13 +29,13 @@ export const AnthropicPlugin = make(
   "append",
 )
 
-export const KimiPlugin = make("opencode.prompt.kimi", (model) =>
+export const KimiPlugin = make("wormagent.prompt.kimi", (model) =>
   model.id.toLowerCase().includes("kimi") ? PROMPT_KIMI : undefined,
 )
-export const ArceePlugin = make("opencode.prompt.arcee", (model) =>
+export const ArceePlugin = make("wormagent.prompt.arcee", (model) =>
   model.id.toLowerCase().includes("trinity") ? PROMPT_TRINITY : undefined,
 )
-export const MetaPlugin = make("opencode.prompt.meta", (model) => {
+export const MetaPlugin = make("wormagent.prompt.meta", (model) => {
   if (!model.id.toLowerCase().includes("muse")) return undefined
   return PROMPT_META.replaceAll("{{MODEL_NAME}}", model.name)
 })

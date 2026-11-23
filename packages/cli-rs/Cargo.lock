@@ -703,7 +703,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50"
 
 [[package]]
-name = "opencode-acp"
+name = "wormagent-acp"
 version = "0.1.0"
 dependencies = [
  "base64",
@@ -712,9 +712,9 @@ dependencies = [
  "indexmap",
  "libc",
  "log",
- "opencode-api",
- "opencode-service",
- "opencode-util",
+ "wormagent-api",
+ "wormagent-service",
+ "wormagent-util",
  "percent-encoding",
  "regex",
  "serde",
@@ -725,7 +725,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-api"
+name = "wormagent-api"
 version = "0.1.0"
 dependencies = [
  "base64",
@@ -735,8 +735,8 @@ dependencies = [
  "indexmap",
  "log",
  "memchr",
- "opencode-api-types",
- "opencode-util",
+ "wormagent-api-types",
+ "wormagent-util",
  "percent-encoding",
  "rand",
  "reqwest",
@@ -752,7 +752,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-api-types"
+name = "wormagent-api-types"
 version = "0.1.0"
 dependencies = [
  "bytes",
@@ -764,7 +764,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-cli"
+name = "wormagent-cli"
 version = "0.1.0"
 dependencies = [
  "base64",
@@ -772,18 +772,18 @@ dependencies = [
  "indexmap",
  "libc",
  "log",
- "opencode-acp",
- "opencode-api",
- "opencode-latex",
- "opencode-local",
- "opencode-mermaid",
- "opencode-mini",
- "opencode-plugin",
- "opencode-service",
- "opencode-store",
- "opencode-tui",
- "opencode-ui",
- "opencode-util",
+ "wormagent-acp",
+ "wormagent-api",
+ "wormagent-latex",
+ "wormagent-local",
+ "wormagent-mermaid",
+ "wormagent-mini",
+ "wormagent-plugin",
+ "wormagent-service",
+ "wormagent-store",
+ "wormagent-tui",
+ "wormagent-ui",
+ "wormagent-util",
  "opentui",
  "regex",
  "reqwest",
@@ -796,13 +796,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-drive"
+name = "wormagent-drive"
 version = "0.1.0"
 dependencies = [
  "base64",
  "log",
- "opencode-api-types",
- "opencode-util",
+ "wormagent-api-types",
+ "wormagent-util",
  "opentui",
  "serde",
  "serde_json",
@@ -810,13 +810,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-latex"
+name = "wormagent-latex"
 version = "0.1.0"
 dependencies = [
- "opencode-parity",
- "opencode-plugin",
- "opencode-plugin-abi",
- "opencode-ui",
+ "wormagent-parity",
+ "wormagent-plugin",
+ "wormagent-plugin-abi",
+ "wormagent-ui",
  "opentui",
  "serde_json",
  "unicode-segmentation",
@@ -824,15 +824,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-local"
+name = "wormagent-local"
 version = "0.1.0"
 dependencies = [
  "base64",
  "indexmap",
  "log",
  "notify",
- "opencode-api-types",
- "opencode-util",
+ "wormagent-api-types",
+ "wormagent-util",
  "rand",
  "rustix",
  "serde",
@@ -842,14 +842,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-mermaid"
+name = "wormagent-mermaid"
 version = "0.1.0"
 dependencies = [
  "indexmap",
- "opencode-parity",
- "opencode-plugin",
- "opencode-plugin-abi",
- "opencode-ui",
+ "wormagent-parity",
+ "wormagent-plugin",
+ "wormagent-plugin-abi",
+ "wormagent-ui",
  "opentui",
  "regex",
  "serde_json",
@@ -857,18 +857,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-mini"
+name = "wormagent-mini"
 version = "0.1.0"
 dependencies = [
  "futures-util",
  "indexmap",
  "libc",
  "log",
- "opencode-api",
- "opencode-local",
- "opencode-store",
- "opencode-ui",
- "opencode-util",
+ "wormagent-api",
+ "wormagent-local",
+ "wormagent-store",
+ "wormagent-ui",
+ "wormagent-util",
  "opentui",
  "rustix",
  "serde",
@@ -878,7 +878,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-parity"
+name = "wormagent-parity"
 version = "0.1.0"
 dependencies = [
  "opentui",
@@ -888,16 +888,16 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-plugin"
+name = "wormagent-plugin"
 version = "0.1.0"
 dependencies = [
  "libc",
  "log",
  "mlua",
- "opencode-api-types",
- "opencode-plugin-abi",
- "opencode-ui",
- "opencode-util",
+ "wormagent-api-types",
+ "wormagent-plugin-abi",
+ "wormagent-ui",
+ "wormagent-util",
  "opentui",
  "ring",
  "serde",
@@ -908,25 +908,25 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-plugin-abi"
+name = "wormagent-plugin-abi"
 version = "0.1.0"
 dependencies = [
- "opencode-api-types",
+ "wormagent-api-types",
  "serde",
  "serde_json",
 ]
 
 [[package]]
-name = "opencode-service"
+name = "wormagent-service"
 version = "0.1.0"
 dependencies = [
  "base64",
  "bytes",
  "futures-util",
  "log",
- "opencode-api",
- "opencode-local",
- "opencode-util",
+ "wormagent-api",
+ "wormagent-local",
+ "wormagent-util",
  "rand",
  "reqwest",
  "rustix",
@@ -937,17 +937,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-store"
+name = "wormagent-store"
 version = "0.1.0"
 dependencies = [
  "bytes",
  "futures-util",
  "indexmap",
  "log",
- "opencode-api",
- "opencode-local",
- "opencode-service",
- "opencode-util",
+ "wormagent-api",
+ "wormagent-local",
+ "wormagent-service",
+ "wormagent-util",
  "serde",
  "serde_json",
  "tokio",
@@ -955,7 +955,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-tui"
+name = "wormagent-tui"
 version = "0.1.0"
 dependencies = [
  "base64",
@@ -964,17 +964,17 @@ dependencies = [
  "indexmap",
  "libc",
  "log",
- "opencode-api",
- "opencode-drive",
- "opencode-latex",
- "opencode-local",
- "opencode-mermaid",
- "opencode-parity",
- "opencode-plugin",
- "opencode-plugin-abi",
- "opencode-store",
- "opencode-ui",
- "opencode-util",
+ "wormagent-api",
+ "wormagent-drive",
+ "wormagent-latex",
+ "wormagent-local",
+ "wormagent-mermaid",
+ "wormagent-parity",
+ "wormagent-plugin",
+ "wormagent-plugin-abi",
+ "wormagent-store",
+ "wormagent-ui",
+ "wormagent-util",
  "opentui",
  "rand",
  "regex",
@@ -987,15 +987,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-ui"
+name = "wormagent-ui"
 version = "0.1.0"
 dependencies = [
  "base64",
  "indexmap",
  "log",
- "opencode-api-types",
- "opencode-parity",
- "opencode-util",
+ "wormagent-api-types",
+ "wormagent-parity",
+ "wormagent-util",
  "opentui",
  "regex",
  "serde",
@@ -1039,7 +1039,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-util"
+name = "wormagent-util"
 version = "0.1.0"
 dependencies = [
  "libc",

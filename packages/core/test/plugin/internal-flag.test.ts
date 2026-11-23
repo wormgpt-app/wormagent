@@ -1,20 +1,20 @@
 import { describe, expect } from "bun:test"
 import { Duration, Effect, Layer, LayerMap, Stream } from "effect"
-import { App } from "@opencode/core/app"
-import { ConfigPluginSource } from "@opencode/core/config/plugin/source"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Flag } from "@opencode/core/flag"
-import { Instance } from "@opencode/core/instance"
-import { Location } from "@opencode/core/location"
-import { LocationServiceMap } from "@opencode/core/location-services"
-import { Plugin } from "@opencode/core/plugin"
-import { SdkPlugins } from "@opencode/core/plugin/sdk"
-import { AbsolutePath } from "@opencode/core/schema"
-import { Tool } from "@opencode/core/tool"
-import { TodoTool } from "@opencode/core/tool/plugin/todo"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { Global } from "@opencode/util/global"
-import { Npm } from "@opencode/util/npm"
+import { App } from "@wormagent/core/app"
+import { ConfigPluginSource } from "@wormagent/core/config/plugin/source"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Flag } from "@wormagent/core/flag"
+import { Instance } from "@wormagent/core/instance"
+import { Location } from "@wormagent/core/location"
+import { LocationServiceMap } from "@wormagent/core/location-services"
+import { Plugin } from "@wormagent/core/plugin"
+import { SdkPlugins } from "@wormagent/core/plugin/sdk"
+import { AbsolutePath } from "@wormagent/core/schema"
+import { Tool } from "@wormagent/core/tool"
+import { TodoTool } from "@wormagent/core/tool/plugin/todo"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { Global } from "@wormagent/util/global"
+import { Npm } from "@wormagent/util/npm"
 import { Bus } from "../../src/bus"
 import { Database } from "../../src/database/database"
 import { tempGlobalLayer } from "../fixture/global"
@@ -92,7 +92,7 @@ describe("PluginInternal flags", () => {
         Effect.provide(locations.get(Location.Ref.make({ directory: AbsolutePath.make(directory.path) }))),
       )
 
-      expect(registered).toContain("opencode_artifact_create")
+      expect(registered).toContain("wormagent_artifact_create")
       expect(registered).toContain("shell")
       expect(registered).not.toContain(TodoTool.name)
       expect(direct).not.toContain("shell")

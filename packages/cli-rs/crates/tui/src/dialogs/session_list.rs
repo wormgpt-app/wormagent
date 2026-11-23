@@ -4,18 +4,18 @@ use std::borrow::Cow;
 use std::collections::HashSet;
 use std::path::PathBuf;
 
-use opencode_api::client::Client;
-use opencode_api::generated::{
+use wormagent_api::client::Client;
+use wormagent_api::generated::{
     LocationPublicInfo, Project, SessionInfo, SessionListInput, SessionListInputOrder, SessionRemoveInput,
 };
-use opencode_local::cli_config::TabsScope;
-use opencode_store::state::State as Store;
-use opencode_store::{Location, SessionStatus};
-use opencode_ui::dialog::DIALOG_LIST_INSET;
-use opencode_ui::motion::Spinner;
-use opencode_ui::path::{Flavor, relative};
-use opencode_ui::select::{FooterHint, Gutter, Select, SelectAction};
-use opencode_util::time::{self, Zone};
+use wormagent_local::cli_config::TabsScope;
+use wormagent_store::state::State as Store;
+use wormagent_store::{Location, SessionStatus};
+use wormagent_ui::dialog::DIALOG_LIST_INSET;
+use wormagent_ui::motion::Spinner;
+use wormagent_ui::path::{Flavor, relative};
+use wormagent_ui::select::{FooterHint, Gutter, Select, SelectAction};
+use wormagent_util::time::{self, Zone};
 
 use crate::prelude::*;
 
@@ -489,7 +489,7 @@ impl List {
 }
 
 pub fn dialog_theme(tui: &Tui) -> Theme {
-    tui.page().surface(opencode_ui::theme::Surface::Dialog)
+    tui.page().surface(wormagent_ui::theme::Surface::Dialog)
 }
 
 fn local_sessions(
@@ -649,7 +649,7 @@ fn resolve_up(flavor: Flavor, directory: &str, ups: usize) -> String {
 pub mod pins {
     use std::sync::OnceLock;
 
-    use opencode_local::serial::Serial;
+    use wormagent_local::serial::Serial;
 
     use super::*;
 
@@ -665,7 +665,7 @@ pub mod pins {
                 .entry(key.clone())
                 .or_insert_with(|| {
                     key.as_deref()
-                        .map(opencode_local::pins::load)
+                        .map(wormagent_local::pins::load)
                         .unwrap_or_default()
                         .into_iter()
                         .map(SessionID)
@@ -708,7 +708,7 @@ pub mod pins {
         let id = id.0.clone();
         static WRITER: OnceLock<Serial> = OnceLock::new();
         WRITER.get_or_init(|| Serial::new("session.json")).run(move || {
-            if let Err(error) = opencode_local::pins::set(&state, &id, pinned) {
+            if let Err(error) = wormagent_local::pins::set(&state, &id, pinned) {
                 log::warn!("failed to save session.json: {error}");
             }
         });

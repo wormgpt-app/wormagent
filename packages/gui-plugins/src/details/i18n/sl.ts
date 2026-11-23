@@ -36,15 +36,15 @@ export default {
   "move.recovery.remove": "Izbriši delovno drevo",
   "mcp.manage": "Upravljaj MCP strežnike",
   timedOut: "Strežnik se je predolgo odzival",
-  "setup.mcp": "Dodaj strežnik z OpenCode",
+  "setup.mcp": "Dodaj strežnik z WormAgent",
   "setup.mcp.prompt":
-    "Pomagaj mi dodati MCP strežnik v mojo globalno konfiguracijo OpenCode. Vprašaj me, katero storitev želim povezati, nato jo nastavi in preveri, ali se poveže.",
-  "setup.plugins": "Dodaj vtičnik z OpenCode",
+    "Pomagaj mi dodati MCP strežnik v mojo globalno konfiguracijo WormAgent. Vprašaj me, katero storitev želim povezati, nato jo nastavi in preveri, ali se poveže.",
+  "setup.plugins": "Dodaj vtičnik z WormAgent",
   "setup.plugins.prompt":
-    "Pomagaj mi dodati vtičnik v mojo globalno konfiguracijo OpenCode. Vprašaj me, kaj naj počne, predlagaj vtičnik in ga nato dodaj.",
-  "setup.skills": "Nova veščina z OpenCode",
+    "Pomagaj mi dodati vtičnik v mojo globalno konfiguracijo WormAgent. Vprašaj me, kaj naj počne, predlagaj vtičnik in ga nato dodaj.",
+  "setup.skills": "Nova veščina z WormAgent",
   "setup.skills.prompt":
-    "Pomagaj mi napisati novo veščino OpenCode v moji globalni konfiguraciji. Vprašaj me, česa naj te nauči, nato napiši njen SKILL.md.",
+    "Pomagaj mi napisati novo veščino WormAgent v moji globalni konfiguraciji. Vprašaj me, česa naj te nauči, nato napiši njen SKILL.md.",
   changesFailed: "Sprememb ni bilo mogoče naložiti",
   changesOffline: "Strežnik ni dosegljiv",
   "mcp.signIn": "Prijava",
@@ -56,7 +56,7 @@ export default {
   "mcp.error.actionLabel": "Podrobnosti za {{name}}",
   "mcp.signIn.open": "Prijava v {{name}}",
   "mcp.signIn.description":
-    "Odprl se bo brskalnik, da se lahko prijavite v {{name}}. Če ne more doseči računalnika, na katerem teče OpenCode, spodaj prilepite URL, na katerega je bil preusmerjen.",
+    "Odprl se bo brskalnik, da se lahko prijavite v {{name}}. Če ne more doseči računalnika, na katerem teče WormAgent, spodaj prilepite URL, na katerega je bil preusmerjen.",
   "mcp.signIn.waiting": "Čakanje na avtorizacijo …",
   "mcp.signIn.failed": "Avtorizacija ni uspela: {{error}}",
   "mcp.signIn.expired": "Avtorizacija je potekla",

@@ -1,10 +1,10 @@
 //! Inline transcript notices for skills and session changes.
 
-use opencode_api::generated::{ModelInfo, ModelRef};
+use wormagent_api::generated::{ModelInfo, ModelRef};
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
 use super::list::Context;
-use opencode_ui::locale::titlecase;
+use wormagent_ui::locale::titlecase;
 
 use crate::prelude::*;
 
@@ -42,7 +42,7 @@ impl Notice {
         });
         inner.root.on_hover(bind!(inner, |inner, _, hovered| {
             let child = matches!(&*inner.rendered.borrow(), Some(Line::Completion { child: Some(_), .. }));
-            inner.root.mouse_pointer(opencode_ui::click_pointer(child));
+            inner.root.mouse_pointer(wormagent_ui::click_pointer(child));
             inner.hover.set(hovered);
             inner.paint();
         }));
@@ -250,7 +250,7 @@ pub fn truncate_width(text: &str, width: usize) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use opencode_api::generated::ProviderID;
+    use wormagent_api::generated::ProviderID;
 
     fn model(id: &str, name: &str, speed: Option<(&str, &str)>) -> ModelInfo {
         let mut value = serde_json::json!({

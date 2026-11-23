@@ -1,4 +1,4 @@
-import type { BuiltinMainStorage, MainStoreFrom } from "@opencode/plugin/gui/builtin"
+import type { BuiltinMainStorage, MainStoreFrom } from "@wormagent/plugin/gui/builtin"
 import { History } from "./visits"
 
 /**
@@ -6,8 +6,8 @@ import { History } from "./visits"
  * of `index.ts`), and where builds before the plugin rename kept it.
  */
 const WINDOW_LISTS: readonly MainStoreFrom[] = [
-  { state: ["opencode.global.dat", "plugin.browser.history"] },
-  { state: ["opencode.global.dat", "extension.browser.history"] },
+  { state: ["wormagent.global.dat", "plugin.browser.history"] },
+  { state: ["wormagent.global.dat", "extension.browser.history"] },
 ]
 
 /**

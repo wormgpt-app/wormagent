@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@opencode/httpapi-codegen",
+  "name": "@wormagent/httpapi-codegen",
   "version": "2.4.0",
   "private": true,
   "type": "module",

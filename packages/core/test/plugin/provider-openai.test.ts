@@ -1,26 +1,26 @@
-import { Money } from "@opencode/schema/money"
-import { Agent } from "@opencode/schema/agent"
-import { Session } from "@opencode/core/session"
-import { OpenAIResponses } from "@opencode/ai/protocols/openai-responses"
+import { Money } from "@wormagent/schema/money"
+import { Agent } from "@wormagent/schema/agent"
+import { Session } from "@wormagent/core/session"
+import { OpenAIResponses } from "@wormagent/ai/protocols/openai-responses"
 import { describe, expect } from "bun:test"
 import { DateTime, Effect } from "effect"
-import { Credential } from "@opencode/core/credential"
-import { Integration } from "@opencode/core/integration"
-import { Location } from "@opencode/core/location"
-import { Model } from "@opencode/core/model"
-import { ModelsDev } from "@opencode/core/models-dev"
-import { Bus } from "@opencode/core/bus"
-import { Plugin } from "@opencode/core/plugin"
-import { PluginHost } from "@opencode/core/plugin/host"
-import { PluginHooks } from "@opencode/core/plugin/hooks"
-import { GithubCopilotPlugin } from "@opencode/core/plugin/provider/github-copilot"
-import { OpenAIPlugin } from "@opencode/core/plugin/provider/openai"
-import { Project } from "@opencode/core/project"
-import { Provider } from "@opencode/core/provider"
-import { AbsolutePath } from "@opencode/core/schema"
-import { SessionModelRequest } from "@opencode/core/session/model-request"
-import { SessionModelTransport } from "@opencode/core/session/model-transport"
-import { SessionRunnerModel } from "@opencode/core/session/runner/model"
+import { Credential } from "@wormagent/core/credential"
+import { Integration } from "@wormagent/core/integration"
+import { Location } from "@wormagent/core/location"
+import { Model } from "@wormagent/core/model"
+import { ModelsDev } from "@wormagent/core/models-dev"
+import { Bus } from "@wormagent/core/bus"
+import { Plugin } from "@wormagent/core/plugin"
+import { PluginHost } from "@wormagent/core/plugin/host"
+import { PluginHooks } from "@wormagent/core/plugin/hooks"
+import { GithubCopilotPlugin } from "@wormagent/core/plugin/provider/github-copilot"
+import { OpenAIPlugin } from "@wormagent/core/plugin/provider/openai"
+import { Project } from "@wormagent/core/project"
+import { Provider } from "@wormagent/core/provider"
+import { AbsolutePath } from "@wormagent/core/schema"
+import { SessionModelRequest } from "@wormagent/core/session/model-request"
+import { SessionModelTransport } from "@wormagent/core/session/model-transport"
+import { SessionRunnerModel } from "@wormagent/core/session/runner/model"
 import { drain } from "../lib/clock"
 import { testEffect } from "../lib/effect"
 import { PluginTestLayer } from "./fixture"
@@ -40,7 +40,7 @@ const subscriptionCatalog = (lists: { current: Record<string, readonly string[]>
     get: () =>
       Effect.sync(() => [
         {
-          info: { id: Provider.ID.openai, name: "OpenAI", activation: "auto", package: "@opencode/ai/providers/openai" },
+          info: { id: Provider.ID.openai, name: "OpenAI", activation: "auto", package: "@wormagent/ai/providers/openai" },
           models: [],
           environment: [],
           subscriptions: lists.current,
@@ -110,7 +110,7 @@ describe("OpenAIPlugin", () => {
       const credentials = yield* Credential.Service
       yield* catalog.transform((catalog) => {
         catalog.update(Provider.ID.openai, (draft) => {
-          draft.package = "@opencode/ai/providers/openai"
+          draft.package = "@wormagent/ai/providers/openai"
         })
         catalog.models.update(Provider.ID.openai, Model.ID.make("gpt-5.5"), () => {})
         catalog.models.update(Provider.ID.openai, Model.ID.make("gpt-5.3-codex-spark"), () => {})
@@ -178,20 +178,20 @@ describe("OpenAIPlugin", () => {
       const proxy = yield* request(Provider.ID.openai, "https://proxy.example/v1?region=us")
 
       const provider = required(yield* catalog.get(Provider.ID.openai))
-      expect(provider.package).toBe("@opencode/ai/providers/openai")
+      expect(provider.package).toBe("@wormagent/ai/providers/openai")
       expect(provider.settings).toMatchObject({ baseURL: "https://chatgpt.com/backend-api/codex" })
       expect(provider.settings?.encoding).toBe("zstd")
       expect(provider.headers).toMatchObject({
-        originator: "opencode",
+        originator: "wormagent",
         "chatgpt-account-id": "acct_123",
         "x-codex-beta-features": "remote_compaction_v2",
       })
       expect(direct.baseURL).toBe("https://chatgpt.com/backend-api/codex")
-      expect(direct.headers).toMatchObject({ originator: "opencode", "session-id": "ses_test" })
+      expect(direct.headers).toMatchObject({ originator: "wormagent", "session-id": "ses_test" })
       expect(direct.hasHttpHooks).toBe(false)
       expect(custom.headers).not.toHaveProperty("originator")
       expect(proxy.baseURL).toBe("https://proxy.example/v1?region=us")
-      expect(proxy.headers).toMatchObject({ originator: "opencode", "session-id": "ses_test" })
+      expect(proxy.headers).toMatchObject({ originator: "wormagent", "session-id": "ses_test" })
       const sessions = yield* Session.Service
       const location = yield* Location.Service
       const parent = yield* sessions.create({ location: { directory: location.directory } })
@@ -199,8 +199,8 @@ describe("OpenAIPlugin", () => {
       const childRequest = yield* request(Provider.ID.openai, "https://api.openai.com/v1", child.id)
       expect(childRequest.headers).toMatchObject({ "session-id": parent.id })
       const eligible = required(yield* models.get(Provider.ID.openai, Model.ID.make("gpt-5.6-sol")))
-      expect(eligible.package).toBe("@opencode/ai/providers/openai")
-      expect(eligible.headers).toMatchObject({ originator: "opencode", "chatgpt-account-id": "acct_123" })
+      expect(eligible.package).toBe("@wormagent/ai/providers/openai")
+      expect(eligible.headers).toMatchObject({ originator: "wormagent", "chatgpt-account-id": "acct_123" })
       expect(eligible.cost).toEqual([])
       expect(eligible.limit).toEqual({ context: 1_050_000, input: 922_000, output: 128_000 })
       expect(eligible.enabled).toBe(true)
@@ -231,7 +231,7 @@ describe("OpenAIPlugin", () => {
       const bus = yield* Bus.Service
       yield* catalog.transform((catalog) => {
         catalog.update(Provider.ID.openai, (draft) => {
-          draft.package = "@opencode/ai/providers/openai"
+          draft.package = "@wormagent/ai/providers/openai"
         })
         for (const id of ["gpt-5.5", "gpt-6-sol", "gpt-6-sol-fast", "gpt-6-sol-pro", "gpt-7"])
           catalog.models.update(Provider.ID.openai, Model.ID.make(id), () => {})
@@ -281,7 +281,7 @@ describe("OpenAIPlugin", () => {
       const credentials = yield* Credential.Service
       yield* catalog.transform((catalog) => {
         catalog.update(Provider.ID.openai, (draft) => {
-          draft.package = "@opencode/ai/providers/openai"
+          draft.package = "@wormagent/ai/providers/openai"
         })
         catalog.models.update(Provider.ID.openai, Model.ID.make("gpt-5.5"), (model) => {
           model.limit = { context: 1_050_000, input: 922_000, output: 128_000 }
@@ -298,7 +298,7 @@ describe("OpenAIPlugin", () => {
 
       const provider = required(yield* catalog.get(Provider.ID.openai))
       const model = required(yield* models.get(Provider.ID.openai, Model.ID.make("gpt-5.5")))
-      expect(model.package).toBe("@opencode/ai/providers/openai")
+      expect(model.package).toBe("@wormagent/ai/providers/openai")
       expect(model.enabled).toBe(true)
       expect(model.limit).toEqual({ context: 1_050_000, input: 922_000, output: 128_000 })
       expect(provider.settings?.transport).toBe("websocket")

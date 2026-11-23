@@ -1,34 +1,34 @@
 import { expect, test } from "bun:test"
-import { EnvironmentDriver } from "@opencode/core/environment/driver"
-import { EnvironmentFiles } from "@opencode/core/environment/files"
-import { Location as CoreLocation } from "@opencode/core/location"
-import { WorkspaceDriver } from "@opencode/core/workspace/driver"
-import { SessionInbox as CoreSessionInbox } from "@opencode/core/session/inbox"
-import { SessionMessage as CoreSessionMessage } from "@opencode/core/session/message"
-import { Agent } from "@opencode/schema/agent"
-import { Config } from "@opencode/schema/config"
-import { Event } from "@opencode/schema/event"
-import { Location } from "@opencode/schema/location"
-import { Model } from "@opencode/schema/model"
-import { Project } from "@opencode/schema/project"
-import { Provider } from "@opencode/schema/provider"
-import { WebSearch } from "@opencode/schema/websearch"
-import { Session } from "@opencode/schema/session"
-import { SessionInbox } from "@opencode/schema/session-inbox"
-import { SessionMessage } from "@opencode/schema/session-message"
-import { Workspace } from "@opencode/schema/workspace"
-import { Worktree } from "@opencode/schema/worktree"
-import { Api } from "@opencode/server/api"
-import { ClientApi, clientNamespace, groupNames, promiseOmitEndpoints } from "@opencode/protocol/client"
-import { compile, emitPromise } from "@opencode/httpapi-codegen"
+import { EnvironmentDriver } from "@wormagent/core/environment/driver"
+import { EnvironmentFiles } from "@wormagent/core/environment/files"
+import { Location as CoreLocation } from "@wormagent/core/location"
+import { WorkspaceDriver } from "@wormagent/core/workspace/driver"
+import { SessionInbox as CoreSessionInbox } from "@wormagent/core/session/inbox"
+import { SessionMessage as CoreSessionMessage } from "@wormagent/core/session/message"
+import { Agent } from "@wormagent/schema/agent"
+import { Config } from "@wormagent/schema/config"
+import { Event } from "@wormagent/schema/event"
+import { Location } from "@wormagent/schema/location"
+import { Model } from "@wormagent/schema/model"
+import { Project } from "@wormagent/schema/project"
+import { Provider } from "@wormagent/schema/provider"
+import { WebSearch } from "@wormagent/schema/websearch"
+import { Session } from "@wormagent/schema/session"
+import { SessionInbox } from "@wormagent/schema/session-inbox"
+import { SessionMessage } from "@wormagent/schema/session-message"
+import { Workspace } from "@wormagent/schema/workspace"
+import { Worktree } from "@wormagent/schema/worktree"
+import { Api } from "@wormagent/server/api"
+import { ClientApi, clientNamespace, groupNames, promiseOmitEndpoints } from "@wormagent/protocol/client"
+import { compile, emitPromise } from "@wormagent/httpapi-codegen"
 
 const SDK = await import("../src/index")
 const SDKEffect = await import("../src/effect")
-const CoreAgent = await import("@opencode/core/agent")
-const CoreModel = await import("@opencode/core/model")
-const CoreProject = await import("@opencode/core/project")
-const CoreSession = await import("@opencode/core/session")
-const CoreWorktree = await import("@opencode/core/worktree")
+const CoreAgent = await import("@wormagent/core/agent")
+const CoreModel = await import("@wormagent/core/model")
+const CoreProject = await import("@wormagent/core/project")
+const CoreSession = await import("@wormagent/core/session")
+const CoreWorktree = await import("@wormagent/core/worktree")
 
 test("re-exports canonical contracts directly from Schema", () => {
   expect(SDK.Agent).toBe(Agent)
@@ -51,7 +51,7 @@ test("re-exports canonical contracts directly from Schema", () => {
     "Integration",
     "Location",
     "Model",
-    "OpenCode",
+    "WormAgent",
     "Permission",
     "PermissionSaved",
     "Project",
@@ -103,7 +103,7 @@ test("client and Server contracts generate identically", () => {
   expect(emitPromise(client)).toEqual(emitPromise(server))
 })
 
-test("re-exports workspace and environment driver contracts from @opencode/sdk/effect", () => {
+test("re-exports workspace and environment driver contracts from @wormagent/sdk/effect", () => {
   expect(SDKEffect.WorkspaceDriver).toBe(WorkspaceDriver)
   expect(SDKEffect.EnvironmentDriver).toBe(EnvironmentDriver)
   expect(SDKEffect.EnvironmentFiles).toBe(EnvironmentFiles)

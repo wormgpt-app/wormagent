@@ -2,7 +2,7 @@ import { For, Show } from "solid-js"
 import { Portal } from "solid-js/web"
 import { Predicate } from "effect"
 import type { ActiveKey } from "@opentui/keymap"
-import { Keybind } from "@opencode/ui/keybind"
+import { Keybind } from "@wormagent/ui/keybind"
 import { useCommand } from "@/shell/commands/command"
 
 /** While a chord is in progress, lists the keys that continue it and what each runs. */

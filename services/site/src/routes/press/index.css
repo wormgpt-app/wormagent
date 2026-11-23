@@ -138,7 +138,7 @@
     }
   }
 
-  /* Settings › Press Anomaly projects "list": one line per project, name and line side by side. */
+  /* Settings › Press WormGPT projects "list": one line per project, name and line side by side. */
   [data-component="product-list"][data-style="list"] {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.75rem;
@@ -297,7 +297,7 @@
 
   /* The section after the accordion: no divider of its own, whatever Settings › Spacer draws (the
      border keeps its width, so the spacing is the same). Doubled to outrank the shared spacer rules. */
-  [data-component="block"]:has(#about-opencode) + [data-component="block"][data-component="block"] {
+  [data-component="block"]:has(#about-wormagent) + [data-component="block"][data-component="block"] {
     border-top-color: transparent;
     border-image: none;
     background-image: none;
@@ -814,7 +814,7 @@
     }
   }
 
-  /* Anomaly logo: each file on a light and a dark tile, like the logo tiles on /brand. */
+  /* WormGPT logo: each file on a light and a dark tile, like the logo tiles on /brand. */
   [data-component="logo-tiles"] {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -1,20 +1,20 @@
 //! Session statistics poster.
 
-use opencode_api::client::Client;
-use opencode_api::generated::{ExperimentalSessionStatsInput, ExperimentalSessionStatsInputTools, SessionStatsInfo};
-use opencode_plugin::abi::interact::{Event, Handled};
-use opencode_plugin::abi::v2::{Node, Place, Surface};
-use opencode_plugin::abi::{self, Align, Command, Justify, Layout, Read, RequestId, Rgba, Scope, Span, Width, Wrap};
-use opencode_ui::activity_calendar::{activity_calendar, time_zone};
-use opencode_ui::theme::tint;
-use opencode_util::time::{self, Date, Zone};
+use wormagent_api::client::Client;
+use wormagent_api::generated::{ExperimentalSessionStatsInput, ExperimentalSessionStatsInputTools, SessionStatsInfo};
+use wormagent_plugin::abi::interact::{Event, Handled};
+use wormagent_plugin::abi::v2::{Node, Place, Surface};
+use wormagent_plugin::abi::{self, Align, Command, Justify, Layout, Read, RequestId, Rgba, Scope, Span, Width, Wrap};
+use wormagent_ui::activity_calendar::{activity_calendar, time_zone};
+use wormagent_ui::theme::tint;
+use wormagent_util::time::{self, Date, Zone};
 use opentui::style::Color;
 
 use super::fetch::{data, fetch_of};
 
 use crate::prelude::*;
 
-const ID: &str = "opencode.stats";
+const ID: &str = "wormagent.stats";
 const ROUTE: &str = "stats";
 
 pub fn plugin() -> abi::Plugin {
@@ -156,7 +156,7 @@ fn poster(read: &dyn Read, stats: &SessionStatsInfo) -> Node {
     let total = number(tokens);
     let mut children = Vec::new();
     let title =
-        vec![bold("opencode / stats", "text.base"), text(dates(stats.range.from, stats.range.to), "text.muted")];
+        vec![bold("wormagent / stats", "text.base"), text(dates(stats.range.from, stats.range.to), "text.muted")];
     let title = if width < 44 { Node::column(title) } else { Node::row(title) };
     children.push(title.justify(Justify::SpaceBetween).layout(full()));
     if !compact {
@@ -190,7 +190,7 @@ fn poster(read: &dyn Read, stats: &SessionStatsInfo) -> Node {
         })
         .collect();
     children.push(Node::row(metrics).justify(Justify::SpaceAround).layout(full()));
-    children.push(Node::row(vec![text("opencode.ai", "text.base")]).justify(Justify::End).layout(full()));
+    children.push(Node::row(vec![text("wormagent.net", "text.base")]).justify(Justify::End).layout(full()));
     Node::column(children)
         .align(Align::Center)
         .gap(if compact { 1 } else { 2 })

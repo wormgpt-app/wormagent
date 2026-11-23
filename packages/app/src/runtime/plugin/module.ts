@@ -4,22 +4,22 @@ import {
   mainOnlyModule,
   type PluginModule,
   type Entry,
-} from "@opencode/plugin/gui/host"
+} from "@wormagent/plugin/gui/host"
 
 // Plugin bundles share the host's module instances, so tokens, contexts and schemas they import are the same objects
 // the host checks against. In a window, the main SDK's name resolves to the window SDK.
 const modules = {
   effect: () => import("effect"),
-  "@opencode/plugin/gui": () => import("@opencode/plugin/gui"),
-  "@opencode/plugin/gui/main": () => import("@opencode/plugin/gui"),
-  "@opencode/plugin/gui/file": () => import("@opencode/plugin/gui/file"),
-  "@opencode/plugin/gui/review": () => import("@opencode/plugin/gui/review"),
-  "@opencode/plugin/gui/browser": () => import("@opencode/plugin/gui/browser"),
-  "@opencode/plugin/rpc": () => import("@opencode/plugin/rpc"),
-  "@opencode/schema/rpc": () => import("@opencode/schema/rpc"),
-  "@opencode/client": () => import("@opencode/client"),
-  "@opencode/client/effect": () => import("@opencode/client/effect"),
-  "@opencode/client/solid": () => import("@opencode/client/solid"),
+  "@wormagent/plugin/gui": () => import("@wormagent/plugin/gui"),
+  "@wormagent/plugin/gui/main": () => import("@wormagent/plugin/gui"),
+  "@wormagent/plugin/gui/file": () => import("@wormagent/plugin/gui/file"),
+  "@wormagent/plugin/gui/review": () => import("@wormagent/plugin/gui/review"),
+  "@wormagent/plugin/gui/browser": () => import("@wormagent/plugin/gui/browser"),
+  "@wormagent/plugin/rpc": () => import("@wormagent/plugin/rpc"),
+  "@wormagent/schema/rpc": () => import("@wormagent/schema/rpc"),
+  "@wormagent/client": () => import("@wormagent/client"),
+  "@wormagent/client/effect": () => import("@wormagent/client/effect"),
+  "@wormagent/client/solid": () => import("@wormagent/client/solid"),
   "solid-js": () => import("solid-js"),
   "solid-js/web": () => import("solid-js/web"),
   "solid-js/store": () => import("solid-js/store"),

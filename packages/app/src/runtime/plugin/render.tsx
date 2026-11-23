@@ -21,11 +21,11 @@ import {
   type MarkdownCodeAction,
   type MarkdownCodeBlock,
   type MarkdownCodeBlocks,
-} from "@opencode/session-ui/context/markdown"
-import { SourcesProvider } from "@opencode/session-ui/context/sources"
-import { sourcesExperiment } from "@opencode/session-ui/sources/experiment"
-import { useTheme } from "@opencode/ui/theme/context"
-import type { DesktopTheme } from "@opencode/ui/theme/types"
+} from "@wormagent/session-ui/context/markdown"
+import { SourcesProvider } from "@wormagent/session-ui/context/sources"
+import { sourcesExperiment } from "@wormagent/session-ui/sources/experiment"
+import { useTheme } from "@wormagent/ui/theme/context"
+import type { DesktopTheme } from "@wormagent/ui/theme/types"
 import {
   CodeBlock,
   CodeBlockAction,
@@ -33,13 +33,13 @@ import {
   Theme,
   type CodeBlockProps,
   type MountedSession,
-} from "@opencode/plugin/gui"
-import { BuiltinAppLink, BuiltinSlot, type BuiltinSlotMap } from "@opencode/plugin/gui/builtin"
+} from "@wormagent/plugin/gui"
+import { BuiltinAppLink, BuiltinSlot, type BuiltinSlotMap } from "@wormagent/plugin/gui/builtin"
 import { usePlatform } from "@/runtime/platform/platform"
 import { useLanguage } from "@/runtime/i18n/language"
 import { showToast } from "@/shell/notifications/toast"
 import { appLinkRoute, createAppLinks } from "./app-links"
-import { PluginContext } from "@opencode/plugin/gui/host"
+import { PluginContext } from "@wormagent/plugin/gui/host"
 import { usePluginHost, type Item } from "./host"
 import { createLinkCheck } from "./link-check"
 import { webHref } from "./web-href"

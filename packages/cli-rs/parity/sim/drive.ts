@@ -1,7 +1,7 @@
-// A JSON-RPC client for an `OPENCODE_DRIVE` UI endpoint (packages/protocol/src/simulation.ts), shared by P-TUI
+// A JSON-RPC client for an `WORMAGENT_DRIVE` UI endpoint (packages/protocol/src/simulation.ts), shared by P-TUI
 // (parity/sim/run.ts) and the H.4 proof.
 import { Schema } from "effect"
-import { JsonRpc } from "@opencode/protocol/simulation"
+import { JsonRpc } from "@wormagent/protocol/simulation"
 
 export type DriveClient = Awaited<ReturnType<typeof connectDrive>>
 

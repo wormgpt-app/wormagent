@@ -11,34 +11,34 @@ import "@/settings/workspaces/project.css"
 import "@/providers/connect/models.css"
 import "@/shell/palette-menu.css"
 import "@/shell/search-list.css"
-import "@opencode/session-ui/sources/panel"
+import "@wormagent/session-ui/sources/panel"
 import "../../../gui-plugins/src/browser/bar.css"
 import treeFocusCss from "../../../gui-plugins/src/file/tree-focus.css?inline"
 
-import { SessionFilePanelV2 } from "@opencode/session-ui/v2/session-file-panel-v2"
-import { SessionReviewV2Sidebar, SessionReviewV2SidebarToggle } from "@opencode/session-ui/v2/session-review-v2"
-import { Accordion } from "@opencode/ui/accordion"
-import { StickyAccordionHeader } from "@opencode/ui/sticky-accordion-header"
-import { Button } from "@opencode/ui/button"
-import { Checkbox } from "@opencode/ui/checkbox"
-import { Collapsible } from "@opencode/ui/collapsible"
-import { Icon } from "@opencode/ui/icon"
-import { IconButton } from "@opencode/ui/icon-button"
-import { ProjectAvatar } from "@opencode/ui/project-avatar"
-import { RadioGroup, RadioItem } from "@opencode/ui/radio"
-import { ScrollView } from "@opencode/ui/scroll-view"
-import { SegmentedControl, SegmentedControlItem } from "@opencode/ui/segmented-control"
-import { Select } from "@opencode/ui/select"
-import { Switch } from "@opencode/ui/switch"
-import { Tabs } from "@opencode/ui/tabs"
-import { TextInput } from "@opencode/ui/text-input"
+import { SessionFilePanelV2 } from "@wormagent/session-ui/v2/session-file-panel-v2"
+import { SessionReviewV2Sidebar, SessionReviewV2SidebarToggle } from "@wormagent/session-ui/v2/session-review-v2"
+import { Accordion } from "@wormagent/ui/accordion"
+import { StickyAccordionHeader } from "@wormagent/ui/sticky-accordion-header"
+import { Button } from "@wormagent/ui/button"
+import { Checkbox } from "@wormagent/ui/checkbox"
+import { Collapsible } from "@wormagent/ui/collapsible"
+import { Icon } from "@wormagent/ui/icon"
+import { IconButton } from "@wormagent/ui/icon-button"
+import { ProjectAvatar } from "@wormagent/ui/project-avatar"
+import { RadioGroup, RadioItem } from "@wormagent/ui/radio"
+import { ScrollView } from "@wormagent/ui/scroll-view"
+import { SegmentedControl, SegmentedControlItem } from "@wormagent/ui/segmented-control"
+import { Select } from "@wormagent/ui/select"
+import { Switch } from "@wormagent/ui/switch"
+import { Tabs } from "@wormagent/ui/tabs"
+import { TextInput } from "@wormagent/ui/text-input"
 import { createEffect, createSignal, createUniqueId, For, onCleanup, onMount, Show, type JSX } from "solid-js"
 import { createTabStripScroll } from "@/runtime/plugin/tab-strip-scroll"
-import { createOverlayFocus } from "@opencode/ui/context/overlay-focus"
-import { installFocusRescue } from "@opencode/ui/context/focus-rescue"
-import { useDialog } from "@opencode/ui/context/dialog"
-import { Dialog, DialogBody, DialogFooter, DialogHeader, DialogTitle } from "@opencode/ui/dialog"
-import { Menu } from "@opencode/ui/menu"
+import { createOverlayFocus } from "@wormagent/ui/context/overlay-focus"
+import { installFocusRescue } from "@wormagent/ui/context/focus-rescue"
+import { useDialog } from "@wormagent/ui/context/dialog"
+import { Dialog, DialogBody, DialogFooter, DialogHeader, DialogTitle } from "@wormagent/ui/dialog"
+import { Menu } from "@wormagent/ui/menu"
 import { Popover } from "@kobalte/core/popover"
 import { WaitingButton } from "@/providers/connect/step-actions"
 import { SessionHeaderActions } from "@/session/header/session-header-actions"
@@ -195,7 +195,7 @@ const surfaces: Surface[] = [
             class="flex h-7 items-center gap-2 rounded-[6px] px-1.5 text-13-regular text-v2-text-text-muted hover:bg-v2-overlay-simple-overlay-hover"
           >
             <ProjectAvatar fallback="O" variant="blue" class="!size-4" />
-            opencode
+            wormagent
           </button>
         ),
       },
@@ -210,7 +210,7 @@ const surfaces: Surface[] = [
         render: () => (
           <div class="flex items-center gap-2">
             <button type="button" class="h-7 rounded-[6px] px-1.5 text-13-regular">
-              opencode
+              wormagent
             </button>
             <Icon name="chevron-right" />
             <h1 class="session-title-rename w-fit text-13-medium">
@@ -629,7 +629,7 @@ const surfaces: Surface[] = [
           </ScrollView>
         ),
       },
-      ...(["Projects", "opencode"] as const).map(
+      ...(["Projects", "wormagent"] as const).map(
         (label): Case => ({
           name: `Side tabs: ${label === "Projects" ? "Projects heading" : "project row"} has only a background change`,
           failure: "Inconsistent",
@@ -674,7 +674,7 @@ const surfaces: Surface[] = [
             >
               <ProjectAvatar fallback="O" variant="blue" class="!size-4" />
               <span>Test message</span>
-              <span class="text-13-regular text-v2-text-text-muted">opencode</span>
+              <span class="text-13-regular text-v2-text-text-muted">wormagent</span>
             </button>
           </div>
         ),
@@ -697,7 +697,7 @@ const surfaces: Surface[] = [
                 class="flex h-7 w-full items-center gap-2 rounded-[6px] px-1.5 text-13-regular"
               >
                 <ProjectAvatar fallback="O" variant="blue" class="!size-4" />
-                opencode
+                wormagent
               </button>
               <div data-slot="home-row-actions" class="absolute end-1 inset-y-0 flex items-center ps-2">
                 <IconButton
@@ -899,7 +899,7 @@ const surfaces: Surface[] = [
               <Tabs.Content value="mcps">
                 <div class="settings-extension-row">
                   <span>Available to all projects</span>
-                  <span class="text-v2-text-text-muted">Manage in opencode.json</span>
+                  <span class="text-v2-text-text-muted">Manage in wormagent.json</span>
                 </div>
               </Tabs.Content>
               <Tabs.Content value="plugins">Manage plugins</Tabs.Content>
@@ -922,7 +922,7 @@ const surfaces: Surface[] = [
                 Connect
               </button>
               <Icon name="chevron-right" class="text-v2-icon-icon-muted" />
-              <span class="text-13-medium">OpenCode Go</span>
+              <span class="text-13-medium">WormAgent Go</span>
             </nav>
           </div>
         ),
@@ -990,7 +990,7 @@ const surfaces: Surface[] = [
       {
         name: "Worktrees: Delete ring cut at the top and right by its row",
         failure: "Clipped",
-        target: '[aria-label="Delete “opencode-dialogs”?"]',
+        target: '[aria-label="Delete “wormagent-dialogs”?"]',
         keys: "Click the path, press Tab.",
         sizing: "Audited at 1280×800. Delete is the row's top-right control.",
         source: "app/src/settings/settings.css:1919–27 (row overflow: hidden), workspaces.tsx:543–553",
@@ -1003,15 +1003,15 @@ const surfaces: Surface[] = [
                   <div class="settings-workspaces-row">
                     <div class="settings-workspaces-row-header">
                       <div class="settings-workspaces-copy">
-                        <div class="settings-workspaces-main">/Users/alex/work/opencode-dialogs</div>
-                        <span class="settings-workspaces-meta">0 sessions in opencode</span>
+                        <div class="settings-workspaces-main">/Users/alex/work/wormagent-dialogs</div>
+                        <span class="settings-workspaces-meta">0 sessions in wormagent</span>
                       </div>
                       <div class="settings-workspaces-row-actions">
                         <IconButton
                           type="button"
                           variant="ghost-muted"
                           size="small"
-                          aria-label="Delete “opencode-dialogs”?"
+                          aria-label="Delete “wormagent-dialogs”?"
                           icon={<Icon name="trash" size="small" />}
                         />
                       </div>
@@ -1142,7 +1142,7 @@ const surfaces: Surface[] = [
                 class="flex h-full min-w-0 flex-1 items-center gap-2 rounded-[4px] bg-transparent text-start focus-visible:outline-none"
               >
                 <ProjectAvatar fallback="O" variant="blue" class="!size-5" />
-                <span class="text-[13px] font-[530]">opencode</span>
+                <span class="text-[13px] font-[530]">wormagent</span>
               </button>
             </div>
           </div>
@@ -1632,7 +1632,7 @@ const surfaces: Surface[] = [
         fix: "The rows picked their background on :focus, so a click drew it too, and drew no ring. They now take the shared ring inset (-2px) on :focus-visible; hover and the arrow-key highlight keep the background.",
         render: () => (
           <div class="flex w-[320px] flex-col gap-0.5 overflow-y-auto">
-            <For each={["OpenCode Zen", "Anthropic", "OpenAI"]}>
+            <For each={["WormAgent Zen", "Anthropic", "OpenAI"]}>
               {(name) => (
                 <button
                   type="button"
@@ -1773,7 +1773,7 @@ const surfaces: Surface[] = [
               Big Pickle
             </button>
             <div class="grid w-full grid-cols-2 gap-x-2 gap-y-1.5">
-              <For each={["OpenCode Zen", "OpenCode Go"]}>
+              <For each={["WormAgent Zen", "WormAgent Go"]}>
                 {(name) => (
                   <button
                     type="button"

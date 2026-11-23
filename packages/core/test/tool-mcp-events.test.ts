@@ -1,11 +1,11 @@
 import { describe, expect } from "bun:test"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Mcp } from "@opencode/core/mcp/index"
-import { McpClient } from "@opencode/core/mcp/client"
-import type { Permission } from "@opencode/core/permission"
-import { Session } from "@opencode/core/session"
-import { Tool } from "@opencode/core/tool"
-import { McpEventTools } from "@opencode/core/tool/plugin/mcp-events"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Mcp } from "@wormagent/core/mcp/index"
+import { McpClient } from "@wormagent/core/mcp/client"
+import type { Permission } from "@wormagent/core/permission"
+import { Session } from "@wormagent/core/session"
+import { Tool } from "@wormagent/core/tool"
+import { McpEventTools } from "@wormagent/core/tool/plugin/mcp-events"
 import { Effect, Layer } from "effect"
 import { hostEnvironmentLayer } from "./fixture/environment"
 import { eventProducer } from "./fixture/event-server"
@@ -48,7 +48,7 @@ const setup = Effect.fnUntraced(function* () {
         tools.execute({
           sessionID: Session.ID.make("ses_mcp_events"),
           ...toolIdentity,
-          call: { type: "tool-call", id: "call_list", name: "opencode_list_mcp_events", input },
+          call: { type: "tool-call", id: "call_list", name: "wormagent_list_mcp_events", input },
         }),
       ),
     )
@@ -72,9 +72,9 @@ describe("list_mcp_events", () => {
   it.live("lists one server's push events after asking permission", () =>
     Effect.gen(function* () {
       const { list, asserts, registry } = yield* setup()
-      expect((yield* registry.list()).map((tool) => tool.id)).not.toContain("opencode_watch_mcp_event")
+      expect((yield* registry.list()).map((tool) => tool.id)).not.toContain("wormagent_watch_mcp_event")
       expect((yield* list({ server: "jobs" })).output).toEqual({ events: [jobFinished] })
-      expect(asserts).toMatchObject([{ action: "opencode_list_mcp_events", resources: ["jobs"], save: ["jobs"] }])
+      expect(asserts).toMatchObject([{ action: "wormagent_list_mcp_events", resources: ["jobs"], save: ["jobs"] }])
     }),
   )
 

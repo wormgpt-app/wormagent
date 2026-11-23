@@ -1,7 +1,7 @@
-import type { Browser } from "@opencode/plugin-browser/rpc"
-import type { IpcClient } from "@opencode/plugin/gui"
-import type { ExperimentalBrowserTab } from "@opencode/plugin/gui/browser"
-import { uuid } from "@opencode/util/uuid"
+import type { Browser } from "@wormagent/plugin-browser/rpc"
+import type { IpcClient } from "@wormagent/plugin/gui"
+import type { ExperimentalBrowserTab } from "@wormagent/plugin/gui/browser"
+import { uuid } from "@wormagent/util/uuid"
 import type { BrowserPane, FindAction, PaneEvent, PromptAnswer, Viewport } from "./ipc"
 
 type Client = IpcClient<(typeof BrowserPane)["spec"]>

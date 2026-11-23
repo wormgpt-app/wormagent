@@ -1,5 +1,5 @@
-import { getFilename } from "@opencode/util/path"
-import type { PromptAttachment } from "@opencode/client/promise"
+import { getFilename } from "@wormagent/util/path"
+import type { PromptAttachment } from "@wormagent/client/promise"
 
 export function attached(file: PromptAttachment) {
   if (file.mention) return false

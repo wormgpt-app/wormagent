@@ -25,11 +25,11 @@ const pages = "virtual:docs-pages"
 // The V1 docs' MDX imports their old app's config (config.mjs) for a few URLs, as production had them.
 const v1Config = "\0docs-v1-config"
 const v1ConfigValues = {
-  url: "https://opencode.ai",
-  console: "https://opencode.ai/auth",
+  url: "https://wormagent.net",
+  console: "https://wormagent.net/auth",
   email: "help@anoma.ly",
-  github: "https://github.com/anomalyco/opencode",
-  discord: "https://opencode.ai/discord",
+  github: "https://github.com/wormgpt-app/wormagent",
+  discord: "https://wormagent.net/discord",
 }
 
 /**
@@ -39,7 +39,7 @@ const v1ConfigValues = {
  */
 export function docs(): Plugin {
   return {
-    name: "opencode-docs",
+    name: "wormagent-docs",
     enforce: "pre",
     resolveId(id, importer) {
       if (id === pages) return `\0${pages}`

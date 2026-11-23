@@ -1,14 +1,14 @@
 //! Open a recent session or worktree.
 
-use opencode_api::generated::{
+use wormagent_api::generated::{
     ProjectID, SessionGetInput, SessionInfo, SessionListInput, SessionListInputOrder, WorktreeCreateInput,
     WorktreeListInput, WorktreeRefreshInput,
 };
-use opencode_ui::dialog::DIALOG_LIST_INSET;
-use opencode_ui::motion::Spinner;
-use opencode_ui::path::abbreviate_home;
-use opencode_ui::prompt::{Prompt, PromptProps, prompt};
-use opencode_ui::select::{FooterHint, Gutter, Select};
+use wormagent_ui::dialog::DIALOG_LIST_INSET;
+use wormagent_ui::motion::Spinner;
+use wormagent_ui::path::abbreviate_home;
+use wormagent_ui::prompt::{Prompt, PromptProps, prompt};
+use wormagent_ui::select::{FooterHint, Gutter, Select};
 use std::collections::HashSet;
 use unicode_width::UnicodeWidthStr;
 
@@ -730,7 +730,7 @@ impl Open {
                         tui.dialogs.clear();
                         crate::features::location::navigate_home(
                             &tui,
-                            Some(opencode_store::Location::new(created.directory.0)),
+                            Some(wormagent_store::Location::new(created.directory.0)),
                         );
                     }
                     Err(error) => {
@@ -751,7 +751,7 @@ impl Open {
             match target {
                 Target::Session(id) => tui.show_session(id),
                 Target::Project { directory, .. } => {
-                    crate::features::location::navigate_home(&tui, Some(opencode_store::Location::new(directory)))
+                    crate::features::location::navigate_home(&tui, Some(wormagent_store::Location::new(directory)))
                 }
             }
         }));
@@ -770,7 +770,7 @@ fn selected_mark(color: Color) -> Gutter {
 }
 
 fn home() -> String {
-    opencode_local::paths::home()
+    wormagent_local::paths::home()
 }
 
 fn time_ago(now: f64, timestamp: f64) -> String {

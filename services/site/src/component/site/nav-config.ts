@@ -6,7 +6,7 @@ import { siteLinks } from "./links"
 type NavFlags = { id: string; company?: boolean }
 
 /**
- * The items in the list's order. Settings › Nav groups "grouped" puts Anomaly's products after the
+ * The items in the list's order. Settings › Nav groups "grouped" puts WormGPT's products after the
  * open source links. Returns the given items (the same objects), so a reorder moves them in place.
  * The pre-paint script inlines this function as source, so it may only use its arguments.
  */

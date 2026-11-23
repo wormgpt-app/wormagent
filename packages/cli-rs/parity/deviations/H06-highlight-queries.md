@@ -4,7 +4,7 @@ TypeScript: Core highlights with its six bundled grammars and the TUI's 34 from 
 It downloads each grammar's WASM and highlight queries on first use, caches them under
 `~/.local/share/opentui/tree-sitter`, and rewrites `#lua-match?` to `#match?` as it loads them.
 
-Rust: `opencode_ui::grammars` links the grammars statically and registers them with the same queries. The queries are
+Rust: `wormagent_ui::grammars` links the grammars statically and registers them with the same queries. The queries are
 generated into `assets/queries` by `script/gen/grammars.ts`, which reads Core's cache first, as Core does, and applies
 Core's rewrite. They use Core's capture rules (`Grammar::core_captures`) and Core's theme fallback
 (`SyntaxTheme::first_part_fallback`). `crates/ui/tests/all/grammars.rs` and `content.rs` match the TypeScript renders cell
@@ -20,8 +20,8 @@ for cell. Here is what still differs:
   `tree-sitter-kotlin-codanna` 0.3.9 has no `"!in"`, so TS's query does not compile against either.
 - **Swift is not linked, and neither client highlights it.** The cached TS query fails against the 0.7.1 grammar in
   web-tree-sitter too (`Bad node name 'nil_literal'`), so Core skips Swift.
-- **Other grammar versions.** Vue uses `tree-sitter-vue-next` 0.1.0 (TS: anomalyco's fork
-  0.1.2). Clojure uses `tree-sitter-clojure-orchard` 0.2.9 (TS: anomalyco's fork 0.0.1). Vim uses `tree-sitter-vim` 0.4.0
+- **Other grammar versions.** Vue uses `tree-sitter-vue-next` 0.1.0 (TS: wormgpt-app's fork
+  0.1.2). Clojure uses `tree-sitter-clojure-orchard` 0.2.9 (TS: wormgpt-app's fork 0.0.1). Vim uses `tree-sitter-vim` 0.4.0
   (TS: 0.8.1). Nix uses `tree-sitter-nix` 0.3.0 (TS: a WASM build from ast-grep). The crates TS pins at these versions
   need an older tree-sitter or do not exist on crates.io. The queries load against all four, so the node names agree,
   and their U.4b snippets match TS cell for cell. The parses can still differ on syntax that the grammar versions

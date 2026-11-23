@@ -4,7 +4,7 @@ import { defineSim } from "../../sim/scenario"
 
 const duration = { line: "· \\d.*", reason: "the turn duration depends on timing, also in length; the row ends there" }
 const command =
-  "OPENCODE_STORY_MEDIA=/home/user/src/opencode/packages/tui/fixtures/story-media.json OPENCODE_STORY=transcript-fences bun run dev:live /home/user/src/project"
+  "WORMAGENT_STORY_MEDIA=/home/user/src/wormagent/packages/tui/fixtures/story-media.json WORMAGENT_STORY=transcript-fences bun run dev:live /home/user/src/project"
 
 export default defineSim({
   height: 40,

@@ -1,4 +1,4 @@
-import { anomalyApps, anomalyProducts } from "~/component/site/links"
+import { wormgptApps, wormgptProducts } from "~/component/site/links"
 import { extensionPages, type ExtensionSlug } from "~/component/site/extension-data"
 import {
   installs,
@@ -43,7 +43,7 @@ export function productMarkdown(slug: PageSlug) {
         : []),
       productDownloadMarkdown(slug, context),
       `## ${context.t("site.companions")}`,
-      anomalyApps.map((app) => `- ${appMarkdown(app, context)}: ${app.body}`).join("\n"),
+      wormgptApps.map((app) => `- ${appMarkdown(app, context)}: ${app.body}`).join("\n"),
       ...(areas ? changelogBlocks(product.name, areas, context) : []),
     )
   }
@@ -52,7 +52,7 @@ export function productMarkdown(slug: PageSlug) {
 /** The /product hero subtitle; Design mode offers alternatives ("products.hero.body"). */
 export const productsSubtitle = english["product.hero.subtitle"]
 
-/** The /product page as Markdown: every product with a page, then more products from Anomaly. */
+/** The /product page as Markdown: every product with a page, then more products from WormGPT. */
 export function productsMarkdown(context: MarkdownContext) {
   return blocks(
     "# Product",
@@ -66,7 +66,7 @@ export function productsMarkdown(context: MarkdownContext) {
         .filter((extension) => extension.product)
         .map((extension) => `- ${link(extension.name, context.route(`/product/${extension.slug}`))}: ${extension.body}`),
       // Browse is listed above with its own page.
-      ...anomalyProducts
+      ...wormgptProducts
         .filter((app) => !extensionPages.some((extension) => extension.product && extension.slug === app.id))
         .map((app) => `- ${appMarkdown(app, context)}: ${app.body}`),
     ].join("\n"),
@@ -152,8 +152,8 @@ export function extensionMarkdown(slug: ExtensionSlug) {
       extension.install.command && codeFence("bash", extension.install.command),
       extension.install.commands && codeFence("bash", extension.install.commands.map((item) => item.command).join("\n")),
       `Source: ${link(extension.source.replace("https://", ""), extension.source)}`,
-      "## More from Anomaly",
-      anomalyProducts
+      "## More from WormGPT",
+      wormgptProducts
         .filter((app) => app.id !== slug)
         .map((app) => `- ${appMarkdown(app, context)}: ${app.body}`)
         .join("\n"),

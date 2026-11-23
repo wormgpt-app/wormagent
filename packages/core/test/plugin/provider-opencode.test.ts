@@ -1,34 +1,34 @@
 import { describe, expect } from "bun:test"
-import { ai } from "@opencode/ai/effect"
-import { LLMClient, RequestExecutor } from "@opencode/ai/route"
-import { Document, Event, Info } from "@opencode/schema/config"
-import { ConfigPolicy } from "@opencode/schema/config/policy"
-import { Money } from "@opencode/schema/money"
+import { ai } from "@wormagent/ai/effect"
+import { LLMClient, RequestExecutor } from "@wormagent/ai/route"
+import { Document, Event, Info } from "@wormagent/schema/config"
+import { ConfigPolicy } from "@wormagent/schema/config/policy"
+import { Money } from "@wormagent/schema/money"
 import { Effect, Fiber, Layer, Schema, Stream } from "effect"
 import { TestClock } from "effect/testing"
 import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http"
-import { Agent } from "@opencode/core/agent"
-import { App } from "@opencode/core/app"
-import { Bus } from "@opencode/core/bus"
-import { Config } from "@opencode/core/config"
-import { ConfigIntegration } from "@opencode/core/config/integration"
-import { ConfigPolicyPlugin } from "@opencode/core/config/plugin/policy"
-import { ConfigProviderPlugin } from "@opencode/core/config/plugin/provider"
-import { ConfigWebSearchPlugin } from "@opencode/core/config/plugin/websearch"
-import { Credential } from "@opencode/core/credential"
-import { InstructionDiscovery } from "@opencode/core/instruction-discovery"
-import { Integration } from "@opencode/core/integration"
-import { Model } from "@opencode/core/model"
-import { ModelResolver } from "@opencode/core/model-resolver"
-import { Plugin } from "@opencode/core/plugin"
-import { PluginHooks } from "@opencode/core/plugin/hooks"
-import { PluginHost } from "@opencode/core/plugin/host"
-import { OpenAIPlugin } from "@opencode/core/plugin/provider/openai"
-import { OpencodePlugin } from "@opencode/core/plugin/provider/opencode"
-import { Provider } from "@opencode/core/provider"
-import { Session } from "@opencode/core/session"
-import { Skill } from "@opencode/core/skill"
-import { WebSearch } from "@opencode/core/websearch"
+import { Agent } from "@wormagent/core/agent"
+import { App } from "@wormagent/core/app"
+import { Bus } from "@wormagent/core/bus"
+import { Config } from "@wormagent/core/config"
+import { ConfigIntegration } from "@wormagent/core/config/integration"
+import { ConfigPolicyPlugin } from "@wormagent/core/config/plugin/policy"
+import { ConfigProviderPlugin } from "@wormagent/core/config/plugin/provider"
+import { ConfigWebSearchPlugin } from "@wormagent/core/config/plugin/websearch"
+import { Credential } from "@wormagent/core/credential"
+import { InstructionDiscovery } from "@wormagent/core/instruction-discovery"
+import { Integration } from "@wormagent/core/integration"
+import { Model } from "@wormagent/core/model"
+import { ModelResolver } from "@wormagent/core/model-resolver"
+import { Plugin } from "@wormagent/core/plugin"
+import { PluginHooks } from "@wormagent/core/plugin/hooks"
+import { PluginHost } from "@wormagent/core/plugin/host"
+import { OpenAIPlugin } from "@wormagent/core/plugin/provider/openai"
+import { OpencodePlugin } from "@wormagent/core/plugin/provider/wormagent"
+import { Provider } from "@wormagent/core/provider"
+import { Session } from "@wormagent/core/session"
+import { Skill } from "@wormagent/core/skill"
+import { WebSearch } from "@wormagent/core/websearch"
 import { withEnv } from "../fixture/env"
 import { drain } from "../lib/clock"
 import { eventually } from "../lib/eventually"
@@ -52,7 +52,7 @@ const consoleDocument = (config: Config.Interface) =>
         entries.find((entry): entry is ConfigIntegration.Document => entry instanceof ConfigIntegration.Document),
       ),
     )
-const consoleSearch = { id: WebSearch.ID.make("opencode"), name: "OpenCode Web Search" }
+const consoleSearch = { id: WebSearch.ID.make("wormagent"), name: "WormAgent Web Search" }
 // A Console skill archive as the plugin downloads it: the version's files, with SKILL.md carrying the frontmatter.
 const skillBundle = {
   slug: "deploy",
@@ -90,7 +90,7 @@ function consoleServer(orgID: string | null | undefined, unavailable = false) {
       requests.push(path)
       agents.push(request.headers.get("user-agent"))
       if (path === "/auth/device/code") {
-        expect(await request.json()).toEqual({ client_id: "opencode-cli", supports_org_scope: true })
+        expect(await request.json()).toEqual({ client_id: "wormagent-cli", supports_org_scope: true })
         return Response.json({
           device_code: "device",
           user_code: "user",
@@ -124,7 +124,7 @@ function consoleServer(orgID: string | null | undefined, unavailable = false) {
 }
 
 // Console's config answer while the workspace has instructions and skills.
-const withLists = { headers: { "x-opencode-instructions-skills": "1" } }
+const withLists = { headers: { "x-wormagent-instructions-skills": "1" } }
 
 function required<T>(value: T | undefined): T {
   if (value === undefined) throw new Error("Expected value")
@@ -147,13 +147,13 @@ describe("OpencodePlugin", () => {
     Effect.gen(function* () {
       yield* addPlugin()
       const integrations = yield* Integration.Service
-      expect((yield* integrations.get(Integration.ID.make("opencode")))?.methods).toEqual([
+      expect((yield* integrations.get(Integration.ID.make("wormagent")))?.methods).toEqual([
         {
           id: Integration.MethodID.make("device"),
           type: "oauth",
-          label: "OpenCode account",
+          label: "WormAgent account",
           form: [
-            { key: "server", type: "string", format: "uri", hidden: true, default: "https://opencode.ai/console" },
+            { key: "server", type: "string", format: "uri", hidden: true, default: "https://wormagent.net/console" },
           ],
         },
         { type: "key", label: "API key (service account)" },
@@ -174,7 +174,7 @@ describe("OpencodePlugin", () => {
               return Response.json({
                 device_code: "device",
                 user_code: "user",
-                verification_uri_complete: "/console/device?user_code=user&client_id=opencode-cli",
+                verification_uri_complete: "/console/device?user_code=user&client_id=wormagent-cli",
                 expires_in: 60,
                 interval: 0,
               })
@@ -193,13 +193,13 @@ describe("OpencodePlugin", () => {
         Effect.gen(function* () {
           yield* addPlugin()
           const integrations = yield* Integration.Service
-          const integrationID = Integration.ID.make("opencode")
+          const integrationID = Integration.ID.make("wormagent")
           const attempt = yield* integrations.oauth.connect({
             integrationID,
             methodID: Integration.MethodID.make("device"),
             answer: { server: `${server.url.origin}/console///?ignored=true#ignored` },
           })
-          expect(attempt.url).toBe(`${server.url.origin}/console/device?user_code=user&client_id=opencode-cli`)
+          expect(attempt.url).toBe(`${server.url.origin}/console/device?user_code=user&client_id=wormagent-cli`)
           yield* eventually(
             integrations.oauth.status({ integrationID, attemptID: attempt.attemptID }),
             (status) => status.status === "complete",
@@ -210,7 +210,7 @@ describe("OpencodePlugin", () => {
           expect(requests).toContain("GET /console/api/user")
           expect(requests).toContain("GET /console/api/orgs")
           const credentials = yield* Credential.Service
-          expect((yield* credentials.list(Integration.ID.make("opencode")))[0]?.value).toMatchObject({
+          expect((yield* credentials.list(Integration.ID.make("wormagent")))[0]?.value).toMatchObject({
             metadata: { server: `${server.url.origin}/console` },
           })
         }),
@@ -239,7 +239,7 @@ describe("OpencodePlugin", () => {
           const integrations = yield* Integration.Service
           const error = yield* integrations.oauth
             .connect({
-              integrationID: Integration.ID.make("opencode"),
+              integrationID: Integration.ID.make("wormagent"),
               methodID: Integration.MethodID.make("device"),
               answer: { server: server.url.origin },
             })
@@ -260,7 +260,7 @@ describe("OpencodePlugin", () => {
             yield* addPlugin()
             const integrations = yield* Integration.Service
             const credentials = yield* Credential.Service
-            const integrationID = Integration.ID.make("opencode")
+            const integrationID = Integration.ID.make("wormagent")
             const attempt = yield* integrations.oauth.connect({
               integrationID,
               methodID: Integration.MethodID.make("device"),
@@ -273,7 +273,7 @@ describe("OpencodePlugin", () => {
             if (orgID === "org-missing") {
               expect(status).toMatchObject({
                 status: "failed",
-                message: "OpenCode organization not found: org-missing",
+                message: "WormAgent organization not found: org-missing",
               })
               expect(yield* credentials.list(integrationID)).toEqual([])
               expect(config).toEqual([])
@@ -323,7 +323,7 @@ describe("OpencodePlugin", () => {
             Effect.gen(function* () {
               const credentials = yield* Credential.Service
               const initial = yield* credentials.create({
-                integrationID: Integration.ID.make("opencode"),
+                integrationID: Integration.ID.make("wormagent"),
                 label: "Custom label",
                 value: Credential.OAuth.make({
                   type: "oauth",
@@ -367,37 +367,37 @@ describe("OpencodePlugin", () => {
                 "/api/v2/config",
                 ...(scenario.orgID === "org-missing" ? [] : ["/api/v2/instructions", "/api/v2/skills"]),
               ])
-              // The refresh and every Console fetch say which OpenCode is asking.
-              expect(agents).toEqual(requests.map(() => "opencode/beta/1.2.3/test"))
+              // The refresh and every Console fetch say which WormAgent is asking.
+              expect(agents).toEqual(requests.map(() => "wormagent/beta/1.2.3/test"))
             }).pipe(Effect.provideService(App.Service, App.make({ name: "test", version: "1.2.3", channel: "beta" }))),
           ({ server }) => Effect.promise(() => server.stop(true)),
         ),
     )
   }
 
-  it.effect("rejects non-HTTP OpenCode servers", () =>
+  it.effect("rejects non-HTTP WormAgent servers", () =>
     Effect.gen(function* () {
       yield* addPlugin()
       const integrations = yield* Integration.Service
       const error = yield* integrations.oauth
         .connect({
-          integrationID: Integration.ID.make("opencode"),
+          integrationID: Integration.ID.make("wormagent"),
           methodID: Integration.MethodID.make("device"),
           answer: { server: "ftp://console.example.com" },
         })
         .pipe(Effect.flip)
       expect(error).toBeInstanceOf(Integration.AuthorizationError)
-      expect(String(error.cause)).toContain("Invalid OpenCode server URL: expected HTTP(S)")
+      expect(String(error.cause)).toContain("Invalid WormAgent server URL: expected HTTP(S)")
     }),
   )
 
-  it.effect("rejects non-string OpenCode servers", () =>
+  it.effect("rejects non-string WormAgent servers", () =>
     Effect.gen(function* () {
       yield* addPlugin()
       const integrations = yield* Integration.Service
       const error = yield* integrations.oauth
         .connect({
-          integrationID: Integration.ID.make("opencode"),
+          integrationID: Integration.ID.make("wormagent"),
           methodID: Integration.MethodID.make("device"),
           answer: { server: true },
         })
@@ -407,7 +407,7 @@ describe("OpencodePlugin", () => {
     }),
   )
 
-  it.live("loads native V2 providers and models from the connected OpenCode server", () =>
+  it.live("loads native V2 providers and models from the connected WormAgent server", () =>
     Effect.acquireUseRelease(
       Effect.sync(() => {
         const authorization: Array<string | null> = []
@@ -486,11 +486,11 @@ describe("OpencodePlugin", () => {
           const integrations = yield* Integration.Service
           yield* providers.transform((editor) => {
             editor.update(Provider.ID.openai, (provider) => {
-              provider.package = "@opencode/ai/providers/openai"
+              provider.package = "@wormagent/ai/providers/openai"
               provider.integrationID = Integration.ID.make("openai")
             })
             editor.models.update(Provider.ID.openai, Model.ID.make("api-model"), (model) => {
-              model.package = "@opencode/ai/providers/openai"
+              model.package = "@wormagent/ai/providers/openai"
               model.settings = { baseURL: "https://upstream.example/v1" }
               model.variants = [
                 {
@@ -504,7 +504,7 @@ describe("OpencodePlugin", () => {
             editor.models.update(Provider.ID.make("remote"), Model.ID.make("stale"), () => {})
           })
           const initial = yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({
               type: "key",
               key: "secret",
@@ -521,8 +521,8 @@ describe("OpencodePlugin", () => {
             id: "remote",
             canonical: "openai",
             name: "Remote",
-            integrationID: "opencode",
-            package: "@opencode/ai/providers/openai-compatible",
+            integrationID: "wormagent",
+            package: "@wormagent/ai/providers/openai-compatible",
             settings: { baseURL: `${server.url.origin}/v1`, custom: "value" },
             headers: { "x-org-id": "org" },
           })
@@ -539,7 +539,7 @@ describe("OpencodePlugin", () => {
             capabilities: { tools: true, input: ["text", "image"], output: ["text"] },
             cost: [{ input: 1, output: 2, cache: { read: 0.1, write: 0 } }],
             limit: { context: 1000, output: 100 },
-            package: "@opencode/ai/providers/openai-compatible",
+            package: "@wormagent/ai/providers/openai-compatible",
             settings: { baseURL: `${server.url.origin}/v1`, custom: "value", temperature: 0.5 },
             headers: { "x-org-id": "org" },
           })
@@ -550,7 +550,7 @@ describe("OpencodePlugin", () => {
             provider: "openai",
           })
           const override = required(yield* models.get(Provider.ID.make("remote"), Model.ID.make("override")))
-          expect(override.package).toBe("@opencode/ai/providers/anthropic")
+          expect(override.package).toBe("@wormagent/ai/providers/anthropic")
           expect(override.settings?.baseURL).toBe(`${server.url.origin}/anthropic`)
           expect(model.variants).toEqual([
             {
@@ -578,7 +578,7 @@ describe("OpencodePlugin", () => {
           expect(authorization).toEqual(["Bearer secret"])
 
           const replacement = yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({
               type: "key",
               key: "replacement",
@@ -595,7 +595,7 @@ describe("OpencodePlugin", () => {
           yield* credentials.remove(initial.id)
           yield* Effect.yieldNow
           expect(authorization).toEqual(["Bearer secret", "Bearer replacement"])
-          expect((yield* credentials.list(Integration.ID.make("opencode"))).at(-1)?.id).toBe(replacement.id)
+          expect((yield* credentials.list(Integration.ID.make("wormagent"))).at(-1)?.id).toBe(replacement.id)
         }),
       ({ server }) => Effect.promise(() => server.stop(true)),
     ),
@@ -647,7 +647,7 @@ describe("OpencodePlugin", () => {
           const credentials = yield* Credential.Service
           const models = yield* Model.Service
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: server.url.origin } }),
           })
 
@@ -667,16 +667,16 @@ describe("OpencodePlugin", () => {
             },
           ])
           const gpt = required(yield* models.get(Provider.ID.make("remote"), Model.ID.make("gpt")))
-          expect(gpt.package).toBe("@opencode/ai/providers/openai")
+          expect(gpt.package).toBe("@wormagent/ai/providers/openai")
           expect(gpt.variants).toEqual(reasoner.variants)
           const claude = required(yield* models.get(Provider.ID.make("remote"), Model.ID.make("claude-sonnet-4-5")))
-          expect(claude.package).toBe("@opencode/ai/providers/anthropic")
+          expect(claude.package).toBe("@wormagent/ai/providers/anthropic")
           expect(claude.variants).toEqual([
             { id: Model.VariantID.make("high"), settings: { thinking: { type: "enabled", budgetTokens: 16_000 } } },
             { id: Model.VariantID.make("max"), settings: { thinking: { type: "enabled", budgetTokens: 31_999 } } },
           ])
           const gemini = required(yield* models.get(Provider.ID.make("remote"), Model.ID.make("gemini-3.1-pro")))
-          expect(gemini.package).toBe("@opencode/ai/providers/google")
+          expect(gemini.package).toBe("@wormagent/ai/providers/google")
           expect(gemini.variants).toEqual([
             {
               id: Model.VariantID.make("low"),
@@ -688,7 +688,7 @@ describe("OpencodePlugin", () => {
             },
           ])
           const magistral = required(yield* models.get(Provider.ID.make("remote"), Model.ID.make("magistral-medium")))
-          expect(magistral.package).toBe("@opencode/ai/providers/mistral")
+          expect(magistral.package).toBe("@wormagent/ai/providers/mistral")
           expect(magistral.variants).toEqual([
             { id: Model.VariantID.make("low"), settings: { reasoningEffort: "low" } },
             { id: Model.VariantID.make("high"), settings: { reasoningEffort: "high" } },
@@ -710,7 +710,7 @@ describe("OpencodePlugin", () => {
             if (state.failing) return new Response("Unavailable", { status: 502 })
             return Response.json({
               providers: {},
-              ...(state.advertised ? { websearch: { provider: "opencode" } } : {}),
+              ...(state.advertised ? { websearch: { provider: "wormagent" } } : {}),
             })
           },
         })
@@ -723,7 +723,7 @@ describe("OpencodePlugin", () => {
           const websearch = yield* WebSearch.Service
           const rebuilds = { provider: 0, websearch: 0 }
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: server.url.origin } }),
           })
           yield* providers.transform(() => {
@@ -785,7 +785,7 @@ describe("OpencodePlugin", () => {
         }
         const server = Bun.serve({
           port: 0,
-          fetch: () => Response.json({ providers: { opencode: {} }, policies: state.policies }),
+          fetch: () => Response.json({ providers: { wormagent: {} }, policies: state.policies }),
         })
         return { server, state }
       }),
@@ -797,7 +797,7 @@ describe("OpencodePlugin", () => {
           const sudo: ConfigPolicy.Info = { action: "tool.use", resource: "shell:sudo *", effect: "deny" }
           const env: ConfigPolicy.Info = { action: "tool.use", resource: "edit:*.env", effect: "deny" }
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({
               type: "key",
               key: "secret",
@@ -818,7 +818,7 @@ describe("OpencodePlugin", () => {
             yield* TestClock.adjust("1 minute")
             yield* drain
             expect(yield* consolePolicies(config)).toEqual([sudo])
-            expect(yield* providers.get(Provider.ID.opencode)).toBeDefined()
+            expect(yield* providers.get(Provider.ID.wormagent)).toBeDefined()
           }
 
           state.policies = [env, { action: "tool.use", resource: "shell:*", effect: "future-effect" }]
@@ -830,7 +830,7 @@ describe("OpencodePlugin", () => {
           yield* TestClock.adjust("1 minute")
           yield* drain
           expect(yield* consolePolicies(config)).toEqual([])
-          expect(yield* providers.get(Provider.ID.opencode)).toBeDefined()
+          expect(yield* providers.get(Provider.ID.wormagent)).toBeDefined()
 
           state.policies = [{ action: "future.use", effect: { next: true } }, env]
           yield* TestClock.adjust("1 minute")
@@ -868,11 +868,11 @@ describe("OpencodePlugin", () => {
           const config = yield* Config.Service
           const status = () =>
             integrations
-              .get(Integration.ID.make("opencode"))
+              .get(Integration.ID.make("wormagent"))
               .pipe(Effect.map((integration) => integration?.connections[0]?.status))
           const sudo: ConfigPolicy.Info = { action: "tool.use", resource: "shell:sudo *", effect: "deny" }
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({
               type: "key",
               key: "secret",
@@ -924,7 +924,7 @@ describe("OpencodePlugin", () => {
           const credentials = yield* Credential.Service
           const hooks = yield* PluginHooks.Service
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({
               type: "key",
               key: "secret",
@@ -974,7 +974,7 @@ describe("OpencodePlugin", () => {
               TestClock.adjust("1 second").pipe(Effect.andThen(rejected(Provider.ID.make("remote")))),
             ),
           ).toEqual(Array.from({ length: 20 }, () => explained))
-          expect(yield* rejected(Provider.ID.opencode)).toEqual(explained)
+          expect(yield* rejected(Provider.ID.wormagent)).toEqual(explained)
           expect(yield* rejected(Provider.ID.anthropic)).toEqual(denied)
           expect(state.requests).toBe(2)
         }),
@@ -1004,7 +1004,7 @@ describe("OpencodePlugin", () => {
           const config = yield* Config.Service
           const sudo: ConfigPolicy.Info = { action: "tool.use", resource: "shell:sudo *", effect: "deny" }
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: server.url.origin } }),
           })
           yield* addPlugin().pipe(inProcess(server))
@@ -1017,7 +1017,7 @@ describe("OpencodePlugin", () => {
             state.body = body()
             yield* TestClock.adjust("1 minute")
             yield* drain
-            expect((yield* integrations.get(Integration.ID.make("opencode")))?.connections[0]?.status).toBeUndefined()
+            expect((yield* integrations.get(Integration.ID.make("wormagent")))?.connections[0]?.status).toBeUndefined()
             expect(yield* consolePolicies(config)).toEqual([sudo])
           }
         }),
@@ -1035,7 +1035,7 @@ describe("OpencodePlugin", () => {
         return Effect.succeed(HttpClientResponse.fromWeb(request, new Response("unavailable", state)))
       })
       yield* credentials.create({
-        integrationID: Integration.ID.make("opencode"),
+        integrationID: Integration.ID.make("wormagent"),
         value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: "https://console.test" } }),
       })
       yield* addPlugin().pipe(Effect.provideService(HttpClient.HttpClient, http))
@@ -1052,7 +1052,7 @@ describe("OpencodePlugin", () => {
     }),
   )
 
-  it.effect("sends credentials saved with the retired console.opencode.ai host to the default Console", () =>
+  it.effect("sends credentials saved with the retired console.wormagent.net host to the default Console", () =>
     Effect.gen(function* () {
       const credentials = yield* Credential.Service
       const requests: string[] = []
@@ -1061,13 +1061,13 @@ describe("OpencodePlugin", () => {
         return Effect.succeed(HttpClientResponse.fromWeb(request, new Response(null, { status: 404 })))
       })
       yield* credentials.create({
-        integrationID: Integration.ID.make("opencode"),
-        value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: "https://console.opencode.ai" } }),
+        integrationID: Integration.ID.make("wormagent"),
+        value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: "https://console.wormagent.net" } }),
       })
       yield* addPlugin().pipe(Effect.provideService(HttpClient.HttpClient, http))
       yield* drain
 
-      expect(requests).toEqual(["https://opencode.ai/console/api/v2/config"])
+      expect(requests).toEqual(["https://wormagent.net/console/api/v2/config"])
     }),
   )
 
@@ -1091,7 +1091,7 @@ describe("OpencodePlugin", () => {
           const credentials = yield* Credential.Service
           const integrations = yield* Integration.Service
           const credential = yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.OAuth.make({
               type: "oauth",
               methodID: Integration.MethodID.make("device"),
@@ -1104,9 +1104,9 @@ describe("OpencodePlugin", () => {
           yield* addPlugin()
           yield* drain
 
-          expect((yield* integrations.get(Integration.ID.make("opencode")))?.connections[0]?.status).toEqual({
+          expect((yield* integrations.get(Integration.ID.make("wormagent")))?.connections[0]?.status).toEqual({
             status: "needs_auth",
-            message: "Reconnect OpenCode Console to continue",
+            message: "Reconnect WormAgent Console to continue",
           })
           expect((yield* credentials.get(credential.id))?.value).toMatchObject({ refresh: "revoked" })
         }),
@@ -1126,7 +1126,7 @@ describe("OpencodePlugin", () => {
         },
       }
       yield* credentials.create({
-        integrationID: Integration.ID.make("opencode"),
+        integrationID: Integration.ID.make("wormagent"),
         value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: "https://console.example" } }),
       })
       const activation = yield* addPlugin().pipe(inProcess(hanging), Effect.forkChild({ startImmediately: true }))
@@ -1134,7 +1134,7 @@ describe("OpencodePlugin", () => {
       yield* TestClock.adjust("1 second").pipe(Effect.repeat({ times: 29 }))
       yield* Fiber.join(activation)
       expect(state.requests).toBe(4)
-      expect((yield* integrations.get(Integration.ID.make("opencode")))?.connections).toHaveLength(1)
+      expect((yield* integrations.get(Integration.ID.make("wormagent")))?.connections).toHaveLength(1)
     }),
   )
 
@@ -1158,7 +1158,7 @@ describe("OpencodePlugin", () => {
           const credentials = yield* Credential.Service
           const integrations = yield* Integration.Service
           const credential = yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.OAuth.make({
               type: "oauth",
               methodID: Integration.MethodID.make("device"),
@@ -1169,11 +1169,11 @@ describe("OpencodePlugin", () => {
             }),
           })
           const status = () =>
-            integrations.get(Integration.ID.make("opencode")).pipe(Effect.map((item) => item?.connections[0]?.status))
+            integrations.get(Integration.ID.make("wormagent")).pipe(Effect.map((item) => item?.connections[0]?.status))
           yield* addPlugin().pipe(inProcess(server))
           yield* drain
 
-          expect(yield* status()).toEqual({ status: "needs_auth", message: "Reconnect OpenCode Console to continue" })
+          expect(yield* status()).toEqual({ status: "needs_auth", message: "Reconnect WormAgent Console to continue" })
           expect((yield* credentials.get(credential.id))?.value).toMatchObject({ access: "revoked" })
 
           state.revoked = false
@@ -1186,7 +1186,7 @@ describe("OpencodePlugin", () => {
     ),
   )
 
-  it.live("loads and executes hosted web search from the connected OpenCode server", () =>
+  it.live("loads and executes hosted web search from the connected WormAgent server", () =>
     Effect.acquireUseRelease(
       Effect.sync(() => {
         const requests: Array<{
@@ -1197,7 +1197,7 @@ describe("OpencodePlugin", () => {
           body?: unknown
         }> = []
         const gate = Promise.withResolvers<void>()
-        const state = { advertised: true, providerID: "opencode", waitForConfig: false }
+        const state = { advertised: true, providerID: "wormagent", waitForConfig: false }
         const server = Bun.serve({
           port: 0,
           fetch: async (request) => {
@@ -1217,7 +1217,7 @@ describe("OpencodePlugin", () => {
                 providers: {},
                 ...(state.advertised
                   ? {
-                      websearch: { provider: "opencode" },
+                      websearch: { provider: "wormagent" },
                     }
                   : {}),
               })
@@ -1227,8 +1227,8 @@ describe("OpencodePlugin", () => {
                 providerID: state.providerID,
                 results: [
                   {
-                    url: "https://github.com/anomalyco/opencode",
-                    title: "OpenCode",
+                    url: "https://github.com/wormgpt-app/wormagent",
+                    title: "WormAgent",
                     content: "Open source AI coding agent.",
                     time: { published: 1_700_000_000_000 },
                   },
@@ -1254,23 +1254,23 @@ describe("OpencodePlugin", () => {
               metadata: { server: serverURL, orgID },
             })
           const initial = yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: account("secret"),
           })
 
           yield* addPlugin()
           expect(yield* websearch.providers()).toContainEqual({
-            id: WebSearch.ID.make("opencode"),
-            name: "OpenCode Web Search",
+            id: WebSearch.ID.make("wormagent"),
+            name: "WormAgent Web Search",
           })
           expect(yield* websearch.providers()).toContainEqual(consoleSearch)
           expect(yield* websearch.query({ query: "effect web search", providerID: consoleSearch.id })).toEqual(
             new WebSearch.Response({
-              providerID: WebSearch.ID.make("opencode"),
+              providerID: WebSearch.ID.make("wormagent"),
               results: [
                 {
-                  url: "https://github.com/anomalyco/opencode",
-                  title: "OpenCode",
+                  url: "https://github.com/wormgpt-app/wormagent",
+                  title: "WormAgent",
                   content: "Open source AI coding agent.",
                   time: { published: 1_700_000_000_000 },
                 },
@@ -1289,7 +1289,7 @@ describe("OpencodePlugin", () => {
               path: "/api/websearch",
               authorization: "Bearer secret",
               orgID: "org_test",
-              body: { query: "effect web search", providerID: "opencode" },
+              body: { query: "effect web search", providerID: "wormagent" },
             },
           ])
 
@@ -1300,7 +1300,7 @@ describe("OpencodePlugin", () => {
           expect(requests.at(-1)).toMatchObject({
             method: "POST",
             authorization: "Bearer replacement",
-            body: { query: "fresh credential", providerID: "opencode" },
+            body: { query: "fresh credential", providerID: "wormagent" },
           })
 
           yield* credentials.update(initial.id, {
@@ -1312,7 +1312,7 @@ describe("OpencodePlugin", () => {
             path: "/other/api/websearch",
             authorization: "Bearer moved",
             orgID: "org_test",
-            body: { query: "updated server", providerID: "opencode" },
+            body: { query: "updated server", providerID: "wormagent" },
           })
           yield* credentials.update(initial.id, {
             value: account("replacement"),
@@ -1327,7 +1327,7 @@ describe("OpencodePlugin", () => {
           state.waitForConfig = true
           const searchCount = requests.filter((request) => request.path === "/api/websearch").length
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: account("switched", server.url.origin, "org_switched"),
           })
           yield* eventually(
@@ -1340,7 +1340,7 @@ describe("OpencodePlugin", () => {
           expect(requests.filter((request) => request.path === "/api/websearch")).toHaveLength(searchCount)
           gate.resolve()
           yield* eventually(websearch.providers(), (providers) =>
-            providers.every((provider) => provider.id !== WebSearch.ID.make("opencode")),
+            providers.every((provider) => provider.id !== WebSearch.ID.make("wormagent")),
           )
           expect(requests.at(-1)).toMatchObject({
             method: "GET",
@@ -1363,10 +1363,10 @@ describe("OpencodePlugin", () => {
             if (new URL(request.url).pathname === "/console/api/v2/config") {
               return Response.json({
                 providers: {},
-                websearch: { provider: "opencode" },
+                websearch: { provider: "wormagent" },
               })
             }
-            return Response.json({ providerID: "opencode", results: [] })
+            return Response.json({ providerID: "wormagent", results: [] })
           },
         }),
       ),
@@ -1377,7 +1377,7 @@ describe("OpencodePlugin", () => {
           const http = yield* HttpClient.HttpClient
           const requests: string[] = []
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({ type: "key", key: "secret" }),
           })
           yield* addPlugin().pipe(
@@ -1393,11 +1393,11 @@ describe("OpencodePlugin", () => {
           )
 
           expect(yield* websearch.query({ query: "default Console", providerID: consoleSearch.id })).toEqual(
-            new WebSearch.Response({ providerID: WebSearch.ID.make("opencode"), results: [] }),
+            new WebSearch.Response({ providerID: WebSearch.ID.make("wormagent"), results: [] }),
           )
           expect(requests).toEqual([
-            "https://opencode.ai/console/api/v2/config",
-            "https://opencode.ai/console/api/websearch",
+            "https://wormagent.net/console/api/v2/config",
+            "https://wormagent.net/console/api/websearch",
           ])
         }),
       (server) => Effect.promise(() => server.stop(true)),
@@ -1422,7 +1422,7 @@ describe("OpencodePlugin", () => {
             if (url.pathname === "/console/api/v2/config") {
               return Response.json({
                 providers: {},
-                websearch: { provider: "opencode" },
+                websearch: { provider: "wormagent" },
               })
             }
             if (url.pathname === "/console/api/websearch") {
@@ -1430,7 +1430,7 @@ describe("OpencodePlugin", () => {
               // A gateway hop keeps the method and body, so the request has to survive it.
               return Response.redirect(`${url.origin}/outside-console`, 307)
             }
-            return Response.json({ providerID: "opencode", results: [] })
+            return Response.json({ providerID: "wormagent", results: [] })
           },
         })
         return { requests, server, state }
@@ -1440,7 +1440,7 @@ describe("OpencodePlugin", () => {
           const credentials = yield* Credential.Service
           const websearch = yield* WebSearch.Service
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({
               type: "key",
               key: "secret",
@@ -1451,25 +1451,25 @@ describe("OpencodePlugin", () => {
 
           // A same-origin hop is still the Console, so it keeps the caller's credentials.
           expect(yield* websearch.query({ query: "private search", providerID: consoleSearch.id })).toEqual(
-            new WebSearch.Response({ providerID: WebSearch.ID.make("opencode"), results: [] }),
+            new WebSearch.Response({ providerID: WebSearch.ID.make("wormagent"), results: [] }),
           )
           expect(requests.at(-1)).toEqual({
             path: "/outside-console",
             method: "POST",
             authorization: "Bearer secret",
-            body: { query: "private search", providerID: "opencode" },
+            body: { query: "private search", providerID: "wormagent" },
           })
 
           // Another origin never receives them.
           state.crossOrigin = true
           expect(yield* websearch.query({ query: "private search", providerID: consoleSearch.id })).toEqual(
-            new WebSearch.Response({ providerID: WebSearch.ID.make("opencode"), results: [] }),
+            new WebSearch.Response({ providerID: WebSearch.ID.make("wormagent"), results: [] }),
           )
           expect(requests.at(-1)).toEqual({
             path: "/outside-console",
             method: "POST",
             authorization: null,
-            body: { query: "private search", providerID: "opencode" },
+            body: { query: "private search", providerID: "wormagent" },
           })
         }),
       ({ server }) => Effect.promise(() => server.stop(true)),
@@ -1490,10 +1490,10 @@ describe("OpencodePlugin", () => {
               authorization: request.headers.get("authorization"),
             })
             if (url.pathname === "/api/v2/config") {
-              return Response.json({ providers: {}, websearch: { provider: "opencode" } })
+              return Response.json({ providers: {}, websearch: { provider: "wormagent" } })
             }
             if (url.pathname === "/api/websearch") return Response.redirect(`${url.origin}/gateway/search`, 302)
-            return Response.json({ providerID: "opencode", results: [] })
+            return Response.json({ providerID: "wormagent", results: [] })
           },
         })
         return { requests, server }
@@ -1503,7 +1503,7 @@ describe("OpencodePlugin", () => {
           const credentials = yield* Credential.Service
           const websearch = yield* WebSearch.Service
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({
               type: "key",
               key: "secret",
@@ -1513,7 +1513,7 @@ describe("OpencodePlugin", () => {
           yield* addPlugin()
 
           expect(yield* websearch.query({ query: "gateway search", providerID: consoleSearch.id })).toEqual(
-            new WebSearch.Response({ providerID: WebSearch.ID.make("opencode"), results: [] }),
+            new WebSearch.Response({ providerID: WebSearch.ID.make("wormagent"), results: [] }),
           )
           expect(requests.at(-1)).toEqual({
             path: "/gateway/search",
@@ -1535,7 +1535,7 @@ describe("OpencodePlugin", () => {
             const url = new URL(request.url)
             requests.push(url.pathname)
             if (url.pathname === "/api/v2/config") {
-              return Response.json({ providers: {}, websearch: { provider: "opencode" } })
+              return Response.json({ providers: {}, websearch: { provider: "wormagent" } })
             }
             if (url.pathname.startsWith("/api/v2/")) return new Response(null, { status: 404 })
             return Response.redirect(`${url.origin}/loop`, 302)
@@ -1548,7 +1548,7 @@ describe("OpencodePlugin", () => {
           const credentials = yield* Credential.Service
           const websearch = yield* WebSearch.Service
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({
               type: "key",
               key: "secret",
@@ -1599,7 +1599,7 @@ describe("OpencodePlugin", () => {
           const credentials = yield* Credential.Service
           const skills = yield* Skill.Service
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({
               type: "key",
               key: "secret",
@@ -1648,13 +1648,13 @@ describe("OpencodePlugin", () => {
       const loaded = Effect.all([discovery.list(), skills.get(Skill.ID.make("deploy"))]).pipe(
         Effect.map(([files, skill]) => ({
           instructions: Array.isArray(files)
-            ? files.filter((file) => file.path.startsWith("OpenCode Console")).map((file) => file.content)
+            ? files.filter((file) => file.path.startsWith("WormAgent Console")).map((file) => file.content)
             : [],
           skill: skill?.description,
         })),
       )
       yield* credentials.create({
-        integrationID: Integration.ID.make("opencode"),
+        integrationID: Integration.ID.make("wormagent"),
         value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: "https://console.test" } }),
       })
       yield* addPlugin().pipe(inProcess(server))
@@ -1707,12 +1707,12 @@ describe("OpencodePlugin", () => {
         .pipe(
           Effect.map((files) =>
             Array.isArray(files)
-              ? files.filter((file) => file.path.startsWith("OpenCode Console")).map((file) => file.content)
+              ? files.filter((file) => file.path.startsWith("WormAgent Console")).map((file) => file.content)
               : [],
           ),
         )
       yield* credentials.create({
-        integrationID: Integration.ID.make("opencode"),
+        integrationID: Integration.ID.make("wormagent"),
         value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: "https://console.test" } }),
       })
 
@@ -1760,7 +1760,7 @@ describe("OpencodePlugin", () => {
         },
       }
       yield* credentials.create({
-        integrationID: Integration.ID.make("opencode"),
+        integrationID: Integration.ID.make("wormagent"),
         value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: "https://console.test" } }),
       })
       const activation = yield* addPlugin().pipe(inProcess(server), Effect.forkChild({ startImmediately: true }))
@@ -1770,7 +1770,7 @@ describe("OpencodePlugin", () => {
       const files = yield* discovery.list()
       expect(
         Array.isArray(files)
-          ? files.filter((file) => file.path.startsWith("OpenCode Console")).map((file) => file.content)
+          ? files.filter((file) => file.path.startsWith("WormAgent Console")).map((file) => file.content)
           : [],
       ).toEqual(["Use tabs."])
     }),
@@ -1799,7 +1799,7 @@ describe("OpencodePlugin", () => {
           const credentials = yield* Credential.Service
           const skills = yield* Skill.Service
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({
               type: "key",
               key: "secret",
@@ -1826,7 +1826,7 @@ describe("OpencodePlugin", () => {
             if (url.pathname === "/api/v2/config") {
               return Response.json({
                 providers: {},
-                websearch: { provider: "opencode" },
+                websearch: { provider: "wormagent" },
               })
             }
             if (url.pathname.startsWith("/api/v2/")) return new Response(null, { status: 404 })
@@ -1850,7 +1850,7 @@ describe("OpencodePlugin", () => {
           const credentials = yield* Credential.Service
           const websearch = yield* WebSearch.Service
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({
               type: "key",
               key: "secret",
@@ -1950,7 +1950,7 @@ describe("OpencodePlugin", () => {
             key: "secret",
             metadata: { server: server.url.origin },
           })
-          yield* credentials.create({ integrationID: Integration.ID.make("opencode"), value: credential })
+          yield* credentials.create({ integrationID: Integration.ID.make("wormagent"), value: credential })
           yield* addPlugin()
           const model = required(yield* models.get(Provider.ID.make("remote"), Model.ID.make("astra")))
           expect(model.canonical).toBe(Provider.ID.openai)
@@ -1997,137 +1997,137 @@ describe("OpencodePlugin", () => {
   )
 
   it.effect("uses a public key and disables paid models without credentials", () =>
-    withEnv({ OPENCODE_API_KEY: undefined }, () =>
+    withEnv({ WORMAGENT_API_KEY: undefined }, () =>
       Effect.gen(function* () {
         const catalog = yield* Provider.Service
         const models = yield* Model.Service
         yield* catalog.transform((catalog) => {
-          catalog.update(Provider.ID.opencode, () => {})
-          catalog.models.update(Provider.ID.opencode, Model.ID.make("paid"), (draft) => {
+          catalog.update(Provider.ID.wormagent, () => {})
+          catalog.models.update(Provider.ID.wormagent, Model.ID.make("paid"), (draft) => {
             draft.cost = cost(1)
           })
         })
         yield* addPlugin()
-        expect(required(yield* catalog.get(Provider.ID.opencode)).settings?.apiKey).toBe("public")
-        expect(required(yield* models.get(Provider.ID.opencode, Model.ID.make("paid"))).enabled).toBe(false)
+        expect(required(yield* catalog.get(Provider.ID.wormagent)).settings?.apiKey).toBe("public")
+        expect(required(yield* models.get(Provider.ID.wormagent, Model.ID.make("paid"))).enabled).toBe(false)
       }),
     ),
   )
 
   it.effect("keeps free models without credentials", () =>
-    withEnv({ OPENCODE_API_KEY: undefined }, () =>
+    withEnv({ WORMAGENT_API_KEY: undefined }, () =>
       Effect.gen(function* () {
         const catalog = yield* Provider.Service
         const models = yield* Model.Service
         yield* catalog.transform((catalog) => {
-          catalog.update(Provider.ID.opencode, () => {})
-          catalog.models.update(Provider.ID.opencode, Model.ID.make("free"), (draft) => {
+          catalog.update(Provider.ID.wormagent, () => {})
+          catalog.models.update(Provider.ID.wormagent, Model.ID.make("free"), (draft) => {
             draft.cost = cost(0)
           })
         })
         yield* addPlugin()
-        expect(required(yield* catalog.get(Provider.ID.opencode)).settings?.apiKey).toBe("public")
-        expect(required(yield* catalog.get(Provider.ID.opencode)).activation).toBe("enabled")
-        expect((yield* catalog.available()).map((provider) => provider.id)).toContain(Provider.ID.opencode)
-        expect(required(yield* models.get(Provider.ID.opencode, Model.ID.make("free"))).enabled).toBe(true)
+        expect(required(yield* catalog.get(Provider.ID.wormagent)).settings?.apiKey).toBe("public")
+        expect(required(yield* catalog.get(Provider.ID.wormagent)).activation).toBe("enabled")
+        expect((yield* catalog.available()).map((provider) => provider.id)).toContain(Provider.ID.wormagent)
+        expect(required(yield* models.get(Provider.ID.wormagent, Model.ID.make("free"))).enabled).toBe(true)
       }),
     ),
   )
 
   it.effect("treats output-only cost as free without credentials", () =>
-    withEnv({ OPENCODE_API_KEY: undefined }, () =>
+    withEnv({ WORMAGENT_API_KEY: undefined }, () =>
       Effect.gen(function* () {
         const catalog = yield* Provider.Service
         const models = yield* Model.Service
         yield* catalog.transform((catalog) => {
-          catalog.update(Provider.ID.opencode, () => {})
-          catalog.models.update(Provider.ID.opencode, Model.ID.make("output-only"), (draft) => {
+          catalog.update(Provider.ID.wormagent, () => {})
+          catalog.models.update(Provider.ID.wormagent, Model.ID.make("output-only"), (draft) => {
             draft.cost = cost(0, 1)
           })
         })
         yield* addPlugin()
-        expect(required(yield* catalog.get(Provider.ID.opencode)).settings?.apiKey).toBe("public")
-        expect(required(yield* models.get(Provider.ID.opencode, Model.ID.make("output-only"))).enabled).toBe(true)
+        expect(required(yield* catalog.get(Provider.ID.wormagent)).settings?.apiKey).toBe("public")
+        expect(required(yield* models.get(Provider.ID.wormagent, Model.ID.make("output-only"))).enabled).toBe(true)
       }),
     ),
   )
 
-  it.effect("uses OPENCODE_API_KEY as credentials", () =>
-    withEnv({ OPENCODE_API_KEY: "secret" }, () =>
+  it.effect("uses WORMAGENT_API_KEY as credentials", () =>
+    withEnv({ WORMAGENT_API_KEY: "secret" }, () =>
       Effect.gen(function* () {
         const catalog = yield* Provider.Service
         const models = yield* Model.Service
         const integrations = yield* Integration.Service
         yield* integrations.transform((editor) =>
           editor.method.update({
-            integrationID: Integration.ID.make("opencode"),
-            method: { type: "env", names: ["OPENCODE_API_KEY"] },
+            integrationID: Integration.ID.make("wormagent"),
+            method: { type: "env", names: ["WORMAGENT_API_KEY"] },
           }),
         )
         yield* catalog.transform((catalog) => {
-          catalog.update(Provider.ID.opencode, () => {})
-          catalog.models.update(Provider.ID.opencode, Model.ID.make("paid"), (draft) => {
+          catalog.update(Provider.ID.wormagent, () => {})
+          catalog.models.update(Provider.ID.wormagent, Model.ID.make("paid"), (draft) => {
             draft.cost = cost(1)
           })
         })
         yield* addPlugin().pipe(Effect.provideService(HttpClient.HttpClient, noRemoteConfig))
-        expect(required(yield* catalog.get(Provider.ID.opencode)).settings?.apiKey).toBeUndefined()
-        expect(required(yield* models.get(Provider.ID.opencode, Model.ID.make("paid"))).enabled).toBe(true)
+        expect(required(yield* catalog.get(Provider.ID.wormagent)).settings?.apiKey).toBeUndefined()
+        expect(required(yield* models.get(Provider.ID.wormagent, Model.ID.make("paid"))).enabled).toBe(true)
       }),
     ),
   )
 
   it.effect("uses configured provider env vars as credentials", () =>
-    withEnv({ OPENCODE_API_KEY: undefined, CUSTOM_OPENCODE_API_KEY: "secret" }, () =>
+    withEnv({ WORMAGENT_API_KEY: undefined, CUSTOM_WORMAGENT_API_KEY: "secret" }, () =>
       Effect.gen(function* () {
         const catalog = yield* Provider.Service
         const models = yield* Model.Service
         const integrations = yield* Integration.Service
         yield* integrations.transform((editor) => {
           editor.method.update({
-            integrationID: Integration.ID.make("opencode"),
-            method: { type: "env", names: ["CUSTOM_OPENCODE_API_KEY"] },
+            integrationID: Integration.ID.make("wormagent"),
+            method: { type: "env", names: ["CUSTOM_WORMAGENT_API_KEY"] },
           })
         })
         yield* catalog.transform((catalog) => {
-          catalog.update(Provider.ID.opencode, () => {})
-          catalog.models.update(Provider.ID.opencode, Model.ID.make("paid"), (draft) => {
+          catalog.update(Provider.ID.wormagent, () => {})
+          catalog.models.update(Provider.ID.wormagent, Model.ID.make("paid"), (draft) => {
             draft.cost = cost(1)
           })
         })
         // An env credential has no server metadata, so the plugin would ask the
         // default Console for remote config; answer 404 (no remote config) locally.
         yield* addPlugin().pipe(Effect.provideService(HttpClient.HttpClient, noRemoteConfig))
-        expect(required(yield* catalog.get(Provider.ID.opencode)).settings?.apiKey).toBeUndefined()
-        expect(required(yield* models.get(Provider.ID.opencode, Model.ID.make("paid"))).enabled).toBe(true)
+        expect(required(yield* catalog.get(Provider.ID.wormagent)).settings?.apiKey).toBeUndefined()
+        expect(required(yield* models.get(Provider.ID.wormagent, Model.ID.make("paid"))).enabled).toBe(true)
       }),
     ),
   )
 
   it.effect("uses configured apiKey as credentials", () =>
-    withEnv({ OPENCODE_API_KEY: undefined }, () =>
+    withEnv({ WORMAGENT_API_KEY: undefined }, () =>
       Effect.gen(function* () {
         const catalog = yield* Provider.Service
         const models = yield* Model.Service
         yield* catalog.transform((catalog) => {
-          catalog.update(Provider.ID.opencode, (draft) => {
+          catalog.update(Provider.ID.wormagent, (draft) => {
             draft.package = Provider.aisdk("test-provider")
             draft.settings = { apiKey: "configured" }
             draft.activation = "enabled"
           })
-          catalog.models.update(Provider.ID.opencode, Model.ID.make("paid"), (draft) => {
+          catalog.models.update(Provider.ID.wormagent, Model.ID.make("paid"), (draft) => {
             draft.cost = cost(1)
           })
         })
         yield* addPlugin()
-        expect(required(yield* catalog.get(Provider.ID.opencode)).settings?.apiKey).toBe("configured")
-        expect(required(yield* models.get(Provider.ID.opencode, Model.ID.make("paid"))).enabled).toBe(true)
+        expect(required(yield* catalog.get(Provider.ID.wormagent)).settings?.apiKey).toBe("configured")
+        expect(required(yield* models.get(Provider.ID.wormagent, Model.ID.make("paid"))).enabled).toBe(true)
       }),
     ),
   )
 
-  it.effect("ignores non-opencode providers and models", () =>
-    withEnv({ OPENCODE_API_KEY: undefined }, () =>
+  it.effect("ignores non-wormagent providers and models", () =>
+    withEnv({ WORMAGENT_API_KEY: undefined }, () =>
       Effect.gen(function* () {
         const catalog = yield* Provider.Service
         const models = yield* Model.Service
@@ -2146,7 +2146,7 @@ describe("OpencodePlugin", () => {
 })
 
 describe("OpencodePlugin with a Console config", () => {
-  const $schema = "https://opencode.ai/config.json"
+  const $schema = "https://wormagent.net/config.json"
   const deny: ConfigPolicy.Info = { action: "tool.use", resource: "shell:*", effect: "deny" }
 
   it.effect("merges the Console response as config, with its policy named after the organization", () =>
@@ -2163,7 +2163,7 @@ describe("OpencodePlugin with a Console config", () => {
           const config = yield* Config.Service
           const hooks = yield* PluginHooks.Service
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({
               type: "key",
               key: "secret",
@@ -2219,7 +2219,7 @@ describe("OpencodePlugin with a Console config", () => {
                   },
                 },
                 policies: [deny],
-                websearch: { provider: "opencode" },
+                websearch: { provider: "wormagent" },
                 plugins: ["file:///tmp/console-plugin"],
                 shell: "/tmp/console-shell",
                 agents: { console: { prompt: "Console agent" } },
@@ -2235,7 +2235,7 @@ describe("OpencodePlugin with a Console config", () => {
             const credentials = yield* Credential.Service
             const config = yield* Config.Service
             yield* credentials.create({
-              integrationID: Integration.ID.make("opencode"),
+              integrationID: Integration.ID.make("wormagent"),
               value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: server.url.origin } }),
             })
             yield* addPlugin().pipe(inProcess(server))
@@ -2278,7 +2278,7 @@ describe("OpencodePlugin with a Console config", () => {
           const credentials = yield* Credential.Service
           const config = yield* Config.Service
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: server.url.origin } }),
           })
           yield* addPlugin().pipe(inProcess(server))
@@ -2336,7 +2336,7 @@ describe("OpencodePlugin with a Console config", () => {
             }),
           ])
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: server.url.origin } }),
           })
           const host = yield* PluginHost.make(yield* Plugin.Service, "test")
@@ -2345,7 +2345,7 @@ describe("OpencodePlugin with a Console config", () => {
 
           const provider = required(yield* providers.get(Provider.ID.make("remote")))
           expect(provider.name).toBe("Mine")
-          expect(provider.integrationID).toBe(Integration.ID.make("opencode"))
+          expect(provider.integrationID).toBe(Integration.ID.make("wormagent"))
           expect(provider.headers).toEqual({ "x-org-id": "mine", "x-console": "true" })
           expect(provider.settings).toEqual({
             baseURL: `${server.url.origin}/v1`,
@@ -2386,11 +2386,11 @@ describe("OpencodePlugin with a Console config", () => {
             }),
           )
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: server.url.origin } }),
           })
           const host = yield* PluginHost.make(yield* Plugin.Service, "test")
-          // Registered in production order: the OpenCode and OpenAI provider plugins, then config in `post`.
+          // Registered in production order: the WormAgent and OpenAI provider plugins, then config in `post`.
           yield* OpencodePlugin.effect(host).pipe(inProcess(server))
           yield* OpenAIPlugin.effect(host)
           yield* ConfigProviderPlugin.Plugin.effect(host)
@@ -2398,7 +2398,7 @@ describe("OpencodePlugin with a Console config", () => {
           expect(required(yield* providers.get(Provider.ID.openai)).settings?.transport).toBe("websocket")
           const consoleOpenAI = required(yield* providers.get(Provider.ID.make("console-openai")))
           expect(consoleOpenAI.name).toBe("Console OpenAI")
-          expect(consoleOpenAI.integrationID).toBe(Integration.ID.make("opencode"))
+          expect(consoleOpenAI.integrationID).toBe(Integration.ID.make("wormagent"))
           expect(consoleOpenAI.settings?.transport).toBeUndefined()
         }),
       (server) => Effect.promise(() => server.stop(true)),
@@ -2413,8 +2413,8 @@ describe("OpencodePlugin with a Console config", () => {
           port: 0,
           fetch: (request) => {
             if (new URL(request.url).pathname === "/api/websearch")
-              return Response.json({ providerID: "opencode", results: [] })
-            return Response.json({ $schema, ...(state.selected ? { websearch: { provider: "opencode" } } : {}) })
+              return Response.json({ providerID: "wormagent", results: [] })
+            return Response.json({ $schema, ...(state.selected ? { websearch: { provider: "wormagent" } } : {}) })
           },
         })
         return { server, state }
@@ -2425,9 +2425,9 @@ describe("OpencodePlugin with a Console config", () => {
           const websearch = yield* WebSearch.Service
           const config = yield* Config.Test
           const bus = yield* Bus.Service
-          const opencode = { id: WebSearch.ID.make("opencode"), name: "OpenCode Web Search" }
+          const wormagent = { id: WebSearch.ID.make("wormagent"), name: "WormAgent Web Search" }
           // Config.testLayer does not announce integration changes the way config reloads do.
-          const announced = (expected: typeof opencode | undefined) =>
+          const announced = (expected: typeof wormagent | undefined) =>
             bus
               .publish(Event.Updated, {})
               .pipe(Effect.andThen(eventually(websearch.default(), (value) => value?.id === expected?.id)))
@@ -2435,22 +2435,22 @@ describe("OpencodePlugin with a Console config", () => {
             editor.add({ id: WebSearch.ID.make("mine"), name: "Mine", execute: () => Effect.succeed([]) }),
           )
           yield* credentials.create({
-            integrationID: Integration.ID.make("opencode"),
+            integrationID: Integration.ID.make("wormagent"),
             value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: server.url.origin } }),
           })
           const host = yield* PluginHost.make(yield* Plugin.Service, "test")
           yield* OpencodePlugin.effect(host).pipe(inProcess(server))
           yield* ConfigWebSearchPlugin.Plugin.effect(host)
           // A workspace without hosted search, or a member its policy denies, would get only failed searches.
-          expect(yield* websearch.providers()).not.toContainEqual(opencode)
+          expect(yield* websearch.providers()).not.toContainEqual(wormagent)
           expect(yield* websearch.default()).toBeUndefined()
 
           state.selected = true
           yield* TestClock.adjust("1 minute")
           yield* drain
-          expect(yield* announced(opencode)).toEqual(opencode)
-          expect(yield* websearch.providers()).toContainEqual(opencode)
-          expect((yield* websearch.query({ query: "console" })).providerID).toBe(opencode.id)
+          expect(yield* announced(wormagent)).toEqual(wormagent)
+          expect(yield* websearch.providers()).toContainEqual(wormagent)
+          expect((yield* websearch.query({ query: "console" })).providerID).toBe(wormagent.id)
 
           yield* config.setEntries([
             new Document({
@@ -2479,7 +2479,7 @@ describe("OpencodePlugin with a Console config", () => {
               providers: { [orgID]: {} },
               mcp: { servers: { [orgID]: { type: "remote", url: `https://${orgID}/mcp` } } },
               policies: [{ action: "tool.use", resource: `shell:${orgID}`, effect: "deny" }],
-              websearch: { provider: "opencode" },
+              websearch: { provider: "wormagent" },
             })
           },
         }),
@@ -2490,7 +2490,7 @@ describe("OpencodePlugin with a Console config", () => {
           const config = yield* Config.Service
           const account = (orgID: string) =>
             credentials.create({
-              integrationID: Integration.ID.make("opencode"),
+              integrationID: Integration.ID.make("wormagent"),
               value: Credential.Key.make({
                 type: "key",
                 key: orgID,
@@ -2514,7 +2514,7 @@ describe("OpencodePlugin with a Console config", () => {
             providers: [orgID],
             mcp: [orgID],
             policies: [`shell:${orgID}`],
-            websearch: "opencode",
+            websearch: "wormagent",
           })
           const alpha = yield* account("alpha")
           yield* addPlugin().pipe(inProcess(server))
@@ -2538,7 +2538,7 @@ for (const key of [undefined, "secret"]) {
   testEffect(Layer.empty).effect(
     `disabled free models with ${key ? "an API key" : "a Console login after startup"}`,
     () =>
-      withEnv({ OPENCODE_DISABLE_FREE_MODELS: "true", OPENCODE_API_KEY: key }, () =>
+      withEnv({ WORMAGENT_DISABLE_FREE_MODELS: "true", WORMAGENT_API_KEY: key }, () =>
         Effect.gen(function* () {
           const catalog = yield* Provider.Service
           const models = yield* Model.Service
@@ -2546,16 +2546,16 @@ for (const key of [undefined, "secret"]) {
           const credentials = yield* Credential.Service
           yield* integrations.transform((editor) =>
             editor.method.update({
-              integrationID: Integration.ID.make("opencode"),
-              method: { type: "env", names: ["OPENCODE_API_KEY"] },
+              integrationID: Integration.ID.make("wormagent"),
+              method: { type: "env", names: ["WORMAGENT_API_KEY"] },
             }),
           )
           yield* catalog.transform((editor) => {
-            editor.update(Provider.ID.opencode, () => {})
-            editor.models.update(Provider.ID.opencode, Model.ID.make("free"), (model) => {
+            editor.update(Provider.ID.wormagent, () => {})
+            editor.models.update(Provider.ID.wormagent, Model.ID.make("free"), (model) => {
               model.cost = cost(0)
             })
-            editor.models.update(Provider.ID.opencode, Model.ID.make("paid"), (model) => {
+            editor.models.update(Provider.ID.wormagent, Model.ID.make("paid"), (model) => {
               model.cost = cost(1)
             })
           })
@@ -2564,9 +2564,9 @@ for (const key of [undefined, "secret"]) {
             expect(yield* catalog.available()).toEqual([])
             expect(yield* models.all()).toEqual([])
             expect(yield* models.default()).toBeUndefined()
-            expect((yield* integrations.get(Integration.ID.make("opencode")))?.methods.length).toBeGreaterThan(0)
+            expect((yield* integrations.get(Integration.ID.make("wormagent")))?.methods.length).toBeGreaterThan(0)
             yield* credentials.create({
-              integrationID: Integration.ID.make("opencode"),
+              integrationID: Integration.ID.make("wormagent"),
               value: Credential.OAuth.make({
                 type: "oauth",
                 methodID: Integration.MethodID.make("device"),
@@ -2577,13 +2577,13 @@ for (const key of [undefined, "secret"]) {
             })
           }
           const available = yield* eventually(models.available(), (models) =>
-            models.some((model) => model.providerID === Provider.ID.opencode),
+            models.some((model) => model.providerID === Provider.ID.wormagent),
           )
-          expect((yield* catalog.available()).map((provider) => provider.id)).toContain(Provider.ID.opencode)
+          expect((yield* catalog.available()).map((provider) => provider.id)).toContain(Provider.ID.wormagent)
           expect(available.map((model) => model.id)).toEqual([Model.ID.make("paid")])
           expect(yield* models.all()).toEqual(available)
           expect((yield* models.default())?.id).toBe(Model.ID.make("paid"))
-          expect(yield* models.get(Provider.ID.opencode, Model.ID.make("free"))).toBeUndefined()
+          expect(yield* models.get(Provider.ID.wormagent, Model.ID.make("free"))).toBeUndefined()
         }).pipe(Effect.provide(PluginTestLayer)),
       ),
   )

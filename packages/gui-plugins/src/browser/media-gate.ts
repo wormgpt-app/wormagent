@@ -4,7 +4,7 @@ import { originOf, type PermissionKind } from "./site-permissions"
 
 // Holds a page's getUserMedia until the pane decided it. Blink reads the capabilities of every microphone before it
 // asks the browser for permission (UserMediaProcessor::SetupAudioInput), and on macOS reading them opens the device,
-// which makes the system ask whether OpenCode may use it: the system's prompt would come before the site's bar. The
+// which makes the system ask whether WormAgent may use it: the system's prompt would come before the site's bar. The
 // page's call therefore asks the pane first, through a CDP binding, and reaches Blink only once the pane lets it.
 // A page that works around the wrapper only gets the old order: the site's own request still needs the user's Allow.
 

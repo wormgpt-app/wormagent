@@ -1,10 +1,10 @@
 import "./product-lockup.css"
-import "@opencode/nav-menus/nav-menus.css"
-import { installNavMenus } from "@opencode/nav-menus"
+import "@wormagent/nav-menus/nav-menus.css"
+import { installNavMenus } from "@wormagent/nav-menus"
 import { onCleanup, onMount } from "solid-js"
 
 /**
- * The OpenCode lockup, as on opencode.ai and the Console: the OpenCode mark, linking to the site's home (right-click
+ * The WormAgent lockup, as on wormagent.net and the Console: the WormAgent mark, linking to the site's home (right-click
  * for the logo menu), then DATA, linking to the Data home (hover, or its chevron on touch screens, for the product
  * menu). The menus are the shared ones in packages/nav-menus.
  */

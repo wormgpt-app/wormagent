@@ -1,4 +1,4 @@
-import { isShellNotFoundError, type ShellOutputInput, type ShellOutputOutput } from "@opencode/client/promise"
+import { isShellNotFoundError, type ShellOutputInput, type ShellOutputOutput } from "@wormagent/client/promise"
 import {
   createShellFollowerState,
   SHELL_READ_TIMEOUT_MS,

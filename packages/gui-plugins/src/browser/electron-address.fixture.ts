@@ -2,8 +2,8 @@ import { createServer } from "node:http"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
 import electron from "electron"
-import type { BuiltinMainStorage } from "@opencode/plugin/gui/builtin"
-import type { Embeds } from "@opencode/plugin/gui/main"
+import type { BuiltinMainStorage } from "@wormagent/plugin/gui/builtin"
+import type { Embeds } from "@wormagent/plugin/gui/main"
 
 // The Electron main process of `electron-address.test.ts`, bundled and run by the pinned Electron. It opens one pane
 // page with a workspace, as the pane does for the built-in local server, and submits addresses to it as the address
@@ -19,7 +19,7 @@ const server = createServer((request, response) => {
 })
 
 void electron.app.whenReady().then(async () => {
-  const { Browser } = await import("@opencode/plugin-browser/rpc")
+  const { Browser } = await import("@wormagent/plugin-browser/rpc")
   const { createBrowserPage } = await import("./chromium")
   const { createHandlePath } = await import("./disk")
   const { refusal } = await import("./policy")

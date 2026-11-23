@@ -1,19 +1,19 @@
 import fs from "node:fs/promises"
 import path from "node:path"
 import { expect } from "bun:test"
-import { OpenCode } from "@opencode/client"
-import { Database } from "@opencode/core/database/database"
-import { Job } from "@opencode/core/job"
-import { Session } from "@opencode/core/session"
-import { makeGlobalNode } from "@opencode/util/effect/app-node"
+import { WormAgent } from "@wormagent/client"
+import { Database } from "@wormagent/core/database/database"
+import { Job } from "@wormagent/core/job"
+import { Session } from "@wormagent/core/session"
+import { makeGlobalNode } from "@wormagent/util/effect/app-node"
 import { Deferred, Effect, Layer } from "effect"
 import { tmpdirScoped } from "../../core/test/fixture/tmpdir"
 import { it } from "../../core/test/lib/effect"
 import { ServerFetch } from "../src/fetch"
 
 const client = (handler: (request: Request) => Promise<Response>) =>
-  OpenCode.make({
-    baseUrl: "http://opencode.local",
+  WormAgent.make({
+    baseUrl: "http://wormagent.local",
     fetch: Object.assign((input: string | URL | Request, init?: RequestInit) => handler(new Request(input, init)), {
       preconnect: fetch.preconnect,
     }),
@@ -21,7 +21,7 @@ const client = (handler: (request: Request) => Promise<Response>) =>
 
 it.live("lists background jobs by session, kind, and descendants until completion notice clears them", () =>
   Effect.gen(function* () {
-    const dir = (yield* tmpdirScoped("opencode-job-api-")).path
+    const dir = (yield* tmpdirScoped("wormagent-job-api-")).path
     const global = path.join(dir, "global")
     const project = path.join(dir, "project")
     yield* Effect.promise(() => Promise.all([global, project].map((item) => fs.mkdir(item, { recursive: true }))))
@@ -38,7 +38,7 @@ it.live("lists background jobs by session, kind, and descendants until completio
     const handler = yield* ServerFetch.make(
       {
         app: { version: "test" },
-        database: { path: path.join(dir, "opencode.db") },
+        database: { path: path.join(dir, "wormagent.db") },
         config: { directory: global, project: false, claude: false },
         models: { fetch: false },
         fs: { filewatcher: false },

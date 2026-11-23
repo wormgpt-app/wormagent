@@ -89,7 +89,7 @@ test("mention a session by title, send its stable token, and open its own tab", 
 })
 
 test("a bare @ lists sessions, and a multi-word title matches while file search is slow", async ({ page }) => {
-  const target = "ses_0123456789opencodeconsolex"
+  const target = "ses_0123456789wormagentconsolex"
   const prompts: Parameters<NonNullable<MockServerConfig["onPrompt"]>>[0]["body"][] = []
 
   const view = await openSession(page, {
@@ -98,13 +98,13 @@ test("a bare @ lists sessions, and a multi-word title matches while file search 
     sessions: [
       { id: "ses_mention_search_source", title: "Review the plan" },
       { id: "ses_0123456789homesessionabcde", title: "HOME" },
-      { id: target, title: "OPENCODE CONSOLE" },
+      { id: target, title: "WORMAGENT CONSOLE" },
       { id: "ses_0123456789backhomeabcdefgh", title: "Back home", created: T0 + 2 },
       {
         id: "ses_0123456789otherprojecthome",
         title: "HOME elsewhere",
         projectID: "proj_other",
-        directory: "C:/OpenCode/Other",
+        directory: "C:/WormAgent/Other",
         created: T0 + 3,
       },
     ],
@@ -118,7 +118,7 @@ test("a bare @ lists sessions, and a multi-word title matches while file search 
   // A bare @ offers only this project's sessions.
   await view.editor.pressSequentially("Compare with @")
   await expect(suggestions.getByRole("button", { name: /HOME/ })).toBeVisible()
-  await expect(suggestions.getByRole("button", { name: /OPENCODE CONSOLE/ })).toBeVisible()
+  await expect(suggestions.getByRole("button", { name: /WORMAGENT CONSOLE/ })).toBeVisible()
   await expect(suggestions.getByRole("button", { name: /HOME elsewhere/ })).toHaveCount(0)
 
   // Typed matches rank this project first, then the exact title, a title start and a later word, ahead of recency.
@@ -137,9 +137,9 @@ test("a bare @ lists sessions, and a multi-word title matches while file search 
   await files.arrived
   await view.editor.pressSequentially(" con")
   await expect(suggestions.getByRole("button", { name: /HOME/ })).toHaveCount(0)
-  await expect(suggestions.locator("[data-suggestion-id][data-active]")).toContainText("OPENCODE CONSOLE")
+  await expect(suggestions.locator("[data-suggestion-id][data-active]")).toContainText("WORMAGENT CONSOLE")
   await view.editor.press("Enter")
-  await expect(view.editor.locator('[data-mention="session"]')).toHaveText("@OPENCODE CONSOLE")
+  await expect(view.editor.locator('[data-mention="session"]')).toHaveText("@WORMAGENT CONSOLE")
   files.release()
 
   // Prose after a completed mention neither reopens the popover nor lets it take Enter.
@@ -194,7 +194,7 @@ test("the free usage limit opens the Go dialog once, swaps the composer for the 
   await page.clock.setFixedTime(T0)
   await context.route("https://**", (route) => route.fulfill({ body: "Sign in" }))
   const sessionID = "ses_free_limit"
-  const model = { id: "big-pickle", providerID: "opencode" }
+  const model = { id: "big-pickle", providerID: "wormagent" }
   const state = { authorized: false }
 
   const view = await openSession(page, {
@@ -204,8 +204,8 @@ test("the free usage limit opens the Go dialog once, swaps the composer for the 
     provider: () => ({
       all: [
         {
-          id: "opencode",
-          name: "OpenCode",
+          id: "wormagent",
+          name: "WormAgent",
           models: {
             "big-pickle": {
               id: "big-pickle",
@@ -218,9 +218,9 @@ test("the free usage limit opens the Go dialog once, swaps the composer for the 
         ...(state.authorized
           ? [
               {
-                id: "opencode-go",
-                integrationID: "opencode",
-                name: "Anomaly / OpenCode Go",
+                id: "wormagent-go",
+                integrationID: "wormagent",
+                name: "WormGPT / WormAgent Go",
                 models: {
                   "glm-5-go": {
                     id: "glm-5-go",
@@ -233,22 +233,22 @@ test("the free usage limit opens the Go dialog once, swaps the composer for the 
             ]
           : []),
       ],
-      connected: state.authorized ? ["opencode", "opencode-go"] : ["opencode"],
-      default: { build: "opencode/big-pickle" },
+      connected: state.authorized ? ["wormagent", "wormagent-go"] : ["wormagent"],
+      default: { build: "wormagent/big-pickle" },
     }),
     integrations: () => [
       {
-        id: "opencode",
-        name: "OpenCode",
+        id: "wormagent",
+        name: "WormAgent",
         methods: [
-          { id: "device", type: "oauth", label: "OpenCode account" },
+          { id: "device", type: "oauth", label: "WormAgent account" },
           { type: "key", label: "API key (service account)" },
         ],
         connections: state.authorized
-          ? [{ type: "credential", id: "cred_console", label: "Anomaly", method: "oauth" }]
+          ? [{ type: "credential", id: "cred_console", label: "WormGPT", method: "oauth" }]
           : [],
       },
-      { id: "opencode-go", name: "OpenCode Go", methods: [{ type: "key" }], connections: [] },
+      { id: "wormagent-go", name: "WormAgent Go", methods: [{ type: "key" }], connections: [] },
     ],
     onIntegrationOAuth: () => ({ url: "https://auth.example.test/device?user_code=GOGO-1234" }),
     onIntegrationOAuthStatus: () => {
@@ -295,12 +295,12 @@ test("the free usage limit opens the Go dialog once, swaps the composer for the 
   await expect(view.editor).toHaveCount(0)
   await expect(page.getByText("Free usage limit reached.")).toHaveCount(0)
 
-  // Subscribe -> OpenCode sign-in -> the workspace's Go model -> Continue switches the model in the current session
+  // Subscribe -> WormAgent sign-in -> the workspace's Go model -> Continue switches the model in the current session
   // without opening a new draft tab.
   await upsell.getByRole("button", { name: "Subscribe", exact: true }).click()
-  const connect = page.getByRole("dialog", { name: "Connect OpenCode", exact: true })
-  await connect.getByRole("button", { name: "OpenCode account", exact: true }).click()
-  const connected = page.getByRole("dialog", { name: "Connected to OpenCode" })
+  const connect = page.getByRole("dialog", { name: "Connect WormAgent", exact: true })
+  await connect.getByRole("button", { name: "WormAgent account", exact: true }).click()
+  const connected = page.getByRole("dialog", { name: "Connected to WormAgent" })
   const go = connected.getByRole("radio", { name: "GLM-5 Go", exact: true })
   await go.click()
   await expect(go).toHaveAttribute("aria-checked", "true")
@@ -384,9 +384,9 @@ for (const action of ["tray", "picker"] as const) {
     context,
   }) => {
     await page.clock.setFixedTime(T0)
-    await context.route("https://opencode.ai/**", (route) => route.fulfill({ body: "Go" }))
+    await context.route("https://wormagent.net/**", (route) => route.fulfill({ body: "Go" }))
     const sessionID = "ses_go_limit"
-    const model = { id: "glm-5-go", providerID: "opencode-go" }
+    const model = { id: "glm-5-go", providerID: "wormagent-go" }
 
     const view = await openSession(page, {
       name: "GoLimit",
@@ -395,8 +395,8 @@ for (const action of ["tray", "picker"] as const) {
       provider: () => ({
         all: [
           {
-            id: "opencode",
-            name: "OpenCode",
+            id: "wormagent",
+            name: "WormAgent",
             models: {
               "big-pickle": {
                 id: "big-pickle",
@@ -407,8 +407,8 @@ for (const action of ["tray", "picker"] as const) {
             },
           },
           {
-            id: "opencode-go",
-            name: "OpenCode Go",
+            id: "wormagent-go",
+            name: "WormAgent Go",
             models: {
               "glm-5-go": {
                 id: "glm-5-go",
@@ -419,8 +419,8 @@ for (const action of ["tray", "picker"] as const) {
             },
           },
         ],
-        connected: ["opencode", "opencode-go"],
-        default: { build: "opencode-go/glm-5-go" },
+        connected: ["wormagent", "wormagent-go"],
+        default: { build: "wormagent-go/glm-5-go" },
       }),
       pageMessages: () => ({
         items: [
@@ -435,7 +435,7 @@ for (const action of ["tray", "picker"] as const) {
     const modelButton = page.locator('[data-action="composer-model"]')
     await expect(modelButton).toContainText("GLM-5 Go")
 
-    // The refusal OpenCode Console sends a Go subscriber at a limit, as core records it.
+    // The refusal WormAgent Console sends a Go subscriber at a limit, as core records it.
     const body = {
       type: "error",
       error: { type: "GoUsageLimitError", message: "Go usage limit exceeded" },
@@ -454,7 +454,7 @@ for (const action of ["tray", "picker"] as const) {
           assistantMessageID: "msg_go_assistant",
           error: {
             type: "provider.go-limit",
-            message: "OpenCode Go 5 hour usage limit reached.",
+            message: "WormAgent Go 5 hour usage limit reached.",
             status: 429,
             response: { body: JSON.stringify(body) },
             retryAfterMs: 3_600_000,
@@ -466,16 +466,16 @@ for (const action of ["tray", "picker"] as const) {
     const tray = page.locator('[data-component="session-go-limit-tray"]')
     await expect(tray).toContainText(/Go 5 hour usage limit reached\. It resets at .+?\./)
     await expect(
-      page.getByRole("status").filter({ hasText: /^You've reached your OpenCode Go usage limit\. It resets at / }),
+      page.getByRole("status").filter({ hasText: /^You've reached your WormAgent Go usage limit\. It resets at / }),
     ).toBeVisible()
     await expect(view.editor).toHaveText("Refactor the parser")
-    await expect(page.getByText("OpenCode Go 5 hour usage limit reached.")).toHaveCount(0)
+    await expect(page.getByText("WormAgent Go 5 hour usage limit reached.")).toHaveCount(0)
     await expect(page.getByRole("dialog")).toHaveCount(0)
 
-    // Extra Usage is turned on from the workspace's Go page in OpenCode Console.
+    // Extra Usage is turned on from the workspace's Go page in WormAgent Console.
     const popup = page.waitForEvent("popup")
     await tray.getByRole("button", { name: "Turn on Extra Usage", exact: true }).click()
-    await expect(await popup).toHaveURL("https://opencode.ai/console/wrk_go_limit/go")
+    await expect(await popup).toHaveURL("https://wormagent.net/console/wrk_go_limit/go")
 
     if (action === "tray") await tray.getByRole("button", { name: "Switch to a free model", exact: true }).click()
 
@@ -554,10 +554,10 @@ test("a catalog refresh cannot replace an existing session's model", async ({ pa
 
   const view = await openSession(page, {
     name: "CatalogSelection",
-    sessions: [{ id: sessionID, agent: "build", model: { id: "alpha", providerID: "opencode", variant: "high" } }],
+    sessions: [{ id: sessionID, agent: "build", model: { id: "alpha", providerID: "wormagent", variant: "high" } }],
     provider: () => catalog.current,
     onPrompt: (input) => void prompts.push(input.body),
-    seed: { storage: { "opencode.global.dat:model": { recent: [{ providerID: "opencode", modelID: "beta" }] } } },
+    seed: { storage: { "wormagent.global.dat:model": { recent: [{ providerID: "wormagent", modelID: "beta" }] } } },
   })
 
   const control = page.locator('[data-action="composer-model"]')
@@ -618,16 +618,16 @@ test("a catalog refresh cannot replace an existing session's model", async ({ pa
   await view.editor.fill("Use the replacement I chose")
   await view.editor.press("Enter")
   await expect.poll(() => prompts.length).toBe(2)
-  expect(switches).toEqual([{ model: { id: "beta", providerID: "opencode" } }])
+  expect(switches).toEqual([{ model: { id: "beta", providerID: "wormagent" } }])
 })
 
 test("an existing session's model never shows a fallback while its agent loads", async ({ page }) => {
   const sessionID = "ses_agent_pending"
   await mockWorkspace(page, {
     name: "AgentPending",
-    sessions: [{ id: sessionID, agent: "build", model: { id: "alpha", providerID: "opencode" } }],
+    sessions: [{ id: sessionID, agent: "build", model: { id: "alpha", providerID: "wormagent" } }],
     provider: provider({ id: "alpha", name: "Alpha" }, { id: "beta", name: "Beta" }),
-    seed: { storage: { "opencode.global.dat:model": { recent: [{ providerID: "opencode", modelID: "beta" }] } } },
+    seed: { storage: { "wormagent.global.dat:model": { recent: [{ providerID: "wormagent", modelID: "beta" }] } } },
   })
   const agents = Promise.withResolvers<void>()
   await page.route(/\/api\/agent(\?|$)/, async (route) => {
@@ -677,7 +677,7 @@ test("a send pressed while the Location's plugins activate waits, Esc cancels it
   const prompts: Parameters<NonNullable<MockServerConfig["onPrompt"]>>[0]["body"][] = []
   await mockWorkspace(page, {
     name: "PluginsBooting",
-    sessions: [{ id: sessionID, agent: "build", model: { id: "alpha", providerID: "opencode" } }],
+    sessions: [{ id: sessionID, agent: "build", model: { id: "alpha", providerID: "wormagent" } }],
     provider: provider({ id: "alpha", name: "Alpha" }),
     onPrompt: (input) => void prompts.push(input.body),
   })
@@ -718,18 +718,18 @@ test("a send pressed while the Location's plugins activate waits, Esc cancels it
 test("an opened session in another Location names its model from a loaded catalog before its agents load", async ({
   page,
 }) => {
-  const other = "C:/OpenCode/WarmOther"
+  const other = "C:/WormAgent/WarmOther"
   await mockWorkspace(page, {
     name: "WarmOpen",
     sessions: [
-      { id: "ses_warm_here", title: "Here", agent: "build", model: { id: "alpha", providerID: "opencode" } },
+      { id: "ses_warm_here", title: "Here", agent: "build", model: { id: "alpha", providerID: "wormagent" } },
       {
         id: "ses_warm_there",
         title: "There",
         directory: other,
         location: { directory: other },
         agent: "build",
-        model: { id: "beta", providerID: "opencode", variant: "high" },
+        model: { id: "beta", providerID: "wormagent", variant: "high" },
       },
     ],
     provider: provider({ id: "alpha", name: "Alpha" }, { id: "beta", name: "Beta (latest)", variants: { high: {} } }),
@@ -805,16 +805,16 @@ test("a managed composer label follows direct connections, not picker filtering 
     provider: () => ({
       all: [
         {
-          id: "opencode",
-          integrationID: "opencode",
-          name: "Anomaly / OpenCode",
+          id: "wormagent",
+          integrationID: "wormagent",
+          name: "WormGPT / WormAgent",
           models: {},
         },
         {
           id: "console-openai",
           canonical: "openai",
-          integrationID: "opencode",
-          name: "Anomaly / OpenAI",
+          integrationID: "wormagent",
+          name: "WormGPT / OpenAI",
           models: { gpt: { id: "gpt", name: "GPT" } },
         },
         ...(connected.direct
@@ -827,13 +827,13 @@ test("a managed composer label follows direct connections, not picker filtering 
             ]
           : []),
       ],
-      connected: ["opencode", "console-openai", ...(connected.direct ? ["openai"] : [])],
+      connected: ["wormagent", "console-openai", ...(connected.direct ? ["openai"] : [])],
       default: {},
     }),
     onPrompt: (input) => void prompts.push(input.body),
     seed: {
       storage: {
-        "opencode.global.dat:model": {
+        "wormagent.global.dat:model": {
           user: [
             { providerID: "console-openai", modelID: "gpt", visibility: "show" },
             { providerID: "openai", modelID: "direct-model", visibility: "show" },
@@ -865,15 +865,15 @@ test("a managed composer label follows direct connections, not picker filtering 
       data: {},
     },
   ])
-  await expect(control).toHaveText("OpenCode / OpenAI / GPT")
-  await expect(control).toHaveAccessibleName("OpenCode / OpenAI / GPT")
+  await expect(control).toHaveText("WormAgent / OpenAI / GPT")
+  await expect(control).toHaveAccessibleName("WormAgent / OpenAI / GPT")
   await control.click()
   const search = picker.getByRole("combobox", { name: "Search models", exact: true })
   await expect(picker.locator('[data-option-key="openai:direct-model"]')).toBeVisible()
   await search.fill("GPT")
   await expect(picker.locator('[data-option-key="openai:direct-model"]')).toHaveCount(0)
   await expect(selected).toHaveAttribute("aria-current", "true")
-  await expect(control).toHaveText("OpenCode / OpenAI / GPT")
+  await expect(control).toHaveText("WormAgent / OpenAI / GPT")
   await search.press("Escape")
   await expect(picker).toBeHidden()
 
@@ -1221,7 +1221,7 @@ test("shows the dropzone and attaches a dropped file", async ({ page }) => {
     .toEqual([
       {
         path: expect.stringMatching(/\/uploads\/[0-9a-f-]{36}\/dropzone\.txt$/),
-        directory: "C:/OpenCode/ComposerDraft",
+        directory: "C:/WormAgent/ComposerDraft",
         body: "Dropzone fixture",
       },
     ])
@@ -1359,7 +1359,7 @@ test("keeps focus in a dialog that replaces the model dialog and returns it to t
   await expect(editor).toHaveText("keep, me")
 })
 
-test("lists OpenCode's free models in the model picker however old they are", async ({ page }) => {
+test("lists WormAgent's free models in the model picker however old they are", async ({ page }) => {
   await page.clock.setFixedTime(T0)
   const year = { released: T0 - 365 * 24 * 60 * 60 * 1000 }
   await openSession(page, {
@@ -1373,9 +1373,9 @@ test("lists OpenCode's free models in the model picker however old they are", as
 
   await page.locator('[data-component="composer"] [data-action="composer-model"]').click()
   const models = page.getByRole("dialog", { name: "Select model", exact: true })
-  await expect(models.locator('[data-option-key="opencode:new-paid"]')).toBeVisible()
-  await expect(models.locator('[data-option-key="opencode:big-pickle"]')).toBeVisible()
-  await expect(models.locator('[data-option-key="opencode:old-paid"]')).toHaveCount(0)
+  await expect(models.locator('[data-option-key="wormagent:new-paid"]')).toBeVisible()
+  await expect(models.locator('[data-option-key="wormagent:big-pickle"]')).toBeVisible()
+  await expect(models.locator('[data-option-key="wormagent:old-paid"]')).toHaveCount(0)
 })
 
 test("lists slash commands in their built-in order", async ({ page }) => {
@@ -1595,8 +1595,8 @@ test("marks a Console provider with its workspace only when it is also connected
   const managed = (id: string, canonical: string, name: string, models: ReturnType<typeof model>) => ({
     id,
     canonical,
-    integrationID: "opencode",
-    name: `Anomaly / ${name}`,
+    integrationID: "wormagent",
+    name: `WormGPT / ${name}`,
     models,
   })
 
@@ -1604,19 +1604,19 @@ test("marks a Console provider with its workspace only when it is also connected
     name: "ComposerConsoleProviders",
     provider: {
       all: [
-        managed("opencode", "opencode", "OpenCode", model("console-model", "Console Model")),
+        managed("wormagent", "wormagent", "WormAgent", model("console-model", "Console Model")),
         managed("console-google", "google", "Google", model("managed-gemini", "Managed Gemini")),
         managed("console-openai", "openai", "OpenAI", model("managed-gpt", "Managed GPT")),
         { id: "google", canonical: "google", name: "Google", models: model("direct-gemini", "Direct Gemini") },
       ],
-      connected: ["opencode", "console-google", "console-openai", "google"],
-      default: { providerID: "opencode", modelID: "console-model" },
+      connected: ["wormagent", "console-google", "console-openai", "google"],
+      default: { providerID: "wormagent", modelID: "console-model" },
     },
     seed: {
       storage: {
-        "opencode.global.dat:model": {
+        "wormagent.global.dat:model": {
           user: [
-            ["opencode", "console-model"],
+            ["wormagent", "console-model"],
             ["console-google", "managed-gemini"],
             ["console-openai", "managed-gpt"],
             ["google", "direct-gemini"],
@@ -1634,11 +1634,11 @@ test("marks a Console provider with its workspace only when it is also connected
   await expect(menu.getByRole("option", { name: "Direct Gemini", exact: true })).toBeVisible()
   const headings = menu.locator('[data-slot="search-list-header"]')
   await expect(headings).toHaveCount(4)
-  await expect(headings.filter({ hasText: /^GoogleAnomaly$/ })).toHaveCount(1)
+  await expect(headings.filter({ hasText: /^GoogleWormGPT$/ })).toHaveCount(1)
   await expect(headings.filter({ hasText: /^Google$/ })).toHaveCount(1)
   await expect(headings.filter({ hasText: /^OpenAI$/ })).toHaveCount(1)
-  await expect(headings.filter({ hasText: /^OpenCode$/ })).toHaveCount(1)
-  await expect(menu.getByText(/Anomaly \//)).toHaveCount(0)
+  await expect(headings.filter({ hasText: /^WormAgent$/ })).toHaveCount(1)
+  await expect(menu.getByText(/WormGPT \//)).toHaveCount(0)
 })
 
 test("shows thinking on hover or a non-default selection while preserving keyboard access", async ({ page }) => {

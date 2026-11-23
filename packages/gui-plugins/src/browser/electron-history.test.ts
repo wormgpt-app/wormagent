@@ -38,7 +38,7 @@ test(
 
       // The store that replaced it takes the profile's three pages, finds one, and a sign-out forgets them.
       expect(result.replaced.imported).toEqual({ value: { ...cookies, pages: 3 } })
-      expect(result.replaced.search).toEqual({ value: ["https://github.com/anomalyco/rune-desktop"] })
+      expect(result.replaced.search).toEqual({ value: ["https://github.com/wormgpt-app/rune-desktop"] })
       expect(result.replaced.signOut).toEqual({ value: { history: true } })
       expect(result.replaced.searchAfter).toEqual({ value: [] })
       // Each failure is in the desktop log.

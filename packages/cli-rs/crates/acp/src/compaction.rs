@@ -1,7 +1,7 @@
 use std::borrow::Cow;
 use std::collections::HashMap;
 
-use opencode_api::generated::{
+use wormagent_api::generated::{
     SessionCompactionEnded, SessionCompactionFailed, SessionCompactionStarted, SessionMessageID,
 };
 use serde::Serialize;
@@ -37,7 +37,7 @@ pub struct CompactionUpdate<'a> {
     error: Option<String>,
 }
 
-/// The `opencode/compaction` marker that stands in for compaction updates.
+/// The `wormagent/compaction` marker that stands in for compaction updates.
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Marker<'a> {

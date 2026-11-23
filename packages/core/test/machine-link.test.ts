@@ -2,16 +2,16 @@ import { expect } from "bun:test"
 import { randomBytes } from "node:crypto"
 import { mkdir, writeFile } from "node:fs/promises"
 import path from "node:path"
-import { Database } from "@opencode/core/database/database"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Environment } from "@opencode/core/environment/index"
-import { Identity } from "@opencode/core/machine/identity"
-import { Join } from "@opencode/core/machine/join"
-import { Link } from "@opencode/core/machine/link"
-import { Machines } from "@opencode/core/machine/machines"
-import { Noise } from "@opencode/core/machine/noise"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { Global } from "@opencode/util/global"
+import { Database } from "@wormagent/core/database/database"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Environment } from "@wormagent/core/environment/index"
+import { Identity } from "@wormagent/core/machine/identity"
+import { Join } from "@wormagent/core/machine/join"
+import { Link } from "@wormagent/core/machine/link"
+import { Machines } from "@wormagent/core/machine/machines"
+import { Noise } from "@wormagent/core/machine/noise"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { Global } from "@wormagent/util/global"
 import { Cause, Effect, Exit, Fiber, Option, Queue, Result, type Scope } from "effect"
 import { TestClock } from "effect/testing"
 import { tmpdirScoped } from "./fixture/tmpdir"
@@ -32,8 +32,8 @@ const everyByte = (message: Uint8Array) => Array.from({ length: message.length }
 const refused = (result: Result.Result<unknown, Link.Refused>) =>
   expect(Result.isFailure(result) && result.failure).toEqual(new Link.Refused())
 const newWorker = () => Identity.fromSeed(randomBytes(32))
-const HOME_LABEL = text("opencode-link-v1/home:")
-const MACHINE_LABEL = text("opencode-link-v1/machine:")
+const HOME_LABEL = text("wormagent-link-v1/home:")
+const MACHINE_LABEL = text("wormagent-link-v1/machine:")
 
 const layers = (directory: string) =>
   AppNodeBuilder.build(LayerNode.group([Database.node, Machines.node, Identity.node]), [
@@ -49,7 +49,7 @@ const layers = (directory: string) =>
         repos: directory,
       }),
     ),
-    Database.node.replace(Database.configured({ path: path.join(directory, "opencode.db") })),
+    Database.node.replace(Database.configured({ path: path.join(directory, "wormagent.db") })),
   ])
 
 /** A home of its own in a fresh directory, holding `seed` as its key when given and a key of its own otherwise. */
@@ -123,7 +123,7 @@ const connect = (options: Link.DialOptions, setup?: Setup) => run((carrier) => L
 const forged = (worker: Identity.Key, flag: number, secret: Uint8Array) => (carrier: Link.Carrier) =>
   Effect.gen(function* () {
     const local = Noise.generateKeyPair()
-    const noise = ok(Noise.handshake({ initiator: true, prologue: text("opencode-link-v1"), static: local }))
+    const noise = ok(Noise.handshake({ initiator: true, prologue: text("wormagent-link-v1"), static: local }))
     yield* carrier.send(ok(noise.write(new Uint8Array(0))))
     ok(noise.read(yield* carrier.receive))
     const signature = worker.sign(concat(MACHINE_LABEL, local.publicKey, noise.hash ?? new Uint8Array(0)))
@@ -463,7 +463,7 @@ it.effect("refuses a peer that sends message 1 and then nothing, after 10 second
         { startImmediately: true },
       )
       const noise = ok(
-        Noise.handshake({ initiator: true, prologue: text("opencode-link-v1"), static: Noise.generateKeyPair() }),
+        Noise.handshake({ initiator: true, prologue: text("wormagent-link-v1"), static: Noise.generateKeyPair() }),
       )
       yield* Queue.offer(toHome, ok(noise.write(new Uint8Array(0))))
       // Message 2 has been sent, so the home now waits on message 3.

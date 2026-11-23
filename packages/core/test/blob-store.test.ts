@@ -2,10 +2,10 @@ import fs from "node:fs/promises"
 import path from "node:path"
 import { expect } from "bun:test"
 import { Duration, Effect, Exit, Stream } from "effect"
-import { BlobStore } from "@opencode/core/blob-store"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { Global } from "@opencode/util/global"
+import { BlobStore } from "@wormagent/core/blob-store"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { Global } from "@wormagent/util/global"
 import { tmpdirScoped } from "./fixture/tmpdir"
 import { it } from "./lib/effect"
 import { eventually } from "./lib/eventually"
@@ -17,7 +17,7 @@ const app = (dir: string) =>
 
 it.effect("deletes blobs a week after they were written", () =>
   Effect.gen(function* () {
-    const dir = (yield* tmpdirScoped("opencode-blob-store-")).path
+    const dir = (yield* tmpdirScoped("wormagent-blob-store-")).path
     const ids = yield* Effect.gen(function* () {
       const blobs = yield* BlobStore.Service
       const old = yield* blobs.write(Stream.make(Uint8Array.of(1, 2, 3)))

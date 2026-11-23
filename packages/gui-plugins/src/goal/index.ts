@@ -1,4 +1,4 @@
-import { Plugin } from "@opencode/plugin/gui"
+import { Plugin } from "@wormagent/plugin/gui"
 import en from "./i18n/en"
 import active from "./icons/active.svg?raw"
 import complete from "./icons/complete.svg?raw"

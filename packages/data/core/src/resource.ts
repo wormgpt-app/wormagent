@@ -21,7 +21,7 @@ export const Resource = {
     },
   },
   DataDatabase: {
-    database: "opencode-stats",
+    database: "wormagent-stats",
     port: 3306,
     get host() {
       return required("DATA_DATABASE_HOST")

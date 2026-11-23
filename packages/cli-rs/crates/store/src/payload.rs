@@ -7,10 +7,10 @@ use std::borrow::Cow;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
 
-use opencode_api::de::Raw;
-use opencode_api::events::Event;
-use opencode_api::generated::*;
-use opencode_api::sse;
+use wormagent_api::de::Raw;
+use wormagent_api::events::Event;
+use wormagent_api::generated::*;
+use wormagent_api::sse;
 use serde::Deserialize;
 
 use crate::core::Delta;

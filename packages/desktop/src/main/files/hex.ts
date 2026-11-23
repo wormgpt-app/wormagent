@@ -36,7 +36,7 @@ export function hexPaths(platform: NodeJS.Platform, home: string, env: NodeJS.Pr
   return {
     support,
     entries: [...dirs].flatMap((dir) =>
-      ["anomaly.hex.desktop", "hex.desktop"].map((name) => path.posix.join(dir, "applications", name)),
+      ["wormgpt.hex.desktop", "hex.desktop"].map((name) => path.posix.join(dir, "applications", name)),
     ),
     binaries: [...bins].map((dir) => path.posix.join(dir, "hex")),
   }

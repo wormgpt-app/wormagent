@@ -2,21 +2,21 @@ import path from "node:path"
 import { expect } from "bun:test"
 import { Effect, Fiber, Layer, Stream } from "effect"
 import { TestClock } from "effect/testing"
-import type { VideoStatus } from "@opencode/ai/effect"
-import { Database } from "@opencode/core/database/database"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Watcher } from "@opencode/core/filesystem/watcher"
-import { Generate } from "@opencode/core/generate"
-import { BlobStore } from "@opencode/core/blob-store"
-import { KV } from "@opencode/core/kv"
-import { VideoGeneration } from "@opencode/core/video-generation"
-import { LocationServiceMap } from "@opencode/core/location-service-map"
-import { VideoID, type VideoJob } from "@opencode/schema/generate"
-import { Model } from "@opencode/schema/model"
-import { Provider } from "@opencode/schema/provider"
-import { makeLocationNode } from "@opencode/util/effect/app-node"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { Global } from "@opencode/util/global"
+import type { VideoStatus } from "@wormagent/ai/effect"
+import { Database } from "@wormagent/core/database/database"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Watcher } from "@wormagent/core/filesystem/watcher"
+import { Generate } from "@wormagent/core/generate"
+import { BlobStore } from "@wormagent/core/blob-store"
+import { KV } from "@wormagent/core/kv"
+import { VideoGeneration } from "@wormagent/core/video-generation"
+import { LocationServiceMap } from "@wormagent/core/location-service-map"
+import { VideoID, type VideoJob } from "@wormagent/schema/generate"
+import { Model } from "@wormagent/schema/model"
+import { Provider } from "@wormagent/schema/provider"
+import { makeLocationNode } from "@wormagent/util/effect/app-node"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { Global } from "@wormagent/util/global"
 import { offlineModels } from "./fixture/models"
 import { tmpdirScoped } from "./fixture/tmpdir"
 import { advance } from "./lib/clock"
@@ -41,7 +41,7 @@ const app = (dir: string, state: State) =>
     LayerNode.group([VideoGeneration.node, BlobStore.node, Database.node, KV.node, LocationServiceMap.node]),
     [
       Global.node.replace(Global.layerWith({ data: path.join(dir, "data"), config: path.join(dir, "config") })),
-      Database.node.replace(Database.configured({ path: "opencode.db" })),
+      Database.node.replace(Database.configured({ path: "wormagent.db" })),
       offlineModels,
       Watcher.node.replace(Watcher.configured({ enabled: false })),
       Generate.node.replace(
@@ -84,7 +84,7 @@ const records = KV.Service.pipe(Effect.flatMap((kv) => kv.scan({ prefix: "video:
 
 it.effect("keeps video jobs across restarts and forgets them a day after they finish", () =>
   Effect.gen(function* () {
-    const dir = (yield* tmpdirScoped("opencode-generation-")).path
+    const dir = (yield* tmpdirScoped("wormagent-generation-")).path
     const state = provider()
     const first = yield* Effect.gen(function* () {
       const generations = yield* VideoGeneration.Service
@@ -123,7 +123,7 @@ it.effect("keeps video jobs across restarts and forgets them a day after they fi
 
 it.effect("waits for a job to finish and cancels a running one", () =>
   Effect.gen(function* () {
-    const dir = (yield* tmpdirScoped("opencode-generation-")).path
+    const dir = (yield* tmpdirScoped("wormagent-generation-")).path
     const state = provider()
     yield* Effect.gen(function* () {
       const generations = yield* VideoGeneration.Service

@@ -5,7 +5,7 @@ use std::hash::Hash;
 use std::sync::Arc;
 
 use indexmap::{IndexMap, IndexSet};
-use opencode_api::generated::{JobInfo, Project, ProjectID, SessionID, SessionMessageID};
+use wormagent_api::generated::{JobInfo, Project, ProjectID, SessionID, SessionMessageID};
 
 use crate::changes::{Log, Touched};
 use crate::forms::Form;
@@ -14,7 +14,7 @@ use crate::reads::{ReadKey, ReadState};
 use crate::sessions::{SessionKey, Sessions};
 
 /// A store error. Shared, because one keyed read answers every caller.
-pub type Error = Arc<opencode_api::error::Error>;
+pub type Error = Arc<wormagent_api::error::Error>;
 
 /// Raw messages of the first transcript read (`messagePageLimit`).
 pub(crate) const MESSAGE_PAGE: i64 = 20;

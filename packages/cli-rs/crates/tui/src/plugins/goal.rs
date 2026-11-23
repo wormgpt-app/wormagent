@@ -1,8 +1,8 @@
 //! Session goal status, commands, and progress panel.
 
-use opencode_api::client::Client;
-use opencode_api::generated::{LocationQueryInput, RpcCallInput, RpcCallOutput, SessionCommandInput, V2Event};
-use opencode_plugin::abi::{
+use wormagent_api::client::Client;
+use wormagent_api::generated::{LocationQueryInput, RpcCallInput, RpcCallOutput, SessionCommandInput, V2Event};
+use wormagent_plugin::abi::{
     self, Action, Click, Command, Dialog, Host, Layout, Node, Panel, PanelAction, PanelBind, PanelSize, RequestId,
     Span, Toast, Variant, Wrap,
 };
@@ -12,8 +12,8 @@ use super::fetch::fetch_of;
 
 use crate::prelude::*;
 
-const RPC: &str = "opencode.goal";
-const CHANGED: &str = "rpc.opencode.goal.changed";
+const RPC: &str = "wormagent.goal";
+const CHANGED: &str = "rpc.wormagent.goal.changed";
 const PANEL: &str = "goal";
 /// The hidden commands of the status and the panel. Each takes the session as its input.
 const SHOW: &str = "prompt.goal.show";

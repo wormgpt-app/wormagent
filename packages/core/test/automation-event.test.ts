@@ -1,30 +1,30 @@
 import { expect } from "bun:test"
-import { Automation } from "@opencode/core/automation"
-import { AutomationTable } from "@opencode/core/automation/sql"
-import { Agent } from "@opencode/core/agent"
-import { Bus } from "@opencode/core/bus"
-import { Config } from "@opencode/core/config"
-import { Database } from "@opencode/core/database/database"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { LocationServiceMap } from "@opencode/core/location-service-map"
-import { LocationLifecycle } from "@opencode/core/location-lifecycle"
-import { LocationActivity } from "@opencode/core/location-activity"
-import { Mcp } from "@opencode/core/mcp/index"
-import { McpClient } from "@opencode/core/mcp/client"
-import { Plugin } from "@opencode/core/plugin"
-import { PluginHooks } from "@opencode/core/plugin/hooks"
-import { PluginSupervisor } from "@opencode/core/plugin/supervisor"
-import { Session } from "@opencode/core/session"
-import { SessionExecution } from "@opencode/core/session/execution"
-import { SessionProjector } from "@opencode/core/session/projector"
-import { SessionMessage } from "@opencode/core/session/message"
-import { Permission } from "@opencode/core/permission"
-import { SessionInboxTable, SessionTable } from "@opencode/core/session/sql"
-import { AbsolutePath } from "@opencode/schema/schema"
-import { Tool } from "@opencode/schema/tool"
-import { Document, Info } from "@opencode/schema/config"
-import { ConfigExperimental } from "@opencode/schema/config/experimental"
-import { LayerNode } from "@opencode/util/effect/layer-node"
+import { Automation } from "@wormagent/core/automation"
+import { AutomationTable } from "@wormagent/core/automation/sql"
+import { Agent } from "@wormagent/core/agent"
+import { Bus } from "@wormagent/core/bus"
+import { Config } from "@wormagent/core/config"
+import { Database } from "@wormagent/core/database/database"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { LocationServiceMap } from "@wormagent/core/location-service-map"
+import { LocationLifecycle } from "@wormagent/core/location-lifecycle"
+import { LocationActivity } from "@wormagent/core/location-activity"
+import { Mcp } from "@wormagent/core/mcp/index"
+import { McpClient } from "@wormagent/core/mcp/client"
+import { Plugin } from "@wormagent/core/plugin"
+import { PluginHooks } from "@wormagent/core/plugin/hooks"
+import { PluginSupervisor } from "@wormagent/core/plugin/supervisor"
+import { Session } from "@wormagent/core/session"
+import { SessionExecution } from "@wormagent/core/session/execution"
+import { SessionProjector } from "@wormagent/core/session/projector"
+import { SessionMessage } from "@wormagent/core/session/message"
+import { Permission } from "@wormagent/core/permission"
+import { SessionInboxTable, SessionTable } from "@wormagent/core/session/sql"
+import { AbsolutePath } from "@wormagent/schema/schema"
+import { Tool } from "@wormagent/schema/tool"
+import { Document, Info } from "@wormagent/schema/config"
+import { ConfigExperimental } from "@wormagent/schema/config/experimental"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
 import { Clock, Context, Duration, Effect, Fiber, Latch, Layer, Schedule, Schema } from "effect"
 import { TestClock } from "effect/testing"
 import { eq } from "drizzle-orm"
@@ -582,7 +582,7 @@ it.effect("validates permission, push capability and arguments before creating a
       sessionID,
       permissions: [
         {
-          action: "opencode_watch_mcp_event",
+          action: "wormagent_watch_mcp_event",
           resource: "ci",
           effect: "deny",
         },
@@ -661,7 +661,7 @@ for (const stop of ["terminated", "permission revoked", "expired"]) {
             sessionID,
             permissions: [
               {
-                action: "opencode_watch_mcp_event",
+                action: "wormagent_watch_mcp_event",
                 resource: "ci",
                 effect: "deny",
               },

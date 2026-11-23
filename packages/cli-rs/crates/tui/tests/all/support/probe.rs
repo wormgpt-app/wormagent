@@ -27,8 +27,8 @@ impl Probe {
         let instructions = Instructions::open();
         let cpu = process_cpu();
         let heap = heap::measure();
-        // `OPENCODE_PERF_SITES=N` records the stack of every Nth allocation, which slows the region down.
-        let every = std::env::var("OPENCODE_PERF_SITES").ok().and_then(|every| every.parse().ok()).unwrap_or(0);
+        // `WORMAGENT_PERF_SITES=N` records the stack of every Nth allocation, which slows the region down.
+        let every = std::env::var("WORMAGENT_PERF_SITES").ok().and_then(|every| every.parse().ok()).unwrap_or(0);
         heap::sample_every(every);
         Self { heap, instructions, start: Instant::now(), cpu }
     }
@@ -72,7 +72,7 @@ impl Probe {
 }
 
 /// Prints the sampled allocation sites, the most frequent first, as `PERF-SITE` lines: the share of the samples, the
-/// innermost client function on the stack (a function of a crate `opencode_*`, or a method of its type), and the
+/// innermost client function on the stack (a function of a crate `wormagent_*`, or a method of its type), and the
 /// innermost function outside the standard library, which allocated for it.
 fn print_sites(samples: Vec<std::backtrace::Backtrace>) {
     let total = samples.len();
@@ -89,7 +89,7 @@ fn print_sites(samples: Vec<std::backtrace::Backtrace>) {
             .collect();
         let standard = ["alloc::", "<alloc::", "core::", "<core::", "std::", "<std::", "hashbrown::", "<hashbrown::"];
         let via = frames.iter().find(|name| !standard.iter().any(|prefix| name.starts_with(prefix)));
-        let client = frames.iter().find(|name| name.trim_start_matches('<').starts_with("opencode_"));
+        let client = frames.iter().find(|name| name.trim_start_matches('<').starts_with("wormagent_"));
         let key = (client.unwrap_or(&"?").to_string(), via.unwrap_or(&"?").to_string());
         *sites.entry(key).or_default() += 1;
     }
@@ -245,7 +245,7 @@ pub fn long_messages(turns: usize, parts: usize) -> Vec<Value> {
                         "type": "text",
                         "text": format!(
                             "Answer {turn}.{part}: the parser now handles **nested** groups and `escapes`.\n\n\
-                             - first point about the change\n- second point, with a [link](https://opencode.ai)\n\n\
+                             - first point about the change\n- second point, with a [link](https://wormagent.net)\n\n\
                              ```rust\nfn parse(input: &str) -> Tree {{\n    Tree::new(input)\n}}\n```"
                         ),
                     }),

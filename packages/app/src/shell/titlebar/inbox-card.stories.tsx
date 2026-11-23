@@ -1,5 +1,5 @@
-import { Button } from "@opencode/ui/button"
-import { Menu } from "@opencode/ui/menu"
+import { Button } from "@wormagent/ui/button"
+import { Menu } from "@wormagent/ui/menu"
 import { createEffect, For, on, Show } from "solid-js"
 import { createStore } from "solid-js/store"
 import { useLanguage } from "@/runtime/i18n/language"
@@ -62,10 +62,10 @@ function SessionCardStory(props: {
           <InboxSessionCard
             project={
               props.projectKnown
-                ? { id: "lab-opencode", name: props.project, worktree: "/workspace/opencode", icon: { color: "blue" } }
+                ? { id: "lab-wormagent", name: props.project, worktree: "/workspace/wormagent", icon: { color: "blue" } }
                 : undefined
             }
-            directory={props.worktree ? "/workspace/opencode/worktrees/tooltip-status" : "/workspace/opencode"}
+            directory={props.worktree ? "/workspace/wormagent/worktrees/tooltip-status" : "/workspace/wormagent"}
             title={props.title}
             status={state.status}
             selected={state.selected}
@@ -116,7 +116,7 @@ export default {
     remote: false,
     branch: "dev",
     title: "Tooltip status on latest dev",
-    project: "opencode",
+    project: "wormagent",
     projectKnown: true,
     ageMinutes: 41,
     ageSeconds: 0,

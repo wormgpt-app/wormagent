@@ -1,7 +1,7 @@
 export * as ClaudeWebSearch from "./websearch.js"
 
 import type { SDKMessage } from "@anthropic-ai/claude-agent-sdk"
-import type { WebSearch } from "@opencode/plugin/effect"
+import type { WebSearch } from "@wormagent/plugin/effect"
 import { Effect, Option, Schema } from "effect"
 import os from "node:os"
 import { ClaudeAgentError } from "../language-model/claude-agent-error.js"
@@ -65,7 +65,7 @@ export const search = Effect.fn("ClaudeWebSearch.search")(function* (input: {
     // Closing as soon as the results arrive skips Claude's own answer. The model that asked reads the results itself.
     (session) => Effect.sync(() => session.close()),
   ).pipe(
-    // opencode sets no limit on a search provider, so a stuck claude would hold the tool call forever
+    // wormagent sets no limit on a search provider, so a stuck claude would hold the tool call forever
     Effect.timeoutOrElse({
       duration: "1 minute",
       orElse: () => Effect.fail(new Error("Claude did not finish the web search within a minute")),
@@ -86,7 +86,7 @@ export function results(message: SDKMessage): WebSearch.Result[] | undefined {
     .join("\n\n")
   const first = found[0]
   if (!summary || !first) return found
-  // opencode lists results without a field for the whole search, so the summary rides on the first one, which says so
+  // wormagent lists results without a field for the whole search, so the summary rides on the first one, which says so
   found[0] = {
     ...first,
     title: `Summary of all results below, written by Claude (top source: ${first.title})`,

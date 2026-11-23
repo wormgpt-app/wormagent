@@ -1,4 +1,4 @@
-import { getFilename } from "@opencode/util/path"
+import { getFilename } from "@wormagent/util/path"
 import {
   pickerFileSearchQuery,
   pickerParent,

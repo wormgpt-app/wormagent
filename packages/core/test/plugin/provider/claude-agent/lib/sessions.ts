@@ -1,15 +1,15 @@
 export * as TestSessions from "./sessions"
 
 import type { LanguageModelV3Prompt, LanguageModelV3StreamPart } from "@ai-sdk/provider"
-import type { SessionRequestKind } from "@opencode/plugin/effect/session"
+import type { SessionRequestKind } from "@wormagent/plugin/effect/session"
 import { Effect } from "effect"
-import { ClaudeAccounts } from "@opencode/core/plugin/provider/claude-agent/claude/accounts"
-import { ClaudeQueryOptions } from "@opencode/core/plugin/provider/claude-agent/claude/query-options"
-import { ClaudeSessions } from "@opencode/core/plugin/provider/claude-agent/claude/sessions"
-import { ClaudeStatus } from "@opencode/core/plugin/provider/claude-agent/claude/status"
-import { ClaudeAgentLanguageModel } from "@opencode/core/plugin/provider/claude-agent/language-model/claude-agent-language-model"
-import { RequestKind } from "@opencode/core/plugin/provider/claude-agent/language-model/request-kind"
-import type { SessionRecord } from "@opencode/core/plugin/provider/claude-agent/sync/record"
+import { ClaudeAccounts } from "@wormagent/core/plugin/provider/claude-agent/claude/accounts"
+import { ClaudeQueryOptions } from "@wormagent/core/plugin/provider/claude-agent/claude/query-options"
+import { ClaudeSessions } from "@wormagent/core/plugin/provider/claude-agent/claude/sessions"
+import { ClaudeStatus } from "@wormagent/core/plugin/provider/claude-agent/claude/status"
+import { ClaudeAgentLanguageModel } from "@wormagent/core/plugin/provider/claude-agent/language-model/claude-agent-language-model"
+import { RequestKind } from "@wormagent/core/plugin/provider/claude-agent/language-model/request-kind"
+import type { SessionRecord } from "@wormagent/core/plugin/provider/claude-agent/sync/record"
 import { FakeClaude } from "./fake-claude"
 import { FakeIO } from "./fake-io"
 
@@ -84,7 +84,7 @@ export const start = Effect.fn(function* (
       () => Effect.succeed(ClaudeQueryOptions.configDirs(settings?.configDir)),
     ),
     storage: saved,
-    directory: "/tmp/opencode",
+    directory: "/tmp/wormagent",
   }
   const sessions = yield* registry.attach(input)
   const accounts = ClaudeAccounts.make({ sessions, storage: saved })

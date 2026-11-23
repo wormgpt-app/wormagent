@@ -11,10 +11,10 @@ use std::time::Duration;
 
 use futures_util::FutureExt;
 use futures_util::future::{BoxFuture, Shared};
-use opencode_api::client::Client;
-use opencode_api::generated::{EventKind, SessionInboxCompaction, V2Event};
-use opencode_api::kinds::EventKinds;
-use opencode_util::lock;
+use wormagent_api::client::Client;
+use wormagent_api::generated::{EventKind, SessionInboxCompaction, V2Event};
+use wormagent_api::kinds::EventKinds;
+use wormagent_util::lock;
 use tokio::runtime::Handle;
 use tokio::sync::{Notify, Semaphore, TryAcquireError, oneshot};
 use tokio::task::AbortHandle;
@@ -318,7 +318,7 @@ impl Data {
         let handle = self.runtime().spawn(future);
         async move {
             handle.await.unwrap_or_else(|error| {
-                Err(Arc::new(opencode_api::error::Error::Transport(format!("store task failed: {error}"))))
+                Err(Arc::new(wormagent_api::error::Error::Transport(format!("store task failed: {error}"))))
             })
         }
         .boxed()
@@ -720,7 +720,7 @@ impl Remote {
             posted.await;
             answer
                 .await
-                .map_err(|_| Arc::new(opencode_api::error::Error::Transport("store task failed: store gone".into())))
+                .map_err(|_| Arc::new(wormagent_api::error::Error::Transport("store task failed: store gone".into())))
         }
     }
 }
@@ -841,7 +841,7 @@ mod tests {
 
     fn data() -> (tokio::runtime::Runtime, Data) {
         let runtime = tokio::runtime::Builder::new_current_thread().build().unwrap();
-        let client = Client::new("http://opencode.local").unwrap();
+        let client = Client::new("http://wormagent.local").unwrap();
         let data = Data::new(client, Options::default(), runtime.handle().clone(), || Ok(()));
         (runtime, data)
     }

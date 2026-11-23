@@ -2,18 +2,18 @@ import { describe, expect, setDefaultTimeout } from "bun:test"
 import fs from "fs/promises"
 import path from "path"
 import { Cause, Context, Deferred, Effect, Exit, Fiber, Layer, Option, Schedule, Stream, Tracer } from "effect"
-import { Bus } from "@opencode/core/bus"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Location } from "@opencode/core/location"
-import { LocationServiceMap } from "@opencode/core/location-service-map"
-import { Plugin } from "@opencode/core/plugin"
-import { AbsolutePath } from "@opencode/core/schema"
-import { Session } from "@opencode/core/session"
-import { SessionEvent } from "@opencode/core/session/event"
-import { SessionExecution } from "@opencode/core/session/execution"
-import { SessionRunCoordinator } from "@opencode/core/session/run-coordinator"
-import { Shell } from "@opencode/core/shell"
-import { LayerNode } from "@opencode/util/effect/layer-node"
+import { Bus } from "@wormagent/core/bus"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Location } from "@wormagent/core/location"
+import { LocationServiceMap } from "@wormagent/core/location-service-map"
+import { Plugin } from "@wormagent/core/plugin"
+import { AbsolutePath } from "@wormagent/core/schema"
+import { Session } from "@wormagent/core/session"
+import { SessionEvent } from "@wormagent/core/session/event"
+import { SessionExecution } from "@wormagent/core/session/execution"
+import { SessionRunCoordinator } from "@wormagent/core/session/run-coordinator"
+import { Shell } from "@wormagent/core/shell"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
 import { location } from "./fixture/location"
 import { offlineModels } from "./fixture/models"
 import { tmpdirScoped } from "./fixture/tmpdir"
@@ -356,21 +356,21 @@ describe("Session.shell", () => {
 
       const create = spans.find((span) => span.name === "Shell.create")
       const result = spans.find((span) => span.name === "Shell.result")
-      const shellID = create?.attributes.get("opencode.shell.id")
+      const shellID = create?.attributes.get("wormagent.shell.id")
       expect(shellID).toBeString()
       expect(truncated.isWellFormed()).toBe(true)
       expect(Object.fromEntries(create?.attributes ?? [])).toEqual({
-        "opencode.shell.id": shellID,
-        "opencode.shell.command": truncated,
+        "wormagent.shell.id": shellID,
+        "wormagent.shell.command": truncated,
         "session.id": fixture.created.id,
-        "opencode.shell.background": true,
+        "wormagent.shell.background": true,
       })
       expect(Object.fromEntries(result?.attributes ?? [])).toEqual({
-        "opencode.shell.id": shellID,
-        "opencode.shell.command": truncated,
+        "wormagent.shell.id": shellID,
+        "wormagent.shell.command": truncated,
         "session.id": fixture.created.id,
-        "opencode.shell.background": true,
-        "opencode.shell.status": "exited",
+        "wormagent.shell.background": true,
+        "wormagent.shell.status": "exited",
         "process.exit.code": 3,
       })
     }),

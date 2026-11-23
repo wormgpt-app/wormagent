@@ -4,12 +4,12 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
 
-use opencode_plugin_abi::{Color, Fenced, Plugin, Rgba, Setup, Span};
+use wormagent_plugin_abi::{Color, Fenced, Plugin, Rgba, Setup, Span};
 
 use crate::flowchart::drawing::italic;
 use crate::{Diagram, Kind, Palette, Rendered, render};
 
-pub const ID: &str = "opencode.merman";
+pub const ID: &str = "wormagent.merman";
 
 pub fn plugin() -> Plugin {
     Plugin { id: ID, setup }
@@ -71,18 +71,18 @@ pub fn fenced(diagram: &Diagram) -> Fenced {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use opencode_plugin::node::{Fences, Reader};
-    use opencode_ui::markdown::CodeBlockRenderers;
-    use opencode_ui::theme::{Catalog, ThemeMode};
+    use wormagent_plugin::node::{Fences, Reader};
+    use wormagent_ui::markdown::CodeBlockRenderers;
+    use wormagent_ui::theme::{Catalog, ThemeMode};
     use opentui::prelude::*;
     use opentui::testing::TestApp;
 
     #[test]
     fn removed_diagrams_leave_no_kinds() {
         let app = TestApp::new(80, 200);
-        let theme = Catalog::default().load("opencode", ThemeMode::Dark).unwrap().theme;
+        let theme = Catalog::default().load("wormagent", ThemeMode::Dark).unwrap().theme;
         let kinds: Rc<RefCell<HashMap<u64, Kind>>> = Rc::default();
-        let mut registered = opencode_plugin_abi::Registered::new(ID, None);
+        let mut registered = wormagent_plugin_abi::Registered::new(ID, None);
         register(&mut registered.setup(), kinds.clone());
         let registered = Rc::new(registered);
         let gone = registered.clone();
@@ -96,8 +96,8 @@ mod tests {
                     .render(block, &reader_theme, |fence| render(&Reader::new(&reader_theme, ThemeMode::Dark), &fence))
             }),
         );
-        let syntax = opencode_ui::code::syntax_theme(&theme);
-        let view = opencode_ui::markdown::view(&app, &theme, &syntax, &renderers, true, false);
+        let syntax = wormagent_ui::code::syntax_theme(&theme);
+        let view = wormagent_ui::markdown::view(&app, &theme, &syntax, &renderers, true, false);
         app.root().add(&view);
         let diagrams =
             (0..5).map(|at| format!("```mermaid\nflowchart LR\n  A{at} --> B{at}\n```\n")).collect::<String>();

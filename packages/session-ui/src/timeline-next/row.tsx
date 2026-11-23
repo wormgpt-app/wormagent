@@ -3,9 +3,9 @@ import type {
   SessionMessageInfo,
   SessionMessageUser,
   SessionStatus,
-} from "@opencode/client/promise"
-import { useI18n } from "@opencode/ui/context/i18n"
-import { SessionTurn } from "@opencode/util/session-turn"
+} from "@wormagent/client/promise"
+import { useI18n } from "@wormagent/ui/context/i18n"
+import { SessionTurn } from "@wormagent/util/session-turn"
 import { Predicate } from "effect"
 import {
   For,
@@ -21,10 +21,10 @@ import {
   type Accessor,
   type JSX,
 } from "solid-js"
-import { DiffChanges } from "@opencode/ui/diff-changes"
-import { Icon } from "@opencode/ui/icon"
-import { Spring, frameLoop, prefersReducedMotion } from "@opencode/ui/motion"
-import { springStyle } from "@opencode/ui/motion/solid"
+import { DiffChanges } from "@wormagent/ui/diff-changes"
+import { Icon } from "@wormagent/ui/icon"
+import { Spring, frameLoop, prefersReducedMotion } from "@wormagent/ui/motion"
+import { springStyle } from "@wormagent/ui/motion/solid"
 import { Dynamic } from "solid-js/web"
 import type { SessionUserActions, SessionUserAttachmentReference, SessionUserComment } from "../actions"
 import { useData } from "../context"
@@ -45,7 +45,7 @@ import {
   shouldSnapUserRun,
   transitionSteerArrival,
 } from "../timeline/steer-arrival-machine"
-import { Badge } from "@opencode/ui/badge"
+import { Badge } from "@wormagent/ui/badge"
 import { attached } from "../components/message-file"
 import { CompactionMessage, CompactionQueued } from "./compaction"
 import { unwrapErrorMessage } from "./errors"

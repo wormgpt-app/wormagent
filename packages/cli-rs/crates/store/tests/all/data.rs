@@ -4,9 +4,9 @@ use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 
 use common::*;
-use opencode_api::events::Event;
-use opencode_api::generated::*;
-use opencode_store::{CreateSession, Data, LoadMore, Options, Payload, SessionStatus, Touched};
+use wormagent_api::events::Event;
+use wormagent_api::generated::*;
+use wormagent_store::{CreateSession, Data, LoadMore, Options, Payload, SessionStatus, Touched};
 use serde_json::{Value, json};
 use tokio_util::sync::CancellationToken;
 
@@ -636,7 +636,7 @@ async fn preserves_activity(kind: &str) {
     requested.wait().await;
     let mut payload = json!({ "sessionID": SESSION, "reason": "user" });
     if kind == "session.execution.failed" {
-        payload["error"] = json!({ "type": "provider.no-route", "message": "Model unavailable: opencode/gpt-5.2" });
+        payload["error"] = json!({ "type": "provider.no-route", "message": "Model unavailable: wormagent/gpt-5.2" });
     }
     let mut event = durable(kind, "evt_activity", 2, payload);
     event["durable"]["seq"] = 2.into();
@@ -647,7 +647,7 @@ async fn preserves_activity(kind: &str) {
         let last = data.read(|state| state.messages(&id(SESSION)).last().cloned());
         let expected: SessionMessageInfo = serde_json::from_value(json!({
             "id": "msg_activity", "type": "idle", "outcome": "failed",
-            "error": { "type": "provider.no-route", "message": "Model unavailable: opencode/gpt-5.2" },
+            "error": { "type": "provider.no-route", "message": "Model unavailable: wormagent/gpt-5.2" },
             "time": { "created": 2 },
         }))
         .unwrap();
@@ -1093,12 +1093,12 @@ async fn deltas_are_kept_while_listened_and_bounded() {
     assert!(listening.take(<[_]>::is_empty));
     data.apply(vec![renamed]);
     assert!(listening.take(<[_]>::is_empty));
-    let flood: Vec<V2Event> = (0..opencode_store::DELTAS + 2).map(delta).collect();
+    let flood: Vec<V2Event> = (0..wormagent_store::DELTAS + 2).map(delta).collect();
     data.apply(flood);
     let kept = listening.take(ordinals);
     assert_eq!(
         (kept.len(), kept[0], kept[kept.len() - 1]),
-        (opencode_store::DELTAS, 2, opencode_store::DELTAS as i64 + 1)
+        (wormagent_store::DELTAS, 2, wormagent_store::DELTAS as i64 + 1)
     );
     data.apply(vec![delta(6)]);
     let second = data.listen_deltas();

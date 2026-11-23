@@ -12,7 +12,7 @@ export const WSL_INSTALL_TIMEOUT_MS = 17 * 60_000
 export type WslMainOp =
   | { readonly kind: "install-wsl" }
   | { readonly kind: "refresh-distros" }
-  | { readonly kind: "install-opencode"; readonly distro: string }
+  | { readonly kind: "install-wormagent"; readonly distro: string }
   | { readonly kind: "add-server"; readonly distro: string }
 
 export type WslDialogAction = WslMainOp | { readonly kind: "install-distro"; readonly distro: string }
@@ -63,7 +63,7 @@ export type WslDialogEvent =
   | {
       readonly type: "primary.requested"
       readonly distro: string | null
-      readonly action: "install-opencode" | "add" | null
+      readonly action: "install-wormagent" | "add" | null
       readonly disabled: boolean
     }
   | { readonly type: "action.succeeded"; readonly attempt: number }
@@ -157,8 +157,8 @@ function transitionMain(
   if (event.type === "primary.requested") {
     if (event.disabled || !event.distro || !event.action) return unchanged(state)
 
-    if (event.action === "install-opencode")
-      return run(state, { kind: "install-opencode", distro: event.distro }, WSL_INSTALL_TIMEOUT_MS, [])
+    if (event.action === "install-wormagent")
+      return run(state, { kind: "install-wormagent", distro: event.distro }, WSL_INSTALL_TIMEOUT_MS, [])
 
     return run(state, { kind: "add-server", distro: event.distro }, WSL_ACTION_TIMEOUT_MS, [])
   }
@@ -317,6 +317,6 @@ export function selectWslDialogInstallingCatalog(state: WslDialogState) {
 
 export function selectWslDialogInstallingOpencode(state: WslDialogState, distro: string | null) {
   return (
-    !!distro && state.status === "main-running" && state.op.kind === "install-opencode" && state.op.distro === distro
+    !!distro && state.status === "main-running" && state.op.kind === "install-wormagent" && state.op.distro === distro
   )
 }

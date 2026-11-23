@@ -1,8 +1,8 @@
 import { batch, createSignal, onCleanup, untrack } from "solid-js"
 import { createStore } from "solid-js/store"
-import { showToast } from "@opencode/ui/toast"
-import { uuid } from "@opencode/util/uuid"
-import type { MountedSession, SetupContext } from "@opencode/plugin/gui"
+import { showToast } from "@wormagent/ui/toast"
+import { uuid } from "@wormagent/util/uuid"
+import type { MountedSession, SetupContext } from "@wormagent/plugin/gui"
 import type Btw from "./index"
 import { btwChatView, btwTabView, createBtwState, transitionBtw, type BtwEffect, type BtwEvent } from "./machine"
 

@@ -1,14 +1,14 @@
 import { expect } from "bun:test"
 import { NodeHttpServer } from "@effect/platform-node"
-import { OpenCode } from "@opencode/client"
-import { Environment } from "@opencode/core/environment/index"
-import { Identity } from "@opencode/core/machine/identity"
-import { Iroh } from "@opencode/core/machine/iroh"
-import loadBinding from "@opencode/core/machine/iroh-binding"
-import { Join } from "@opencode/core/machine/join"
-import { Link } from "@opencode/core/machine/link"
-import { Machines } from "@opencode/core/machine/machines"
-import { Global } from "@opencode/util/global"
+import { WormAgent } from "@wormagent/client"
+import { Environment } from "@wormagent/core/environment/index"
+import { Identity } from "@wormagent/core/machine/identity"
+import { Iroh } from "@wormagent/core/machine/iroh"
+import loadBinding from "@wormagent/core/machine/iroh-binding"
+import { Join } from "@wormagent/core/machine/join"
+import { Link } from "@wormagent/core/machine/link"
+import { Machines } from "@wormagent/core/machine/machines"
+import { Global } from "@wormagent/util/global"
 import { Context, Deferred, Effect, Exit, Layer, Option, Scope, Stream } from "effect"
 import { HttpRouter, HttpServer, type HttpServerRequest, type HttpServerResponse } from "effect/http"
 import { randomBytes } from "node:crypto"
@@ -21,7 +21,7 @@ import { createRoutes } from "../src/routes"
 // The link over Iroh, offline: the home binds on loopback with no relays or address lookup, and a second endpoint of
 // the same binding, standing in for the worker, dials the home key at the home's bound address.
 
-const ALPN = Array.from(new TextEncoder().encode("opencode-link/1"))
+const ALPN = Array.from(new TextEncoder().encode("wormagent-link/1"))
 
 /** Deterministic read boundaries, without a native stream coalescing or splitting the fixture. */
 const reading = (chunks: number[][]) => {
@@ -87,7 +87,7 @@ type Endpoint = Effect.Success<ReturnType<typeof Iroh.listen>>
 
 /** The server's routes on a port of their own, counting every import of the Iroh binding. */
 const home = Effect.fnUntraced(function* (machines: boolean) {
-  const directory = (yield* tmpdirScoped("opencode-machine-iroh-")).path
+  const directory = (yield* tmpdirScoped("wormagent-machine-iroh-")).path
   const server = createServer()
   const http = yield* NodeHttpServer.make(() => server, { port: 0, host: "127.0.0.1" })
   yield* Effect.addFinalizer(() => Effect.sync(() => server.closeAllConnections()))
@@ -138,9 +138,9 @@ const home = Effect.fnUntraced(function* (machines: boolean) {
     state,
     context,
     machines: Context.get(context, Machines.Service),
-    api: OpenCode.make({
+    api: WormAgent.make({
       baseUrl: HttpServer.formatAddress(http.address),
-      headers: { authorization: `Basic ${btoa("opencode:secret")}` },
+      headers: { authorization: `Basic ${btoa("wormagent:secret")}` },
     }),
   }
 })

@@ -1413,10 +1413,10 @@ story("finds imported pages by their words, completes the site a host begins, an
   await address.pressSequentially("rune")
   await expect(addresses()).toHaveText([
     "Google Search",
-    "github.com/anomalyco/rune-desktop",
-    "github.com/anomalyco/rune-desktop/pulls",
+    "github.com/wormgpt-app/rune-desktop",
+    "github.com/wormgpt-app/rune-desktop/pulls",
     "docs.rune.example/guide/getting-started",
-    "github.com/anomalyco/rune-desktop/issues/128",
+    "github.com/wormgpt-app/rune-desktop/issues/128",
     "github.com/runelabs/rune-lang",
   ])
   await expect(options.nth(1).locator("mark")).toHaveText(["rune", "Rune", "rune"])
@@ -1431,9 +1431,9 @@ story("finds imported pages by their words, completes the site a host begins, an
   await address.pressSequentially("desk anom")
   await expect(addresses()).toHaveText([
     "Google Search",
-    "github.com/anomalyco/rune-desktop",
-    "github.com/anomalyco/rune-desktop/pulls",
-    "github.com/anomalyco/rune-desktop/issues/128",
+    "github.com/wormgpt-app/rune-desktop",
+    "github.com/wormgpt-app/rune-desktop/pulls",
+    "github.com/wormgpt-app/rune-desktop/issues/128",
   ])
 
   // Shift+Delete forgets the chosen page, in main's history too; on the typed text's row the key is the field's own.
@@ -1445,9 +1445,9 @@ story("finds imported pages by their words, completes the site a host begins, an
   await address.press("ArrowDown")
   await address.press("Shift+Delete")
   // The row that takes its place is the chosen one, and the field shows its address.
-  await expect(addresses().nth(1)).toHaveText("github.com/anomalyco/rune-desktop/pulls")
+  await expect(addresses().nth(1)).toHaveText("github.com/wormgpt-app/rune-desktop/pulls")
   await expect(options.nth(1)).toHaveAttribute("aria-selected", "true")
-  await expect(address).toHaveValue("https://github.com/anomalyco/rune-desktop/pulls")
+  await expect(address).toHaveValue("https://github.com/wormgpt-app/rune-desktop/pulls")
   await expect(root.getByText("Main history: 58", { exact: true })).toBeVisible()
 
   // Text that begins a host completes its site, which Enter opens.

@@ -77,7 +77,7 @@ impl Edit {
         let children = self.block.children();
         children.clear();
         self.paints.clear();
-        let diff = opencode_ui::diff::view_painted(
+        let diff = wormagent_ui::diff::view_painted(
             cx.app,
             cx.theme,
             cx.syntax,

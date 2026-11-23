@@ -1,7 +1,7 @@
 //! Show the current location's global form over home. The prompt keeps its place but yields its keys.
 
-use opencode_store::Location;
-use opencode_store::forms::GLOBAL;
+use wormagent_store::Location;
+use wormagent_store::forms::GLOBAL;
 
 use crate::prelude::*;
 use crate::routes::session::form::{Host, quiet};

@@ -5,10 +5,10 @@ use crate::support;
 use std::sync::Arc;
 use std::time::Duration;
 
-use opencode_api::memory::{Memory, Route as MemoryRoute};
-use opencode_tui::Deps;
-use opencode_tui::dialogs::settings;
-use opencode_ui::motion::{SPINNER_FRAMES, SPINNER_INTERVAL};
+use wormagent_api::memory::{Memory, Route as MemoryRoute};
+use wormagent_tui::Deps;
+use wormagent_tui::dialogs::settings;
+use wormagent_ui::motion::{SPINNER_FRAMES, SPINNER_INTERVAL};
 use opentui::prelude::Color;
 use serde_json::{Value, json};
 

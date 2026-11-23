@@ -1,6 +1,6 @@
 [package]
-name = "opencode-drive"
-description = "The simulation UI endpoint, OPENCODE_DRIVE (H.4)."
+name = "wormagent-drive"
+description = "The simulation UI endpoint, WORMAGENT_DRIVE (H.4)."
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -12,8 +12,8 @@ workspace = true
 [dependencies]
 base64.workspace = true
 log.workspace = true
-opencode-api-types.workspace = true
-opencode-util.workspace = true
+wormagent-api-types.workspace = true
+wormagent-util.workspace = true
 opentui.workspace = true
 serde.workspace = true
 serde_json.workspace = true

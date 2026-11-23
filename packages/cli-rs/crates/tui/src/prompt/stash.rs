@@ -2,10 +2,10 @@
 
 use std::path::{Path, PathBuf};
 
-use opencode_local::jsonl::{self, MAX_STASH_ENTRIES};
-use opencode_local::lock;
-use opencode_local::serial::Serial;
-use opencode_ui::dialog::FocusId;
+use wormagent_local::jsonl::{self, MAX_STASH_ENTRIES};
+use wormagent_local::lock;
+use wormagent_local::serial::Serial;
+use wormagent_ui::dialog::FocusId;
 use tokio::sync::oneshot;
 
 use super::autocomplete::parts;
@@ -55,7 +55,7 @@ impl Stash {
 
     /// Timestamp and append a prompt, evicting the oldest entries beyond the limit. Report persistence errors.
     pub fn push(&self, tui: &Tui, prompt: Value) {
-        let entry = jsonl::stash_entry(prompt, opencode_util::time::now_ms());
+        let entry = jsonl::stash_entry(prompt, wormagent_util::time::now_ms());
         {
             let mut entries = self.entries.borrow_mut();
             entries.push(entry.clone());

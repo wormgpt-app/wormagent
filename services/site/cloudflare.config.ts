@@ -1,8 +1,8 @@
 import { bindings, defineConfig, triggers } from "cf/config"
 import { docsSets } from "./src/docs/config"
 
-// The opencode.ai website (SolidStart). `--mode dev` deploys opencode-site-dev on dev.opencode.ai;
-// any other mode deploys opencode-site-production on opencode.ai. It is the catch-all: more specific
+// The wormagent.net website (SolidStart). `--mode dev` deploys wormagent-site-dev on dev.wormagent.net;
+// any other mode deploys wormagent-site-production on wormagent.net. It is the catch-all: more specific
 // routes on the zone (Console, inference, changelog, update, files, stats, …) keep beating it. It
 // also serves the V2 docs at /docs (src/docs).
 //
@@ -12,12 +12,12 @@ const productionOwnsRoot = true
 
 export default defineConfig(({ mode }) => {
   const dev = mode === "dev"
-  const host = dev ? "dev.opencode.ai" : "opencode.ai"
+  const host = dev ? "dev.wormagent.net" : "wormagent.net"
   return {
-    // Anomaly
+    // WormGPT
     accountId: dev ? "d8e944f537ceef3f06a5bd3aec1d7a53" : "15d29c8639fd3733b1b5486a2acfd968",
     worker: {
-      name: dev ? "opencode-site-dev" : "opencode-site-production",
+      name: dev ? "wormagent-site-dev" : "wormagent-site-production",
       compatibilityDate: "2026-07-25",
       // The Nitro server is built with node compatibility (vite.config.ts).
       compatibilityFlags: ["nodejs_compat"],

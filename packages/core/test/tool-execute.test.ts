@@ -1,18 +1,18 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test"
 import fs from "fs/promises"
 import path from "path"
-import { CodeModeDiffs } from "@opencode/core/codemode/diffs"
-import { CodeModeApi } from "@opencode/core/codemode/api"
-import { CodeModeTool } from "@opencode/core/codemode/tool"
-import { Location } from "@opencode/core/location"
-import { AbsolutePath } from "@opencode/core/schema"
-import { Permission } from "@opencode/core/permission"
-import { Tool } from "@opencode/core/tool"
-import { execute } from "@opencode/core/tool/runtime"
-import { Agent } from "@opencode/schema/agent"
-import { Session } from "@opencode/schema/session"
-import { SessionMessage } from "@opencode/schema/session-message"
-import type { Info } from "@opencode/schema/tool"
+import { CodeModeDiffs } from "@wormagent/core/codemode/diffs"
+import { CodeModeApi } from "@wormagent/core/codemode/api"
+import { CodeModeTool } from "@wormagent/core/codemode/tool"
+import { Location } from "@wormagent/core/location"
+import { AbsolutePath } from "@wormagent/core/schema"
+import { Permission } from "@wormagent/core/permission"
+import { Tool } from "@wormagent/core/tool"
+import { execute } from "@wormagent/core/tool/runtime"
+import { Agent } from "@wormagent/schema/agent"
+import { Session } from "@wormagent/schema/session"
+import { SessionMessage } from "@wormagent/schema/session-message"
+import type { Info } from "@wormagent/schema/tool"
 import { Context, Deferred, Effect, Fiber, Schema } from "effect"
 import { TestClock } from "effect/testing"
 import { codeModeServices } from "./fixture/codemode"
@@ -721,8 +721,8 @@ describe("fetch permissions", () => {
   })
 })
 
-describe("Code Mode opencode:// fetch", () => {
-  // Only the API and a Location, without the full_codemode file services: opencode:// doesn't need them.
+describe("Code Mode wormagent:// fetch", () => {
+  // Only the API and a Location, without the full_codemode file services: wormagent:// doesn't need them.
   const api = (handle: CodeModeApi.Interface["fetch"]) =>
     Context.make(CodeModeApi.Service, { fetch: handle }).pipe(
       Context.add(Location.Service, Location.Service.of(location({ directory: AbsolutePath.make("/workspace/demo") }))),
@@ -740,7 +740,7 @@ describe("Code Mode opencode:// fetch", () => {
             received.push({
               method: request.method,
               url: request.url,
-              directory: request.headers.get("x-opencode-directory"),
+              directory: request.headers.get("x-wormagent-directory"),
               body: await request.text(),
             })
             return Response.json({ ok: true })
@@ -748,13 +748,13 @@ describe("Code Mode opencode:// fetch", () => {
         ),
       ).execute(
         {
-          code: `const a = await (await fetch("opencode:///api/session/current/message?limit=1")).json()
-            const b = await (await fetch("opencode:///api/session", {
+          code: `const a = await (await fetch("wormagent:///api/session/current/message?limit=1")).json()
+            const b = await (await fetch("wormagent:///api/session", {
               method: "POST",
-              headers: { "x-opencode-directory": encodeURIComponent("/custom/dir") },
+              headers: { "x-wormagent-directory": encodeURIComponent("/custom/dir") },
               body: JSON.stringify({ title: "demo" }),
             })).json()
-            const c = await (await fetch("opencode:///api/vcs/status?location[directory]=/query/dir")).json()
+            const c = await (await fetch("wormagent:///api/vcs/status?location[directory]=/query/dir")).json()
             return [a.ok, b.ok, c.ok]`,
         },
         context,
@@ -765,41 +765,41 @@ describe("Code Mode opencode:// fetch", () => {
     expect(received).toEqual([
       {
         method: "GET",
-        url: `http://opencode.local/api/session/${context.sessionID}/message?limit=1`,
+        url: `http://wormagent.local/api/session/${context.sessionID}/message?limit=1`,
         directory: encodeURIComponent("/workspace/demo"),
         body: "",
       },
       {
         method: "POST",
-        url: "http://opencode.local/api/session",
+        url: "http://wormagent.local/api/session",
         directory: encodeURIComponent("/custom/dir"),
         body: JSON.stringify({ title: "demo" }),
       },
       {
         method: "GET",
-        url: "http://opencode.local/api/vcs/status?location[directory]=/query/dir",
+        url: "http://wormagent.local/api/vcs/status?location[directory]=/query/dir",
         directory: null,
         body: "",
       },
     ])
   })
 
-  test("accepts only opencode:///api/... URLs, reports a disabled API, and fails without one", async () => {
+  test("accepts only wormagent:///api/... URLs, reports a disabled API, and fails without one", async () => {
     const run = (code: string, api?: Context.Context<CodeModeTool.Api>) =>
       Effect.runPromise(createCodeMode(new Map(), allowAll, undefined, api).execute({ code }, context)).then(
         (result) => result.output.output,
       )
     const never = api(() => Effect.die("never sent"))
-    for (const url of ["opencode://api/session", "opencode:x@evil.com/api/info", "opencode:///openapi.json"])
+    for (const url of ["wormagent://api/session", "wormagent:x@evil.com/api/info", "wormagent:///openapi.json"])
       expect(await run(`try { await fetch(${JSON.stringify(url)}) } catch (e) { return e.message }`, never)).toContain(
-        "use opencode:///api/...",
+        "use wormagent:///api/...",
       )
     const disabled = Context.add(never, CodeModeApi.Service, CodeModeApi.disabled)
-    expect(await run(`try { await fetch("opencode:///api/info") } catch (e) { return e.message }`, disabled)).toContain(
-      "OPENCODE_FLAGS=opencode_api",
+    expect(await run(`try { await fetch("wormagent:///api/info") } catch (e) { return e.message }`, disabled)).toContain(
+      "WORMAGENT_FLAGS=wormagent_api",
     )
-    expect(await run(`try { await fetch("opencode:///api/info") } catch (e) { return e.message }`)).toContain(
-      "opencode:// URLs are unavailable",
+    expect(await run(`try { await fetch("wormagent:///api/info") } catch (e) { return e.message }`)).toContain(
+      "wormagent:// URLs are unavailable",
     )
   })
 })

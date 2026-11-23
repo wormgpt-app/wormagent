@@ -4,11 +4,11 @@ import {
   parseThemeDocument,
   type ThemeDocument,
   type ModeDefinition,
-} from "@opencode/theme/tui"
+} from "@wormagent/theme/tui"
 import { resolveThemeColors } from "./resolve"
 import { DEFAULT_THEMES, type Theme, type ThemeV1Json } from "./v1"
-import opencodeClassic from "./assets/v2/opencode-classic.json" with { type: "json" }
-import opencode from "./assets/v2/opencode.json" with { type: "json" }
+import wormagentClassic from "./assets/v2/wormagent-classic.json" with { type: "json" }
+import wormagent from "./assets/v2/wormagent.json" with { type: "json" }
 
 export { DEFAULT_THEMES, type Theme, type ThemeV1Json } from "./v1"
 
@@ -22,32 +22,32 @@ type BothModes = ThemeDocument & {
   readonly light: ModeDefinition
   readonly dark: ModeDefinition
 }
-let opencodeTheme: BothModes | undefined
-let opencodeClassicTheme: BothModes | undefined
+let wormagentTheme: BothModes | undefined
+let wormagentClassicTheme: BothModes | undefined
 
-/** The default "opencode" theme. */
-export function getOpenCodeTheme() {
-  opencodeTheme ??= parseThemeDocument(opencode, "opencode") as BothModes
-  return opencodeTheme
+/** The default "wormagent" theme. */
+export function getWormAgentTheme() {
+  wormagentTheme ??= parseThemeDocument(wormagent, "wormagent") as BothModes
+  return wormagentTheme
 }
 
-/** The previous "opencode" theme, offered as "opencode-classic". */
-export function getOpenCodeClassicTheme() {
-  opencodeClassicTheme ??= parseThemeDocument(opencodeClassic, "opencode-classic") as BothModes
-  return opencodeClassicTheme
+/** The previous "wormagent" theme, offered as "wormagent-classic". */
+export function getWormAgentClassicTheme() {
+  wormagentClassicTheme ??= parseThemeDocument(wormagentClassic, "wormagent-classic") as BothModes
+  return wormagentClassicTheme
 }
 
 function listThemes(): Record<string, ThemeDocumentSource> {
   // Priority: defaults < custom files < generated system.
   const themes: Record<string, ThemeDocumentSource> = {
     ...DEFAULT_THEMES,
-    opencode: getOpenCodeTheme(),
-    "opencode-classic": getOpenCodeClassicTheme(),
+    wormagent: getWormAgentTheme(),
+    "wormagent-classic": getWormAgentClassicTheme(),
     ...customThemes,
   }
   return {
     ...themes,
-    system: systemTheme ?? themes.system ?? themes.opencode,
+    system: systemTheme ?? themes.system ?? themes.wormagent,
   }
 }
 

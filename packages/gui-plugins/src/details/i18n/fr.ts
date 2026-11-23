@@ -36,15 +36,15 @@ export default {
   "move.recovery.remove": "Supprimer l’arbre de travail",
   "mcp.manage": "Gérer les serveurs MCP",
   timedOut: "Le serveur a mis trop de temps à répondre",
-  "setup.mcp": "Ajouter un serveur avec OpenCode",
+  "setup.mcp": "Ajouter un serveur avec WormAgent",
   "setup.mcp.prompt":
-    "Aide-moi à ajouter un serveur MCP à ma configuration OpenCode globale. Demande-moi quel service je veux connecter, puis configure-le et vérifie qu’il se connecte.",
-  "setup.plugins": "Ajouter un plugin avec OpenCode",
+    "Aide-moi à ajouter un serveur MCP à ma configuration WormAgent globale. Demande-moi quel service je veux connecter, puis configure-le et vérifie qu’il se connecte.",
+  "setup.plugins": "Ajouter un plugin avec WormAgent",
   "setup.plugins.prompt":
-    "Aide-moi à ajouter un plugin à ma configuration OpenCode globale. Demande-moi ce qu’il doit faire, suggère un plugin, puis ajoute-le.",
-  "setup.skills": "Nouvelle compétence avec OpenCode",
+    "Aide-moi à ajouter un plugin à ma configuration WormAgent globale. Demande-moi ce qu’il doit faire, suggère un plugin, puis ajoute-le.",
+  "setup.skills": "Nouvelle compétence avec WormAgent",
   "setup.skills.prompt":
-    "Aide-moi à écrire une nouvelle compétence OpenCode dans ma configuration globale. Demande-moi ce qu’elle doit t’apprendre, puis écris son SKILL.md.",
+    "Aide-moi à écrire une nouvelle compétence WormAgent dans ma configuration globale. Demande-moi ce qu’elle doit t’apprendre, puis écris son SKILL.md.",
   changesFailed: "Impossible de charger les modifications",
   changesOffline: "Impossible de joindre ce serveur",
   "mcp.signIn": "Se connecter",
@@ -56,7 +56,7 @@ export default {
   "mcp.error.actionLabel": "Détails de {{name}}",
   "mcp.signIn.open": "Se connecter à {{name}}",
   "mcp.signIn.description":
-    "Votre navigateur s’ouvre pour que vous puissiez vous connecter à {{name}}. S’il ne peut pas joindre la machine qui exécute OpenCode, collez ci-dessous l’URL vers laquelle il a été redirigé.",
+    "Votre navigateur s’ouvre pour que vous puissiez vous connecter à {{name}}. S’il ne peut pas joindre la machine qui exécute WormAgent, collez ci-dessous l’URL vers laquelle il a été redirigé.",
   "mcp.signIn.waiting": "En attente d’autorisation…",
   "mcp.signIn.failed": "Échec de l’autorisation : {{error}}",
   "mcp.signIn.expired": "Autorisation expirée",

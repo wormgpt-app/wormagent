@@ -1,6 +1,6 @@
-import { usePlugin } from "@opencode/plugin/gui"
-import { Button } from "@opencode/ui/button"
-import { Menu } from "@opencode/ui/menu"
+import { usePlugin } from "@wormagent/plugin/gui"
+import { Button } from "@wormagent/ui/button"
+import { Menu } from "@wormagent/ui/menu"
 import { For, Show } from "solid-js"
 import { moreDevices, quickPresets, type Device } from "./viewport-presets"
 

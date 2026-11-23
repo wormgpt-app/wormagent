@@ -6,10 +6,10 @@ use std::sync::Arc;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::time::Duration;
 
-use opencode_api::generated::V2Event;
-use opencode_api::transport::{BoxFuture, Request, Response, Transport};
-use opencode_local::cli_config::{Bounded, Debug, Info, Markdown, Scroll, Session, TurnTokens, Verbosity, Visibility};
-use opencode_tui::Deps;
+use wormagent_api::generated::V2Event;
+use wormagent_api::transport::{BoxFuture, Request, Response, Transport};
+use wormagent_local::cli_config::{Bounded, Debug, Info, Markdown, Scroll, Session, TurnTokens, Verbosity, Visibility};
+use wormagent_tui::Deps;
 use opentui::widget::Widget;
 use serde_json::{Value, json};
 use tokio::sync::Semaphore;
@@ -93,7 +93,7 @@ fn open(width: u16, height: u16, id: &str, messages: Vec<Value>, info: Info) -> 
     let mut deps =
         Deps { config: support::config(info), route: support::session_route(id), ..support::deps(Arc::new(fixture)) };
     if PLUGGED.with(std::cell::Cell::get) {
-        deps.builtins.push(opencode_plugin::abi::Plugin { id: "test.minimap", setup: minimap }.into());
+        deps.builtins.push(wormagent_plugin::abi::Plugin { id: "test.minimap", setup: minimap }.into());
     }
     View { harness: support::mount(width, height, deps), gate, older }
 }
@@ -192,9 +192,9 @@ fn config_changes_reach_the_transcript_without_a_restart() {
     let screen = h.wait_for("+ Thought");
     assert!(!screen.contains("Plan the fix."), "{screen}");
     assert!(screen.contains("tok/s"), "{screen}");
-    opencode_tui::dialogs::settings::update(&h.tui, |draft| {
-        opencode_tui::dialogs::settings::set_path(draft, &["session", "thinking"], json!("show"));
-        opencode_tui::dialogs::settings::set_path(draft, &["session", "tps"], json!(false));
+    wormagent_tui::dialogs::settings::update(&h.tui, |draft| {
+        wormagent_tui::dialogs::settings::set_path(draft, &["session", "thinking"], json!("show"));
+        wormagent_tui::dialogs::settings::set_path(draft, &["session", "tps"], json!(false));
     });
     let screen = h.wait_for("Plan the fix.");
     assert!(!screen.contains("tok/s"), "{screen}");
@@ -339,18 +339,18 @@ fn scroll_up_to(h: &View, turn: u32) -> String {
 }
 
 thread_local! {
-    static SEEN: std::cell::RefCell<Vec<opencode_plugin::abi::v2::TranscriptView>> = const {
+    static SEEN: std::cell::RefCell<Vec<wormagent_plugin::abi::v2::TranscriptView>> = const {
         std::cell::RefCell::new(Vec::new())
     };
     static PLUGGED: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
     static MAPPED: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
-    static TOLD: std::cell::RefCell<Vec<opencode_plugin::abi::v2::TranscriptView>> = const {
+    static TOLD: std::cell::RefCell<Vec<wormagent_plugin::abi::v2::TranscriptView>> = const {
         std::cell::RefCell::new(Vec::new())
     };
 }
 
-fn minimap(setup: &mut opencode_plugin::abi::Setup) -> Result<(), String> {
-    use opencode_plugin::abi::{Command, v2};
+fn minimap(setup: &mut wormagent_plugin::abi::Setup) -> Result<(), String> {
+    use wormagent_plugin::abi::{Command, v2};
     setup.command(Command::new("mini.read"), |host, _| {
         SEEN.with(|seen| seen.borrow_mut().extend(host.transcript()));
     });
@@ -361,7 +361,7 @@ fn minimap(setup: &mut opencode_plugin::abi::Setup) -> Result<(), String> {
         host.scroll(v2::Target::Transcript, v2::Scroll::By { rows: -5 });
     });
     if MAPPED.with(std::cell::Cell::get) {
-        let map = v2::Surface::new("map", v2::Place::Slot(opencode_plugin::abi::Placement::append("app")), |_| {
+        let map = v2::Surface::new("map", v2::Place::Slot(wormagent_plugin::abi::Placement::append("app")), |_| {
             v2::Node::text(Vec::new())
         });
         setup.surface(map.layout(vec![v2::Notify::Transcript], |geometry| {
@@ -418,12 +418,12 @@ fn a_plugins_jump_to_the_top_backfills_each_time() {
 #[test]
 fn a_pointer_over_the_transcript_runs_no_behaviors() {
     let h = mapped(true);
-    let before = opencode_plugin::behave::counts();
+    let before = wormagent_plugin::behave::counts();
     for x in 5..15 {
         h.app.hover(x, 5);
     }
     h.app.render();
-    assert_eq!(opencode_plugin::behave::counts().since(before).arms, 0);
+    assert_eq!(wormagent_plugin::behave::counts().since(before).arms, 0);
 }
 
 #[test]
@@ -661,7 +661,7 @@ fn a_theme_switch_restyles_the_transcript_in_place() {
         theme: support::decode(&format!(r#"{{ "theme": {{ "name": "{theme}", "mode": "dark" }} }}"#)).theme,
         ..support::still()
     };
-    let h = open(70, 60, "ses_t", messages(), info("opencode"));
+    let h = open(70, 60, "ses_t", messages(), info("wormagent"));
     h.wait_for_all(&["return 1", "│ Idea ├───▶│ Parse │", "let y = 1;"]);
     let fence = Rc::new(());
     support::mark_at(&h.app, "fn main()", 1, &fence);
@@ -749,8 +749,8 @@ fn a_markdown_mode_change_shows_the_source_in_place() {
     assert!(screen.contains("Some bold text."), "{screen}");
     let fence = Rc::new(());
     support::mark_at(&h.app, "let x = 1;", 1, &fence);
-    opencode_tui::dialogs::settings::update(&h.tui, |draft| {
-        opencode_tui::dialogs::settings::set_path(draft, &["session", "markdown"], json!("source"))
+    wormagent_tui::dialogs::settings::update(&h.tui, |draft| {
+        wormagent_tui::dialogs::settings::set_path(draft, &["session", "markdown"], json!("source"))
     });
     let switched = h.app.render();
     assert!(switched.text().contains("Some **bold** text."), "{}", switched.text());

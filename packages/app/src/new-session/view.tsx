@@ -1,6 +1,6 @@
-import { Tooltip } from "@opencode/ui/tooltip"
-import { Icon } from "@opencode/ui/icon"
-import { Keybind } from "@opencode/ui/keybind"
+import { Tooltip } from "@wormagent/ui/tooltip"
+import { Icon } from "@wormagent/ui/icon"
+import { Keybind } from "@wormagent/ui/keybind"
 import { useCommand } from "@/shell/commands/command"
 import { Match, Show, Switch, createComputed, createMemo, createSignal, onCleanup, untrack } from "solid-js"
 import { createStore } from "solid-js/store"
@@ -11,7 +11,7 @@ import {
   getProjectAvatarSource,
   getProjectAvatarVariant,
   ProjectAvatar,
-} from "@opencode/ui/project-avatar"
+} from "@wormagent/ui/project-avatar"
 import { Schema } from "effect"
 import { Composer } from "@/composer/composer"
 import { ComposerDropzone } from "@/composer/dropzone"

@@ -344,7 +344,7 @@ describe("FlowchartDiagram", () => {
   test("routes compact vertical sibling subtrees from their true parents", () => {
     const output = renderFlowchartDiagram(
       `flowchart TD
-  D[DEPLOYMENT - Anomaly] --> CA[ClientApps: google, github]
+  D[DEPLOYMENT - WormGPT] --> CA[ClientApps: google, github]
   D --> O[ORG acme = guild/workspace]
   O --> OG[org grant: google, authed as bot@acme.com]
   O --> M[MEMBER juliana]
@@ -354,7 +354,7 @@ describe("FlowchartDiagram", () => {
 
     expectDiagram(output).toEqualDiagram(`
                                ╭──────────────────────╮
-                               │ DEPLOYMENT - Anomaly │
+                               │ DEPLOYMENT - WormGPT │
                                ╰───────────┬──────────╯
                       ╭────────────────────┴────────────────────╮
                       ▼                                         ▼
@@ -376,7 +376,7 @@ describe("FlowchartDiagram", () => {
 
   test("routes vertical sibling subtrees from their true parents", () => {
     const output = renderFlowchartDiagram(`flowchart TD
-  D[DEPLOYMENT - Anomaly] --> CA[ClientApps: google, github]
+  D[DEPLOYMENT - WormGPT] --> CA[ClientApps: google, github]
   D --> O[ORG acme = guild/workspace]
   O --> OG[org grant: google, authed as bot@acme.com]
   O --> M[MEMBER juliana]
@@ -384,7 +384,7 @@ describe("FlowchartDiagram", () => {
 
     expectDiagram(output).toEqualDiagram(`
                                ╭──────────────────────╮
-                               │ DEPLOYMENT - Anomaly │
+                               │ DEPLOYMENT - WormGPT │
                                ╰───────────┬──────────╯
                                            │
                       ╭────────────────────┴────────────────────╮
@@ -949,7 +949,7 @@ describe("FlowchartDiagram", () => {
       `flowchart LR
   C[ReceiveInput] --> P[Persist ActivityRequested]
   P --> S[Self RunPendingActivity]
-  S --> O[OpenCode async task]
+  S --> O[WormAgent async task]
   O --> M[Self OutputObserved]
   M --> E[Persist OutputObserved]`,
       { layoutMaxWidth: 120 },
@@ -978,7 +978,7 @@ describe("FlowchartDiagram", () => {
                     │
                     ▼
          ╭─────────────────────╮
-         │ OpenCode async task │
+         │ WormAgent async task │
          ╰──────────┬──────────╯
                     │
                     │
@@ -1002,7 +1002,7 @@ describe("FlowchartDiagram", () => {
       `flowchart LR
   C[Commands] --> A[AgentThread activation]
   A -->|persist facts| J[(AgentThread journal)]
-  A -->|resume / steer / abort| O[OpenCode session]
+  A -->|resume / steer / abort| O[WormAgent session]
   O -->|observed output| A
   J -->|visible output requested| R[Reactor]
   R --> D[Discord]`,
@@ -1026,7 +1026,7 @@ describe("FlowchartDiagram", () => {
                  ▼                                                       │           │
       ╭─────────────────────╮                                            ▼           │
       ├─────────────────────┤                                  ╭──────────────────╮  │
-      │ AgentThread journal │                                  │ OpenCode session ├──╯
+      │ AgentThread journal │                                  │ WormAgent session ├──╯
       ├─────────────────────┤                                  ╰──────────────────╯
       ╰──────────┬──────────╯
                  │

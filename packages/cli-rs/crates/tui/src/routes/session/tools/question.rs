@@ -30,7 +30,7 @@ impl Question {
     }
 
     pub fn update(&self, cx: &Context<'_>, props: &Props<'_>) {
-        let questions = questions(opencode_ui::tool_info::QuestionInput(props.input).questions().array());
+        let questions = questions(wormagent_ui::tool_info::QuestionInput(props.input).questions().array());
         let answers = answers(props.metadata.get("answers"));
         self.inline.root().visible(answers.is_none());
         self.block.root().visible(answers.is_some());

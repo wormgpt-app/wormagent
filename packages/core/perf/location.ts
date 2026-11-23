@@ -7,9 +7,9 @@ import { rmSync } from "fs"
 import os from "os"
 import path from "path"
 import { Effect, Layer, Logger, ManagedRuntime, Scope } from "effect"
-import { Global } from "@opencode/util/global"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { LayerNodePlatform } from "@opencode/util/effect/app-node-platform"
+import { Global } from "@wormagent/util/global"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { LayerNodePlatform } from "@wormagent/util/effect/app-node-platform"
 import { AppNodeBuilder } from "../src/effect/app-node-builder"
 import { Bus } from "../src/bus"
 import { Config } from "../src/config"
@@ -29,7 +29,7 @@ import { Watcher } from "../src/filesystem/watcher"
 import { location } from "../test/fixture/location"
 import { providerHost, host, integrationHost } from "../test/plugin/host"
 
-const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "opencode-location-bench-")))
+const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "wormagent-location-bench-")))
 process.on("exit", () => rmSync(root, { recursive: true, force: true }))
 
 const offline = Object.assign(() => Promise.reject(new Error("no network in the location benchmark")), {

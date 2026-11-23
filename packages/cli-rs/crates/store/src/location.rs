@@ -4,7 +4,7 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use indexmap::IndexMap;
-use opencode_api::generated::*;
+use wormagent_api::generated::*;
 
 use crate::changes::Parts;
 use crate::core::{CatalogRead, Effect, LocationRead, Ticket};
@@ -91,7 +91,7 @@ pub struct LocationData {
     pub provider: Option<Arc<[ProviderInfo]>>,
     pub reference: Option<Arc<[ReferenceInfo]>>,
     pub websearch: Option<Vec<WebSearchProvider>>,
-    /// The Go allowance and Console budgets of the signed-in OpenCode Console workspace; the
+    /// The Go allowance and Console budgets of the signed-in WormAgent Console workspace; the
     /// inner `None` means not signed in.
     pub usage_limits: Option<Option<UsageLimitsInfo>>,
     /// Running shells by ID. Exited and deleted shells are removed.

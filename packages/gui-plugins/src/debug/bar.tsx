@@ -1,13 +1,13 @@
 import { createMemo, createSignal, onCleanup, Show, untrack } from "solid-js"
-import { Icon } from "@opencode/ui/icon"
-import { IconButton } from "@opencode/ui/icon-button"
-import { showToast } from "@opencode/ui/toast"
-import { Tooltip } from "@opencode/ui/tooltip"
-import { usePlugin } from "@opencode/plugin/gui"
-import { motionGlobals, motionTuning } from "@opencode/ui/motion-tuning"
-import { duration } from "@opencode/util/duration"
-import { SessionTurn } from "@opencode/util/session-turn"
-import { builtinContext } from "@opencode/plugin/gui/builtin"
+import { Icon } from "@wormagent/ui/icon"
+import { IconButton } from "@wormagent/ui/icon-button"
+import { showToast } from "@wormagent/ui/toast"
+import { Tooltip } from "@wormagent/ui/tooltip"
+import { usePlugin } from "@wormagent/plugin/gui"
+import { motionGlobals, motionTuning } from "@wormagent/ui/motion-tuning"
+import { duration } from "@wormagent/util/duration"
+import { SessionTurn } from "@wormagent/util/session-turn"
+import { builtinContext } from "@wormagent/plugin/gui/builtin"
 import {
   initialFocusToggleState,
   isFocusToggleActive,
@@ -348,7 +348,7 @@ export default function DebugBar(props: {
         <Show when={props.motion}>
           <div class="ms-auto flex items-center gap-[9px]">
             {/* The lab's route exists only on the dev server and in Beta. */}
-            {(import.meta.env.DEV || import.meta.env.VITE_OPENCODE_CHANNEL === "beta") && (
+            {(import.meta.env.DEV || import.meta.env.VITE_WORMAGENT_CHANNEL === "beta") && (
               <Tooltip appearance="compact" value={ctx.t("components.tip")} placement="top">
                 <a
                   href="/components"

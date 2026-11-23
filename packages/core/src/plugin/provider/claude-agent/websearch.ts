@@ -1,6 +1,6 @@
 export * as ClaudeWebSearchProvider from "./websearch.js"
 
-import type { Context } from "@opencode/plugin/effect/plugin"
+import type { Context } from "@wormagent/plugin/effect/plugin"
 import { Effect, Option, Stream } from "effect"
 import { ClaudeAccounts } from "./claude/accounts.js"
 import type { ClaudeIO } from "./claude/io.js"

@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test"
-import { App } from "@opencode/core/app"
-import { Config } from "@opencode/core/config"
-import { Flag } from "@opencode/core/flag"
-import { Document, Info } from "@opencode/schema/config"
-import { ConfigExperimental } from "@opencode/schema/config/experimental"
-import { ConfigFlag } from "@opencode/schema/config/flag"
-import { makeLocationNode } from "@opencode/util/effect/app-node"
+import { App } from "@wormagent/core/app"
+import { Config } from "@wormagent/core/config"
+import { Flag } from "@wormagent/core/flag"
+import { Document, Info } from "@wormagent/schema/config"
+import { ConfigExperimental } from "@wormagent/schema/config/experimental"
+import { ConfigFlag } from "@wormagent/schema/config/flag"
+import { makeLocationNode } from "@wormagent/util/effect/app-node"
 import { Effect, Layer, Record } from "effect"
 import { testEffect } from "./lib/effect"
 
@@ -26,11 +26,11 @@ const document = (experimental?: ConstructorParameters<typeof ConfigExperimental
     info: new Info(experimental === undefined ? {} : { experimental: new ConfigExperimental.Info(experimental) }),
   })
 
-// todo and opencode_api are opt-in only, so the build defaults and both wildcards leave them off.
+// todo and wormagent_api are opt-in only, so the build defaults and both wildcards leave them off.
 const every = (state: Flag.State): Record<Flag.Key, Flag.State> => ({
   ...Record.map(ConfigFlag.registry, () => state),
   todo: { enabled: false, source: "default" },
-  opencode_api: { enabled: false, source: "default" },
+  wormagent_api: { enabled: false, source: "default" },
 })
 
 describe("Flag.resolve", () => {
@@ -45,7 +45,7 @@ describe("Flag.resolve", () => {
     expect(Flag.resolve({ entries: [], channel })).toEqual(every({ enabled, source: "default" }))
   })
 
-  test.each(["todo"] as const)("%s is opt-in only: on only when named in OPENCODE_FLAGS or experimental.%s", (key) => {
+  test.each(["todo"] as const)("%s is opt-in only: on only when named in WORMAGENT_FLAGS or experimental.%s", (key) => {
     expect(Flag.resolve({ entries: [], channel: "dev", overrides: "all" })[key]).toEqual({
       enabled: false,
       source: "default",
@@ -60,14 +60,14 @@ describe("Flag.resolve", () => {
     })
   })
 
-  test("opencode_api turns on only by name, and only in local and dev builds", () => {
-    const resolve = (channel: string, overrides?: string, experimental?: { opencode_api?: boolean }) =>
-      Flag.resolve({ entries: experimental ? [document(experimental)] : [], channel, overrides }).opencode_api
+  test("wormagent_api turns on only by name, and only in local and dev builds", () => {
+    const resolve = (channel: string, overrides?: string, experimental?: { wormagent_api?: boolean }) =>
+      Flag.resolve({ entries: experimental ? [document(experimental)] : [], channel, overrides }).wormagent_api
     expect(resolve("dev", "all")).toEqual({ enabled: false, source: "default" })
-    expect(resolve("local", "opencode_api")).toEqual({ enabled: true, source: "env" })
-    expect(resolve("dev", undefined, { opencode_api: true })).toEqual({ enabled: true, source: "config" })
+    expect(resolve("local", "wormagent_api")).toEqual({ enabled: true, source: "env" })
+    expect(resolve("dev", undefined, { wormagent_api: true })).toEqual({ enabled: true, source: "config" })
     for (const channel of ["beta", "latest", "my-branch", "unknown"])
-      expect([resolve(channel, "opencode_api"), resolve(channel, undefined, { opencode_api: true })]).toEqual([
+      expect([resolve(channel, "wormagent_api"), resolve(channel, undefined, { wormagent_api: true })]).toEqual([
         { enabled: false, source: "default" },
         { enabled: false, source: "default" },
       ])
@@ -114,7 +114,7 @@ describe("Flag.resolve", () => {
     },
   )
 
-  test("config overrides the default and OPENCODE_FLAGS overrides config", () => {
+  test("config overrides the default and WORMAGENT_FLAGS overrides config", () => {
     const entries = [document({ full_codemode: true, machines: false })]
     const flags = Flag.resolve({ entries, channel: "dev", overrides: " media_blob , -full_codemode,unknown_flag" })
     expect(
@@ -138,7 +138,7 @@ describe("Flag.resolve", () => {
     expect([flags.full_codemode.enabled, flags.full_codemode.source]).toEqual([false, "default"])
   })
 
-  test("OPENCODE_FLAGS=all turns every flag on, and a -key in the same list still wins", () => {
+  test("WORMAGENT_FLAGS=all turns every flag on, and a -key in the same list still wins", () => {
     const entries = [document({ media_blob: false })]
     expect(Flag.resolve({ entries, channel: "latest", overrides: "all" })).toEqual(
       every({ enabled: true, source: "env" }),
@@ -152,7 +152,7 @@ describe("Flag.resolve", () => {
     )
   })
 
-  test("experimental.all_flags turns every flag on below OPENCODE_FLAGS and below a per-flag setting", () => {
+  test("experimental.all_flags turns every flag on below WORMAGENT_FLAGS and below a per-flag setting", () => {
     const entries = [document({ all_flags: true, media_blob: false })]
     expect(Flag.resolve({ entries, channel: "latest", overrides: "-artifacts" })).toEqual({
       ...every({ enabled: true, source: "config" }),
@@ -161,7 +161,7 @@ describe("Flag.resolve", () => {
     })
   })
 
-  test("experimental.all_flags: false is not a kill switch, and all_flags in OPENCODE_FLAGS does nothing", () => {
+  test("experimental.all_flags: false is not a kill switch, and all_flags in WORMAGENT_FLAGS does nothing", () => {
     expect(Flag.resolve({ entries: [document({ all_flags: false })], channel: "dev" })).toEqual(
       every({ enabled: true, source: "default" }),
     )
@@ -189,7 +189,7 @@ const it = testEffect(
 )
 
 describe("Flag.enabled", () => {
-  it.effect("reads the Config, channel and OPENCODE_FLAGS in scope and follows config updates", () =>
+  it.effect("reads the Config, channel and WORMAGENT_FLAGS in scope and follows config updates", () =>
     Effect.gen(function* () {
       const config = yield* Config.Test
       expect(yield* Flag.enabled("artifacts")).toBe(true)

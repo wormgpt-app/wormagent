@@ -6,7 +6,7 @@ message streams, a closing fence closes its block as soon as the three backticks
 ending.
 
 Rust: the client pins OpenTUI `d3da53173`, where the `Markdown` widget runs on the native streaming engine
-(anomalyco/opentui#2049, #2037, #2078). The characters now match TS where the old Rust parser differed: setext
+(wormgpt-app/opentui#2049, #2037, #2078). The characters now match TS where the old Rust parser differed: setext
 underline rows and the blank rows around rules and headings are where TS puts them (the old parser dropped them),
 and `- - -` is a rule. Two differences remain:
 

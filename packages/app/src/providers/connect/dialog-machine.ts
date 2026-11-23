@@ -9,9 +9,9 @@ import {
   type ProviderConnectTransition,
 } from "./machine"
 
-// The OpenCode Console account is the `opencode` integration. OpenCode Go is its own integration
+// The WormAgent Console account is the `wormagent` integration. WormAgent Go is its own integration
 // and connects with its own methods, the same as the TUI.
-export const CONSOLE_INTEGRATION = "opencode"
+export const CONSOLE_INTEGRATION = "wormagent"
 
 export const CLAUDE_AGENT_INTEGRATION = "claude-agent"
 

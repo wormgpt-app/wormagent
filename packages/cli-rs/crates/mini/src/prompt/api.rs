@@ -1,8 +1,8 @@
 //! Session-scoped completion, history and prompt requests.
 
-use opencode_api::client::{Call, Client};
-use opencode_api::error::Error;
-use opencode_api::generated::{
+use wormagent_api::client::{Call, Client};
+use wormagent_api::error::Error;
+use wormagent_api::generated::{
     AgentID, AgentListInput, CommandListInput, FileFindInput, FileSystemEntryType, LocationQueryInput,
     PromptSkillAttachment, ReferenceListInput, SessionCommandInput, SessionCompactInput, SessionID,
     SessionInboxCancelInput, SessionInboxDelivery, SessionInboxUpdateInput, SessionMessageID, SessionMessageInfo,
@@ -230,7 +230,7 @@ pub async fn select(client: &Client, session: &str, agent: Option<&str>, model: 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use opencode_api::memory::{Memory, Route};
+    use wormagent_api::memory::{Memory, Route};
     use std::sync::Arc;
 
     /// A declared error shows its message without its tag, as the TS footer's `formatUnknownError` does.

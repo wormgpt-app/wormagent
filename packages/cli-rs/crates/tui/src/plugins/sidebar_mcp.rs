@@ -1,15 +1,15 @@
 //! Foldable MCP status list for the session's location.
 
-use opencode_api::generated::{McpServer, McpServerStatus};
-use opencode_plugin::abi::v2::{Node, Place, Surface};
-use opencode_plugin::abi::{self, Click, Command, Layout, Placement, Span, Wrap};
-use opencode_plugin::slot;
+use wormagent_api::generated::{McpServer, McpServerStatus};
+use wormagent_plugin::abi::v2::{Node, Place, Surface};
+use wormagent_plugin::abi::{self, Click, Command, Layout, Placement, Span, Wrap};
+use wormagent_plugin::slot;
 use serde_json::json;
 
 use super::{hidden, kept};
 
 pub fn plugin() -> abi::Plugin {
-    abi::Plugin { id: "opencode.sidebar.mcp", setup }
+    abi::Plugin { id: "wormagent.sidebar.mcp", setup }
 }
 
 const FOLD: &str = "sidebar.mcp.fold";

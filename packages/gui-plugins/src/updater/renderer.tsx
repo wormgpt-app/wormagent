@@ -1,8 +1,8 @@
-import { showToast } from "@opencode/ui/toast"
+import { showToast } from "@wormagent/ui/toast"
 import { createSignal, lazy, onCleanup, Suspense, untrack } from "solid-js"
-import { Command, createKeyed, SettingsPage, TitlebarItem, type SetupContext, type Plugin } from "@opencode/plugin/gui"
-import { onIdle } from "@opencode/plugin/gui/builtin"
-import { Updater } from "@opencode/plugin/gui/updater"
+import { Command, createKeyed, SettingsPage, TitlebarItem, type SetupContext, type Plugin } from "@wormagent/plugin/gui"
+import { onIdle } from "@wormagent/plugin/gui/builtin"
+import { Updater } from "@wormagent/plugin/gui/updater"
 import { updaterAction } from "./action"
 import {
   ACTION_CHUNK_TIMEOUT_MS,

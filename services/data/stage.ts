@@ -1,8 +1,8 @@
 // The stage a `--mode` deploys. Only `dev` and `production` are stages: anything else, including no mode at all, throws,
 // so a typo or a bare `cf deploy` can never fall through to production.
 const hosts = {
-  dev: "dev.opencode.ai",
-  production: "opencode.ai",
+  dev: "dev.wormagent.net",
+  production: "wormagent.net",
 } as const
 
 export type Stage = keyof typeof hosts

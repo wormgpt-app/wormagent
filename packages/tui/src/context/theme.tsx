@@ -6,7 +6,7 @@ import {
   themeModes,
   type ResolvedTheme,
   type SurfaceName,
-} from "@opencode/theme/tui"
+} from "@wormagent/theme/tui"
 import {
   allThemes,
   hasTheme,
@@ -112,7 +112,7 @@ type ThemeContextValue = {
 const [store, setStore] = createStore<State>({
   mode: "dark",
   lock: undefined,
-  active: "opencode",
+  active: "wormagent",
   ready: false,
 })
 const [themeSources, setThemeSources] = createSignal(allThemes())
@@ -135,7 +135,7 @@ const themeContext = createSimpleContext({
         const mode = lock ?? renderer.themeMode ?? props.mode
         draft.mode = mode
         draft.lock = lock
-        draft.active = config.theme?.name ?? "opencode"
+        draft.active = config.theme?.name ?? "wormagent"
         draft.ready = false
       }),
     )
@@ -162,7 +162,7 @@ const themeContext = createSimpleContext({
         .then((themes) => {
           setCustomThemes(themes)
         })
-        .catch(() => setStore("active", "opencode"))
+        .catch(() => setStore("active", "wormagent"))
     }
 
     onMount(() => {
@@ -292,22 +292,22 @@ const themeContext = createSimpleContext({
     })
 
     const available = themeSources
-    // "opencode2" was the new theme's name before it became "opencode".
-    const alias = (name: string) => (name === "opencode2" && !available().opencode2 ? "opencode" : name)
+    // "wormagent2" was the new theme's name before it became "wormagent".
+    const alias = (name: string) => (name === "wormagent2" && !available().wormagent2 ? "wormagent" : name)
     const has = (name: string) => Boolean(name) && available()[alias(name)] !== undefined
 
     const initStarted = performance.now()
     const selected = createMemo(() => {
       const sources = available()
       const active = alias(store.active)
-      const name = sources[active] ? active : "opencode"
+      const name = sources[active] ? active : "wormagent"
       try {
         return loadTheme(sources[name], name, store.mode, newDesigns())
       } catch (error) {
-        if (name === "opencode") throw error
+        if (name === "wormagent") throw error
         themeErrors.emit(name, error)
-        setStore("active", "opencode")
-        return loadTheme(sources.opencode, "opencode", store.mode, newDesigns())
+        setStore("active", "wormagent")
+        return loadTheme(sources.wormagent, "wormagent", store.mode, newDesigns())
       }
     })
     const modes = () => selected().modes

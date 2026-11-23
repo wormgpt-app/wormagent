@@ -1,26 +1,26 @@
 import { describe, expect } from "bun:test"
 import { and, asc, eq } from "drizzle-orm"
 import { Effect, Schema } from "effect"
-import { Database } from "@opencode/core/database/database"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { Bus } from "@opencode/core/bus"
-import { Event } from "@opencode/schema/event"
-import { EventTable } from "@opencode/core/event/sql"
-import { InstructionDiscovery } from "@opencode/core/instruction-discovery"
-import { Instructions } from "@opencode/core/instructions/index"
-import { Project } from "@opencode/core/project"
-import { ProjectTable } from "@opencode/core/project/sql"
-import { AbsolutePath } from "@opencode/core/schema"
-import { InstructionState } from "@opencode/core/session/instruction-state"
-import { SessionProjector } from "@opencode/core/session/projector"
-import { SessionSchema } from "@opencode/core/session/schema"
+import { Database } from "@wormagent/core/database/database"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { Bus } from "@wormagent/core/bus"
+import { Event } from "@wormagent/schema/event"
+import { EventTable } from "@wormagent/core/event/sql"
+import { InstructionDiscovery } from "@wormagent/core/instruction-discovery"
+import { Instructions } from "@wormagent/core/instructions/index"
+import { Project } from "@wormagent/core/project"
+import { ProjectTable } from "@wormagent/core/project/sql"
+import { AbsolutePath } from "@wormagent/core/schema"
+import { InstructionState } from "@wormagent/core/session/instruction-state"
+import { SessionProjector } from "@wormagent/core/session/projector"
+import { SessionSchema } from "@wormagent/core/session/schema"
 import {
   InstructionBlobTable,
   InstructionStateTable,
   SessionMessageTable,
   SessionTable,
-} from "@opencode/core/session/sql"
+} from "@wormagent/core/session/sql"
 import { testEffect } from "./lib/effect"
 
 const it = testEffect(

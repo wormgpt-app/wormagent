@@ -1,12 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@opencode/schema",
+  "name": "@wormagent/schema",
   "version": "2.4.0",
   "type": "module",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anomalyco/opencode.git",
+    "url": "git+https://github.com/wormgpt-app/wormagent.git",
     "directory": "packages/schema"
   },
   "publishConfig": {

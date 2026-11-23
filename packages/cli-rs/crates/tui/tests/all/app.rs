@@ -10,15 +10,15 @@ use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
 use base64::Engine;
-use opencode_api::generated::SessionID;
-use opencode_api::memory::{Memory, Route as MemoryRoute};
-use opencode_api::pty;
-use opencode_local::cli_config;
-use opencode_parity::Fixture;
-use opencode_parity::app::{self, Recording, Sent, Step};
-use opencode_plugin::abi::{self, Node, Placement, Render, Span};
-use opencode_plugin::slot;
-use opencode_tui::{Args, Deps, Route};
+use wormagent_api::generated::SessionID;
+use wormagent_api::memory::{Memory, Route as MemoryRoute};
+use wormagent_api::pty;
+use wormagent_local::cli_config;
+use wormagent_parity::Fixture;
+use wormagent_parity::app::{self, Recording, Sent, Step};
+use wormagent_plugin::abi::{self, Node, Placement, Render, Span};
+use wormagent_plugin::slot;
+use wormagent_tui::{Args, Deps, Route};
 use opentui::prelude::*;
 use opentui::testing::TestApp;
 
@@ -39,8 +39,8 @@ fn scenarios() {
     let mut failed = Vec::new();
     for recording in &recordings {
         // An npm scenario runs its packages on the JS host, so without bun it is skipped, as the JS host's own rows are
-        // (`OPENCODE_RS_REQUIRE_TS=1` makes a missing bun fail instead).
-        let npm = recording.env.get("OPENCODE_PARITY_PLUGIN").is_some_and(|plugin| plugin == "npm");
+        // (`WORMAGENT_RS_REQUIRE_TS=1` makes a missing bun fail instead).
+        let npm = recording.env.get("WORMAGENT_PARITY_PLUGIN").is_some_and(|plugin| plugin == "npm");
         #[cfg(feature = "ts")]
         if npm && crate::plugin_pipe::bun().is_none() {
             eprintln!("skip {} (no bun)", recording.scenario);
@@ -66,7 +66,7 @@ fn run(recording: &Recording) -> (bool, String) {
     let memory = Memory::new(routes(recording));
     let app = TestApp::new(recording.width, recording.height);
     #[cfg(feature = "ts")]
-    let npm = recording.env.get("OPENCODE_PARITY_PLUGIN").is_some_and(|plugin| plugin == "npm");
+    let npm = recording.env.get("WORMAGENT_PARITY_PLUGIN").is_some_and(|plugin| plugin == "npm");
     #[cfg(feature = "ts")]
     let config_text = match npm {
         true => npm_config(&recording.config),
@@ -78,7 +78,7 @@ fn run(recording: &Recording) -> (bool, String) {
     let config = cli_config::decode_text(&config_text).unwrap_or_default();
     let args = &recording.args;
     let session = args.session_id.clone().map(SessionID);
-    let tui = opencode_tui::mount_with(
+    let tui = wormagent_tui::mount_with(
         &app,
         Deps {
             directory: recording.directory.clone(),
@@ -87,8 +87,8 @@ fn run(recording: &Recording) -> (bool, String) {
                 Some(id) if !args.fork => Route::Session { id: id.clone() },
                 _ => recording
                     .env
-                    .get("OPENCODE_ROUTE")
-                    .and_then(|value| opencode_tui::features::startup::env_route(value))
+                    .get("WORMAGENT_ROUTE")
+                    .and_then(|value| wormagent_tui::features::startup::env_route(value))
                     .unwrap_or(Route::Home),
             },
             continue_: args.continue_,
@@ -109,44 +109,44 @@ fn run(recording: &Recording) -> (bool, String) {
     );
     let still = std::time::Instant::now();
     tui.plugins.monitor().set_clock(move || still);
-    match recording.env.get("OPENCODE_PARITY_PLUGIN").map(String::as_str) {
-        Some("slot") => opencode_tui::plugins::host::add(&tui, slot_plugin().into()),
-        Some("app") => opencode_tui::plugins::host::add(&tui, app_plugin().into()),
-        Some("p0a") => opencode_tui::plugins::host::add(&tui, p0a_plugin().into()),
-        Some("p0b") => opencode_tui::plugins::host::add(&tui, p0b_plugin().into()),
-        Some("fence-margin") => opencode_tui::plugins::host::add(&tui, fence_margin_plugin().into()),
-        Some("fence") => opencode_tui::plugins::host::add(&tui, fence_plugin().into()),
+    match recording.env.get("WORMAGENT_PARITY_PLUGIN").map(String::as_str) {
+        Some("slot") => wormagent_tui::plugins::host::add(&tui, slot_plugin().into()),
+        Some("app") => wormagent_tui::plugins::host::add(&tui, app_plugin().into()),
+        Some("p0a") => wormagent_tui::plugins::host::add(&tui, p0a_plugin().into()),
+        Some("p0b") => wormagent_tui::plugins::host::add(&tui, p0b_plugin().into()),
+        Some("fence-margin") => wormagent_tui::plugins::host::add(&tui, fence_margin_plugin().into()),
+        Some("fence") => wormagent_tui::plugins::host::add(&tui, fence_plugin().into()),
         _ => {}
     }
     #[cfg(feature = "ts")]
     let _plugins = npm.then(|| {
-        let bun = crate::plugin_pipe::bun().expect("an npm scenario needs bun (OPENCODE_BUN or bun on the path)");
-        let config = opencode_plugin::pipe::Config {
+        let bun = crate::plugin_pipe::bun().expect("an npm scenario needs bun (WORMAGENT_BUN or bun on the path)");
+        let config = wormagent_plugin::pipe::Config {
             version: "test".to_owned(),
             channel: "test".to_owned(),
             // Match the recorder's UTC time zone for plugin-local timestamps.
             env: vec![("TZ".to_owned(), "UTC".to_owned())],
-            ..opencode_plugin::pipe::Config::new(bun)
+            ..wormagent_plugin::pipe::Config::new(bun)
         };
-        let root = opencode_util::temp::tempdir().expect("plugin root");
-        let external = opencode_tui::plugins::host::External {
+        let root = wormagent_util::temp::tempdir().expect("plugin root");
+        let external = wormagent_tui::plugins::host::External {
             config_dir: root.path().join("config"),
             cwd: root.path().to_path_buf(),
         };
-        opencode_tui::plugins::host::external_with(&tui, external, Some(config));
+        wormagent_tui::plugins::host::external_with(&tui, external, Some(config));
         root
     });
     let ide = recording.ide.as_ref().map(|_| ide::Ide::start());
     let zed = recording.zed.as_ref().map(|zed| {
-        let directory = opencode_util::temp::tempdir().expect("zed directory");
+        let directory = wormagent_util::temp::tempdir().expect("zed directory");
         let db = directory.path().join("db.sqlite");
-        opencode_tui::prompt::editor_context::zed::exec(&db, &zed.sql).expect("zed database");
+        wormagent_tui::prompt::editor_context::zed::exec(&db, &zed.sql).expect("zed database");
         (directory, db)
     });
     if ide.is_some() || zed.is_some() {
-        opencode_tui::prompt::editor_context::start(
+        wormagent_tui::prompt::editor_context::start(
             &tui,
-            opencode_tui::prompt::editor_context::Source {
+            wormagent_tui::prompt::editor_context::Source {
                 port: ide.as_ref().map(|ide| ide.port),
                 zed_terminal: zed.is_some(),
                 zed_db: zed.iter().map(|(_, db)| db.clone()).collect(),
@@ -160,12 +160,12 @@ fn run(recording: &Recording) -> (bool, String) {
     // Wait for plugin registration before replaying keys. The recorder's first frame already has the plugin's commands.
     let starting = || {
         tui.plugins.entries().iter().any(|entry| match &entry.status {
-            opencode_plugin::Status::Skipped(reason) => {
+            wormagent_plugin::Status::Skipped(reason) => {
                 #[cfg(luau)]
-                let luau = reason == opencode_plugin::luau::STARTING;
+                let luau = reason == wormagent_plugin::luau::STARTING;
                 #[cfg(not(luau))]
                 let luau = false;
-                luau || reason == opencode_plugin::loader::STARTING
+                luau || reason == wormagent_plugin::loader::STARTING
             }
             _ => false,
         })
@@ -223,7 +223,7 @@ fn run(recording: &Recording) -> (bool, String) {
                     let _ = writeln!(report, "  checkpoint {}: {line}", checkpoint.checkpoint);
                     continue;
                 }
-                let path = std::env::temp_dir().join("opencode-parity").join(format!("{}.json", checkpoint.fixture));
+                let path = std::env::temp_dir().join("wormagent-parity").join(format!("{}.json", checkpoint.fixture));
                 let written = path
                     .parent()
                     .map_or(Ok(()), std::fs::create_dir_all)
@@ -291,7 +291,7 @@ fn run(recording: &Recording) -> (bool, String) {
     }
     // A plugin that failed says why, which the frames only show as its toast.
     for entry in tui.plugins.entries() {
-        if let opencode_plugin::Status::Failed(error) = &entry.status {
+        if let wormagent_plugin::Status::Failed(error) = &entry.status {
             let _ = writeln!(report, "  plugin {} failed: {error}", entry.id);
         }
     }
@@ -599,7 +599,7 @@ fn verdict(equal: bool, allowed: bool, deviation: &[String]) -> (bool, String) {
     }
 }
 
-fn sent(logged: &opencode_api::memory::Logged) -> Sent {
+fn sent(logged: &wormagent_api::memory::Logged) -> Sent {
     Sent {
         method: logged.method.clone(),
         path: logged.path.clone(),

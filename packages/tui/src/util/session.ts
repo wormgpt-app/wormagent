@@ -1,5 +1,5 @@
-import type { JobInfo, ModelInfo, SessionMessageInfo } from "@opencode/client"
-import { lastAssistantWithUsage } from "@opencode/client/solid"
+import type { JobInfo, ModelInfo, SessionMessageInfo } from "@wormagent/client"
+import { lastAssistantWithUsage } from "@wormagent/client/solid"
 import { Locale } from "./locale"
 
 type SessionNode = {

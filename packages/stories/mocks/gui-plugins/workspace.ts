@@ -1,6 +1,6 @@
-import { OpenCode } from "@opencode/client/promise"
-import { createData } from "@opencode/client/solid"
-import { reviewDiffs } from "@opencode/session-ui/storybook"
+import { WormAgent } from "@wormagent/client/promise"
+import { createData } from "@wormagent/client/solid"
+import { reviewDiffs } from "@wormagent/session-ui/storybook"
 import { createSignal } from "solid-js"
 import { createStore } from "solid-js/store"
 import { createFileTreeStore } from "@/workspaces/files/tree-store"
@@ -98,7 +98,7 @@ export function createWorkspace(
     throw new Error(`Unconfigured workspace fixture: ${url.pathname}`)
   }
 
-  const client = OpenCode.make({
+  const client = WormAgent.make({
     baseUrl: "https://workspace.invalid",
     fetch: Object.assign(request, { preconnect() {} }),
   })

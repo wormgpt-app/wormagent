@@ -23,7 +23,7 @@ target="$release/targets/files/$mode/wrangler.json"
 [ -f "$target" ] || die "No pinned files target for $mode"
 
 : "${CLOUDFLARE_API_TOKEN:?Set CLOUDFLARE_API_TOKEN}"
-# Pinned in targets/ and in the token issuer's config (anomalyco/secrets).
+# Pinned in targets/ and in the token issuer's config (wormgpt-app/secrets).
 CLOUDFLARE_ACCOUNT_ID=$(stage_account "$mode")
 export CLOUDFLARE_ACCOUNT_ID
 

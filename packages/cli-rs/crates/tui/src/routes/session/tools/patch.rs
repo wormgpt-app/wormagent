@@ -1,6 +1,6 @@
 //! Render patch metadata by file, falling back to the applied resource list.
 
-use opencode_local::cli_config::{DiffView as ConfigDiffView, DiffWrap};
+use wormagent_local::cli_config::{DiffView as ConfigDiffView, DiffWrap};
 use opentui::widget::DiffView;
 
 use super::dispatch::{Block, BlockColors, BlockTool, Header, Props, Status, content_width, format_path, number};
@@ -134,7 +134,7 @@ pub fn file_blocks(
         .map(|file| {
             let block = path_block(cx, permission, width, label(&file.kind), &file.relative_path);
             let child = if file.kind != "delete" && file.patch.contains("@@") {
-                let diff = opencode_ui::diff::view_painted(
+                let diff = wormagent_ui::diff::view_painted(
                     cx.app,
                     cx.theme,
                     cx.syntax,
@@ -248,7 +248,7 @@ fn shown(cx: &Context<'_>, props: &Props<'_>) -> Shown {
         return Shown::Applied { applied, common };
     }
     Shown::Pending {
-        targets: targets(opencode_ui::tool_info::PatchInput(props.input).patch_text().text()),
+        targets: targets(wormagent_ui::tool_info::PatchInput(props.input).patch_text().text()),
         status: props.status(),
         error: props.error().map(str::to_owned),
         common,
@@ -271,7 +271,7 @@ pub fn parse_files(value: Option<&Value>) -> Vec<File> {
         .filter_map(|item| {
             let file = item.as_object()?;
             let text = |key: &str| file.get(key).and_then(Value::as_str);
-            let number = |key: &str| file.get(key).and_then(opencode_ui::tool_info::finite_number);
+            let number = |key: &str| file.get(key).and_then(wormagent_ui::tool_info::finite_number);
             let kind = text("type").or(match text("status") {
                 Some("added") => Some("add"),
                 Some("deleted") => Some("delete"),
@@ -306,7 +306,7 @@ pub fn parse_script_changes(value: Option<&Value>) -> Vec<File> {
         .filter_map(|item| {
             let file = item.as_object()?;
             let text = |key: &str| file.get(key).and_then(Value::as_str);
-            let number = |key: &str| file.get(key).and_then(opencode_ui::tool_info::finite_number);
+            let number = |key: &str| file.get(key).and_then(wormagent_ui::tool_info::finite_number);
             let kind = match text("status")? {
                 "added" => "add",
                 "deleted" => "delete",
@@ -351,7 +351,7 @@ fn targets(patch: &str) -> Vec<String> {
             continue;
         }
         // JavaScript's `trim`: a byte order mark goes, U+0085 stays.
-        targets.push(line[..end].trim_matches(opencode_api::js::is_whitespace).to_owned());
+        targets.push(line[..end].trim_matches(wormagent_api::js::is_whitespace).to_owned());
         at = patch.len() - line.len() + end;
     }
     targets

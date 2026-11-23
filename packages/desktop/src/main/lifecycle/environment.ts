@@ -51,9 +51,9 @@ export const preferApplicationEnvironment = Effect.gen(function* () {
     if (!shellEnv?.XDG_STATE_HOME) delete process.env.XDG_STATE_HOME
     Object.assign(process.env, {
       ...shellEnv,
-      OPENCODE_EXPERIMENTAL_ICON_DISCOVERY: "true",
-      OPENCODE_EXPERIMENTAL_FILEWATCHER: "true",
-      OPENCODE_CLIENT: "desktop",
+      WORMAGENT_EXPERIMENTAL_ICON_DISCOVERY: "true",
+      WORMAGENT_EXPERIMENTAL_FILEWATCHER: "true",
+      WORMAGENT_CLIENT: "desktop",
     })
   })
 })
@@ -62,8 +62,8 @@ export const prepareDesktop = Effect.gen(function* () {
   const path = yield* Path.Path
   const paths = yield* DesktopPaths.resolve
 
-  if (app.isPackaged || process.env.OPENCODE_DESKTOP_DISABLE_PROTOCOL_REGISTRATION !== "1")
-    app.setAsDefaultProtocolClient("opencode")
+  if (app.isPackaged || process.env.WORMAGENT_DESKTOP_DISABLE_PROTOCOL_REGISTRATION !== "1")
+    app.setAsDefaultProtocolClient("wormagent")
   const runFork = Effect.runForkWith(yield* Effect.context())
   setProtocolReporter((level, message, data) =>
     runFork(scoped("protocol", level === "error" ? Effect.logError(message, data) : Effect.logWarning(message, data))),
@@ -74,8 +74,8 @@ export const prepareDesktop = Effect.gen(function* () {
   yield* removeCollidingDevShortcut
 })
 
-// Earlier unpackaged dev runs shared `ai.opencode.desktop.dev`, so Electron's Windows toast
-// activator wrote a Start Menu `Electron.lnk` that shadows the installed OpenCode Dev shortcut and
+// Earlier unpackaged dev runs shared `ai.wormagent.desktop.dev`, so Electron's Windows toast
+// activator wrote a Start Menu `Electron.lnk` that shadows the installed WormAgent Dev shortcut and
 // routes notification clicks to bare `electron.exe`. Remove it if it still claims this channel's AUMID.
 const removeCollidingDevShortcut = Effect.gen(function* () {
   if (process.platform !== "win32" || !app.isPackaged) return

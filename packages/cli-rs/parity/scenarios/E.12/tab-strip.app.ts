@@ -4,7 +4,7 @@
 // new-session tab on home.
 import { assistant, defineApp, session, user } from "../../lib/app"
 
-const here = { directory: "/tmp/opencode/packages/tui" }
+const here = { directory: "/tmp/wormagent/packages/tui" }
 const select = (id: string, sessionID: string) => ({
   event: { id, created: 3, type: "tui.session.select", location: here, data: { sessionID } },
 })

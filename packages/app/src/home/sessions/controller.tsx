@@ -1,8 +1,8 @@
-import type { SessionInfo } from "@opencode/client/promise"
-import { useDialog } from "@opencode/ui/context/dialog"
-import { Button } from "@opencode/ui/button"
-import { DialogFooter, DialogHeader, DialogTitleGroup, Dialog } from "@opencode/ui/dialog"
-import { prefersReducedMotion } from "@opencode/ui/motion"
+import type { SessionInfo } from "@wormagent/client/promise"
+import { useDialog } from "@wormagent/ui/context/dialog"
+import { Button } from "@wormagent/ui/button"
+import { DialogFooter, DialogHeader, DialogTitleGroup, Dialog } from "@wormagent/ui/dialog"
+import { prefersReducedMotion } from "@wormagent/ui/motion"
 import { hashKey, onlineManager, useQuery, useQueryClient } from "@tanstack/solid-query"
 import {
   type Accessor,

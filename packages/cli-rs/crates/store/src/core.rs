@@ -3,7 +3,7 @@
 //! `State::begin_*` registers what may overtake it and returns what to fetch; whoever runs the store fetches it and
 //! hands the answer back as a [`Completion`]. Nothing here waits, locks or fetches.
 
-use opencode_api::generated::*;
+use wormagent_api::generated::*;
 
 use crate::forms::{Form, FormRead};
 use crate::location::{Catalog, Loaded, Location};

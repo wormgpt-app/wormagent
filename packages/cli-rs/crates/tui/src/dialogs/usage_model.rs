@@ -1,7 +1,7 @@
 //! Limits for one model, highlighting the binding limit.
 
-use opencode_api::generated::ModelInfo;
-use opencode_ui::dialog::layout;
+use wormagent_api::generated::ModelInfo;
+use wormagent_ui::dialog::layout;
 
 use crate::dialogs::usage::{Level, format_dollars, format_reset, level, limit_scope};
 use crate::local::Local;

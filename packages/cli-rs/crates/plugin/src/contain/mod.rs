@@ -65,7 +65,7 @@ pub fn filter_panics() {
     });
 }
 
-/// Plugin call budgets. Override the defaults with `OPENCODE_PLUGIN_LIMITS`.
+/// Plugin call budgets. Override the defaults with `WORMAGENT_PLUGIN_LIMITS`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Limits {
     /// Per plugin per frame.
@@ -112,11 +112,11 @@ impl Limits {
         Ok(limits)
     }
 
-    /// The limits `OPENCODE_PLUGIN_LIMITS` sets, or the defaults; a bad value is logged and the defaults stay.
+    /// The limits `WORMAGENT_PLUGIN_LIMITS` sets, or the defaults; a bad value is logged and the defaults stay.
     pub fn from_env() -> Limits {
-        let Ok(text) = std::env::var("OPENCODE_PLUGIN_LIMITS") else { return Limits::default() };
+        let Ok(text) = std::env::var("WORMAGENT_PLUGIN_LIMITS") else { return Limits::default() };
         Limits::parse(&text).unwrap_or_else(|error| {
-            log::warn!("OPENCODE_PLUGIN_LIMITS: {error}");
+            log::warn!("WORMAGENT_PLUGIN_LIMITS: {error}");
             Limits::default()
         })
     }
@@ -770,7 +770,7 @@ pub(crate) fn thread_cpu() -> Option<Duration> {
 
 #[cfg(windows)]
 pub(crate) fn thread_cpu() -> Option<Duration> {
-    opencode_util::win::thread_cpu_time()
+    wormagent_util::win::thread_cpu_time()
 }
 
 #[cfg(not(any(unix, windows)))]

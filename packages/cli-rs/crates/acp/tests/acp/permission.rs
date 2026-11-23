@@ -1,7 +1,7 @@
 use std::sync::Arc;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
-use opencode_acp::paths::resolve_from;
+use wormagent_acp::paths::resolve_from;
 use serde_json::{Value, json};
 
 use crate::wire::{
@@ -261,7 +261,7 @@ fn patch(lines: &[&str]) -> String {
 
 #[tokio::test]
 async fn previews_added_files_as_new_and_deleted_files_as_empty() {
-    let dir = opencode_util::temp::tempdir().unwrap();
+    let dir = wormagent_util::temp::tempdir().unwrap();
     let root = dir.path().to_str().unwrap().to_owned();
     for (name, content) in [
         ("file.ts", "one\r\ntwo\r\n"),
@@ -391,13 +391,13 @@ async fn previews_added_files_as_new_and_deleted_files_as_empty() {
 // completed-diffs.test.ts
 #[tokio::test]
 async fn leaves_a_scripts_changes_alone_some_have_no_diff_and_a_file_can_change_more_than_once() {
-    let dir = opencode_util::temp::tempdir().unwrap();
+    let dir = wormagent_util::temp::tempdir().unwrap();
     std::fs::write(dir.path().join("a.txt"), "a\nb\nc\n").unwrap();
     let call =
-        opencode_acp::tools::completed_tool_update("call_1".into(), "execute", &Default::default(), &[], None, "/");
-    let mut update = opencode_acp::update::Kind::ToolCallUpdate(call).into();
+        wormagent_acp::tools::completed_tool_update("call_1".into(), "execute", &Default::default(), &[], None, "/");
+    let mut update = wormagent_acp::update::Kind::ToolCallUpdate(call).into();
     let before = json!(update);
-    let source = opencode_acp::tools::DiffSource {
+    let source = wormagent_acp::tools::DiffSource {
         tool_name: "execute".to_owned(),
         input: std::sync::Arc::new(serde_json::from_value(json!({ "code": "1" })).unwrap()),
         metadata: Some(serde_json::from_value(json!({ "files": [
@@ -406,6 +406,6 @@ async fn leaves_a_scripts_changes_alone_some_have_no_diff_and_a_file_can_change_
         ] })).unwrap()),
     };
     let cwd = dir.path().to_string_lossy();
-    opencode_acp::permission::add_completed_diffs(&mut update, Some(&source), &cwd).await;
+    wormagent_acp::permission::add_completed_diffs(&mut update, Some(&source), &cwd).await;
     assert_eq!(json!(update), before);
 }

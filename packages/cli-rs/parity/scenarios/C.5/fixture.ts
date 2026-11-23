@@ -29,9 +29,9 @@ export const integrations = [
     connections: [{ type: "env", name: "ANTHROPIC_API_KEY" }],
   },
   {
-    id: "opencode-go",
-    name: "OpenCode Go",
-    methods: [{ type: "key", label: "OpenCode Go key" }],
+    id: "wormagent-go",
+    name: "WormAgent Go",
+    methods: [{ type: "key", label: "WormAgent Go key" }],
     connections: [],
   },
   {
@@ -146,7 +146,7 @@ export const oauthRoutes = (integrationID: string, mode: "auto" | "code" = "auto
       location,
       data: {
         attemptID: "att_test0001",
-        url: "https://auth.example.test/authorize?client=opencode",
+        url: "https://auth.example.test/authorize?client=wormagent",
         instructions: "Sign in with your browser",
         mode,
         time,

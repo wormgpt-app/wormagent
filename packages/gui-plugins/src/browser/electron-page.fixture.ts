@@ -1,7 +1,7 @@
 import { createServer } from "node:http"
 import electron from "electron"
-import type { BuiltinMainStorage } from "@opencode/plugin/gui/builtin"
-import type { Embeds } from "@opencode/plugin/gui/main"
+import type { BuiltinMainStorage } from "@wormagent/plugin/gui/builtin"
+import type { Embeds } from "@wormagent/plugin/gui/main"
 import type { TabActivity } from "./policy"
 import type { Profile } from "./profile"
 
@@ -37,7 +37,7 @@ electron.Menu.prototype.popup = () => {
 
 void electron.app.whenReady().then(async () => {
   const { Schema } = await import("effect")
-  const { Browser } = await import("@opencode/plugin-browser/rpc")
+  const { Browser } = await import("@wormagent/plugin-browser/rpc")
   const { createBrowserPage } = await import("./chromium")
   const { createHandlePath } = await import("./disk")
   const { createBrowserPane } = await import("./pane")

@@ -15,7 +15,7 @@ const links = {
   contributing: `${repo}/blob/HEAD/CONTRIBUTING.md`,
   contributors: `${repo}/graphs/contributors`,
   fork: `${repo}/fork`,
-  anomaly: "https://anoma.ly",
+  wormgpt: "https://anoma.ly",
 }
 
 /**

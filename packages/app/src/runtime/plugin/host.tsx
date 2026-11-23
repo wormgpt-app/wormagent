@@ -1,4 +1,4 @@
-import { abort } from "@opencode/util/abort"
+import { abort } from "@wormagent/util/abort"
 import {
   batch,
   catchError,
@@ -29,12 +29,12 @@ import {
   pluginIconName,
   type Bridge,
   type Entry,
-} from "@opencode/plugin/gui/host"
-import type { BuiltinCatalog, BuiltinContext } from "@opencode/plugin/gui/builtin"
+} from "@wormagent/plugin/gui/host"
+import type { BuiltinCatalog, BuiltinContext } from "@wormagent/plugin/gui/builtin"
 import { Predicate } from "effect"
-import { useDialog } from "@opencode/ui/context/dialog"
-import { pluralCategory, resolveTemplate } from "@opencode/ui/context/i18n"
-import { registerIcons } from "@opencode/ui/icons/registry"
+import { useDialog } from "@wormagent/ui/context/dialog"
+import { pluralCategory, resolveTemplate } from "@wormagent/ui/context/i18n"
+import { registerIcons } from "@wormagent/ui/icons/registry"
 import {
   LinkHandler,
   type BaseContext,
@@ -57,8 +57,8 @@ import {
   type SessionRef,
   type SetupContext,
   type Token,
-} from "@opencode/plugin/gui"
-import { OpenCode, type OpenCodeClient } from "@opencode/client/promise"
+} from "@wormagent/plugin/gui"
+import { WormAgent, type WormAgentClient } from "@wormagent/client/promise"
 import { useLanguage } from "@/runtime/i18n/language"
 import {
   createPluginDialogState,
@@ -108,7 +108,7 @@ type Instance = {
 }
 
 /** What a plugin's GUI reads of its plugin: its options, and the client of the server that runs it, read each time. */
-export type PluginInput = { readonly options: PluginOptions; readonly client: () => OpenCodeClient | undefined }
+export type PluginInput = { readonly options: PluginOptions; readonly client: () => WormAgentClient | undefined }
 
 /** The APIs a window context exposes as properties. */
 type HostApis = Omit<BuiltinContext, keyof BaseContext | "provide" | "provideFor" | "use" | "main">
@@ -1059,13 +1059,13 @@ function windowStores(definition: Entry) {
 }
 
 /** The client `unavailableClient` made, once a plugin first read it. */
-type Unavailable = { client?: OpenCodeClient }
+type Unavailable = { client?: WormAgentClient }
 
 const unavailable: Unavailable = {}
 
 /** The client a plugin reads while the server that runs it is unreachable: every call rejects. */
 function unavailableClient() {
-  return (unavailable.client ??= OpenCode.make({
+  return (unavailable.client ??= WormAgent.make({
     baseUrl: "http://unavailable.invalid/",
     fetch: Object.assign(() => Promise.reject(new Error("The server that runs this plugin is unavailable")), {
       preconnect() {},

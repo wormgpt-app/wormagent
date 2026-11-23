@@ -1,5 +1,5 @@
 /* oxlint-disable anti-slop/no-unsafe-dictionary-type -- option and settings bags are passed along as the server sends them */
-import type { ProjectListOutput, WorktreeDirectory } from "@opencode/client/promise"
+import type { ProjectListOutput, WorktreeDirectory } from "@wormagent/client/promise"
 
 export type Project = Omit<ProjectListOutput[number], "canonical"> & {
   worktree: string

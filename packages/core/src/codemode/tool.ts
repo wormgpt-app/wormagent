@@ -1,7 +1,7 @@
 export * as CodeModeTool from "./tool.js"
 
-import { ToolFailure } from "@opencode/ai/effect"
-import { CodeMode, Namespace, Tool } from "@opencode/codemode"
+import { ToolFailure } from "@wormagent/ai/effect"
+import { CodeMode, Namespace, Tool } from "@wormagent/codemode"
 import type {
   Content,
   Context as ToolContext,
@@ -10,9 +10,9 @@ import type {
   Metadata,
   Namespace as ToolNamespace,
   Result,
-} from "@opencode/schema/tool"
-import { Identifier } from "@opencode/schema/identifier"
-import { CallID } from "@opencode/schema/tool"
+} from "@wormagent/schema/tool"
+import { Identifier } from "@wormagent/schema/identifier"
+import { CallID } from "@wormagent/schema/tool"
 import { Clock, Context, Effect, Ref, Schema, Scope, Semaphore } from "effect"
 import { toSessionError } from "../session/to-session-error.js"
 import { definition, normalizedName } from "../tool/runtime.js"
@@ -75,7 +75,7 @@ class Run extends Context.Service<
     readonly executeTool: (name: string, tool: Info, input: unknown) => Effect.Effect<unknown, unknown>
     readonly hooks: CodeMode.Hooks
   }
->()("@opencode/CodeModeTool/Run") {}
+>()("@wormagent/CodeModeTool/Run") {}
 
 /** The session's Location and file services, which a run with the experimental `path` and `Bun` globals acts through. */
 export type Services = Location.Service | CodeModeBun.Services
@@ -86,7 +86,7 @@ export const services = Effect.map(
   Context.pick(Location.Service, FileAccess.Service, FileMutation.Service, FileWrite.Service),
 )
 
-/** What `opencode://` fetch acts through: this process's OpenCode API and the session's Location. */
+/** What `wormagent://` fetch acts through: this process's WormAgent API and the session's Location. */
 export type Api = CodeModeApi.Service | Location.Service
 
 export type Inventory = {
@@ -149,7 +149,7 @@ export const create = (
   permission: Permission.Interface,
   /** With `full_codemode`, the session's services, which turn on the experimental `path` and `Bun` globals. */
   services?: Context.Context<Services>,
-  /** What `opencode://` fetch sends requests through. Without it, `opencode://` fails as unavailable. */
+  /** What `wormagent://` fetch sends requests through. Without it, `wormagent://` fails as unavailable. */
   api?: Context.Context<Api>,
 ) => {
   return {
@@ -496,7 +496,7 @@ function flattenTools(node: ToolNode, path: ReadonlyArray<string>, tools: Tools)
   for (const [name, child] of node.children) flattenTools(child, [...path, name], tools)
 }
 
-/** An inventory tool and its registry ID, by registry ID or by the path a program calls it at (`opencode.session.search`). */
+/** An inventory tool and its registry ID, by registry ID or by the path a program calls it at (`wormagent.session.search`). */
 export const find = (inventory: Inventory, name: string) => {
   const registration = inventory.tools.get(name)
   if (registration) return { id: name, registration }

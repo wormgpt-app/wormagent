@@ -5,7 +5,7 @@ import { home } from "./channel.pty"
 export default definePty({
   ...home,
   env: {
-    OPENCODE_CLI_CONFIG_CONTENT: JSON.stringify({ experimental: { "new-designs": true } }),
-    OPENCODE_CHANNEL: "local",
+    WORMAGENT_CLI_CONFIG_CONTENT: JSON.stringify({ experimental: { "new-designs": true } }),
+    WORMAGENT_CHANNEL: "local",
   },
 })

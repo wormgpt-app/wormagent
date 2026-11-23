@@ -1,8 +1,8 @@
 //! Subagent tool status and navigation.
 
-use opencode_api::generated::ModelInfo;
-use opencode_store::SessionStatus;
-use opencode_ui::tool_info::{SubagentInput, titlecase};
+use wormagent_api::generated::ModelInfo;
+use wormagent_store::SessionStatus;
+use wormagent_ui::tool_info::{SubagentInput, titlecase};
 
 use super::dispatch::{Inline, InlineTool, Props, Status};
 use crate::prelude::*;

@@ -1,6 +1,6 @@
 use super::Context;
 use super::client::{block_on, connect};
-use opencode_util::error;
+use wormagent_util::error;
 
 pub fn run(context: &Context) -> error::Result<()> {
     block_on(async {

@@ -5,9 +5,9 @@ mod unified;
 use std::borrow::Cow;
 use std::sync::Arc;
 
-use opencode_api::client::Client;
-use opencode_api::generated::{PermissionAskedData, PermissionReply, PermissionReplyInput};
-use opencode_api::tool::{ExternalDirectoryInput, SearchInput, ToolInput, ToolKind, WebFetchInput, WebSearchInput};
+use wormagent_api::client::Client;
+use wormagent_api::generated::{PermissionAskedData, PermissionReply, PermissionReplyInput};
+use wormagent_api::tool::{ExternalDirectoryInput, SearchInput, ToolInput, ToolKind, WebFetchInput, WebSearchInput};
 use serde::Serialize;
 use serde_json::{Value, json};
 

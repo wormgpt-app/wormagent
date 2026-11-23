@@ -1,7 +1,7 @@
 import { createMemo, For, Show } from "solid-js"
-import { syncSpinPhase } from "@opencode/ui/hooks"
-import { Icon } from "@opencode/ui/icon"
-import { TitlebarItem } from "@opencode/plugin/gui"
+import { syncSpinPhase } from "@wormagent/ui/hooks"
+import { Icon } from "@wormagent/ui/icon"
+import { TitlebarItem } from "@wormagent/plugin/gui"
 import { usePluginHost } from "./host"
 import "./titlebar-items.css"
 

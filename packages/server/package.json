@@ -1,12 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@opencode/server",
+  "name": "@wormagent/server",
   "version": "2.4.0",
   "type": "module",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anomalyco/opencode.git",
+    "url": "git+https://github.com/wormgpt-app/wormagent.git",
     "directory": "packages/server"
   },
   "publishConfig": {
@@ -29,17 +29,17 @@
   "dependencies": {
     "@effect/platform-node": "catalog:",
     "@effect/platform-node-shared": "catalog:",
-    "@opencode/core": "workspace:*",
-    "@opencode/protocol": "workspace:*",
-    "@opencode/schema": "workspace:*",
-    "@opencode/simulation": "workspace:*",
-    "@opencode/util": "workspace:*",
+    "@wormagent/core": "workspace:*",
+    "@wormagent/protocol": "workspace:*",
+    "@wormagent/schema": "workspace:*",
+    "@wormagent/simulation": "workspace:*",
+    "@wormagent/util": "workspace:*",
     "effect": "catalog:"
   },
   "devDependencies": {
-    "@opencode/pty": "0.6.0",
-    "@opencode/client": "workspace:*",
-    "@opencode/plugin": "workspace:*",
+    "@wormagent/pty": "0.6.0",
+    "@wormagent/client": "workspace:*",
+    "@wormagent/plugin": "workspace:*",
     "@tsconfig/bun": "catalog:",
     "@types/bun": "catalog:",
     "@typescript/native": "catalog:",

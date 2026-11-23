@@ -1,4 +1,4 @@
-//! `opencode acp` serves the Agent Client Protocol over stdio and starts a private HTTP server for the session.
+//! `wormagent acp` serves the Agent Client Protocol over stdio and starts a private HTTP server for the session.
 
 pub mod agent;
 pub mod capabilities;
@@ -30,8 +30,8 @@ use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
-use opencode_api::client::Client;
-use opencode_api::transport::Reqwest;
+use wormagent_api::client::Client;
+use wormagent_api::transport::Reqwest;
 use tokio::io::{AsyncRead, AsyncWrite};
 use tokio_util::sync::CancellationToken;
 
@@ -85,13 +85,13 @@ where
     connection::run(connection, writer, input, output, Arc::new(agent::Agent { service })).await
 }
 
-/// `opencode acp`: starts the private server with `server_command` (`TsCommand::standalone`), serves
+/// `wormagent acp`: starts the private server with `server_command` (`TsCommand::standalone`), serves
 /// stdio, and returns the failure to report, if any. The caller exits 1 when there is one.
 pub fn run(
     server_command: &[OsString],
     print_logs: bool,
     version: &str,
-) -> opencode_util::error::Result<Option<String>> {
+) -> wormagent_util::error::Result<Option<String>> {
     let runtime = tokio::runtime::Builder::new_multi_thread().worker_threads(2).enable_all().build()?;
     let cwd = std::env::current_dir()?;
     let result = runtime.block_on(serve_stdio(server_command, &cwd, print_logs, version));
@@ -105,8 +105,8 @@ async fn serve_stdio(
     cwd: &Path,
     print_logs: bool,
     version: &str,
-) -> opencode_util::error::Result<Option<String>> {
-    let mut server = opencode_service::standalone::start(server_command, cwd, print_logs).await?;
+) -> wormagent_util::error::Result<Option<String>> {
+    let mut server = wormagent_service::standalone::start(server_command, cwd, print_logs).await?;
     let client = server.endpoint.client(Arc::new(Reqwest::default()))?;
     let served = serve(client, tokio::io::stdin(), tokio::io::stdout(), Options::new(version));
     tokio::select! {

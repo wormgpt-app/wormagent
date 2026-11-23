@@ -1,17 +1,17 @@
 //! Show the most recent completed todo list before the revert boundary.
 
-use opencode_api::generated::{SessionMessageAssistantContentItem, SessionMessageAssistantToolState};
-use opencode_plugin::abi::v2::{Node, Place, Surface};
-use opencode_plugin::abi::{self, Changed, Command, Layout, Placement, Span};
-use opencode_plugin::slot;
-use opencode_ui::tool_info::{Todo, TodoStatus, parse_todos, todo_marker};
+use wormagent_api::generated::{SessionMessageAssistantContentItem, SessionMessageAssistantToolState};
+use wormagent_plugin::abi::v2::{Node, Place, Surface};
+use wormagent_plugin::abi::{self, Changed, Command, Layout, Placement, Span};
+use wormagent_plugin::slot;
+use wormagent_ui::tool_info::{Todo, TodoStatus, parse_todos, todo_marker};
 
 use super::sidebar_mcp::{section, unfolded};
 use super::{hidden, kept};
 use crate::prelude::*;
 
 pub fn plugin() -> abi::Plugin {
-    abi::Plugin { id: "opencode.sidebar.todo", setup }
+    abi::Plugin { id: "wormagent.sidebar.todo", setup }
 }
 
 const FOLD: &str = "sidebar.todo.fold";

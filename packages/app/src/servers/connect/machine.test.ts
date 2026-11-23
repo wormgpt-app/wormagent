@@ -422,7 +422,7 @@ describe("server connect form", () => {
   })
 
   test("a QR code names the server it adds, unless the user typed a name", () => {
-    const qr = JSON.stringify({ code: "abc", urls: ["http://new:4096"], name: "Anomaly Box" })
+    const qr = JSON.stringify({ code: "abc", urls: ["http://new:4096"], name: "WormGPT Box" })
 
     const save = (events: readonly ServerConnectEvent[]) =>
       replay({ kind: "add" }, [...events, succeeded(1, "http://new:4096", "token")]).effects.find(
@@ -430,7 +430,7 @@ describe("server connect form", () => {
       )
 
     expect(save([field("link", qr), submitted])).toMatchObject({
-      action: { type: "add", connection: { displayName: "Anomaly Box" } },
+      action: { type: "add", connection: { displayName: "WormGPT Box" } },
     })
     expect(save([field("name", "Mine"), field("link", qr), submitted])).toMatchObject({
       action: { type: "add", connection: { displayName: "Mine" } },
@@ -474,7 +474,7 @@ describe("server connect form", () => {
     expect(
       formatServerConnectError(
         { type: "connection-failed", url: input.url },
-        { surface: input.surface, pageHref: "https://app.opencode.ai/", t: (key) => key },
+        { surface: input.surface, pageHref: "https://app.wormagent.net/", t: (key) => key },
       ),
     ).toBe(input.key)
   })

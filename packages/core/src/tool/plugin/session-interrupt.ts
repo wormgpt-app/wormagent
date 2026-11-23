@@ -1,7 +1,7 @@
 export * as SessionInterruptTool from "./session-interrupt.js"
 
-import { ToolFailure } from "@opencode/ai/effect"
-import type { Context } from "@opencode/plugin/effect/plugin"
+import { ToolFailure } from "@wormagent/ai/effect"
+import type { Context } from "@wormagent/plugin/effect/plugin"
 import { Effect, Schema } from "effect"
 import { Config } from "../../config.js"
 import { ConfigEntryObserver } from "../../config/plugin/entry-observer.js"
@@ -15,7 +15,7 @@ export const Input = Schema.Struct({
 })
 
 export const Plugin = {
-  id: "opencode.tool.session-interrupt",
+  id: "wormagent.tool.session-interrupt",
   effect: Effect.fn("SessionInterruptTool.Plugin")(function* (ctx: Context) {
     const sessions = yield* Session.Service
     const jobs = yield* Job.Service
@@ -42,7 +42,7 @@ export const Plugin = {
           description: "Interrupt a session, and stop its background commands and subagents too.",
           input: Input,
           output: Schema.String,
-          options: { namespace: "opencode.session", codemode: true },
+          options: { namespace: "wormagent.session", codemode: true },
           execute: (input, context) =>
             Effect.gen(function* () {
               yield* sessions.get(input.sessionID)

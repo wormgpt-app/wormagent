@@ -1,8 +1,8 @@
 import { describe, expect } from "bun:test"
 import { Effect, Scope } from "effect"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { LocationWatcherPolicy } from "@opencode/core/filesystem/location-watcher-policy"
-import { State } from "@opencode/core/state"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { LocationWatcherPolicy } from "@wormagent/core/filesystem/location-watcher-policy"
+import { State } from "@wormagent/core/state"
 import { testEffect } from "../lib/effect"
 
 const it = testEffect(AppNodeBuilder.build(LocationWatcherPolicy.node))

@@ -1,11 +1,11 @@
 //! Model selection, favorites, and usage alerts.
 
-use opencode_api::generated::{ModelInfo, ModelInfoStatus, ProviderInfo};
-use opencode_api::js::locale_compare;
-use opencode_local::model_pref::Model;
-use opencode_ui::fuzzy;
-use opencode_ui::keymap::Slash;
-use opencode_ui::select::{ActionRun, SelectAction};
+use wormagent_api::generated::{ModelInfo, ModelInfoStatus, ProviderInfo};
+use wormagent_api::js::locale_compare;
+use wormagent_local::model_pref::Model;
+use wormagent_ui::fuzzy;
+use wormagent_ui::keymap::Slash;
+use wormagent_ui::select::{ActionRun, SelectAction};
 
 use crate::local::{Local, is, is_speed_in};
 use crate::prelude::*;
@@ -44,14 +44,14 @@ struct Catalog {
     marker: Color,
 }
 
-/// `sortModelOptions`: OpenCode Go, then OpenCode, then by provider name, free models first; stable otherwise.
+/// `sortModelOptions`: WormAgent Go, then WormAgent, then by provider name, free models first; stable otherwise.
 fn sort_rows<R: std::borrow::Borrow<Row>>(rows: &mut [R], grouped: bool) {
     rows.sort_by(|a, b| {
         let (a, b) = (a.borrow(), b.borrow());
         let provider = if grouped {
-            (b.provider_id == "opencode-go")
-                .cmp(&(a.provider_id == "opencode-go"))
-                .then((b.provider_id == "opencode").cmp(&(a.provider_id == "opencode")))
+            (b.provider_id == "wormagent-go")
+                .cmp(&(a.provider_id == "wormagent-go"))
+                .then((b.provider_id == "wormagent").cmp(&(a.provider_id == "wormagent")))
         } else {
             std::cmp::Ordering::Equal
         };
@@ -78,7 +78,7 @@ fn open(local: &Rc<Local>, provider: Option<String>, filter: String) {
     );
 }
 
-fn build(cx: &Rc<opencode_ui::dialog::DialogCx>, local: &Rc<Local>, provider: Option<String>, filter: &str) -> View {
+fn build(cx: &Rc<wormagent_ui::dialog::DialogCx>, local: &Rc<Local>, provider: Option<String>, filter: &str) -> View {
     // Favoriting does not reorder the list until the dialog is reopened, which a build in a new theme is not.
     let favorites = Rc::new(local.favorite());
     let saved = favorites.clone();
@@ -194,8 +194,8 @@ impl Catalog {
         let recent_items: Vec<Model> = recents.iter().filter(|item| !favorites.contains(item)).cloned().collect();
         let recent_options = section(&recent_items, "Recent");
 
-        // OpenCode's own free models get their own group at the end of the list instead of joining "OpenCode".
-        let free_group = |model: &ModelInfo| provider.is_none() && model.provider_id.0 == "opencode" && is_free(model);
+        // WormAgent's own free models get their own group at the end of the list instead of joining "WormAgent".
+        let free_group = |model: &ModelInfo| provider.is_none() && model.provider_id.0 == "wormagent" && is_free(model);
         let mut rows: Vec<Row> = models
             .iter()
             .filter(|model| !matches!(model.status, ModelInfoStatus::Deprecated))

@@ -1,5 +1,5 @@
 import { Schema } from "effect"
-import { Ipc } from "@opencode/plugin/gui"
+import { Ipc } from "@wormagent/plugin/gui"
 
 export const WslServerConfig = Schema.Struct({ id: Schema.String, distro: Schema.String })
 
@@ -73,7 +73,7 @@ export const WslServersState = Schema.Struct({
   installed: Schema.Array(WslInstalledDistro),
   online: Schema.Array(WslOnlineDistro),
   distroProbes: Schema.Record(Schema.String, WslDistroProbe),
-  opencodeChecks: Schema.Record(Schema.String, WslOpencodeCheck),
+  wormagentChecks: Schema.Record(Schema.String, WslOpencodeCheck),
   pendingRestart: Schema.Boolean,
   servers: Schema.Array(WslServerItem),
   hostJob: Schema.Literals(["idle", "busy"]),
@@ -86,7 +86,7 @@ const Name = Schema.Struct({ name: Schema.NonEmptyString })
 
 const Id = Schema.Struct({ id: Schema.NonEmptyString })
 
-/** WSL runtime, distros, and the OpenCode servers the main process runs inside them. */
+/** WSL runtime, distros, and the WormAgent servers the main process runs inside them. */
 export const Wsl = Ipc.define({
   id: "wsl",
   state: WslServersState,

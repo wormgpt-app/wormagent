@@ -1,8 +1,8 @@
-import { Button } from "@opencode/ui/button"
-import { Icon } from "@opencode/ui/icon"
-import { Loader } from "@opencode/ui/loader"
+import { Button } from "@wormagent/ui/button"
+import { Icon } from "@wormagent/ui/icon"
+import { Loader } from "@wormagent/ui/loader"
 import { Show } from "solid-js"
-import { createKeyed, usePlugin } from "@opencode/plugin/gui"
+import { createKeyed, usePlugin } from "@wormagent/plugin/gui"
 import { sshName } from "./name"
 import type { SshController } from "./state"
 

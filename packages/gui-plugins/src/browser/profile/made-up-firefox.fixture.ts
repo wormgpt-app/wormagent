@@ -56,7 +56,7 @@ export async function madeUpFirefox() {
   const place = places.prepare("INSERT INTO moz_places (url, title, visit_count, hidden, typed, last_visit_date) VALUES (?, ?, ?, ?, ?, ?)")
   // Firefox counts a visit's time in microseconds.
   const visited = (daysAgo: number) => (Date.now() - daysAgo * 86_400_000) * 1000
-  place.run("https://github.com/anomalyco/rune-desktop", "anomalyco/rune-desktop", 12, 0, 1, visited(1))
+  place.run("https://github.com/wormgpt-app/rune-desktop", "wormgpt-app/rune-desktop", 12, 0, 1, visited(1))
   place.run("https://github.com/", "GitHub", 3, 0, 0, visited(40))
   place.run("https://www.bank.test/accounts", null, 2, 0, 0, visited(2))
   place.run("https://bookmarked.test/", "Never visited", 0, 0, 0, null)

@@ -1,14 +1,14 @@
-export * as OpencodeArtifacts from "./opencode-artifacts.js"
+export * as OpencodeArtifacts from "./wormagent-artifacts.js"
 
 import { createHash } from "node:crypto"
-import type { Context } from "@opencode/plugin/effect/plugin"
+import type { Context } from "@wormagent/plugin/effect/plugin"
 import { Effect, Option, Schema } from "effect"
 import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/http"
 import { ConsoleAccess } from "../../console-access.js"
 import { IntegrationConnection } from "../../integration/connection.js"
 
 /** The `GET /api/v2/config` response header Console sends while the caller may share artifacts. */
-export const header = "x-opencode-artifacts"
+export const header = "x-wormagent-artifacts"
 const providerID = "console"
 
 type Connection = NonNullable<Effect.Success<ReturnType<Context["integration"]["connection"]["active"]>>>
@@ -78,16 +78,16 @@ export const make = Effect.fnUntraced(function* (ctx: Context, http: HttpClient.
           Effect.flatMap((slug) =>
             typeof slug === "string"
               ? Effect.succeed(slug)
-              : Effect.fail(new Error(`No OpenCode Console artifact for ${id}`)),
+              : Effect.fail(new Error(`No WormAgent Console artifact for ${id}`)),
           ),
         )
 
     editor.add({
       id: providerID,
-      name: "OpenCode Console",
+      name: "WormAgent Console",
       capabilities: ["static"],
       prompt:
-        "Artifacts are private pages the workspace's members open and comment on inside OpenCode Console. Each needs an index.html." +
+        "Artifacts are private pages the workspace's members open and comment on inside WormAgent Console. Each needs an index.html." +
         (wakes ? " Comments wake this session." : ""),
       create: (input) =>
         Effect.gen(function* () {
@@ -175,7 +175,7 @@ const sender = Effect.fnUntraced(function* (
 ) {
   const credential = yield* ctx.integration.connection.resolve(connection)
   if (!credential || credential.type === "external")
-    return yield* Effect.fail(new Error("OpenCode Console is not connected"))
+    return yield* Effect.fail(new Error("WormAgent Console is not connected"))
   return (method: "GET" | "POST" | "PUT" | "DELETE", path: string, body?: Uint8Array | object) => {
     const request = HttpClientRequest.make(method)(`${ConsoleAccess.server(credential)}${path}`).pipe(
       HttpClientRequest.acceptJson,
@@ -200,12 +200,12 @@ const sender = Effect.fnUntraced(function* (
                   Effect.fail(
                     new Error(
                       problem?.owner !== undefined
-                        ? `${problem.owner} already shared an OpenCode Console artifact named ${slug}; give this one another title`
+                        ? `${problem.owner} already shared an WormAgent Console artifact named ${slug}; give this one another title`
                         : response.status === 404
                           ? method === "GET"
-                            ? `OpenCode Console has no artifact named ${slug}`
-                            : "Artifacts are off for this OpenCode Console workspace"
-                          : (problem?.message ?? `OpenCode Console answered ${response.status}`),
+                            ? `WormAgent Console has no artifact named ${slug}`
+                            : "Artifacts are off for this WormAgent Console workspace"
+                          : (problem?.message ?? `WormAgent Console answered ${response.status}`),
                     ),
                   ),
                 ),

@@ -1,4 +1,4 @@
-import type { MarketDay, ModelUsagePoint, UsagePoint } from "@opencode/data-core/domain/home"
+import type { MarketDay, ModelUsagePoint, UsagePoint } from "@wormagent/data-core/domain/home"
 import { translate } from "../i18n"
 import {
   catalogModelPath,
@@ -284,7 +284,7 @@ export function modelMarkdown(data: ModelPageData, name: string) {
           ],
         ],
       ),
-    stats && "## OpenCode usage: past 2 months",
+    stats && "## WormAgent usage: past 2 months",
     stats &&
       table(
         ["Metric", "Value"],
@@ -445,7 +445,7 @@ export function compareMarkdown(data: ComparePageData, params: string[]) {
         ["Output price per 1M tokens", ...cells((model) => optionalPrice(model.entry?.cost?.output))],
         ["Cached input price per 1M tokens", ...cells((model) => optionalPrice(model.entry?.cost?.cacheRead))],
         [
-          "OpenCode tokens: past 2 months",
+          "WormAgent tokens: past 2 months",
           ...cells((model) => (model.stats ? formatTokens(model.stats.totals.tokens) : "-")),
         ],
         ["Share of all tokens", ...cells((model) => (model.stats ? formatPercent(model.stats.tokenShare) : "-"))],
@@ -464,8 +464,8 @@ export function compareMarkdown(data: ComparePageData, params: string[]) {
 
 export function llmsTxt(home: HomePageData, catalog: ModelCatalog) {
   return markdown(
-    "# OpenCode Data",
-    "> AI model usage rankings, token prices, session costs, and market share from OpenCode, updated hourly.",
+    "# WormAgent Data",
+    "> AI model usage rankings, token prices, session costs, and market share from WormAgent, updated hourly.",
     homeSummary("en", home),
     facts([
       ["Updates", translate("en", "methodology.updates")],

@@ -1,5 +1,5 @@
 import { For } from "solid-js"
-import { iconNames } from "@opencode/ui/icons/catalog"
+import { iconNames } from "@wormagent/ui/icons/catalog"
 import { Button, type ButtonProps } from "./button"
 
 type Args = Pick<ButtonProps, "variant" | "size" | "disabled"> & {

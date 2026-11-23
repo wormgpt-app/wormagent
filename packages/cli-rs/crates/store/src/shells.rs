@@ -1,7 +1,7 @@
 //! Running shell commands by location. Exit and deletion both remove a shell from the list.
 
 use indexmap::IndexMap;
-use opencode_api::generated::*;
+use wormagent_api::generated::*;
 
 use crate::changes::Parts;
 use crate::core::{Effect, Shells, Ticket};

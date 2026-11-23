@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import type { PersistentPtyInfo } from "@opencode/client"
+import type { PersistentPtyInfo } from "@wormagent/client"
 import {
   initialState,
   serverAvailable,

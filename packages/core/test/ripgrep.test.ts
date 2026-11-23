@@ -2,13 +2,13 @@ import { describe, expect, test } from "bun:test"
 import fs from "fs/promises"
 import path from "path"
 import { Effect } from "effect"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Environment } from "@opencode/core/environment/index"
-import { Location } from "@opencode/core/location"
-import { Ripgrep } from "@opencode/core/ripgrep"
-import { RipgrepBinary } from "@opencode/core/ripgrep/binary"
-import { RelativePath } from "@opencode/core/schema"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Environment } from "@wormagent/core/environment/index"
+import { Location } from "@wormagent/core/location"
+import { Ripgrep } from "@wormagent/core/ripgrep"
+import { RipgrepBinary } from "@wormagent/core/ripgrep/binary"
+import { RelativePath } from "@wormagent/core/schema"
 import { tmpdirScoped, withTempDir } from "./fixture/tmpdir"
 import { testEffect } from "./lib/effect"
 import { tempLocationLayer } from "./fixture/location"
@@ -145,15 +145,15 @@ describe("Ripgrep", () => {
   it.live("never includes git metadata", () =>
     withTempDir((tmp) =>
       Effect.gen(function* () {
-        yield* Effect.promise(() => fs.mkdir(path.join(tmp.path, ".opencode")))
-        yield* Effect.promise(() => fs.writeFile(path.join(tmp.path, ".opencode", "config"), "needle\n"))
+        yield* Effect.promise(() => fs.mkdir(path.join(tmp.path, ".wormagent")))
+        yield* Effect.promise(() => fs.writeFile(path.join(tmp.path, ".wormagent", "config"), "needle\n"))
         yield* Effect.promise(() => fs.mkdir(path.join(tmp.path, ".git")))
         yield* Effect.promise(() => fs.writeFile(path.join(tmp.path, ".git", "config"), "needle\n"))
         const environment = yield* Environment.Service
         const ripgrep = yield* Ripgrep.Service
 
         const files = yield* ripgrep.find({ environment, cwd: tmp.path, pattern: "**/*", limit: 10 })
-        expect(files.map((item) => item.path)).toContain(RelativePath.make(".opencode/config"))
+        expect(files.map((item) => item.path)).toContain(RelativePath.make(".wormagent/config"))
         expect(files.map((item) => item.path)).not.toContain(RelativePath.make(".git/config"))
 
         const observed: string[] = []
@@ -173,7 +173,7 @@ describe("Ripgrep", () => {
           include: "config",
           limit: 10,
         })
-        expect(matches.map((item) => item.entry.path)).toContain(RelativePath.make(".opencode/config"))
+        expect(matches.map((item) => item.entry.path)).toContain(RelativePath.make(".wormagent/config"))
         expect(matches.map((item) => item.entry.path)).not.toContain(RelativePath.make(".git/config"))
       }),
     ),

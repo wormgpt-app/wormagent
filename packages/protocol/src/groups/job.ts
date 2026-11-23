@@ -1,5 +1,5 @@
-import { Job } from "@opencode/schema/job"
-import { Session } from "@opencode/schema/session"
+import { Job } from "@wormagent/schema/job"
+import { Session } from "@wormagent/schema/session"
 import { Schema, SchemaGetter } from "effect"
 import { HttpApiEndpoint, HttpApiSchema, OpenApi } from "effect/http-api"
 import { InvalidRequestError, SessionNotFoundError } from "../errors.js"

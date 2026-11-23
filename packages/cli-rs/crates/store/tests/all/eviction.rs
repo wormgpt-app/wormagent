@@ -6,8 +6,8 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 use common::*;
 use futures_util::FutureExt;
 use futures_util::future::BoxFuture;
-use opencode_api::generated::*;
-use opencode_store::{Data, Options, SessionStatus};
+use wormagent_api::generated::*;
+use wormagent_store::{Data, Options, SessionStatus};
 use serde_json::json;
 
 fn id(value: &str) -> SessionID {

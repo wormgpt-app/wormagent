@@ -139,13 +139,13 @@ describe("classifyRequest", () => {
     ] as const
 
     for (const [method, path] of paths)
-      expect(classifyRequest(method, new URL(`http://server/opencode${path}`), "/opencode")).toEqual(
+      expect(classifyRequest(method, new URL(`http://server/wormagent${path}`), "/wormagent")).toEqual(
         classifyRequest(method, new URL(`http://server${path}`)),
       )
   })
 
   test("leaves paths outside the prefix alone", () => {
-    expect(classifyRequest("GET", new URL("http://server/api/event"), "/opencode").bypass).toBe(true)
-    expect(classifyRequest("GET", new URL("http://server/opencode-other/api/event"), "/opencode").bypass).toBe(false)
+    expect(classifyRequest("GET", new URL("http://server/api/event"), "/wormagent").bypass).toBe(true)
+    expect(classifyRequest("GET", new URL("http://server/wormagent-other/api/event"), "/wormagent").bypass).toBe(false)
   })
 })

@@ -6,9 +6,9 @@ use serde::{Serialize, Serializer};
 
 use crate::update::{self, Kind};
 
-pub const UPDATE_METHOD: &str = "opencode/session/child_update";
+pub const UPDATE_METHOD: &str = "wormagent/session/child_update";
 
-/// A child session; it serializes as its `opencode/child-session` meta.
+/// A child session; it serializes as its `wormagent/child-session` meta.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct Session {
     pub id: String,
@@ -33,7 +33,7 @@ fn untitled(title: &Option<String>) -> bool {
     title.as_deref().is_none_or(str::is_empty)
 }
 
-/// The `opencode/session/child_update` params.
+/// The `wormagent/session/child_update` params.
 #[derive(Debug, Clone)]
 pub struct Update<'a> {
     pub root_session_id: &'a str,

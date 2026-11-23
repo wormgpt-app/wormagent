@@ -1,8 +1,8 @@
 //! Shell tool view with paged output for named shells.
 
-use opencode_api::generated::ShellID;
-use opencode_ui::motion::Spinner;
-use opencode_ui::tool_info::ShellInput;
+use wormagent_api::generated::ShellID;
+use wormagent_ui::motion::Spinner;
+use wormagent_ui::tool_info::ShellInput;
 use opentui::input::strip_ansi_sequences;
 
 use super::dispatch::{Block, BlockTool, Header, Props, Status, content_width, format_path, paint_badge, status_badge};

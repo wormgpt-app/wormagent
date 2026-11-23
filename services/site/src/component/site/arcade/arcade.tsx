@@ -131,7 +131,7 @@ const inside = (rect: Rect, point: Point) =>
 /**
  * The 404 page's arcade: a token on the floor of an abandoned arcade. Drag it onto the cabinet to
  * zoom to the coin door, drop it into the slot, and the camera climbs to the screen, where the
- * Anomaly Arcade games are one press away. Every layer lives in one world space (geometry.ts),
+ * WormGPT Arcade games are one press away. Every layer lives in one world space (geometry.ts),
  * and a spring camera moves over it.
  *
  * The "hybrid" mode keeps the stills but draws the token with three.js (coin3d.ts) and pins the

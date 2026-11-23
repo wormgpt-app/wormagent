@@ -1,4 +1,4 @@
-import { comparablePath, containsDirectory } from "@opencode/util/path"
+import { comparablePath, containsDirectory } from "@wormagent/util/path"
 
 /** `path` relative to the project `directory`, or `path` itself when it is outside the project. */
 export function relativizeProjectPath(path: string, directory?: string) {

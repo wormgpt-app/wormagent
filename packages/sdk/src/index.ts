@@ -1,6 +1,6 @@
-export * as OpenCode from "./opencode"
+export * as WormAgent from "./wormagent"
 export * as Tool from "./tool"
 
-export { ClientError } from "@opencode/client"
-export type { OpenCodeEvent } from "@opencode/client"
+export { ClientError } from "@wormagent/client"
+export type { WormAgentEvent } from "@wormagent/client"
 export * from "./contracts"

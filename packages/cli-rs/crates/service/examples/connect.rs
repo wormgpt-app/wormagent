@@ -1,12 +1,12 @@
 //! Connects the way the CLI does and prints the server version from `/api/info`.
 //!
-//! `cargo run -p opencode-service --example connect [-- --print-logs] [--server URL]
+//! `cargo run -p wormagent-service --example connect [-- --print-logs] [--server URL]
 //! [--standalone] [--no-autostart]`. Without a running service it starts the TypeScript one
-//! (`OPENCODE_TS_BIN`, else `opencode`).
+//! (`WORMAGENT_TS_BIN`, else `wormagent`).
 
-use opencode_api::transport::Reqwest;
-use opencode_local::paths::Paths;
-use opencode_service::connect::{self, Env, Options};
+use wormagent_api::transport::Reqwest;
+use wormagent_local::paths::Paths;
+use wormagent_service::connect::{self, Env, Options};
 use std::sync::Arc;
 
 #[tokio::main]

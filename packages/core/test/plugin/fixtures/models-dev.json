@@ -31,13 +31,13 @@
           "generate-content": {
             "base_url": "https://api.acme.test/v1",
             "sdk": {
-              "opencodeai": "@opencode/ai/providers/google"
+              "wormagentai": "@wormagent/ai/providers/google"
             }
           },
           "interactions": {
             "base_url": "https://api.acme.test/v1beta",
             "sdk": {
-              "opencodeai": "@opencode/ai/providers/google/interactions"
+              "wormagentai": "@wormagent/ai/providers/google/interactions"
             }
           }
         }
@@ -50,9 +50,9 @@
     "env": [],
     "models": {}
   },
-  "opencode": {
-    "id": "opencode",
-    "name": "OpenCode",
+  "wormagent": {
+    "id": "wormagent",
+    "name": "WormAgent",
     "env": [],
     "models": {
       "gpt-5.5": {
@@ -80,7 +80,7 @@
         },
         "api": {
           "responses": {
-            "base_url": "https://console.opencode.ai/inference/openai/v1",
+            "base_url": "https://console.wormagent.net/inference/openai/v1",
             "sdk": {
               "aisdk": "@ai-sdk/openai"
             }

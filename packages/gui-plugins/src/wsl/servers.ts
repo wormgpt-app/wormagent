@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto"
-import type { MainContext } from "@opencode/plugin/gui/main"
+import type { MainContext } from "@wormagent/plugin/gui/main"
 import type { WslOpencodeCheck, WslServerConfig } from "./contract"
 import {
   createWslMachineState,
@@ -300,7 +300,7 @@ function cliCheck(
       version: null,
       expectedVersion,
       matchesDesktop: null,
-      error: t("error.opencodeMissing"),
+      error: t("error.wormagentMissing"),
     }
   }
 
@@ -311,7 +311,7 @@ function cliCheck(
       version: null,
       expectedVersion,
       matchesDesktop: null,
-      error: t("error.opencodeCannotRun"),
+      error: t("error.wormagentCannotRun"),
     }
   }
 

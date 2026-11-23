@@ -1,5 +1,5 @@
-import { Button } from "@opencode/ui/button"
-import { useDialog } from "@opencode/ui/context/dialog"
+import { Button } from "@wormagent/ui/button"
+import { useDialog } from "@wormagent/ui/context/dialog"
 import { createEffect, createSignal, onMount, Show, type ComponentProps } from "solid-js"
 import type { ServerConnection } from "@/runtime/server/registry"
 import { createServerConnectController, type ServerConnectControllerOptions } from "./controller"

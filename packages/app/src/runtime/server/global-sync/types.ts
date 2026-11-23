@@ -7,8 +7,8 @@ import type {
   ProviderListResponse,
   VcsInfo,
 } from "@/runtime/server/types"
-import type { ReferenceInfo } from "@opencode/client/promise"
-import type { CommandInfo, McpResource } from "@opencode/client/promise"
+import type { ReferenceInfo } from "@wormagent/client/promise"
+import type { CommandInfo, McpResource } from "@wormagent/client/promise"
 import { ProjectState } from "../persistence"
 
 export type ProjectMeta = NonNullable<typeof ProjectState.Type.value>

@@ -6,9 +6,9 @@ import { stage, stageAccount } from "./stage"
 // packages/data/server/src/schedule.ts, which maps the daily one to a history run.
 export default defineConfig(({ mode }) => {
   const current = stage(mode)
-  const name = `opencode-data-sync-${current}`
+  const name = `wormagent-data-sync-${current}`
   return {
-    // Anomaly
+    // WormGPT
     accountId: stageAccount(current),
     worker: {
       name,
@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
         DataSyncWorkflow: bindings.workflow({ name, worker: name, exportName: "DataSyncWorkflow" }),
         STAGE: bindings.text(current),
         ...(current === "dev" && { R2_SQL_ACCOUNT_ID: bindings.text(stageAccount(current)) }),
-        // Set from AWS Secrets Manager (opencode/<stage>/*) by the deploy job.
+        // Set from AWS Secrets Manager (wormagent/<stage>/*) by the deploy job.
         DATA_DATABASE_HOST: bindings.secret(),
         DATA_DATABASE_USERNAME: bindings.secret(),
         DATA_DATABASE_PASSWORD: bindings.secret(),

@@ -5,7 +5,7 @@ import { useArea } from "~/i18n/content"
 import { appsSource } from "~/i18n/content/areas/apps"
 import { useLanguage } from "~/context/language"
 import { BrowseMark, ExternalArrow, HexMark, NewTab, OpenTUIMark, OpenTunnelMark } from "./icons"
-import { anomalyProducts, appLink } from "./links"
+import { wormgptProducts, appLink } from "./links"
 import { SectionHeading } from "./on-this-page"
 
 export type ProductListItem = {
@@ -22,7 +22,7 @@ export type ProductListItem = {
 /**
  * The quiet product list, one item per row: an icon tile, the name, a line and a Learn more button
  * (each row links to a page about the item; none of them installs anything itself).
- * Extensions, Integrations and More from Anomaly all use it, so the three can't drift apart.
+ * Extensions, Integrations and More from WormGPT all use it, so the three can't drift apart.
  */
 export function ProductList(props: { items: readonly ProductListItem[] }) {
   const i18n = useI18n()
@@ -85,27 +85,27 @@ export function ProductList(props: { items: readonly ProductListItem[] }) {
 }
 
 /**
- * "More from Anomaly": Anomaly's other open source products, on the extension pages (the product
+ * "More from WormGPT": WormGPT's other open source products, on the extension pages (the product
  * pages show the Companions shelf instead); `exclude` leaves out the page's own product. `slot` is
  * its data-slot, which each page's layout styles. Each shows its flat mark, white on the black tile
  * like GitHub's and GitLab's.
  */
-export function MoreFromAnomaly(props: { slot: string; exclude?: string }) {
+export function MoreFromWormGPT(props: { slot: string; exclude?: string }) {
   const i18n = useI18n()
   const language = useLanguage()
   const appCopy = useArea("apps", appsSource)
   return (
     <section data-component="block" data-slot={props.slot}>
-      <SectionHeading id="more-from-anomaly" title={i18n.t("site.moreFromAnomaly")} label />
+      <SectionHeading id="more-from-wormgpt" title={i18n.t("site.moreFromWormGPT")} label />
       <div data-slot="body">
         <ProductList
-          items={anomalyProducts
+          items={wormgptProducts
             .filter((app) => app.id !== props.exclude)
             .map((app) => ({
               name: app.name,
               description: appCopy()[app.id].body,
               ...appLink(app, language.route),
-              icon: anomalyMarks[app.id](),
+              icon: wormgptMarks[app.id](),
             }))}
         />
       </div>
@@ -113,8 +113,8 @@ export function MoreFromAnomaly(props: { slot: string; exclude?: string }) {
   )
 }
 
-/** Each Anomaly product's mark in the list: the one place to switch a mark. */
-export const anomalyMarks: Record<(typeof anomalyProducts)[number]["id"], () => JSX.Element> = {
+/** Each WormGPT product's mark in the list: the one place to switch a mark. */
+export const wormgptMarks: Record<(typeof wormgptProducts)[number]["id"], () => JSX.Element> = {
   browse: () => <BrowseMark />,
   hex: () => <HexMark />,
   opentunnel: () => <OpenTunnelMark />,

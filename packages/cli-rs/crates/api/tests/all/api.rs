@@ -4,10 +4,10 @@ use std::sync::{Arc, Mutex};
 
 use bytes::Bytes;
 use futures_util::StreamExt;
-use opencode_api::client::{Auth, Client};
-use opencode_api::error::Error;
-use opencode_api::generated::*;
-use opencode_api::transport::{BoxFuture, Request, Response, Transport};
+use wormagent_api::client::{Auth, Client};
+use wormagent_api::error::Error;
+use wormagent_api::generated::*;
+use wormagent_api::transport::{BoxFuture, Request, Response, Transport};
 use serde_json::{Value, json};
 
 /// Answers every request with one canned response and records the requests.
@@ -203,7 +203,7 @@ async fn with_header_replaces_a_client_header() {
 #[tokio::test]
 async fn query_auth_puts_the_token_in_the_url() {
     let script = Script::new(204, "text/plain", "");
-    let client = client(&script).auth(Auth::Query { username: "opencode".to_owned(), password: "secret".to_owned() });
+    let client = client(&script).auth(Auth::Query { username: "wormagent".to_owned(), password: "secret".to_owned() });
     let input = SessionRemoveInput { session_id: "ses_1".into() };
     client.session_remove(&input).await.unwrap();
     let request = script.requests.lock().unwrap().pop().unwrap();
@@ -241,12 +241,12 @@ async fn a_reply_error_carries_the_status_and_the_body() {
     ];
     for (status, content_type, body, want) in cases {
         let script = Script::new(status, content_type, body);
-        let call = opencode_api::client::Call::new("GET", "/x".to_owned(), 200, &[]);
+        let call = wormagent_api::client::Call::new("GET", "/x".to_owned(), 200, &[]);
         let error = client(&script).reply(call).await.unwrap_err();
         assert_eq!((error.tui_message(), error.reason() != "UnsupportedContentType"), (want.to_owned(), true));
     }
     let script = Script::new(500, "text/plain", long);
-    let call = opencode_api::client::Call::new("GET", "/x".to_owned(), 200, &[]);
+    let call = wormagent_api::client::Call::new("GET", "/x".to_owned(), 200, &[]);
     let error = client(&script).reply(call).await.unwrap_err().to_string();
     assert_eq!(error, format!("UnexpectedStatus: 500: {}…", "x".repeat(200)));
 }

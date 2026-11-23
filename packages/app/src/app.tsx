@@ -1,11 +1,11 @@
 import "@/index.css"
 import { VoiceProvider } from "@/voice/context"
 import { VoiceOverlay } from "@/voice/composer"
-import { DialogProvider } from "@opencode/ui/context/dialog"
-import { FileComponentProvider } from "@opencode/ui/context/file"
-import { installFocusRescue } from "@opencode/ui/context/focus-rescue"
-import { Font } from "@opencode/ui/font"
-import { ThemeProvider } from "@opencode/ui/theme/context"
+import { DialogProvider } from "@wormagent/ui/context/dialog"
+import { FileComponentProvider } from "@wormagent/ui/context/file"
+import { installFocusRescue } from "@wormagent/ui/context/focus-rescue"
+import { Font } from "@wormagent/ui/font"
+import { ThemeProvider } from "@wormagent/ui/theme/context"
 import { MetaProvider, Title } from "@solidjs/meta"
 import { type BaseRouterProps, Router } from "@solidjs/router"
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query"
@@ -70,7 +70,7 @@ export function AppBaseProviders(
 
   return (
     <MetaProvider>
-      <Title>OpenCode</Title>
+      <Title>WormAgent</Title>
       <Font />
       <ThemeProvider onThemeApplied={(mode, scheme) => props.onThemeApplied?.(mode, scheme)}>
         <LanguageProvider locale={props.locale} onNativeTranslations={props.onNativeTranslations}>

@@ -4,10 +4,10 @@ use std::collections::VecDeque;
 
 use futures_util::StreamExt;
 use futures_util::stream::BoxStream;
-use opencode_api::client::Client;
-use opencode_api::events::{self, Activity, Connection, Event, Source, Status};
-use opencode_api::generated::*;
-use opencode_api::transport::BoxFuture;
+use wormagent_api::client::Client;
+use wormagent_api::events::{self, Activity, Connection, Event, Source, Status};
+use wormagent_api::generated::*;
+use wormagent_api::transport::BoxFuture;
 use tokio::sync::{mpsc, watch};
 use tokio::task::JoinHandle;
 

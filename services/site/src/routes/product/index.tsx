@@ -11,9 +11,9 @@ import { DownloadSections } from "~/component/site/download-sections"
 import { extensionPages } from "~/component/site/extension-data"
 import { SectionHeading } from "~/component/site/on-this-page"
 import { ProductGrid } from "~/component/site/products"
-import { anomalyMarks, ProductList } from "~/component/site/product-list"
+import { wormgptMarks, ProductList } from "~/component/site/product-list"
 import { BrowseMark } from "~/component/site/icons"
-import { anomalyProducts, appLink } from "~/component/site/links"
+import { wormgptProducts, appLink } from "~/component/site/links"
 import { appsSource } from "~/i18n/content/areas/apps"
 import "~/component/site/product-list.css"
 import { productsOrderScript } from "~/component/site/products-order"
@@ -42,13 +42,13 @@ export default function Product() {
       icon: <BrowseMark />,
     })),
     // Browse is listed above with its own page.
-    ...anomalyProducts
+    ...wormgptProducts
       .filter((app) => !productLandingPages().some((extension) => extension.slug === app.id))
       .map((app) => ({
         name: app.name,
         description: appCopy()[app.id].body,
         ...appLink(app, language.route),
-        icon: anomalyMarks[app.id](),
+        icon: wormgptMarks[app.id](),
       })),
   ])
   const title = () => i18n.t("product.title")
@@ -88,7 +88,7 @@ export default function Product() {
       {/* Right after the grid, so a saved order (Design mode, development only) applies before it paints. */}
       {import.meta.env.DEV && <script innerHTML={productsOrderScript} />}
 
-      {/* Products with a light page of their own, and Anomaly's other open source products. */}
+      {/* Products with a light page of their own, and WormGPT's other open source products. */}
       <Show when={moreProducts().length > 0}>
         <section data-component="block" data-slot="products-more" data-section="more-products">
           <SectionHeading id="more-products" title={i18n.t("site.moreProducts")} label />

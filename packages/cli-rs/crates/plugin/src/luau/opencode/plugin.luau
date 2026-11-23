@@ -1,12 +1,12 @@
 --!strict
--- OpenCode plugin contract 2.0: the types of a Luau plugin, as the module `@opencode/plugin`.
+-- WormAgent plugin contract 2.0: the types of a Luau plugin, as the module `@wormagent/plugin`.
 -- Generated from crates/plugin-abi/schema/v2.json by `bun run generate` (script/gen/plugin-types-luau.ts). Do not edit.
 --
 -- The host registers the real module; this file only types it for luau-analyze and luau-lsp. Point the alias
--- `opencode` at this directory in a `.luaurc` beside your plugin or above it:
---   { "languageMode": "strict", "aliases": { "opencode": "<path to crates/plugin/src/luau/opencode>" } }
+-- `wormagent` at this directory in a `.luaurc` beside your plugin or above it:
+--   { "languageMode": "strict", "aliases": { "wormagent": "<path to crates/plugin/src/luau/wormagent>" } }
 -- then `luau-analyze --formatter=gnu <your .luau files>` or open the plugin in luau-lsp. At run time the host keeps
--- `@opencode` its own whatever a `.luaurc` says, and reads no `.luaurc` outside the plugin. Require your own modules
+-- `@wormagent` its own whatever a `.luaurc` says, and reads no `.luaurc` outside the plugin. Require your own modules
 -- by Luau's rules: `@self/x` in `init.luau`, `./x` in the other modules.
 --
 -- A handler that acts is a task: `local ok = host:confirm({ ... })` and `local body, err = host:fetch({ ... })` wait in
@@ -1992,7 +1992,7 @@ export type ConfigInfoEncoded = {
         machines: boolean?,
         home_memory: boolean?,
         project_overlay: boolean?,
-        opencode_api: boolean?,
+        wormagent_api: boolean?,
         sqlite_fts: boolean?,
         video_generate: (boolean | {
             model: (string | {
@@ -4659,7 +4659,7 @@ export type Read = {
     models: (self: Read, location: LocationRef?) -> { ModelInfo }?,
     --- The providers where the TUI works; `nil` while they are not loaded.
     providers: (self: Read) -> { ProviderInfo }?,
-    --- The OpenCode Console workspace's usage limits; `nil` while they are not loaded.
+    --- The WormAgent Console workspace's usage limits; `nil` while they are not loaded.
     limits: (self: Read) -> UsageLimitsInfo?,
     model: (self: Read) -> ModelRef?,
     info: (self: Read) -> Info,
@@ -4712,7 +4712,7 @@ export type Host = {
     models: (self: Read, location: LocationRef?) -> { ModelInfo }?,
     --- The providers where the TUI works; `nil` while they are not loaded.
     providers: (self: Read) -> { ProviderInfo }?,
-    --- The OpenCode Console workspace's usage limits; `nil` while they are not loaded.
+    --- The WormAgent Console workspace's usage limits; `nil` while they are not loaded.
     limits: (self: Read) -> UsageLimitsInfo?,
     model: (self: Read) -> ModelRef?,
     info: (self: Read) -> Info,
@@ -5188,7 +5188,7 @@ export type Client = {
                 token: (input: {
                     location: { directory: string? }?,
                     name: string,
-                    ["x-opencode-ticket"]: string?,
+                    ["x-wormagent-ticket"]: string?,
                 }) -> ({
                     location: LocationPublicRef,
                     data: PtyTicketConnectToken,
@@ -5232,7 +5232,7 @@ export type Client = {
         persistentPty: {
             connectToken: (input: {
                 ptyID: string,
-                ["x-opencode-ticket"]: string?,
+                ["x-wormagent-ticket"]: string?,
             }) -> (PtyTicketConnectToken?, string?),
             create: (input: {
                 sessionID: string,
@@ -5614,7 +5614,7 @@ export type Client = {
             token: (input: {
                 ptyID: string,
                 location: { directory: string? }?,
-                ["x-opencode-ticket"]: string?,
+                ["x-wormagent-ticket"]: string?,
             }) -> ({
                 location: LocationPublicRef,
                 data: PtyTicketConnectToken,
@@ -6001,7 +6001,7 @@ export type Client = {
     },
 }
 
---- `require("@opencode/plugin")`.
+--- `require("@wormagent/plugin")`.
 export type Plugin = {
     contract: string,
     client: Client,

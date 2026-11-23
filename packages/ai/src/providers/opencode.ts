@@ -10,8 +10,8 @@ import { AuthOptions, type ProviderAuthOption } from "../route/auth-options.js"
 import { SystemOne } from "../protocols/system-one.js"
 import { toConfig } from "./settings.js"
 
-export const id = ProviderID.make("opencode")
-const baseURL = "https://opencode.ai/inference/systemone/v1"
+export const id = ProviderID.make("wormagent")
+const baseURL = "https://wormagent.net/inference/systemone/v1"
 
 export type Config = TransportOptions &
   ProviderAuthOption<"optional"> & {
@@ -23,9 +23,9 @@ export type Settings = ProviderPackage.Settings & { readonly apiKey?: string | f
 export const configure = (input: Config = {}) => {
   const route = SystemOne.route.with({
     provider: id,
-    providerMetadataKey: "opencode",
+    providerMetadataKey: "wormagent",
     endpoint: { baseURL: input.baseURL ?? baseURL },
-    auth: AuthOptions.bearer(input, "OPENCODE_API_KEY"),
+    auth: AuthOptions.bearer(input, "WORMAGENT_API_KEY"),
     // Zen forwards TypeSafe's image opt-in header; text-only requests are unchanged with it.
     ...mergeTransport({ headers: { "TypeSafe-Danger-Zone-Images": "true" } }, input),
   })
@@ -42,4 +42,4 @@ export const decisionModel = (modelID: string, settings?: Settings) => {
   return configure(input).decision(modelID, input.providerOptions)
 }
 
-export * as OpenCode from "./opencode.js"
+export * as WormAgent from "./wormagent.js"

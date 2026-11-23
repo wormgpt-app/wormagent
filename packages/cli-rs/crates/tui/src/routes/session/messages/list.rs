@@ -12,18 +12,18 @@ use std::collections::HashSet;
 use std::hash::{DefaultHasher, Hash, Hasher};
 use std::ops::Range;
 
-use opencode_api::generated::{
+use wormagent_api::generated::{
     AgentInfo, ModelInfo, ModelRef, SessionInboxInfo, SessionInfo, SessionMessageAssistant,
     SessionMessageAssistantContentItem, SessionMessageAssistantFinish, SessionMessageCompaction,
     SessionStructuredError,
 };
-use opencode_local::cli_config::{Markdown as MarkdownMode, Resolved, TurnTokens, Visibility};
-use opencode_plugin::claim::ToolClaims;
-use opencode_store::location::{Catalog, Location};
-use opencode_store::{LoadMore, MessageKey, Parts, State};
-use opencode_ui::markdown::CodeBlockRenderers;
-use opencode_ui::theme::ThemeMode;
-use opencode_ui::tool_info::ToolKind;
+use wormagent_local::cli_config::{Markdown as MarkdownMode, Resolved, TurnTokens, Visibility};
+use wormagent_plugin::claim::ToolClaims;
+use wormagent_store::location::{Catalog, Location};
+use wormagent_store::{LoadMore, MessageKey, Parts, State};
+use wormagent_ui::markdown::CodeBlockRenderers;
+use wormagent_ui::theme::ThemeMode;
+use wormagent_ui::tool_info::ToolKind;
 use opentui::input::MouseEventKind;
 use opentui::syntax::SyntaxTheme;
 use opentui::widget::ScrollEdge;
@@ -106,7 +106,7 @@ struct Hooks {
     /// The terminal resize handler, which pins the reader's row before the layout.
     resize: Option<HandlerId>,
     /// The plugin viewport.
-    published: Option<opencode_plugin::behave::Publication>,
+    published: Option<wormagent_plugin::behave::Publication>,
 }
 
 impl Drop for Inner {
@@ -268,7 +268,7 @@ struct Paint {
 
 impl Paint {
     fn new(theme: Theme) -> Self {
-        let syntax = opencode_ui::code::syntax_theme(&theme);
+        let syntax = wormagent_ui::code::syntax_theme(&theme);
         let mut palette = Vec::new();
         for color in theme.categorical().iter().map(|scale| scale.step(400)) {
             if !palette.contains(&color) {
@@ -419,16 +419,16 @@ impl Transcript {
 
     /// Publishes the transcript with `scroll` as its mover. Its moves, whatever moved it, and its resizes run the
     /// host's behaviors; a pointer that only moves over it does not.
-    pub fn publish(&self, tui: &Tui, scroll: Rc<dyn Fn(&opencode_plugin::abi::v2::Scroll)>) {
+    pub fn publish(&self, tui: &Tui, scroll: Rc<dyn Fn(&wormagent_plugin::abi::v2::Scroll)>) {
         let read = bind!(self.0.this.clone(), |inner| inner.viewport());
-        let published = opencode_plugin::behave::Published { read: Rc::new(read), scroll };
-        let published = opencode_plugin::behave::publish_transcript(&tui.app, published);
+        let published = wormagent_plugin::behave::Published { read: Rc::new(read), scroll };
+        let published = wormagent_plugin::behave::publish_transcript(&tui.app, published);
         self.0.hooks.borrow_mut().published = Some(published);
         let app = tui.app.clone();
-        self.0.scroll.on_scroll(move |_, _| opencode_plugin::behave::transcript_moved(&app));
+        self.0.scroll.on_scroll(move |_, _| wormagent_plugin::behave::transcript_moved(&app));
         for resized in [self.0.scroll.as_any(), self.0.scroll.content_view().as_any()] {
             let app = tui.app.clone();
-            resized.on_resize(move |_, _| opencode_plugin::behave::transcript_moved(&app));
+            resized.on_resize(move |_, _| wormagent_plugin::behave::transcript_moved(&app));
         }
     }
 
@@ -930,7 +930,7 @@ impl Inner {
         self.register(tui);
     }
 
-    fn viewport(&self) -> opencode_plugin::abi::v2::TranscriptView {
+    fn viewport(&self) -> wormagent_plugin::abi::v2::TranscriptView {
         // Counted again only when the specs or the window's start change: a key or a wheel step costs nothing
         // proportional to the history.
         let above = {
@@ -989,7 +989,7 @@ impl Inner {
             }
             None => Vec::new(),
         };
-        let published: Vec<opencode_plugin::abi::v2::TranscriptRow> = model
+        let published: Vec<wormagent_plugin::abi::v2::TranscriptRow> = model
             .mounted
             .iter()
             .zip(names)
@@ -1004,7 +1004,7 @@ impl Inner {
                     Body::Group(_) => "group",
                     _ => "other",
                 };
-                (rect.height > 0.0).then(|| opencode_plugin::abi::v2::TranscriptRow {
+                (rect.height > 0.0).then(|| wormagent_plugin::abi::v2::TranscriptRow {
                     kind: kind.to_owned(),
                     message,
                     part,
@@ -1015,7 +1015,7 @@ impl Inner {
             .collect();
         let mut revision = DefaultHasher::new();
         published.hash(&mut revision);
-        opencode_plugin::abi::v2::TranscriptView {
+        wormagent_plugin::abi::v2::TranscriptView {
             offset: self.scroll.scroll_position().1.round() as i32,
             viewport: self.scroll.rect().height as i32,
             extent: self.scroll.content_view().rect().height as i32,
@@ -1509,7 +1509,7 @@ impl<'a> Visible<'a> {
 #[derive(Clone, Copy)]
 pub struct Messages<'a> {
     /// `None` for messages outside the store, whose keys are their positions.
-    transcript: Option<&'a opencode_store::Transcript>,
+    transcript: Option<&'a wormagent_store::Transcript>,
     pub visible: &'a [SessionMessageInfo],
 }
 

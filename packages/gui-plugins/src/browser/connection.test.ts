@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test"
-import { Browser } from "@opencode/plugin-browser/rpc"
-import type { IpcClient } from "@opencode/plugin/gui"
+import { Browser } from "@wormagent/plugin-browser/rpc"
+import type { IpcClient } from "@wormagent/plugin/gui"
 import { Schema } from "effect"
 import { openBinding } from "./connection"
 import { BrowserPane, PluginTabHandle, type PaneEvent } from "./ipc"

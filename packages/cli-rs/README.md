@@ -1,23 +1,23 @@
-# OpenCode native CLI
+# WormAgent native CLI
 
-The OpenCode CLI and TUI in Rust, built on OpenTUI's Rust crates. It is a client of the TypeScript `opencode`
-server and talks to it over HTTP. Its binary is `opencode-native`, and it does not ship yet.
+The WormAgent CLI and TUI in Rust, built on OpenTUI's Rust crates. It is a client of the TypeScript `wormagent`
+server and talks to it over HTTP. Its binary is `wormagent-native`, and it does not ship yet.
 
 ## Build and run
 
 ```sh
-bun run --cwd packages/cli-rs cargo build --release --bin opencode-native
+bun run --cwd packages/cli-rs cargo build --release --bin wormagent-native
 ```
 
 Always run cargo through `bun run cargo`: it installs OpenTUI's native library first, and cargo reads
 `.cargo/config.toml` only inside `packages/cli-rs`.
 
-Run `target/release/opencode-native` in a project directory to open the TUI, or add `-c` to continue the last
+Run `target/release/wormagent-native` in a project directory to open the TUI, or add `-c` to continue the last
 session there.
 
 ## Server
 
-The client runs the server from `OPENCODE_TS_BIN`, else the `opencode` beside its own executable, else `opencode` on
+The client runs the server from `WORMAGENT_TS_BIN`, else the `wormagent` beside its own executable, else `wormagent` on
 `PATH`. It shares sessions, the background service, and `cli.json` with the TypeScript client.
 
 ## Editor

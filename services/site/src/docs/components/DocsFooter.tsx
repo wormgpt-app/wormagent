@@ -47,7 +47,7 @@ export function DocsFooter(props: {
             </For>
             <li>
               <a
-                href="https://status.opencode.ai"
+                href="https://status.wormagent.net"
                 target="_blank"
                 rel="noopener"
                 data-component="status"
@@ -109,8 +109,8 @@ export function DocsFooter(props: {
         <span data-slot="copyright">
           <bdi dir="ltr">
             ©{new Date().getFullYear()}{" "}
-            <a href="https://anoma.ly" aria-label="Anomaly">
-              Anomaly
+            <a href="https://anoma.ly" aria-label="WormGPT">
+              WormGPT
             </a>
           </bdi>
         </span>

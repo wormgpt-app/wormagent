@@ -1,10 +1,10 @@
-import type { OpenCodeEvent } from "@opencode/client"
-import type { SelectedEvent, SubscribeOptions } from "@opencode/client/promise/api"
+import type { WormAgentEvent } from "@wormagent/client"
+import type { SelectedEvent, SubscribeOptions } from "@wormagent/client/promise/api"
 
-type EventType = Exclude<OpenCodeEvent["type"], "server.connected">
+type EventType = Exclude<WormAgentEvent["type"], "server.connected">
 
 export interface EventDomain {
   readonly subscribe: <Type extends EventType = EventType>(
     options?: SubscribeOptions<Type>,
-  ) => AsyncIterable<SelectedEvent<OpenCodeEvent, Type>>
+  ) => AsyncIterable<SelectedEvent<WormAgentEvent, Type>>
 }

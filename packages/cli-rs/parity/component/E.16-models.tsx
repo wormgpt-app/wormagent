@@ -117,13 +117,13 @@ export const server = {
     model("openai", "gpt-5", "GPT-5", 1.25),
     model("openai", "gpt-4", "GPT-4", 30, { status: "deprecated" }),
     model("openai", "gpt-5-mini", "GPT-5 mini", 0.25),
-    model("opencode", "big-pickle", "Big Pickle", 0),
-    model("opencode", "grok-code", "Grok Code", 2, { context: 2_000_000 }),
+    model("wormagent", "big-pickle", "Big Pickle", 0),
+    model("wormagent", "grok-code", "Grok Code", 2, { context: 2_000_000 }),
   ],
   "/api/provider": [
     provider("anthropic", "Anthropic"),
     provider("openai", "OpenAI"),
-    provider("opencode", "OpenCode", "opencode"),
+    provider("wormagent", "WormAgent", "wormagent"),
   ],
   "/api/agent": [
     agent("build", "The default agent", { model: { providerID: "anthropic", id: "claude-sonnet", variant: "high" } }),
@@ -132,14 +132,14 @@ export const server = {
   ],
   "/api/integration": [
     {
-      id: "opencode",
-      name: "OpenCode Console",
-      methods: [{ id: "device", type: "oauth", label: "Sign in with OpenCode" }],
+      id: "wormagent",
+      name: "WormAgent Console",
+      methods: [{ id: "device", type: "oauth", label: "Sign in with WormAgent" }],
       connections: [{ type: "credential", id: "cred_1", label: "Acme", method: "oauth" }],
     },
   ],
   "/api/experimental/usage/limits": {
-    workspace: { id: "wrk_1", name: "Acme", usageURL: "https://opencode.ai/console/wrk_1/usage" },
+    workspace: { id: "wrk_1", name: "Acme", usageURL: "https://wormagent.net/console/wrk_1/usage" },
     budgets: [
       budget("all", {}),
       budget("sonnet", {
@@ -176,7 +176,7 @@ async function capture(options: {
   // Whether the terminal reports 24-bit color, which picks the Go upsell art's glyphs (DLG07).
   rgb?: boolean
 }) {
-  const state = await mkdtemp(path.join(tmpdir(), "opencode-e16-"))
+  const state = await mkdtemp(path.join(tmpdir(), "wormagent-e16-"))
   await Bun.write(path.join(state, "model.json"), JSON.stringify(preferences))
   const calls = createFetch((url) => {
     const data = server[url.pathname as keyof typeof server]
@@ -197,7 +197,7 @@ async function capture(options: {
       <TestTuiContexts paths={{ state }}>
         <ArgsProvider>
           <ConfigProvider
-            config={createTuiResolvedConfig(withNewDesigns({ theme: { name: "opencode", mode: "dark" }, animations: false }))}
+            config={createTuiResolvedConfig(withNewDesigns({ theme: { name: "wormagent", mode: "dark" }, animations: false }))}
           >
             <Keymap.Provider>
               <ThemeProvider mode="dark" source={emptyThemeSource}>

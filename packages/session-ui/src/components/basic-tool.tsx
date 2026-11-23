@@ -1,9 +1,9 @@
 import { createMemo, For, Match, Show, Switch, type Accessor, type JSX } from "solid-js"
 import { Option, Schema } from "effect"
-import { useI18n } from "@opencode/ui/context/i18n"
-import { Collapsible } from "@opencode/ui/collapsible"
-import type { IconProps } from "@opencode/ui/icon"
-import { TextShimmer } from "@opencode/ui/text-shimmer"
+import { useI18n } from "@wormagent/ui/context/i18n"
+import { Collapsible } from "@wormagent/ui/collapsible"
+import type { IconProps } from "@wormagent/ui/icon"
+import { TextShimmer } from "@wormagent/ui/text-shimmer"
 import { createDisclosure } from "./disclosure"
 
 export type TriggerTitle = {

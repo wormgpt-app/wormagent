@@ -5,9 +5,9 @@ use std::cell::{Cell, RefCell};
 use std::rc::Rc;
 use std::time::{Duration, Instant};
 
-use opencode_plugin_abi::canvas::{self as list, Op};
-use opencode_plugin_abi::v2::{Cause, Frame};
-use opencode_plugin_abi::{self as abi};
+use wormagent_plugin_abi::canvas::{self as list, Op};
+use wormagent_plugin_abi::v2::{Cause, Frame};
+use wormagent_plugin_abi::{self as abi};
 use opentui::native::BoxSpec;
 use opentui::prelude::*;
 
@@ -400,7 +400,7 @@ fn drive(state: &Rc<State>) {
         let Some(state) = weak.upgrade() else { return false };
         let app = cx.app();
         // A frame left waiting is not drawn: the paint draws one only while the canvas animates.
-        if !state.animate.get() || !opencode_ui::motion::running() {
+        if !state.animate.get() || !wormagent_ui::motion::running() {
             state.set_drive(Drive::Stopped);
             return false;
         }
@@ -461,7 +461,7 @@ impl Component for Board {
         let state = &self.0;
         // A frame that does not show the canvas drops the animation's frame: its time is not counted. So does a canvas
         // that stopped animating meanwhile.
-        let frame = state.frame.take().filter(|_| state.animate.get() && opencode_ui::motion::running());
+        let frame = state.frame.take().filter(|_| state.animate.get() && wormagent_ui::motion::running());
         let visible = painter.visible_rect();
         let size = (painter.width().min(u16::MAX.into()) as u16, painter.height().min(u16::MAX.into()) as u16);
         if let Some(drawer) = state.drawer.clone().filter(|_| visible.2 > 0 && visible.3 > 0) {
@@ -472,7 +472,7 @@ impl Component for Board {
             let (left, top) =
                 origin.map_or((0, 0), |rect| (rect.screen_x.floor() as i32, rect.screen_y.floor() as i32));
             state.visible.set((left + visible.0, top + visible.1, visible.2, visible.3));
-            if state.animate.get() && state.drive.get() != Drive::Running && opencode_ui::motion::running() {
+            if state.animate.get() && state.drive.get() != Drive::Running && wormagent_ui::motion::running() {
                 resume(state);
             }
         }

@@ -13,12 +13,12 @@ import {
 } from "solid-js"
 import { createStore, produce, type Store } from "solid-js/store"
 import type { Schema } from "effect"
-import { useDialog } from "@opencode/ui/context/dialog"
-import { useTheme } from "@opencode/ui/theme/context"
-import { toaster } from "@opencode/ui/toast"
-import { writeClipboard } from "@opencode/session-ui/copy"
-import { base64Encode } from "@opencode/util/encode"
-import { uuid } from "@opencode/util/uuid"
+import { useDialog } from "@wormagent/ui/context/dialog"
+import { useTheme } from "@wormagent/ui/theme/context"
+import { toaster } from "@wormagent/ui/toast"
+import { writeClipboard } from "@wormagent/session-ui/copy"
+import { base64Encode } from "@wormagent/util/encode"
+import { uuid } from "@wormagent/util/uuid"
 import {
   type App,
   type Layout,
@@ -34,8 +34,8 @@ import {
   type Storage,
   type StorageScope,
   type Tabs,
-} from "@opencode/plugin/gui"
-import { BuiltinPanel, BuiltinPromptGate, type BuiltinOpenOptions, type BuiltinStoreFrom, type BuiltinStoreOptions } from "@opencode/plugin/gui/builtin"
+} from "@wormagent/plugin/gui"
+import { BuiltinPanel, BuiltinPromptGate, type BuiltinOpenOptions, type BuiltinStoreFrom, type BuiltinStoreOptions } from "@wormagent/plugin/gui/builtin"
 import { usePlatform } from "@/runtime/platform/platform"
 import { startDragOut } from "@/runtime/platform/drag-out"
 import { same } from "@/runtime/persistence/equality"
@@ -352,10 +352,10 @@ export function createHostApis() {
           }
         : undefined,
     app: () => ({
-      name: "opencode",
+      name: "wormagent",
       version: platform.version ?? "",
-      // SAFETY: the build sets VITE_OPENCODE_CHANNEL to one of the release channels, or leaves it unset locally.
-      channel: (import.meta.env.VITE_OPENCODE_CHANNEL ?? "local") as App["channel"],
+      // SAFETY: the build sets VITE_WORMAGENT_CHANNEL to one of the release channels, or leaves it unset locally.
+      channel: (import.meta.env.VITE_WORMAGENT_CHANNEL ?? "local") as App["channel"],
       platform: platform.platform,
       packaged: platform.plugins?.packaged ?? false,
     }),

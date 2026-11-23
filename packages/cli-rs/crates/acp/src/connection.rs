@@ -8,7 +8,7 @@ use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 use futures_util::future::BoxFuture;
-use opencode_util::lock;
+use wormagent_util::lock;
 use serde::Serialize;
 use serde_json::{Map, Value, json};
 use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt};
@@ -479,7 +479,7 @@ fn strip_cr(line: &[u8]) -> &[u8] {
 fn receive_line(connection: &Connection, handler: &Arc<dyn Handler>, line: &[u8]) -> ControlFlow<()> {
     let text = String::from_utf8_lossy(line);
     // JavaScript's `trim`: a byte order mark goes, U+0085 stays.
-    let text = text.trim_matches(opencode_api::js::is_whitespace);
+    let text = text.trim_matches(wormagent_api::js::is_whitespace);
     if text.is_empty() {
         return ControlFlow::Continue(());
     }

@@ -23,9 +23,9 @@ test("uses Rune's per-platform installation paths", () => {
   expect(linux).toEqual({
     support: "/home/test/.local/share/hex",
     entries: [
-      "/home/test/.local/share/applications/anomaly.hex.desktop",
+      "/home/test/.local/share/applications/wormgpt.hex.desktop",
       "/home/test/.local/share/applications/hex.desktop",
-      "/opt/share/applications/anomaly.hex.desktop",
+      "/opt/share/applications/wormgpt.hex.desktop",
       "/opt/share/applications/hex.desktop",
     ],
     binaries: ["/home/test/.local/bin/hex", "/bin/hex"],

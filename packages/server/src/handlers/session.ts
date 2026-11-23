@@ -1,15 +1,15 @@
-import { Instance } from "@opencode/core/instance/service"
-import { Session } from "@opencode/core/session"
-import { SessionStats } from "@opencode/core/session/stats"
-import { SessionTitle } from "@opencode/core/session/title"
-import { SessionTransfer } from "@opencode/core/session/transfer"
-import { InstructionEntry } from "@opencode/core/session/instruction-entry"
-import { Form } from "@opencode/core/form"
+import { Instance } from "@wormagent/core/instance/service"
+import { Session } from "@wormagent/core/session"
+import { SessionStats } from "@wormagent/core/session/stats"
+import { SessionTitle } from "@wormagent/core/session/title"
+import { SessionTransfer } from "@wormagent/core/session/transfer"
+import { InstructionEntry } from "@wormagent/core/session/instruction-entry"
+import { Form } from "@wormagent/core/form"
 import { DateTime, Effect, Stream } from "effect"
 import { HttpServerResponse } from "effect/http"
 import { HttpApiBuilder, HttpApiSchema } from "effect/http-api"
-import { SessionMediaMessageResponse } from "@opencode/protocol/groups/message"
-import { SessionMediaInboxResponse } from "@opencode/protocol/groups/session"
+import { SessionMediaMessageResponse } from "@wormagent/protocol/groups/message"
+import { SessionMediaInboxResponse } from "@wormagent/protocol/groups/session"
 import { Api } from "../api"
 import { wantsMediaRefs } from "../media-uri"
 import {
@@ -25,8 +25,8 @@ import {
   ServiceUnavailableError,
   SessionBusyError,
   SkillNotFoundError,
-} from "@opencode/protocol/errors"
-import { AbsolutePath } from "@opencode/core/schema"
+} from "@wormagent/protocol/errors"
+import { AbsolutePath } from "@wormagent/core/schema"
 import { locationErrors } from "../location"
 import { failedMessageDecode, failedSnapshot, missingMessage, missingSession } from "./session-error"
 

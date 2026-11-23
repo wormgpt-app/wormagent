@@ -1,8 +1,8 @@
 //! Choose a local or remote comparison branch.
 
-use opencode_api::client::Client;
-use opencode_api::generated::{LocationQueryInput, VcsBranchListInput, VcsBranchListOutput};
-use opencode_plugin::abi::{Action, Dialog, Host, Select, SelectOption, Span};
+use wormagent_api::client::Client;
+use wormagent_api::generated::{LocationQueryInput, VcsBranchListInput, VcsBranchListOutput};
+use wormagent_plugin::abi::{Action, Dialog, Host, Select, SelectOption, Span};
 
 use super::load::Asked;
 use super::viewer::{Base, Viewer};

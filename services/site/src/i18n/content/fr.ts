@@ -18,7 +18,7 @@ export const content = {
       action: "Installer",
     },
     sdk: {
-      body: "Pilotez OpenCode depuis vos scripts, jobs CI et outils.",
+      body: "Pilotez WormAgent depuis vos scripts, jobs CI et outils.",
       action: "Lire la doc",
     },
     mini: {
@@ -28,9 +28,9 @@ export const content = {
   },
   productDetails: {
     desktop: {
-      title: "OpenCode | App desktop pour macOS, Windows et Linux",
+      title: "WormAgent | App desktop pour macOS, Windows et Linux",
       description:
-        "Lancez autant d'agents OpenCode que vous voulez en parallèle, voyez chaque changement dans un navigateur à côté et reprenez-les sur tout appareil. Pour macOS, Windows et Linux.",
+        "Lancez autant d'agents WormAgent que vous voulez en parallèle, voyez chaque changement dans un navigateur à côté et reprenez-les sur tout appareil. Pour macOS, Windows et Linux.",
       intro:
         "Lancez plusieurs agents à la fois, chaque session dans son propre onglet. Relisez chaque changement en diff, commentez n'importe quelle ligne et vérifiez le résultat dans le navigateur intégré. Pour macOS, Windows et Linux.",
       showcase: {
@@ -48,16 +48,16 @@ export const content = {
         },
         "extend-it": {
           title: "Étendez-le",
-          body: "Connectez vos outils et services pour que l'agent puisse travailler avec tout. Ou demandez à OpenCode de créer ses propres plugins, avec leur interface dans la barre latérale.",
+          body: "Connectez vos outils et services pour que l'agent puisse travailler avec tout. Ou demandez à WormAgent de créer ses propres plugins, avec leur interface dans la barre latérale.",
         },
       },
     },
     mobile: {
-      title: "OpenCode | Mobile, vos sessions de code sur votre téléphone",
+      title: "WormAgent | Mobile, vos sessions de code sur votre téléphone",
       description:
-        "Lancez et pilotez des sessions OpenCode depuis votre téléphone. Parlez à l'agent pendant qu'il tourne sur votre ordinateur.",
+        "Lancez et pilotez des sessions WormAgent depuis votre téléphone. Parlez à l'agent pendant qu'il tourne sur votre ordinateur.",
       intro:
-        "Lancez et pilotez des sessions depuis votre téléphone, où que vous soyez. Appelez une session et parlez à l'agent, ou ouvrez une session pour reprendre où vous en étiez, le tout avec OpenCode sur votre propre ordinateur.",
+        "Lancez et pilotez des sessions depuis votre téléphone, où que vous soyez. Appelez une session et parlez à l'agent, ou ouvrez une session pour reprendre où vous en étiez, le tout avec WormAgent sur votre propre ordinateur.",
       features: {
         "notify-when-done": {
           title: "Notifié à la fin",
@@ -65,7 +65,7 @@ export const content = {
         },
         "pair-from-anywhere": {
           title: "Associez de partout",
-          body: "Connectez-vous depuis n'importe quel réseau avec opencode pair --remote.",
+          body: "Connectez-vous depuis n'importe quel réseau avec wormagent pair --remote.",
         },
         "every-computer": {
           title: "Tous vos postes",
@@ -81,7 +81,7 @@ export const content = {
         },
         "your-computer": {
           title: "Votre ordinateur",
-          body: "Se connecte à OpenCode sur votre propre machine.",
+          body: "Se connecte à WormAgent sur votre propre machine.",
         },
         "share-sheet": {
           title: "Menu Partager",
@@ -112,9 +112,9 @@ export const content = {
       },
     },
     terminal: {
-      title: "OpenCode | Interface terminal de l'agent de code open source",
+      title: "WormAgent | Interface terminal de l'agent de code open source",
       description:
-        "Une interface terminal rapide pour OpenCode, qui fonctionne dans tout shell, éditeur ou serveur distant. Décrivez ce que vous voulez, voyez chaque modification en diff et approuvez les commandes.",
+        "Une interface terminal rapide pour WormAgent, qui fonctionne dans tout shell, éditeur ou serveur distant. Décrivez ce que vous voulez, voyez chaque modification en diff et approuvez les commandes.",
       intro:
         "Une interface terminal rapide qui fonctionne dans tout shell, éditeur ou serveur distant. Décrivez ce que vous voulez avec vos mots, regardez chaque modification arriver en diff et choisissez quelles commandes s'exécutent seules.",
       features: {
@@ -132,7 +132,7 @@ export const content = {
         },
         "one-off-runs": {
           title: "Exécution unique",
-          body: "opencode run envoie un message et affiche la réponse.",
+          body: "wormagent run envoie un message et affiche la réponse.",
         },
         "agents-and-commands": {
           title: "Agents et commandes",
@@ -144,11 +144,11 @@ export const content = {
         },
         "any-server": {
           title: "Tout serveur",
-          body: "Connectez-vous à un serveur OpenCode par URL avec --server.",
+          body: "Connectez-vous à un serveur WormAgent par URL avec --server.",
         },
         "usage-stats": {
           title: "Statistiques",
-          body: "opencode stats affiche des statistiques d'usage à partager.",
+          body: "wormagent stats affiche des statistiques d'usage à partager.",
         },
       },
       showcase: {
@@ -166,20 +166,20 @@ export const content = {
         },
         mini: {
           title: "Mini",
-          body: "Avec opencode mini, les réponses vont dans votre historique.",
+          body: "Avec wormagent mini, les réponses vont dans votre historique.",
         },
       },
     },
     sdk: {
-      title: "OpenCode | SDK TypeScript pour scripts, jobs CI et outils",
+      title: "WormAgent | SDK TypeScript pour scripts, jobs CI et outils",
       description:
-        "Pilotez OpenCode depuis vos scripts, jobs CI et outils. Le client TypeScript typé crée des sessions, envoie des prompts et diffuse chaque événement en temps réel.",
+        "Pilotez WormAgent depuis vos scripts, jobs CI et outils. Le client TypeScript typé crée des sessions, envoie des prompts et diffuse chaque événement en temps réel.",
       intro:
-        "Pilotez OpenCode depuis vos scripts, jobs CI et outils. Le SDK exécute OpenCode dans votre processus, avec votre configuration et vos modèles, et son client typé crée des sessions, envoie des prompts et diffuse chaque événement.",
+        "Pilotez WormAgent depuis vos scripts, jobs CI et outils. Le SDK exécute WormAgent dans votre processus, avec votre configuration et vos modèles, et son client typé crée des sessions, envoie des prompts et diffuse chaque événement.",
       features: {
         "typescript-client": {
           title: "Client TypeScript",
-          body: "Requêtes et événements typés, avec les mêmes valeurs que @opencode/client.",
+          body: "Requêtes et événements typés, avec les mêmes valeurs que @wormagent/client.",
         },
         "sessions-from-code": {
           title: "Sessions par le code",
@@ -187,15 +187,15 @@ export const content = {
         },
         "any-model": {
           title: "Tout modèle",
-          body: "Utilise les modèles configurés dans votre OpenCode.",
+          body: "Utilise les modèles configurés dans votre WormAgent.",
         },
         "npm-or-bun": {
           title: "npm ou bun",
-          body: "Installez-le avec npm i @opencode/sdk ou bun add @opencode/sdk.",
+          body: "Installez-le avec npm i @wormagent/sdk ou bun add @wormagent/sdk.",
         },
         "in-process-host": {
           title: "Hôte in-process",
-          body: "Exécute OpenCode en mémoire, sans passer par le réseau.",
+          body: "Exécute WormAgent en mémoire, sans passer par le réseau.",
         },
         "your-plugins": {
           title: "Vos plugins",
@@ -207,13 +207,13 @@ export const content = {
         },
         "cloudflare-workers": {
           title: "Cloudflare Workers",
-          body: "Exécutez OpenCode dans un Durable Object Cloudflare sur Workers.",
+          body: "Exécutez WormAgent dans un Durable Object Cloudflare sur Workers.",
         },
       },
       showcase: {
         "fix-ci-from-code": {
           title: "Réparer la CI en code",
-          body: "Un court script demande à OpenCode de corriger les tests en échec, puis les relance.",
+          body: "Un court script demande à WormAgent de corriger les tests en échec, puis les relance.",
         },
         "follow-every-step": {
           title: "Suivre chaque étape",
@@ -221,20 +221,20 @@ export const content = {
         },
         "build-your-own-tools": {
           title: "Créez vos outils",
-          body: "Intégrez OpenCode à des bots, tableaux de bord et workflows en quelques lignes.",
+          body: "Intégrez WormAgent à des bots, tableaux de bord et workflows en quelques lignes.",
         },
         "in-your-process": {
           title: "Dans votre processus",
-          body: "Exécute OpenCode dans votre processus, avec votre config et vos modèles.",
+          body: "Exécute WormAgent dans votre processus, avec votre config et vos modèles.",
         },
       },
     },
     mini: {
-      title: "OpenCode | Mini, une interface terminal minimale pour l'agent",
+      title: "WormAgent | Mini, une interface terminal minimale pour l'agent",
       description:
-        "Mini exécute OpenCode dans une interface terminal minimale. Les réponses s'affichent dans l'historique de votre terminal, et seuls un prompt et une ligne d'état restent en bas.",
+        "Mini exécute WormAgent dans une interface terminal minimale. Les réponses s'affichent dans l'historique de votre terminal, et seuls un prompt et une ligne d'état restent en bas.",
       intro:
-        "Une interface terminal minimale pour OpenCode. Lancez opencode mini et les réponses s'affichent directement dans l'historique de votre terminal, pour les faire défiler, les rechercher et les copier comme toute autre sortie. Seuls le prompt et une ligne d'état restent en bas.",
+        "Une interface terminal minimale pour WormAgent. Lancez wormagent mini et les réponses s'affichent directement dans l'historique de votre terminal, pour les faire défiler, les rechercher et les copier comme toute autre sortie. Seuls le prompt et une ligne d'état restent en bas.",
       features: {
         "your-scrollback": {
           title: "Votre historique",
@@ -256,8 +256,8 @@ export const content = {
           title: "Reprendre après",
           body: "Reprenez la dernière session avec -c, ou n'importe laquelle avec -s.",
         },
-        "same-opencode": {
-          title: "Le même OpenCode",
+        "same-wormagent": {
+          title: "Le même WormAgent",
           body: "Le même serveur, les mêmes agents et modèles que les autres apps.",
         },
         agents: {
@@ -273,15 +273,15 @@ export const content = {
   },
   extensionCard: {
     name: "Extensions",
-    body: "Utilisez OpenCode dans VS Code, ou dans Zed et d'autres éditeurs via ACP.",
+    body: "Utilisez WormAgent dans VS Code, ou dans Zed et d'autres éditeurs via ACP.",
     action: "Installer",
   },
   extensions: {
     browse: {
       body: "Laissez les agents utiliser votre vrai navigateur.",
-      title: "OpenCode | Browse, votre vrai navigateur pour agents de code",
+      title: "WormAgent | Browse, votre vrai navigateur pour agents de code",
       description:
-        "Browse permet à OpenCode et à d'autres clients MCP d'utiliser votre vrai navigateur. Les agents lisent, cliquent, tapent, font des captures, enregistrent des onglets et vous rendent la main pour les connexions et la 2FA.",
+        "Browse permet à WormAgent et à d'autres clients MCP d'utiliser votre vrai navigateur. Les agents lisent, cliquent, tapent, font des captures, enregistrent des onglets et vous rendent la main pour les connexions et la 2FA.",
       intro:
         "Un serveur MCP et une extension Chromium qui permettent à vos agents d'utiliser votre vrai navigateur, avec vos onglets, vos connexions et vos extensions. Ils ouvrent des onglets en arrière-plan, regroupés à l'écart, et lisent les pages, cliquent, tapent, font des captures d'écran et enregistrent des onglets. Quand c'est votre tour, pour une connexion, une demande de 2FA ou un paiement, ils vous rendent l'onglet et reprennent dès que vous cliquez sur Continuer.",
       features: {
@@ -307,7 +307,7 @@ export const content = {
         },
         "any-mcp-client": {
           title: "Tout client MCP",
-          body: "OpenCode, Claude Code, Cursor, Codex, Zed et bien d'autres.",
+          body: "WormAgent, Claude Code, Cursor, Codex, Zed et bien d'autres.",
         },
         "all-your-logins": {
           title: "Toutes vos connexions",
@@ -342,10 +342,10 @@ export const content = {
   },
   getStarted: {
     title: "Démarrer",
-    lead: "Le plus simple pour commencer est de télécharger OpenCode et d'utiliser les modèles gratuits. Aucun compte requis. Pour aller plus loin, utilisez votre propre abonnement ou OpenCode Go.",
+    lead: "Le plus simple pour commencer est de télécharger WormAgent et d'utiliser les modèles gratuits. Aucun compte requis. Pour aller plus loin, utilisez votre propre abonnement ou WormAgent Go.",
     phrases: {
-      "download-opencode": {
-        text: "télécharger OpenCode",
+      "download-wormagent": {
+        text: "télécharger WormAgent",
       },
       "free-models": {
         text: "modèles gratuits",
@@ -369,20 +369,20 @@ export const content = {
       },
       "use-free-models": {
         title: "Modèles gratuits",
-        line: "OpenCode inclut des modèles gratuits. Aucun compte requis.",
+        line: "WormAgent inclut des modèles gratuits. Aucun compte requis.",
       },
       "add-more-models": {
         title: "Plus de modèles",
-        line: "Utilisez votre propre abonnement, ou les modèles sélectionnés d'OpenCode Go dès 10 $/mois.",
+        line: "Utilisez votre propre abonnement, ou les modèles sélectionnés d'WormAgent Go dès 10 $/mois.",
       },
     },
     sentence:
-      "Téléchargez OpenCode, commencez avec les modèles gratuits, puis ajoutez votre propre abonnement ou OpenCode Go quand vous voulez plus.",
+      "Téléchargez WormAgent, commencez avec les modèles gratuits, puis ajoutez votre propre abonnement ou WormAgent Go quand vous voulez plus.",
   },
   byos: {
     title: "Apportez votre abonnement",
     headline: "Utilisez les abonnements que vous avez déjà.",
-    line: "Connectez-vous avec ChatGPT Plus ou Pro, ou avec GitHub Copilot. Ou prenez un abonnement OpenCode.",
+    line: "Connectez-vous avec ChatGPT Plus ou Pro, ou avec GitHub Copilot. Ou prenez un abonnement WormAgent.",
     yours: {
       label: "Votre abonnement",
       items: {
@@ -391,9 +391,9 @@ export const content = {
         },
       },
     },
-    planLinks: ["abonnement OpenCode"],
+    planLinks: ["abonnement WormAgent"],
     ours: {
-      label: "Offres OpenCode",
+      label: "Offres WormAgent",
     },
   },
   brand: {
@@ -405,8 +405,8 @@ export const content = {
     },
     naming: {
       title: "Nom",
-      body: "Écrivez OpenCode en un seul mot, avec un O et un C majuscules. N'écrivez pas Opencode, Open Code, OpenCode AI ou Open-Code.",
-      code: "Utilisez `opencode` en minuscules uniquement dans le code et les noms de paquets, comme `opencode-figma` ou `@acme/opencode-plugin`.",
+      body: "Écrivez WormAgent en un seul mot, avec un O et un C majuscules. N'écrivez pas Opencode, Open Code, WormAgent AI ou Open-Code.",
+      code: "Utilisez `wormagent` en minuscules uniquement dans le code et les noms de paquets, comme `wormagent-figma` ou `@acme/wormagent-plugin`.",
     },
     families: {
       logo: {
@@ -429,7 +429,7 @@ export const content = {
       },
       wordmark: {
         title: "Logotype",
-        body: "Le nom complet dans les lettres OpenCode. Utilisez-le partout où il y a la place d'écrire le nom en entier.",
+        body: "Le nom complet dans les lettres WormAgent. Utilisez-le partout où il y a la place d'écrire le nom en entier.",
         assets: {
           light: {
             name: "Clair",
@@ -634,21 +634,21 @@ export const content = {
     },
     integrations: {
       title: "Intégrations",
-      body: "Les plugins, fournisseurs et outils qui fonctionnent avec OpenCode, et les projets créés avec lui, peuvent le dire. Utilisez un badge ou un lockup partenaire, et nommez votre projet de façon à montrer clairement qu'il vous appartient.",
+      body: "Les plugins, fournisseurs et outils qui fonctionnent avec WormAgent, et les projets créés avec lui, peuvent le dire. Utilisez un badge ou un lockup partenaire, et nommez votre projet de façon à montrer clairement qu'il vous appartient.",
       badges: {
-        body: "Placez un badge dans votre README, votre doc ou votre site et faites-le pointer vers opencode.ai. Choisissez le fichier clair ou sombre selon votre fond (le HTML bascule tout seul), et ne modifiez ni les couleurs ni le texte.",
+        body: "Placez un badge dans votre README, votre doc ou votre site et faites-le pointer vers wormagent.net. Choisissez le fichier clair ou sombre selon votre fond (le HTML bascule tout seul), et ne modifiez ni les couleurs ni le texte.",
         sizes: "Chaque style existe en 20, 32 et 44px (Shields uniquement en 20px), en SVG et en PNG à 2×.",
-        mono: "Chaque fichier existe aussi avec un texte en OpenTUI Mono. Ajoutez -mono avant l'extension, comme dans opencode-works-with-a-light-20-mono.svg, ou -mono-caps pour le même texte en majuscules.",
+        mono: "Chaque fichier existe aussi avec un texte en OpenTUI Mono. Ajoutez -mono avant l'extension, comme dans wormagent-works-with-a-light-20-mono.svg, ou -mono-caps pour le même texte en majuscules.",
         groups: {
           "works-with": {
             title: "Compatible avec",
-            alt: "Compatible avec OpenCode",
-            body: "Pour les plugins, fournisseurs et outils qui fonctionnent avec OpenCode.",
+            alt: "Compatible avec WormAgent",
+            body: "Pour les plugins, fournisseurs et outils qui fonctionnent avec WormAgent.",
           },
           "built-with": {
             title: "Créé avec",
-            alt: "Créé avec OpenCode",
-            body: "Pour les projets réalisés avec OpenCode.",
+            alt: "Créé avec WormAgent",
+            body: "Pour les projets réalisés avec WormAgent.",
           },
         },
         styles: {
@@ -668,43 +668,43 @@ export const content = {
       },
       lockup: {
         title: "Lockup partenaire",
-        body: "Placez le logo OpenCode et le logo partenaire côte à côte, avec un × entre les deux. Laissez 3 traits d'espace de chaque côté du ×, dimensionnez le logo partenaire pour qu'il paraisse aussi haut que le logo OpenCode, et gardez un espace libre autour de l'ensemble.",
+        body: "Placez le logo WormAgent et le logo partenaire côte à côte, avec un × entre les deux. Laissez 3 traits d'espace de chaque côté du ×, dimensionnez le logo partenaire pour qu'il paraisse aussi haut que le logo WormAgent, et gardez un espace libre autour de l'ensemble.",
       },
       naming: {
         title: "Nommer votre projet",
         body: "Commencez par votre propre nom, pour montrer clairement que le projet vous appartient.",
-        rule: "Écrivez `Linear for OpenCode` ou nommez le paquet `opencode-linear`. N'écrivez pas `OpenCode Linear` ni `Linear by OpenCode`.",
+        rule: "Écrivez `Linear for WormAgent` ou nommez le paquet `wormagent-linear`. N'écrivez pas `WormAgent Linear` ni `Linear by WormAgent`.",
       },
     },
     trademarks: {
       title: "Marques",
-      body: "OpenCode et le logo OpenCode sont des marques d'Anomaly. Ne les utilisez pas pour laisser entendre qu'Anomaly vous soutient ou vous sponsorise, ni dans le nom de votre produit ou de votre entreprise, ni sur des produits dérivés sans autorisation.",
+      body: "WormAgent et le logo WormAgent sont des marques d'WormGPT. Ne les utilisez pas pour laisser entendre qu'WormGPT vous soutient ou vous sponsorise, ni dans le nom de votre produit ou de votre entreprise, ni sur des produits dérivés sans autorisation.",
       contact: {
         before: "Pour toute question, écrivez à ",
       },
     },
   },
   press: {
-    title: "OpenCode | Kit presse, infos sur l'entreprise et ressources",
+    title: "WormAgent | Kit presse, infos sur l'entreprise et ressources",
     description:
-      "Le kit presse d'OpenCode, avec des informations sur OpenCode et sur Anomaly, l'entreprise qui le développe, des logos et logotypes à télécharger et un contact presse.",
+      "Le kit presse d'WormAgent, avec des informations sur WormAgent et sur WormGPT, l'entreprise qui le développe, des logos et logotypes à télécharger et un contact presse.",
     hero: {
       title: "Presse",
-      body: "Informations, ressources de marque et contacts pour écrire sur OpenCode et Anomaly.",
+      body: "Informations, ressources de marque et contacts pour écrire sur WormAgent et WormGPT.",
     },
     company: {
-      title: "À propos d'Anomaly",
-      lead: "Anomaly est l'entreprise derrière OpenCode. Elle crée des outils open source pour les développeurs.",
+      title: "À propos d'WormGPT",
+      lead: "WormGPT est l'entreprise derrière WormAgent. Elle crée des outils open source pour les développeurs.",
       more: "Parmi ses autres projets figurent SST et OpenTUI, tous open source sur [GitHub](github).",
       projects: {
-        opencode: {
+        wormagent: {
           body: "L'agent de code open source, avec des apps desktop, terminal et mobile, et un SDK. Sous licence MIT, plus de 220 000 étoiles sur GitHub.",
         },
         sst: {
           body: "Un framework pour créer des apps full-stack sur votre propre infrastructure. Sous licence MIT, open source depuis 2020, plus de 26 000 étoiles sur GitHub.",
         },
         opentui: {
-          body: "Une bibliothèque d'interfaces terminal en TypeScript, React ou Solid, avec un cœur en Zig. OpenCode l'utilise en production. Plus de 13 000 étoiles sur GitHub.",
+          body: "Une bibliothèque d'interfaces terminal en TypeScript, React ou Solid, avec un cœur en Zig. WormAgent l'utilise en production. Plus de 13 000 étoiles sur GitHub.",
           name: "OpenTUI",
         },
         "models-dev": {
@@ -720,30 +720,30 @@ export const content = {
       learnMore: "Pour en savoir plus, rendez-vous sur [anoma.ly](site).",
     },
     about: {
-      title: "À propos d'OpenCode",
-      body: "Des descriptions d'OpenCode et de ses produits, en version longue et courte, prêtes à copier.",
+      title: "À propos d'WormAgent",
+      body: "Des descriptions d'WormAgent et de ses produits, en version longue et courte, prêtes à copier.",
       boilerplate: {
-        long: "OpenCode est un agent de code open source. Il existe en app desktop, en interface terminal, en app mobile et en SDK, et il fonctionne avec les modèles de n'importe quel fournisseur, dont Claude, GPT et Gemini. OpenCode est sous licence MIT et développé par Anomaly. Il compte plus de 220 000 étoiles sur GitHub et plus de 1 000 contributeurs, et plus de 22 millions de développeurs l'utilisent chaque mois.",
+        long: "WormAgent est un agent de code open source. Il existe en app desktop, en interface terminal, en app mobile et en SDK, et il fonctionne avec les modèles de n'importe quel fournisseur, dont Claude, GPT et Gemini. WormAgent est sous licence MIT et développé par WormGPT. Il compte plus de 220 000 étoiles sur GitHub et plus de 1 000 contributeurs, et plus de 22 millions de développeurs l'utilisent chaque mois.",
         short:
-          "OpenCode est un agent de code open source d'Anomaly, avec des apps desktop, terminal et mobile, et un SDK.",
+          "WormAgent est un agent de code open source d'WormGPT, avec des apps desktop, terminal et mobile, et un SDK.",
       },
       products: {
-        "opencode-console": {
-          long: "OpenCode Console est l'app web où développeurs et équipes achètent et gèrent l'accès aux modèles d'IA pour OpenCode et d'autres agents de code. Elle propose une inférence à l'usage pour les modèles frontier et open-weight, facturée à la requête sur des crédits prépayés, ainsi que les abonnements OpenCode Go. Les équipes disposent d'espaces de travail avec les rôles Member, Admin et Owner, de plafonds de dépenses par espace et par utilisateur, du SSO avec Okta, Microsoft Entra ID ou Google Workspace, et de SCIM. Console prend en charge plus de 30 fournisseurs, pour que les équipes connectent les comptes qu'elles ont déjà, et sa propre inférence reste optionnelle. Elle se trouve sur opencode.ai/console.",
+        "wormagent-console": {
+          long: "WormAgent Console est l'app web où développeurs et équipes achètent et gèrent l'accès aux modèles d'IA pour WormAgent et d'autres agents de code. Elle propose une inférence à l'usage pour les modèles frontier et open-weight, facturée à la requête sur des crédits prépayés, ainsi que les abonnements WormAgent Go. Les équipes disposent d'espaces de travail avec les rôles Member, Admin et Owner, de plafonds de dépenses par espace et par utilisateur, du SSO avec Okta, Microsoft Entra ID ou Google Workspace, et de SCIM. Console prend en charge plus de 30 fournisseurs, pour que les équipes connectent les comptes qu'elles ont déjà, et sa propre inférence reste optionnelle. Elle se trouve sur wormagent.net/console.",
           short:
-            "OpenCode Console est l'app web d'Anomaly pour l'accès à l'usage aux modèles d'IA, les abonnements OpenCode Go et les contrôles d'équipe comme les budgets et le SSO.",
-          name: "OpenCode Console",
+            "WormAgent Console est l'app web d'WormGPT pour l'accès à l'usage aux modèles d'IA, les abonnements WormAgent Go et les contrôles d'équipe comme les budgets et le SSO.",
+          name: "WormAgent Console",
         },
-        "opencode-go": {
-          long: "OpenCode Go est un abonnement pour les développeurs qui veulent un prix mensuel fixe pour les modèles de code. Go coûte 10 $/mois, Go Plus coûte 40 $/mois avec des limites plus élevées, et Go Teams coûte 20 $/mois par membre. Chaque offre inclut une sélection de modèles testés pour le code agentique. Les limites d'usage sont des montants mensuels en dollars pour chaque modèle, avec des quotas glissants sur 5 heures et à la semaine de 20% et 50% de la limite mensuelle. Les abonnés peuvent recharger du crédit, basculer sur un solde à l'usage et résilier à tout moment. Go fonctionne avec OpenCode et d'autres agents. Il se trouve sur opencode.ai/console/go.",
+        "wormagent-go": {
+          long: "WormAgent Go est un abonnement pour les développeurs qui veulent un prix mensuel fixe pour les modèles de code. Go coûte 10 $/mois, Go Plus coûte 40 $/mois avec des limites plus élevées, et Go Teams coûte 20 $/mois par membre. Chaque offre inclut une sélection de modèles testés pour le code agentique. Les limites d'usage sont des montants mensuels en dollars pour chaque modèle, avec des quotas glissants sur 5 heures et à la semaine de 20% et 50% de la limite mensuelle. Les abonnés peuvent recharger du crédit, basculer sur un solde à l'usage et résilier à tout moment. Go fonctionne avec WormAgent et d'autres agents. Il se trouve sur wormagent.net/console/go.",
           short:
-            "OpenCode Go est un abonnement mensuel d'Anomaly qui donne aux développeurs des limites d'usage mensuelles sur une sélection de modèles de code, dès 10 $/mois.",
+            "WormAgent Go est un abonnement mensuel d'WormGPT qui donne aux développeurs des limites d'usage mensuelles sur une sélection de modèles de code, dès 10 $/mois.",
         },
-        "opencode-data": {
-          long: "OpenCode Data est un tableau de bord public qui montre quels modèles d'IA les développeurs utilisent dans OpenCode et comment cette répartition évolue. Il publie un classement des meilleurs modèles, l'usage des tokens, les coûts par session et par token, les taux de cache, les parts de marché et une répartition par pays. Les chiffres sont agrégés toutes les heures, avec des jours et des semaines en UTC. Les nombres d'utilisateurs et de sessions sont approximatifs, et les coûts reposent sur les prix catalogue du catalogue de modèles OpenCode. Les journalistes peuvent le citer comme OpenCode Data (opencode.ai/data), avec l'heure de mise à jour affichée sur la page.",
+        "wormagent-data": {
+          long: "WormAgent Data est un tableau de bord public qui montre quels modèles d'IA les développeurs utilisent dans WormAgent et comment cette répartition évolue. Il publie un classement des meilleurs modèles, l'usage des tokens, les coûts par session et par token, les taux de cache, les parts de marché et une répartition par pays. Les chiffres sont agrégés toutes les heures, avec des jours et des semaines en UTC. Les nombres d'utilisateurs et de sessions sont approximatifs, et les coûts reposent sur les prix catalogue du catalogue de modèles WormAgent. Les journalistes peuvent le citer comme WormAgent Data (wormagent.net/data), avec l'heure de mise à jour affichée sur la page.",
           short:
-            "OpenCode Data est un tableau de bord public sur opencode.ai/data qui classe les modèles d'IA selon leur usage réel dans OpenCode, avec tokens, coûts et parts de marché mis à jour toutes les heures.",
-          name: "OpenCode Data",
+            "WormAgent Data est un tableau de bord public sur wormagent.net/data qui classe les modèles d'IA selon leur usage réel dans WormAgent, avec tokens, coûts et parts de marché mis à jour toutes les heures.",
+          name: "WormAgent Data",
         },
       },
     },
@@ -772,9 +772,9 @@ export const content = {
           date: "Oct. 2025",
           text: "1 million+ téléchargements",
         },
-        "opencode-1-0": {
+        "wormagent-1-0": {
           date: "Oct. 2025",
-          text: "OpenCode 1.0",
+          text: "WormAgent 1.0",
         },
         "desktop-app-ships": {
           date: "Déc. 2025",
@@ -784,9 +784,9 @@ export const content = {
           date: "Janv. 2026",
           text: "10 millions+ téléchargements",
         },
-        "opencode-2-0": {
+        "wormagent-2-0": {
           date: "Sept. 2026",
-          text: "OpenCode 2.0",
+          text: "WormAgent 2.0",
         },
         "220-000-github-stars": {
           date: "Nov. 2026",
@@ -796,7 +796,7 @@ export const content = {
     },
     news: {
       title: "Dernières versions",
-      intro: "OpenCode sort souvent de nouvelles versions. Voici les plus récentes avec de nouvelles fonctionnalités.",
+      intro: "WormAgent sort souvent de nouvelles versions. Voici les plus récentes avec de nouvelles fonctionnalités.",
       changelog: {
         text: "Changelog complet",
       },
@@ -807,7 +807,7 @@ export const content = {
     media: {
       title: "Médias",
       intro:
-        "Images et courtes vidéos de chaque app, enregistrées à partir du vrai produit. Vous pouvez les utiliser pour écrire sur OpenCode.",
+        "Images et courtes vidéos de chaque app, enregistrées à partir du vrai produit. Vous pouvez les utiliser pour écrire sur WormAgent.",
       note: "Toutes les captures utilisent le thème sombre. Les images et affiches sont des JPG jusqu'à 1920 × 1080, ou 1080 × 1350 en portrait. Les vidéos sont des clips MP4 sans son.",
       products: {
         desktop: {
@@ -939,9 +939,9 @@ export const content = {
     people: {
       title: "Équipe",
     },
-    anomalyLogo: {
-      title: "Logo Anomaly",
-      body: "Le symbole et le logotype Anomaly, en noir et en blanc. Les PNG font 2048 px de large.",
+    wormgptLogo: {
+      title: "Logo WormGPT",
+      body: "Le symbole et le logotype WormGPT, en noir et en blanc. Les PNG font 2048 px de large.",
       assets: {
         "mark-black": {
           name: "Symbole, noir",
@@ -966,12 +966,12 @@ export const content = {
     brand: {
       title: "Marque",
       before:
-        "Téléchargez les logos et logotypes OpenCode dans un seul fichier ZIP. Pour les fichiers individuels, les variantes et les règles d'utilisation, consultez la ",
+        "Téléchargez les logos et logotypes WormAgent dans un seul fichier ZIP. Pour les fichiers individuels, les variantes et les règles d'utilisation, consultez la ",
       link: {
         text: "page Marque",
       },
       usage:
-        "Vous pouvez utiliser ces fichiers pour écrire sur OpenCode. Ne les modifiez pas, et ne laissez pas entendre qu'OpenCode soutient votre travail.",
+        "Vous pouvez utiliser ces fichiers pour écrire sur WormAgent. Ne les modifiez pas, et ne laissez pas entendre qu'WormAgent soutient votre travail.",
     },
     product: {
       title: "Produit",
@@ -982,7 +982,7 @@ export const content = {
         },
         mobile: {
           name: "Mobile",
-          body: "La plus récente des apps OpenCode. Appelez une session pour parler à l'agent, puis relisez et approuvez ses changements depuis votre téléphone, où que vous soyez.",
+          body: "La plus récente des apps WormAgent. Appelez une session pour parler à l'agent, puis relisez et approuvez ses changements depuis votre téléphone, où que vous soyez.",
         },
         terminal: {
           name: "Terminal",
@@ -1002,7 +1002,7 @@ export const content = {
         },
         support: {
           title: "Support",
-          body: "Pour obtenir de l'aide sur OpenCode, ouvrez une issue ou demandez à la communauté. Pour les questions de compte et de facturation, écrivez-nous.",
+          body: "Pour obtenir de l'aide sur WormAgent, ouvrez une issue ou demandez à la communauté. Pour les questions de compte et de facturation, écrivez-nous.",
           links: {
             "github-issues": {
               text: "Issues GitHub",
@@ -1075,7 +1075,7 @@ export const content = {
       },
     },
     mini: {
-      lead: "Mini est inclus dans le CLI OpenCode. Installez-le avec l'une de ces commandes, puis lancez opencode mini.",
+      lead: "Mini est inclus dans le CLI WormAgent. Installez-le avec l'une de ces commandes, puis lancez wormagent mini.",
       commands: {
         curl: {
           name: "Script",
@@ -1094,11 +1094,11 @@ export const content = {
     title: "Connectez votre téléphone",
     cardTitle: "Associez votre téléphone en une commande",
     intro:
-      "OpenCode Mobile est une télécommande pour OpenCode sur votre ordinateur. Vos sessions continuent de tourner sur l'ordinateur, et l'app les affiche et vous permet de les piloter.",
+      "WormAgent Mobile est une télécommande pour WormAgent sur votre ordinateur. Vos sessions continuent de tourner sur l'ordinateur, et l'app les affiche et vous permet de les piloter.",
     steps: {
       "get-the-app": {
         title: "Installez l'app",
-        body: "Installez la bêta d'OpenCode sur votre iPhone depuis TestFlight. L'app Android arrive bientôt.",
+        body: "Installez la bêta d'WormAgent sur votre iPhone depuis TestFlight. L'app Android arrive bientôt.",
       },
       "run-this-on-your-computer": {
         title: "Lancez ceci sur votre ordinateur",
@@ -1109,12 +1109,12 @@ export const content = {
         body: "Scannez le QR code avec l'app, ou collez le lien. Les sessions récentes de votre ordinateur s'ouvrent sur votre téléphone.",
       },
     },
-    note: "--remote se connecte via une adresse OpenTunnel, pour fonctionner depuis n'importe quel réseau. Sur le même Wi-Fi, lancez une fois opencode service set hostname 0.0.0.0, puis opencode pair.",
+    note: "--remote se connecte via une adresse OpenTunnel, pour fonctionner depuis n'importe quel réseau. Sur le même Wi-Fi, lancez une fois wormagent service set hostname 0.0.0.0, puis wormagent pair.",
     facts: [
       "L'association fonctionne depuis n'importe quel réseau, car --remote se connecte via une adresse OpenTunnel.",
       "Le lien et le code ne servent qu'une fois et expirent au bout de 5 minutes.",
       "Laissez l'ordinateur allumé, car l'agent tourne dessus et non sur le téléphone.",
-      "Sur le même Wi-Fi, lancez une fois opencode service set hostname 0.0.0.0, puis opencode pair.",
+      "Sur le même Wi-Fi, lancez une fois wormagent service set hostname 0.0.0.0, puis wormagent pair.",
     ],
   },
   announcements: {
@@ -1132,7 +1132,7 @@ export const content = {
     },
     "steer-your-sessions-from-your-phone": {
       text: "Pilotez vos sessions depuis votre téléphone.",
-      link: "Découvrir OpenCode Mobile",
+      link: "Découvrir WormAgent Mobile",
     },
     "a-refreshed-desktop-app": {
       text: "Une app desktop repensée.",

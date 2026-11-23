@@ -1,6 +1,6 @@
-use opencode_api::client::Client;
-use opencode_api::generated::ModelListInput;
-use opencode_util::error;
+use wormagent_api::client::Client;
+use wormagent_api::generated::ModelListInput;
+use wormagent_util::error;
 use serde_json::Value;
 
 use super::Context;
@@ -19,7 +19,7 @@ pub fn run(context: &Context) -> error::Result<()> {
     if models.is_empty() {
         return Ok(());
     }
-    crate::output::print(&opencode_ui::terminal_text(&(models.join("\n") + "\n")))
+    crate::output::print(&wormagent_ui::terminal_text(&(models.join("\n") + "\n")))
 }
 
 /// `response.data` of a `{ location, data: [...] }` list.

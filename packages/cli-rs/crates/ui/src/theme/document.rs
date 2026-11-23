@@ -1,6 +1,6 @@
 //! Validates, expands and selects a mode from V2 theme documents.
 
-use opencode_util::json_object;
+use wormagent_util::json_object;
 use serde_json::{Map, Value};
 
 use super::color::is_hex;

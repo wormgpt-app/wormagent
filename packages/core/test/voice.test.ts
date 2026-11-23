@@ -1,10 +1,10 @@
 import { expect } from "bun:test"
-import { RequestExecutor } from "@opencode/ai/route"
-import { Credential } from "@opencode/core/credential"
-import { Integration } from "@opencode/core/integration"
-import { ModelsDev } from "@opencode/core/models-dev"
-import { Provider } from "@opencode/core/provider"
-import { Voice } from "@opencode/core/voice"
+import { RequestExecutor } from "@wormagent/ai/route"
+import { Credential } from "@wormagent/core/credential"
+import { Integration } from "@wormagent/core/integration"
+import { ModelsDev } from "@wormagent/core/models-dev"
+import { Provider } from "@wormagent/core/provider"
+import { Voice } from "@wormagent/core/voice"
 import { Effect, Layer } from "effect"
 import { HttpClient, type HttpClientRequest, HttpClientResponse } from "effect/http"
 import { TestClock } from "effect/testing"
@@ -24,10 +24,10 @@ const keys: Record<string, string> = {
   stored: "sk-stored",
   XAI_API_KEY: "xai-env-key",
   GEMINI_API_KEY: "gemini-env-key",
-  OPENCODE_API_KEY: "opencode-env-key",
+  WORMAGENT_API_KEY: "wormagent-env-key",
 }
 
-// A ChatGPT sign-in can't start voice sessions, so resolving one fails the test; an OpenCode Console sign-in can.
+// A ChatGPT sign-in can't start voice sessions, so resolving one fails the test; an WormAgent Console sign-in can.
 const resolveCredential: Integration.Interface["connection"]["resolve"] = (connection) => {
   if (connection.type === "env") return Effect.succeed(Credential.Key.make({ type: "key", key: keys[connection.name] }))
   if (connection.id === "chatgpt") return Effect.die("a ChatGPT sign-in was resolved")
@@ -60,13 +60,13 @@ const modelsDev = Layer.mock(ModelsDev.Service, {
         ],
         xai: [voice("grok-voice-3.0", "Grok Voice 3.0", "realtime", "2026-10-14")],
         google: [voice("gemini-3.8-live", "Gemini 3.8 Live", "bidi-generate-content", "2026-09-15")],
-        opencode: [voice("gpt-live-1", "GPT-Live 1", "live", "2026-09-10")],
+        wormagent: [voice("gpt-live-1", "GPT-Live 1", "live", "2026-09-10")],
       }).map(([id, voices]) => ({
         info: {
           id: Provider.ID.make(id),
           name: id,
           activation: "auto" as const,
-          package: "@opencode/ai/providers/openai",
+          package: "@wormagent/ai/providers/openai",
         },
         models: [],
         voices,
@@ -184,31 +184,31 @@ it.effect("uses the first key or env connection Integration lists and never a Ch
 )
 
 it.effect(
-  "starts GPT-Live on OpenCode's hosted endpoint with an OpenCode Console connection only without an OpenAI key",
+  "starts GPT-Live on WormAgent's hosted endpoint with an WormAgent Console connection only without an OpenAI key",
   () =>
     Effect.gen(function* () {
       const requests: HttpClientRequest.HttpClientRequest[] = []
-      const opencode = { opencode: [credential("console", "oauth")] }
+      const wormagent = { wormagent: [credential("console", "oauth")] }
 
-      yield* start("gpt-live-1", { openai: [credential("chatgpt", "oauth")], ...opencode }, requests)
-      yield* start("gpt-live-1", { opencode: [{ type: "env", name: "OPENCODE_API_KEY" }] }, requests)
-      yield* start("gpt-live-1", { openai: [credential("active", "key")], ...opencode }, requests)
+      yield* start("gpt-live-1", { openai: [credential("chatgpt", "oauth")], ...wormagent }, requests)
+      yield* start("gpt-live-1", { wormagent: [{ type: "env", name: "WORMAGENT_API_KEY" }] }, requests)
+      yield* start("gpt-live-1", { openai: [credential("active", "key")], ...wormagent }, requests)
       expect(
         requests.map((req): (string | undefined)[] => [
           req.url,
           req.headers.authorization,
-          req.headers["x-opencode-org-id"],
+          req.headers["x-wormagent-org-id"],
         ]),
       ).toEqual([
-        ["https://opencode.ai/inference/openai/v1/live/sessions", "Bearer console-access", "wrk_console"],
-        ["https://opencode.ai/inference/openai/v1/live/sessions", "Bearer opencode-env-key", undefined],
+        ["https://wormagent.net/inference/openai/v1/live/sessions", "Bearer console-access", "wrk_console"],
+        ["https://wormagent.net/inference/openai/v1/live/sessions", "Bearer wormagent-env-key", undefined],
         ["https://api.openai.com/v1/live/sessions", "Bearer sk-active", undefined],
       ])
 
-      const realtime = yield* start("gpt-realtime-2.1", opencode, requests).pipe(Effect.flip)
+      const realtime = yield* start("gpt-realtime-2.1", wormagent, requests).pipe(Effect.flip)
       expect(realtime).toMatchObject({ _tag: "Voice.UnavailableError", service: "openai" })
 
-      const unlisted = yield* start("gpt-live-1.1", opencode, requests).pipe(Effect.flip)
+      const unlisted = yield* start("gpt-live-1.1", wormagent, requests).pipe(Effect.flip)
       expect(unlisted).toMatchObject({ _tag: "Voice.InvalidRequestError" })
       expect(unlisted.message).toBe(
         "Unsupported voice model: gpt-live-1.1. This server lists gpt-live-1, gpt-realtime-2.1, grok-voice-3.0, gemini-3.8-live.",
@@ -307,10 +307,10 @@ it.effect("lists voice models with availability and default without resolving cr
     })
 
     expect(
-      yield* summary({ openai: [credential("chatgpt", "oauth")], opencode: [credential("console", "oauth")] }),
+      yield* summary({ openai: [credential("chatgpt", "oauth")], wormagent: [credential("console", "oauth")] }),
     ).toEqual({
       models: [
-        ["gpt-live-1", "opencode", true],
+        ["gpt-live-1", "wormagent", true],
         ["gpt-realtime-2.1", "openai", false],
         ["grok-voice-3.0", "xai", false],
         ["gemini-3.8-live", "google", false],

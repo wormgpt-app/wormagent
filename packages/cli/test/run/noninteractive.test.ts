@@ -1,14 +1,14 @@
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test"
 import {
   ClientError,
-  OpenCode,
+  WormAgent,
   type EventSubscribeOutput,
   type ExperimentalJobListOutput,
   type SessionActiveOutput,
   type SessionInboxListOutput,
   type SessionMessageAssistantTool,
   type SessionMessageInfo,
-} from "@opencode/client/promise"
+} from "@wormagent/client/promise"
 import { runNonInteractivePrompt } from "../../src/run/noninteractive"
 
 type V2Event = EventSubscribeOutput
@@ -270,7 +270,7 @@ async function run(input: {
   terminalDelay?: number
   signal?: AbortSignal
 }) {
-  const sdk = OpenCode.make({ baseUrl: "https://opencode.test" })
+  const sdk = WormAgent.make({ baseUrl: "https://wormagent.test" })
   const values: V2Event[] = [{ id: "evt_connected", type: "server.connected", data: {} }]
   let wake: (() => void) | undefined
   const wait = Promise.withResolvers<void>()

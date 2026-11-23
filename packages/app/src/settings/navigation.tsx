@@ -1,7 +1,7 @@
-import { Button } from "@opencode/ui/button"
-import { Icon } from "@opencode/ui/icon"
-import { Menu } from "@opencode/ui/menu"
-import { Tabs } from "@opencode/ui/tabs"
+import { Button } from "@wormagent/ui/button"
+import { Icon } from "@wormagent/ui/icon"
+import { Menu } from "@wormagent/ui/menu"
+import { Tabs } from "@wormagent/ui/tabs"
 import {
   createEffect,
   ErrorBoundary,

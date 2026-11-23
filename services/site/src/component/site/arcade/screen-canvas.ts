@@ -122,7 +122,7 @@ function centred(
   ctx.shadowBlur = 0
 }
 
-/** The pixelated Anomaly wordmark (pixel-logo.tsx), `size` px wide, centred on `centreY`. */
+/** The pixelated WormGPT wordmark (pixel-logo.tsx), `size` px wide, centred on `centreY`. */
 function drawLogo(ctx: CanvasRenderingContext2D, width: number, centreY: number, size: number) {
   if (!pixelLogo) return void loadPixelLogo()
   const cell = size / pixelLogo.width

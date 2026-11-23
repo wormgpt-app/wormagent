@@ -1,16 +1,16 @@
 ---
 title: "CLI commands"
-description: "Reference for the opencode command line."
+description: "Reference for the wormagent command line."
 ---
 
-Every command accepts `--help` for its full flag list, for example `opencode run --help`. Some server-backed commands accept `--standalone` to run a private server or `--server <url>` to target a specific one; check the command's help for its supported flags.
+Every command accepts `--help` for its full flag list, for example `wormagent run --help`. Some server-backed commands accept `--standalone` to run a private server or `--server <url>` to target a specific one; check the command's help for its supported flags.
 
 ## run
 
 Sends a message and prints the reply without opening the interactive interface.
 
 ```bash
-$ opencode run "Explain this repository"
+$ wormagent run "Explain this repository"
 ```
 
 ### CI
@@ -18,7 +18,7 @@ $ opencode run "Explain this repository"
 In CI, pass a provider API key as a secret and use standalone mode so the private server receives it. For example, this GitHub Actions job reviews the checked-out repository:
 
 ```yaml
-name: OpenCode review
+name: WormAgent review
 on: [pull_request]
 
 jobs:
@@ -26,8 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm install --global @opencode/cli
-      - run: opencode run --standalone --model anthropic/claude-sonnet-5-5 "Review this repository for correctness and summarize any issues."
+      - run: npm install --global @wormagent/cli
+      - run: wormagent run --standalone --model anthropic/claude-sonnet-5-5 "Review this repository for correctness and summarize any issues."
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
@@ -35,55 +35,55 @@ jobs:
 Choose a model.
 
 ```bash
-$ opencode run --model anthropic/claude-sonnet-5-5 "Refactor parseToken"
+$ wormagent run --model anthropic/claude-sonnet-5-5 "Refactor parseToken"
 ```
 
 Continue the last session.
 
 ```bash
-$ opencode run --continue "Now handle the expired case"
+$ wormagent run --continue "Now handle the expired case"
 ```
 
 Emit newline-delimited JSON for scripts.
 
 ```bash
-$ opencode run --format json "List the TODO comments"
+$ wormagent run --format json "List the TODO comments"
 ```
 
 Attach files to the message.
 
 ```bash
-$ opencode run --file src/server.ts --file src/client.ts "Review these for bugs"
+$ wormagent run --file src/server.ts --file src/client.ts "Review these for bugs"
 ```
 
 Run with a specific agent.
 
 ```bash
-$ opencode run --agent build "Fix the failing test"
+$ wormagent run --agent build "Fix the failing test"
 ```
 
 Continue a specific session.
 
 ```bash
-$ opencode run --session ses_4f2a1c "Check edge cases"
+$ wormagent run --session ses_4f2a1c "Check edge cases"
 ```
 
 Auto-approve permissions that are not explicitly denied.
 
 ```bash
-$ opencode run --auto "Fix the failing test"
+$ wormagent run --auto "Fix the failing test"
 ```
 
-Create the session archived so scripted or CI runs stay out of session lists and the inbox. The session still exists: `opencode session list` includes it, and you can open it by ID.
+Create the session archived so scripted or CI runs stay out of session lists and the inbox. The session still exists: `wormagent session list` includes it, and you can open it by ID.
 
 ```bash
-$ opencode run --archived "Review this diff"
+$ wormagent run --archived "Review this diff"
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode run --help
+$ wormagent run --help
 ```
 
 ## mini
@@ -91,31 +91,31 @@ $ opencode run --help
 Starts the minimal interactive interface instead of the full-screen TUI.
 
 ```bash
-$ opencode mini
+$ wormagent mini
 ```
 
 Continue the last session.
 
 ```bash
-$ opencode mini --continue
+$ wormagent mini --continue
 ```
 
 Start with a model and an initial prompt.
 
 ```bash
-$ opencode mini --model anthropic/claude-sonnet-5-5 --prompt "Summarize this repository"
+$ wormagent mini --model anthropic/claude-sonnet-5-5 --prompt "Summarize this repository"
 ```
 
 Continue a specific session.
 
 ```bash
-$ opencode mini --session ses_4f2a1c
+$ wormagent mini --session ses_4f2a1c
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode mini --help
+$ wormagent mini --help
 ```
 
 ## session
@@ -123,49 +123,49 @@ $ opencode mini --help
 Manages sessions.
 
 ```bash
-$ opencode session list
+$ wormagent session list
 ```
 
 Limit the list and print JSON.
 
 ```bash
-$ opencode session list --max-count 20 --format json
+$ wormagent session list --max-count 20 --format json
 ```
 
 Delete a session and its child sessions.
 
 ```bash
-$ opencode session delete ses_9c1b08
+$ wormagent session delete ses_9c1b08
 ```
 
 Export session data as JSON.
 
 ```bash
-$ opencode session export ses_4f2a1c
+$ wormagent session export ses_4f2a1c
 ```
 
 Redact sensitive transcript and file data when exporting.
 
 ```bash
-$ opencode session export ses_4f2a1c --sanitize
+$ wormagent session export ses_4f2a1c --sanitize
 ```
 
 Import session data from a JSON file or URL.
 
 ```bash
-$ opencode session import session.json
+$ wormagent session import session.json
 ```
 
 Import into a specific directory.
 
 ```bash
-$ opencode session import session.json --directory ~/code/project
+$ wormagent session import session.json --directory ~/code/project
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode session --help
+$ wormagent session --help
 ```
 
 ## auth
@@ -173,50 +173,50 @@ $ opencode session --help
 Manages AI providers and credentials.
 
 ```bash
-$ opencode auth list
+$ wormagent auth list
 ```
 
 List them as JSON.
 
 ```bash
-$ opencode auth list --format json
+$ wormagent auth list --format json
 ```
 
 Log in to a provider.
 
 ```bash
-$ opencode auth login anthropic
+$ wormagent auth login anthropic
 ```
 
 Log in with a specific authentication method.
 
 ```bash
-$ opencode auth login anthropic --method key
+$ wormagent auth login anthropic --method key
 ```
 
 Log out of a saved account.
 
 ```bash
-$ opencode auth logout anthropic work
+$ wormagent auth logout anthropic work
 ```
 
 Switch the active account for an integration.
 
 ```bash
-$ opencode auth switch anthropic work
+$ wormagent auth switch anthropic work
 ```
 
 Export saved credentials and import them on another machine. The file contains secrets.
 
 ```bash
-$ opencode auth export anthropic > credentials.json
-$ opencode auth import credentials.json
+$ wormagent auth export anthropic > credentials.json
+$ wormagent auth import credentials.json
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode auth --help
+$ wormagent auth --help
 ```
 
 ## models
@@ -224,13 +224,13 @@ $ opencode auth --help
 Lists every available model.
 
 ```bash
-$ opencode models
+$ wormagent models
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode models --help
+$ wormagent models --help
 ```
 
 ## mcp
@@ -238,49 +238,49 @@ $ opencode models --help
 Manages MCP (Model Context Protocol) servers.
 
 ```bash
-$ opencode mcp list
+$ wormagent mcp list
 ```
 
 Add a remote server.
 
 ```bash
-$ opencode mcp add context7 --url https://mcp.context7.com/mcp
+$ wormagent mcp add context7 --url https://mcp.context7.com/mcp
 ```
 
 Add a local server to the global config.
 
 ```bash
-$ opencode mcp add everything --global -- npx -y @modelcontextprotocol/server-everything
+$ wormagent mcp add everything --global -- npx -y @modelcontextprotocol/server-everything
 ```
 
 Add a local server with an environment variable.
 
 ```bash
-$ opencode mcp add everything --env LOG_LEVEL=debug -- npx -y @modelcontextprotocol/server-everything
+$ wormagent mcp add everything --env LOG_LEVEL=debug -- npx -y @modelcontextprotocol/server-everything
 ```
 
 Add a remote server with a header.
 
 ```bash
-$ opencode mcp add context7 --url https://mcp.context7.com/mcp --header CONTEXT7_API_KEY=secret
+$ wormagent mcp add context7 --url https://mcp.context7.com/mcp --header CONTEXT7_API_KEY=secret
 ```
 
 Authenticate with an OAuth-capable remote server.
 
 ```bash
-$ opencode mcp auth sentry
+$ wormagent mcp auth sentry
 ```
 
 Remove stored OAuth credentials for a server.
 
 ```bash
-$ opencode mcp logout sentry
+$ wormagent mcp logout sentry
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode mcp --help
+$ wormagent mcp --help
 ```
 
 ## plugin
@@ -288,43 +288,43 @@ $ opencode mcp --help
 Manages plugins.
 
 ```bash
-$ opencode plugin list
+$ wormagent plugin list
 ```
 
 Include built-in server plugins.
 
 ```bash
-$ opencode plugin list --builtin
+$ wormagent plugin list --builtin
 ```
 
 Install a plugin and add it to the global configuration.
 
 ```bash
-$ opencode plugin add @example/opencode-tui
+$ wormagent plugin add @example/wormagent-tui
 ```
 
 Check package plugins for updates.
 
 ```bash
-$ opencode plugin check
+$ wormagent plugin check
 ```
 
 Update package plugins.
 
 ```bash
-$ opencode plugin update
+$ wormagent plugin update
 ```
 
 Remove a plugin from global configuration.
 
 ```bash
-$ opencode plugin remove @example/opencode-tui
+$ wormagent plugin remove @example/wormagent-tui
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode plugin --help
+$ wormagent plugin --help
 ```
 
 ## stats
@@ -332,43 +332,43 @@ $ opencode plugin --help
 Shows shareable usage statistics.
 
 ```bash
-$ opencode stats
+$ wormagent stats
 ```
 
 Show the last 7 days.
 
 ```bash
-$ opencode stats --days 7
+$ wormagent stats --days 7
 ```
 
 Show model usage.
 
 ```bash
-$ opencode stats --models
+$ wormagent stats --models
 ```
 
 Show cost and token details.
 
 ```bash
-$ opencode stats --cost
+$ wormagent stats --cost
 ```
 
 Print JSON instead of a report.
 
 ```bash
-$ opencode stats --json
+$ wormagent stats --json
 ```
 
 Show only the current project.
 
 ```bash
-$ opencode stats --project .
+$ wormagent stats --project .
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode stats --help
+$ wormagent stats --help
 ```
 
 ## serve
@@ -376,25 +376,25 @@ $ opencode stats --help
 Starts the API and web server. See [Web](/cli/web).
 
 ```bash
-$ opencode serve
+$ wormagent serve
 ```
 
 Bind to all interfaces on a fixed port.
 
 ```bash
-$ opencode serve --hostname 0.0.0.0 --port 4096
+$ wormagent serve --hostname 0.0.0.0 --port 4096
 ```
 
 Allow a browser client from another origin.
 
 ```bash
-$ opencode serve --cors https://app.example.com
+$ wormagent serve --cors https://app.example.com
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode serve --help
+$ wormagent serve --help
 ```
 
 ## pair
@@ -403,13 +403,13 @@ Prints one-time links, plus a QR code of the first one, that sign a browser or
 app in to the server. Links expire after 5 minutes and work once.
 
 ```bash
-$ opencode pair
+$ wormagent pair
 ```
 
 Use an external URL in the links.
 
 ```bash
-$ opencode pair --url https://dev.example.com
+$ wormagent pair --url https://dev.example.com
 ```
 
 Pair from anywhere through an OpenTunnel remote address. This exposes the
@@ -417,19 +417,19 @@ server to the internet, so the first time it enables remote access it explains
 this and asks you to accept. See [Remote access](/cli/web#remote-access).
 
 ```bash
-$ opencode pair --remote
+$ wormagent pair --remote
 ```
 
 Accept without a prompt, for example in a script without a terminal.
 
 ```bash
-$ opencode pair --remote --yes
+$ wormagent pair --remote --yes
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode pair --help
+$ wormagent pair --help
 ```
 
 ## service
@@ -437,61 +437,61 @@ $ opencode pair --help
 Manages the background server. See [Web](/cli/web).
 
 ```bash
-$ opencode service start
+$ wormagent service start
 ```
 
 Restart it.
 
 ```bash
-$ opencode service restart
+$ wormagent service restart
 ```
 
 Show its status.
 
 ```bash
-$ opencode service status
+$ wormagent service status
 ```
 
 Stop it.
 
 ```bash
-$ opencode service stop
+$ wormagent service stop
 ```
 
 Read a setting.
 
 ```bash
-$ opencode service get hostname
+$ wormagent service get hostname
 ```
 
 Set a setting.
 
 ```bash
-$ opencode service set hostname 0.0.0.0
+$ wormagent service set hostname 0.0.0.0
 ```
 
 Allow an extra CORS origin.
 
 ```bash
-$ opencode service set cors https://app.example.com
+$ wormagent service set cors https://app.example.com
 ```
 
 Pass an environment variable to the server process.
 
 ```bash
-$ opencode service set env OPENCODE_LOG_LEVEL DEBUG
+$ wormagent service set env WORMAGENT_LOG_LEVEL DEBUG
 ```
 
 Reset a setting to its default.
 
 ```bash
-$ opencode service unset hostname
+$ wormagent service unset hostname
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode service --help
+$ wormagent service --help
 ```
 
 ## reload
@@ -499,7 +499,7 @@ $ opencode service --help
 Reloads configuration without restarting the server. Running sessions continue with fresh services at the next step boundary.
 
 ```bash
-$ opencode reload
+$ wormagent reload
 ```
 
 ## api
@@ -507,31 +507,31 @@ $ opencode reload
 Makes a request to the running server.
 
 ```bash
-$ opencode api GET /api/session
+$ wormagent api GET /api/session
 ```
 
 Call an operation ID with a query parameter.
 
 ```bash
-$ opencode api session.list --param limit=10
+$ wormagent api session.list --param limit=10
 ```
 
 Send a JSON body.
 
 ```bash
-$ opencode api session.create --data '{"title": "New session"}'
+$ wormagent api session.create --data '{"title": "New session"}'
 ```
 
 Add a request header.
 
 ```bash
-$ opencode api GET /api/session -H "accept: application/json"
+$ wormagent api GET /api/session -H "accept: application/json"
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode api --help
+$ wormagent api --help
 ```
 
 ## acp
@@ -539,13 +539,13 @@ $ opencode api --help
 Starts an Agent Client Protocol server over stdin and stdout for editor integrations. It runs until the client closes the connection.
 
 ```bash
-$ opencode acp
+$ wormagent acp
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode acp --help
+$ wormagent acp --help
 ```
 
 ## debug
@@ -553,82 +553,82 @@ $ opencode acp --help
 Provides debugging and troubleshooting tools.
 
 ```bash
-$ opencode debug agents
+$ wormagent debug agents
 ```
 
 List configuration sources.
 
 ```bash
-$ opencode debug config
+$ wormagent debug config
 ```
 
 Write a heap snapshot of the running background server and print its path.
 
 ```bash
-$ opencode debug heap-dump
+$ wormagent debug heap-dump
 ```
 
 Write the snapshot into a directory of your choice.
 
 ```bash
-$ opencode debug heap-dump --directory ./snapshots
+$ wormagent debug heap-dump --directory ./snapshots
 ```
 
 Show global paths.
 
 ```bash
-$ opencode debug paths
+$ wormagent debug paths
 ```
 
 Print a single path.
 
 ```bash
-$ opencode debug paths db
+$ wormagent debug paths db
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode debug --help
+$ wormagent debug --help
 ```
 
 ## upgrade
 
-Upgrades OpenCode to the latest or a specific version. Alias: `update`.
+Upgrades WormAgent to the latest or a specific version. Alias: `update`.
 
 ```bash
-$ opencode upgrade
+$ wormagent upgrade
 ```
 
 Upgrade to a specific version with a specific package manager.
 
 ```bash
-$ opencode upgrade 2.0.21 --method bun
+$ wormagent upgrade 2.0.21 --method bun
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode upgrade --help
+$ wormagent upgrade --help
 ```
 
 ## uninstall
 
-Stops background services, removes the global cache, and uninstalls OpenCode. Session data, configuration, and
+Stops background services, removes the global cache, and uninstalls WormAgent. Session data, configuration, and
 state are not removed.
 
 ```bash
-$ opencode uninstall
+$ wormagent uninstall
 ```
 
 Preview what would be removed.
 
 ```bash
-$ opencode uninstall --dry-run
+$ wormagent uninstall --dry-run
 ```
 
 View all subcommands and flags.
 
 ```bash
-$ opencode uninstall --help
+$ wormagent uninstall --help
 ```

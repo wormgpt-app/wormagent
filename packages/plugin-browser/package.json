@@ -1,13 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@opencode/plugin-browser",
+  "name": "@wormagent/plugin-browser",
   "version": "2.4.0",
-  "description": "OpenCode's desktop browser plugin",
+  "description": "WormAgent's desktop browser plugin",
   "type": "module",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anomalyco/opencode.git",
+    "url": "git+https://github.com/wormgpt-app/wormagent.git",
     "directory": "packages/plugin-browser"
   },
   "publishConfig": {
@@ -31,9 +31,9 @@
     "test": "bun test"
   },
   "dependencies": {
-    "@opencode/plugin": "workspace:*",
-    "@opencode/schema": "workspace:*",
-    "@opencode/util": "workspace:*",
+    "@wormagent/plugin": "workspace:*",
+    "@wormagent/schema": "workspace:*",
+    "@wormagent/util": "workspace:*",
     "effect": "catalog:"
   },
   "devDependencies": {

@@ -11,14 +11,14 @@ import {
   Switch,
   untrack,
 } from "solid-js"
-import { Button } from "@opencode/ui/button"
-import { Loader } from "@opencode/ui/loader"
-import { Command, createKeyed, LinkHandler, MenuItem, SettingsPage, Style, type Plugin } from "@opencode/plugin/gui"
-import { BuiltinAppLink, builtinContext, BuiltinCommand, BuiltinPanel, BuiltinPromptGate, onIdle, type BuiltinPanelTab } from "@opencode/plugin/gui/builtin"
-import { Browser, type ExperimentalBrowserTab } from "@opencode/plugin/gui/browser"
+import { Button } from "@wormagent/ui/button"
+import { Loader } from "@wormagent/ui/loader"
+import { Command, createKeyed, LinkHandler, MenuItem, SettingsPage, Style, type Plugin } from "@wormagent/plugin/gui"
+import { BuiltinAppLink, builtinContext, BuiltinCommand, BuiltinPanel, BuiltinPromptGate, onIdle, type BuiltinPanelTab } from "@wormagent/plugin/gui/builtin"
+import { Browser, type ExperimentalBrowserTab } from "@wormagent/plugin/gui/browser"
 import type definition from "./index"
 import type { Model } from "./model"
-import { uuid } from "@opencode/util/uuid"
+import { uuid } from "@wormagent/util/uuid"
 import {
   BROWSER_MODEL_LOAD_TIMEOUT_MS,
   createBrowserModelState,
@@ -481,7 +481,7 @@ const setup: Plugin.Setup<typeof definition> = (ctx) => {
     },
     get entries() {
       return [
-        { id: "settings-browser-links", title: ctx.t("settings.links.title"), keywords: "links open system default browser opencode's browser web shift click" },
+        { id: "settings-browser-links", title: ctx.t("settings.links.title"), keywords: "links open system default browser wormagent's browser web shift click" },
         {
           id: "settings-browser-agent-pages",
           title: ctx.t("settings.agentPages.title"),

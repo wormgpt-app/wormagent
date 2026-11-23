@@ -9,8 +9,8 @@
 //
 // The TUI uses Solid's browser build, whose effects and stores react; the script runs itself again under
 // `bun --conditions=browser` when started without it.
-import type { CreateDataInput } from "@opencode/client/solid"
-import type { OpenCodeEvent, SessionMessageInfo } from "@opencode/client/promise"
+import type { CreateDataInput } from "@wormagent/client/solid"
+import type { WormAgentEvent, SessionMessageInfo } from "@wormagent/client/promise"
 import { records } from "../lib/records"
 
 if (process.env.F7_BROWSER !== "1") {
@@ -23,8 +23,8 @@ if (process.env.F7_BROWSER !== "1") {
 }
 
 const { createRoot } = await import("solid-js")
-const { createData } = await import("@opencode/client/solid")
-const { OpenCode } = await import("@opencode/client/promise")
+const { createData } = await import("@wormagent/client/solid")
+const { WormAgent } = await import("@wormagent/client/promise")
 
 type Schema = Record<string, unknown> & {
   $ref?: string
@@ -319,7 +319,7 @@ function eventOf(variant: { type: string; schema: Schema }, patch: unknown) {
     ...(variant.schema.properties?.location ? { location } : {}),
     data: ids,
   }
-  return merge(merge(base, common), patch) as OpenCodeEvent
+  return merge(merge(base, common), patch) as WormAgentEvent
 }
 
 const cases = [
@@ -330,10 +330,10 @@ const cases = [
   })),
 ]
 
-async function run(event: OpenCodeEvent, loaded: boolean) {
+async function run(event: WormAgentEvent, loaded: boolean) {
   const requests: string[] = []
-  const api = OpenCode.make({
-    baseUrl: "http://opencode.local",
+  const api = WormAgent.make({
+    baseUrl: "http://wormagent.local",
     fetch: async (input, init) => {
       const request = input instanceof Request ? input : new Request(input, init)
       const url = new URL(request.url)
@@ -364,7 +364,7 @@ async function run(event: OpenCodeEvent, loaded: boolean) {
     dispose,
   }))
   const data = setup.data
-  const apply = (event: OpenCodeEvent) => listeners.forEach((listener) => listener({ name: event.type, details: event }))
+  const apply = (event: WormAgentEvent) => listeners.forEach((listener) => listener({ name: event.type, details: event }))
   const quiet = (promise: Promise<unknown>) => void promise.catch(() => {})
   const strip = (value: unknown) => JSON.parse(JSON.stringify(value ?? null)) as Json
 
@@ -419,7 +419,7 @@ async function run(event: OpenCodeEvent, loaded: boolean) {
   }
 
   if (loaded) {
-    apply({ id: "evt_connected", type: "server.connected", data: {} } as unknown as OpenCodeEvent)
+    apply({ id: "evt_connected", type: "server.connected", data: {} } as unknown as WormAgentEvent)
     await settle()
     quiet(data.session.sync("ses_a"))
     quiet(data.session.message.sync("ses_a"))

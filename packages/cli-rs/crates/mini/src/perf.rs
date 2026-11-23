@@ -8,7 +8,7 @@ mod heap;
 #[path = "../../tui/tests/all/support/probe.rs"]
 mod probe;
 
-use opencode_api::generated::SessionMessageInfo;
+use wormagent_api::generated::SessionMessageInfo;
 use opentui::prelude::*;
 use opentui::remote::{RemoteOptions, RemoteTerminal};
 use opentui::split::{Scrollback, SplitFooter};

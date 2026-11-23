@@ -4,7 +4,7 @@ import { Model } from "../model.js"
 import { Permission } from "../permission.js"
 import { Context, Effect, Layer } from "effect"
 import { Agent } from "../agent.js"
-import type { SessionRequestKind } from "@opencode/plugin/effect/session"
+import type { SessionRequestKind } from "@wormagent/plugin/effect/session"
 import { CodeModeApi } from "../codemode/api.js"
 import { CodeModeInstructions } from "../codemode/instructions.js"
 import { CodeModeTool } from "../codemode/tool.js"
@@ -13,7 +13,7 @@ import { FileAccess } from "../file-access.js"
 import { FileMutation } from "../file-mutation.js"
 import { FileWrite } from "../file-write.js"
 import { Flag } from "../flag.js"
-import { makeLocationNode } from "@opencode/util/effect/app-node"
+import { makeLocationNode } from "@wormagent/util/effect/app-node"
 import { InstructionDiscovery } from "../instruction-discovery.js"
 import { Instructions } from "../instructions/index.js"
 import { InstructionBuiltIns } from "../instructions/builtins.js"
@@ -79,7 +79,7 @@ export interface Interface {
 }
 
 /** Location-scoped model-context loader for durable Session Steps. */
-export class Service extends Context.Service<Service, Interface>()("@opencode/SessionContext") {}
+export class Service extends Context.Service<Service, Interface>()("@wormagent/SessionContext") {}
 
 const layer = Layer.effect(
   Service,
@@ -158,12 +158,12 @@ const layer = Layer.effect(
       if (!agent.info) return yield* new AgentNotFoundError({ sessionID: session.id, agent: session.agent ?? agent.id })
       // Session permissions narrow discovery the same way they narrow the tool snapshot.
       const permissions = Permission.merge(agent.info.permissions, session.permissions ?? [])
-      const [selected, hasWebSearch, fullCodeMode, opencodeApi] = yield* Effect.all(
+      const [selected, hasWebSearch, fullCodeMode, wormagentApi] = yield* Effect.all(
         [
           models.select(session, model.available).pipe(Effect.orElseSucceed(() => undefined)),
           websearch.available(),
           flags.enabled("full_codemode"),
-          flags.enabled("opencode_api"),
+          flags.enabled("wormagent_api"),
         ],
         { concurrency: "unbounded" },
       )
@@ -171,7 +171,7 @@ const layer = Layer.effect(
       const policyModel = selected?.info ?? (fallbackRef && Model.Info.default(fallbackRef.providerID, fallbackRef.id))
       const tools = yield* registry.snapshot(permissions, {
         services,
-        api: Context.make(CodeModeApi.Service, opencodeApi ? api : CodeModeApi.disabled).pipe(
+        api: Context.make(CodeModeApi.Service, wormagentApi ? api : CodeModeApi.disabled).pipe(
           Context.add(Location.Service, location),
         ),
         // An agent that can't run `execute` (such as explore) keeps every tool direct, so give it the flag-off policy.

@@ -1,6 +1,6 @@
 //! Opt-in feature settings.
 
-use opencode_ui::select::select;
+use wormagent_ui::select::select;
 
 use super::settings::{self, set_path};
 

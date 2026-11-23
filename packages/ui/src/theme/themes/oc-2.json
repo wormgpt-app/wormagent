@@ -1,6 +1,6 @@
 {
-  "$schema": "https://opencode.ai/desktop-theme.json",
-  "name": "OpenCode",
+  "$schema": "https://wormagent.net/desktop-theme.json",
+  "name": "WormAgent",
   "id": "oc-2",
   "light": {
     "palette": {

@@ -1,10 +1,10 @@
-//! Delegates npm installation and plugin entrypoint resolution to `opencode`.
+//! Delegates npm installation and plugin entrypoint resolution to `wormagent`.
 
-use opencode_local::cli_config::{self, CliConfig, Plugin};
-use opencode_local::paths::Paths;
-use opencode_service::delegate;
-use opencode_service::ts_command::TsCommand;
-use opencode_util::error;
+use wormagent_local::cli_config::{self, CliConfig, Plugin};
+use wormagent_local::paths::Paths;
+use wormagent_service::delegate;
+use wormagent_service::ts_command::TsCommand;
+use wormagent_util::error;
 
 use super::Context;
 use crate::args::{PluginArgs, PluginCommand};
@@ -42,19 +42,19 @@ fn add() -> error::Result<()> {
     Ok(())
 }
 
-/// What `plugin add` says of the TUI package `added` when `opencode-native` will not load it: this build has no JS host
-/// (ts-feature), or `OPENCODE_PLUGIN_JS` turns it off. With the JS host on it says nothing more, as TS.
+/// What `plugin add` says of the TUI package `added` when `wormagent-native` will not load it: this build has no JS host
+/// (ts-feature), or `WORMAGENT_PLUGIN_JS` turns it off. With the JS host on it says nothing more, as TS.
 fn not_loaded(added: &str) -> Option<String> {
     #[cfg(not(feature = "ts"))]
     return Some(format!(
-        "opencode-native will not load TUI plugin \"{added}\": this build has no TypeScript plugin support (built \
-         without the ts feature). The TypeScript client (opencode) loads it as it is."
+        "wormagent-native will not load TUI plugin \"{added}\": this build has no TypeScript plugin support (built \
+         without the ts feature). The TypeScript client (wormagent) loads it as it is."
     ));
     #[cfg(feature = "ts")]
-    return opencode_plugin::pipe::turned_off(std::env::var_os("OPENCODE_PLUGIN_JS").as_deref()).then(|| {
+    return wormagent_plugin::pipe::turned_off(std::env::var_os("WORMAGENT_PLUGIN_JS").as_deref()).then(|| {
         format!(
-            "opencode-native loads TUI plugin \"{added}\" on its JS host, which OPENCODE_PLUGIN_JS turns off: unset it \
-             to load it. The TypeScript client (opencode) loads it as it is."
+            "wormagent-native loads TUI plugin \"{added}\" on its JS host, which WORMAGENT_PLUGIN_JS turns off: unset it \
+             to load it. The TypeScript client (wormagent) loads it as it is."
         )
     });
 }

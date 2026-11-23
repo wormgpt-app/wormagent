@@ -1,5 +1,5 @@
-import { Button } from "@opencode/ui/button"
-import { useDialog } from "@opencode/ui/context/dialog"
+import { Button } from "@wormagent/ui/button"
+import { useDialog } from "@wormagent/ui/context/dialog"
 import { onMount } from "solid-js"
 import { createStore } from "solid-js/store"
 import { DialogStoryRuntime } from "@/components-lab/dialog-story-runtime"
@@ -25,7 +25,7 @@ function makeModel(input: {
     api: {
       id: input.id,
       url: `https://api.${input.providerID}.example/v1`,
-      npm: `@opencode/ai/providers/${input.providerID}`,
+      npm: `@wormagent/ai/providers/${input.providerID}`,
     },
     name: input.name,
     family: input.family,
@@ -61,8 +61,8 @@ const models: StoryModel[] = [
   makeModel({
     id: "kimi-k3",
     name: "Kimi K3",
-    providerID: "opencode-go",
-    providerName: "OpenCode Go",
+    providerID: "wormagent-go",
+    providerName: "WormAgent Go",
     family: "kimi",
     inputCost: 1,
     outputCost: 3,
@@ -71,8 +71,8 @@ const models: StoryModel[] = [
   makeModel({
     id: "big-pickle",
     name: "Big Pickle",
-    providerID: "opencode",
-    providerName: "OpenCode Zen",
+    providerID: "wormagent",
+    providerName: "WormAgent Zen",
     family: "pickle",
     inputCost: 0,
     outputCost: 0,
@@ -80,8 +80,8 @@ const models: StoryModel[] = [
   makeModel({
     id: "claude-opus-5-5",
     name: "Claude Opus 5.5",
-    providerID: "opencode",
-    providerName: "OpenCode Zen",
+    providerID: "wormagent",
+    providerName: "WormAgent Zen",
     family: "claude-opus",
     inputCost: 5,
     outputCost: 25,
@@ -123,7 +123,7 @@ function SelectorStory(props: { favorite?: boolean; provider?: string; empty?: b
   const dialog = useDialog()
 
   const [store, setStore] = createStore<{ current: string; favorite: string[]; variant?: string }>({
-    current: props.empty ? "" : "opencode:claude-opus-5-5",
+    current: props.empty ? "" : "wormagent:claude-opus-5-5",
     favorite: props.many
       ? ["anthropic:claude-sonnet-5", "zeta:zz-model-24"]
       : props.favorite
@@ -211,7 +211,7 @@ export const LongList = {
 export const ProviderOnly = {
   render: () => (
     <DialogStoryRuntime>
-      <SelectorStory provider="opencode" />
+      <SelectorStory provider="wormagent" />
     </DialogStoryRuntime>
   ),
 }

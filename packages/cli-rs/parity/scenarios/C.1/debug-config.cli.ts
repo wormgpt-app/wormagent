@@ -11,7 +11,7 @@ export default defineCli({
         json: [
           {
             type: "document",
-            path: "/work/opencode.json",
+            path: "/work/wormagent.json",
             info: {
               permissions: [
                 { action: "shell", resource: "*", effect: "ask" },

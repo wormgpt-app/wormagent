@@ -1,5 +1,5 @@
-@import "@opencode/ui/text-input.css";
-@import "@opencode/ui/button.css";
+@import "@wormagent/ui/text-input.css";
+@import "@wormagent/ui/button.css";
 
 [data-component="tabs-v2"][data-variant="settings"] {
   height: 100%;
@@ -381,7 +381,7 @@
   gap: 12px;
 }
 
-.settings-about-anomaly-brush {
+.settings-about-wormgpt-brush {
   width: 126.72px;
   height: 48.384px;
   flex-shrink: 0;

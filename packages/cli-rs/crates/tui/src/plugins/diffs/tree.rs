@@ -2,9 +2,9 @@
 
 use std::collections::BTreeSet;
 
-use opencode_plugin::abi::interact::Interact;
-use opencode_plugin::abi::v2;
-use opencode_plugin::abi::{Click, Edges, Layout, Rgba, Span, Width, Wrap};
+use wormagent_plugin::abi::interact::Interact;
+use wormagent_plugin::abi::v2;
+use wormagent_plugin::abi::{Click, Edges, Layout, Rgba, Span, Width, Wrap};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Kind {

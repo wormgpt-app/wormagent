@@ -1,6 +1,6 @@
 export * as Voice from "./voice.js"
 
-import { type AIError } from "@opencode/ai/effect"
+import { type AIError } from "@wormagent/ai/effect"
 import {
   Realtime,
   type RealtimeEngine,
@@ -8,9 +8,9 @@ import {
   type RealtimeTransport,
   type RealtimeTransportInput,
   type RealtimeTransportType,
-} from "@opencode/ai/experimental"
-import { RequestExecutor } from "@opencode/ai/route"
-import { makeLocationNode } from "@opencode/util/effect/app-node"
+} from "@wormagent/ai/experimental"
+import { RequestExecutor } from "@wormagent/ai/route"
+import { makeLocationNode } from "@wormagent/util/effect/app-node"
 import { Context, Effect, Layer, Redacted, Schema } from "effect"
 import { Credential } from "./credential.js"
 import { requestExecutor } from "./effect/app-node-platform.js"
@@ -53,7 +53,7 @@ export interface Interface {
   readonly session: (input: SessionInput) => Effect.Effect<RealtimeTransport, Error>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/Voice") {}
+export class Service extends Context.Service<Service, Interface>()("@wormagent/Voice") {}
 
 export const layer = Layer.effect(
   Service,
@@ -71,7 +71,7 @@ export const layer = Layer.effect(
         )
 
     // Where an engine's sessions start: its provider with the server's key or, for GPT-Live without an OpenAI key,
-    // OpenCode's hosted GPT-Live with the server's OpenCode Console connection, whose sign-in works as well as a key.
+    // WormAgent's hosted GPT-Live with the server's WormAgent Console connection, whose sign-in works as well as a key.
     const source = Effect.fnUntraced(function* (engine: RealtimeEngine) {
       const connection = yield* findConnection(engine.provider)
       if (connection) return { provider: engine.provider, connection }
@@ -163,12 +163,12 @@ export const node = makeLocationNode({
   deps: [Integration.node, ModelsDev.node, requestExecutor],
 })
 
-/** OpenCode hosts GPT-Live on its OpenAI account, billed to the workspace whose credential starts a session. */
-const openCodeLive = { provider: "opencode", baseURL: "https://opencode.ai/inference/openai/v1" } as const
+/** WormAgent hosts GPT-Live on its OpenAI account, billed to the workspace whose credential starts a session. */
+const openCodeLive = { provider: "wormagent", baseURL: "https://wormagent.net/inference/openai/v1" } as const
 
 /**
- * What a credential starts a session with: a provider's API key on its own API, or an OpenCode Console API key or
- * account sign-in on OpenCode's hosted GPT-Live, for the workspace the sign-in chose.
+ * What a credential starts a session with: a provider's API key on its own API, or an WormAgent Console API key or
+ * account sign-in on WormAgent's hosted GPT-Live, for the workspace the sign-in chose.
  */
 const sessionAccess = (provider: string, credential: Credential.Value) => {
   if (provider !== openCodeLive.provider)
@@ -178,12 +178,12 @@ const sessionAccess = (provider: string, credential: Credential.Value) => {
   return {
     apiKey: Redacted.make(credential.type === "oauth" ? credential.access : credential.key),
     baseURL: openCodeLive.baseURL,
-    ...(typeof orgID === "string" ? { headers: { "x-opencode-org-id": orgID } } : {}),
+    ...(typeof orgID === "string" ? { headers: { "x-wormagent-org-id": orgID } } : {}),
   }
 }
 
 const missingLiveKeyMessage =
-  "GPT-Live needs an OpenAI API key (a stored key or OPENAI_API_KEY) or an OpenCode Console connection on the server. ChatGPT sign-in can't start voice sessions."
+  "GPT-Live needs an OpenAI API key (a stored key or OPENAI_API_KEY) or an WormAgent Console connection on the server. ChatGPT sign-in can't start voice sessions."
 
 const missingKeyMessage = {
   openai:

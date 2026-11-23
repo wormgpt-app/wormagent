@@ -1,6 +1,6 @@
 [package]
-name = "opencode-service"
-description = "Finding, probing, and starting the OpenCode server."
+name = "wormagent-service"
+description = "Finding, probing, and starting the WormAgent server."
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -10,12 +10,12 @@ publish.workspace = true
 workspace = true
 
 [dependencies]
-opencode-api.workspace = true
-opencode-local.workspace = true
+wormagent-api.workspace = true
+wormagent-local.workspace = true
 base64.workspace = true
 futures-util.workspace = true
 log.workspace = true
-opencode-util.workspace = true
+wormagent-util.workspace = true
 rand.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true

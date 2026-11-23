@@ -12,7 +12,7 @@ import {
   type ServerProbeResult,
 } from "./health-machine"
 import { endpointCredentials } from "./machine"
-import { ClientError, isUnauthorizedError, OpenCode } from "@opencode/client"
+import { ClientError, isUnauthorizedError, WormAgent } from "@wormagent/client"
 import { Accessor, batch, createComputed, createSignal, onCleanup, untrack } from "solid-js"
 import { createStore, reconcile } from "solid-js/store"
 
@@ -119,7 +119,7 @@ export async function checkServerHealth(
   }
 
   const attempt = async (count: number): Promise<ServerProbeResult> => {
-    const current = await OpenCode.make({
+    const current = await WormAgent.make({
       baseUrl: server.url,
       fetch,
       headers,

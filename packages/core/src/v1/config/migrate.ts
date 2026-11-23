@@ -1,7 +1,7 @@
 export * as ConfigMigrateV1 from "./migrate.js"
 
-import { ConfigAgent } from "@opencode/schema/config/agent"
-import { ConfigModel } from "@opencode/schema/config/model"
+import { ConfigAgent } from "@wormagent/schema/config/agent"
+import { ConfigModel } from "@wormagent/schema/config/model"
 import { Option, Schema } from "effect"
 import { ConfigAgentV1 } from "./agent.js"
 import { ConfigCommandV1 } from "./command.js"
@@ -183,7 +183,7 @@ function migrateGoogleVertexAnthropicProvider(info: ConfigProviderV1.Info) {
 // Built-in provider routes are already native package specifiers; only npm packages load through the AI SDK.
 function packageSpecifier(npm: string) {
   const name = Provider.packageName(npm)
-  return name.startsWith("@opencode/ai/") ? name : Provider.aisdk(npm)
+  return name.startsWith("@wormagent/ai/") ? name : Provider.aisdk(npm)
 }
 
 // Renames retired provider IDs in V1 fields and the shared top-level model.

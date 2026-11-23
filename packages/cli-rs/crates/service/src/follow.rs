@@ -3,10 +3,10 @@
 
 use std::sync::{Arc, RwLock};
 
-use opencode_api::client::{Auth, Client};
-use opencode_api::error::Error as ApiError;
-use opencode_api::transport::{BoxFuture, Request, Response, Transport};
-use opencode_local::paths::Paths;
+use wormagent_api::client::{Auth, Client};
+use wormagent_api::error::Error as ApiError;
+use wormagent_api::transport::{BoxFuture, Request, Response, Transport};
+use wormagent_local::paths::Paths;
 
 use crate::connect::{self, Connection, Env, Source};
 
@@ -19,8 +19,8 @@ pub fn client(
     env: &Env,
 ) -> Result<Client, ApiError> {
     let Source::Service { .. } = connection.source else { return connection.endpoint.client(transport) };
-    let origin = opencode_api::js::parse_url(&connection.endpoint.url).map_err(|error| match error {
-        opencode_api::js::UrlError::NonAsciiHost(_) => ApiError::Transport(error.to_string()),
+    let origin = wormagent_api::js::parse_url(&connection.endpoint.url).map_err(|error| match error {
+        wormagent_api::js::UrlError::NonAsciiHost(_) => ApiError::Transport(error.to_string()),
         error => ApiError::Transport(format!("{}: {error}", connection.endpoint.url)),
     })?;
     let follow = Follow {
@@ -105,7 +105,7 @@ fn point(route: &url::Url, url: &mut url::Url) {
     };
     // The URL has a host, so these cannot fail.
     let _ = url.set_scheme(scheme);
-    let _ = opencode_api::js::set_host(url, route.host_str());
+    let _ = wormagent_api::js::set_host(url, route.host_str());
     let _ = url.set_port(route.port());
 }
 
@@ -135,7 +135,7 @@ impl Follow {
                 return false;
             }
         };
-        let Ok(url) = opencode_api::js::parse_url(&endpoint.url) else {
+        let Ok(url) = wormagent_api::js::parse_url(&endpoint.url) else {
             log::warn!("service.reconnect found an invalid url: {}", endpoint.url);
             return false;
         };
@@ -150,8 +150,8 @@ mod tests {
     use super::*;
     use crate::probe::Endpoint;
     use crate::testing::{Reply, Server};
-    use opencode_api::generated::PtyID;
-    use opencode_api::pty;
+    use wormagent_api::generated::PtyID;
+    use wormagent_api::pty;
     use std::ffi::OsString;
     use std::sync::Mutex;
 
@@ -160,8 +160,8 @@ mod tests {
     const HEALTH: &str = r#"{"version":"2.0.0","pid":9,"urls":[],"paths":{"tmp":"/tmp"}}"#;
 
     /// Paths in a fresh home, with its state directory; the directory lasts as long as the guard.
-    fn home() -> (opencode_util::temp::TempDir, Paths) {
-        let dir = opencode_util::temp::tempdir().unwrap();
+    fn home() -> (wormagent_util::temp::TempDir, Paths) {
+        let dir = wormagent_util::temp::tempdir().unwrap();
         let paths = Paths::from_vars(|name| match name {
             "HOME" => Some(OsString::from(dir.path())),
             "XDG_STATE_HOME" => Some(dir.path().join("state").into()),
@@ -194,7 +194,7 @@ mod tests {
                 .replies(OLD, [Reply::json(200, HEALTH), Reply::Refused])
                 .reply(NEW, Reply::json(200, HEALTH)),
         );
-        let env = Env { ts_bin: Some("/nonexistent/opencode-ts".to_owned()), ..Env::default() };
+        let env = Env { ts_bin: Some("/nonexistent/wormagent-ts".to_owned()), ..Env::default() };
         let options = connect::Options::default();
         let connection = connect::resolve(server.clone(), &paths, &env, &options).await.unwrap();
         let client = client(server.clone(), &connection, &paths, &env).unwrap();
@@ -214,7 +214,7 @@ mod tests {
             ]
         );
         // A request is checked against the origin the client was built for, and the transport reroutes it after.
-        let call = |path: &str| opencode_api::client::Call::new("GET", path.to_owned(), 200, &[]);
+        let call = |path: &str| wormagent_api::client::Call::new("GET", path.to_owned(), 200, &[]);
         let request = client.prepare(call("/api/info")).unwrap();
         assert_eq!(client.transport().route(request.url).as_str(), NEW);
         assert!(client.prepare(call("/http://127.0.0.1:5000/api/info")).is_err());
@@ -233,7 +233,7 @@ mod tests {
                 .reply(NEW, Reply::json(200, HEALTH))
                 .reply(NEW_TOKEN, Reply::json(200, r#"{"data":{"ticket":"t1","expires_in":60}}"#)),
         );
-        let env = Env { ts_bin: Some("/nonexistent/opencode-ts".to_owned()), ..Env::default() };
+        let env = Env { ts_bin: Some("/nonexistent/wormagent-ts".to_owned()), ..Env::default() };
         let connection = connect::resolve(server.clone(), &paths, &env, &Default::default()).await.unwrap();
         let client = client(server.clone(), &connection, &paths, &env).unwrap();
         register(&paths, 5000, "new");
@@ -268,7 +268,7 @@ mod tests {
                 .replies(OLD, [Reply::json(200, HEALTH), Reply::Refused])
                 .reply(NEW, Reply::json(200, HEALTH)),
         );
-        let env = Env { ts_bin: Some("/nonexistent/opencode-ts".to_owned()), ..Env::default() };
+        let env = Env { ts_bin: Some("/nonexistent/wormagent-ts".to_owned()), ..Env::default() };
         let connection = connect::resolve(server.clone(), &paths, &env, &Default::default()).await.unwrap();
         let client = client(server.clone(), &connection, &paths, &env).unwrap();
         let endpoint = || {
@@ -283,7 +283,7 @@ mod tests {
         // Another origin keeps its own address and credentials.
         let other = Auth::password("other");
         let (url, auth) =
-            client.transport().endpoint(opencode_api::js::parse_url("http://example.com/").unwrap(), Some(&other));
+            client.transport().endpoint(wormagent_api::js::parse_url("http://example.com/").unwrap(), Some(&other));
         assert_eq!(url.as_str(), "http://example.com/");
         assert!(auth == Some(other));
     }
@@ -310,7 +310,7 @@ mod tests {
         let (_dir, paths) = home();
         let file = paths.state.join("service-oc-x.json");
         let server = Arc::new(Server::default());
-        let registration = opencode_local::registration::Registration {
+        let registration = wormagent_local::registration::Registration {
             id: None,
             version: None,
             url: url.to_owned(),
@@ -328,7 +328,7 @@ mod tests {
         let Err(ApiError::Transport(message)) = client(server.clone(), &connection, &paths, &Env::default()) else {
             panic!("a non-ASCII host connected");
         };
-        assert_eq!(message, format!("{url}: {}", opencode_api::js::ASCII_HOST));
+        assert_eq!(message, format!("{url}: {}", wormagent_api::js::ASCII_HOST));
         assert!(server.requests().is_empty());
     }
 }

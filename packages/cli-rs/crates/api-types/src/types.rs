@@ -7157,7 +7157,7 @@ pub struct ExperimentalMcpDisconnectInput {
 pub struct ExperimentalMcpClientTokenInput {
     pub location: Option<LocationQueryInput>,
     pub name: String,
-    pub x_opencode_ticket: Option<String>,
+    pub x_wormagent_ticket: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
@@ -10452,7 +10452,7 @@ pub struct PtyRemoveInput {
 pub struct PtyConnectTokenInput {
     pub pty_id: PtyID,
     pub location: Option<LocationQueryInput>,
-    pub x_opencode_ticket: Option<String>,
+    pub x_wormagent_ticket: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
@@ -10587,7 +10587,7 @@ pub struct ExperimentalPersistentPtyRemoveInput {
 #[derive(Debug, Clone, PartialEq, Default)]
 pub struct ExperimentalPersistentPtyConnectTokenInput {
     pub pty_id: PtyID,
-    pub x_opencode_ticket: Option<String>,
+    pub x_wormagent_ticket: Option<String>,
 }
 
 /// Output of `Client::experimental_persistent_pty_connect_token`.
@@ -12635,7 +12635,7 @@ pub struct ConfigEntryDocumentInfoExperimental {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub project_overlay: Option<bool>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub opencode_api: Option<bool>,
+    pub wormagent_api: Option<bool>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub sqlite_fts: Option<bool>,
     #[serde(default, skip_serializing_if = "Option::is_none")]

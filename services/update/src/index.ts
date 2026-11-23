@@ -34,12 +34,12 @@ const identifier = /^[a-zA-Z0-9._-]{1,64}$/
 const version = /^[a-zA-Z0-9.+_-]{1,128}$/
 const select =
   "SELECT channel, name, distribution, version, metadata, active, minimum, time_created, time_updated FROM artifact"
-const audience = "https://update.opencode.ai"
+const audience = "https://update.wormagent.net"
 const githubKeys = createRemoteJWKSet(new URL("https://token.actions.githubusercontent.com/.well-known/jwks"))
-const hosts = ["opencode.ai", "dev.opencode.ai"]
+const hosts = ["wormagent.net", "dev.wormagent.net"]
 const prefix = "/update"
 // Cloudflare Access sits in front of the admin routes; the Worker also verifies the identity it asserts.
-const accessTeam = "https://anomalyco.cloudflareaccess.com"
+const accessTeam = "https://wormgpt-app.cloudflareaccess.com"
 const accessAudience = "d369a93ad5ce8cf96eebe30620488dd2537427c92fed439c310288832a282987"
 const accessKeys = createRemoteJWKSet(new URL(`${accessTeam}/cdn-cgi/access/certs`))
 // Clients poll every lookup path, and querying D1 on each request overloaded it.
@@ -73,7 +73,7 @@ export default {
       ]).catch(() => console.error("Failed to send update request event to the data lake")),
     )
 
-    if (pathname === "/") return json({ service: "opencode-update" })
+    if (pathname === "/") return json({ service: "wormagent-update" })
     if (pathname === "/admin" || pathname.startsWith("/admin/")) {
       const email = await verifyAccess(request)
       if (!email) return json({ error: "Forbidden" }, 403)
@@ -101,7 +101,7 @@ export default {
 
 async function lookup(request: Request, env: Env, url: URL, path: string[]) {
   const resolved = resolveChannel(path[0])
-  const agent = request.headers.get("User-Agent")?.match(/^opencode\/(?:([^/]+)\/([^/]+)\/cli|(.*))$/)
+  const agent = request.headers.get("User-Agent")?.match(/^wormagent\/(?:([^/]+)\/([^/]+)\/cli|(.*))$/)
   const current = url.searchParams.get("current") ?? agent?.[2] ?? agent?.[3]
   const source = agent?.[1] ?? current?.match(/^v?0\.0\.0-(.+)-\d+(?:\.\d+)?(?:\+.*)?$/)?.[1]
   const caller = source === undefined || resolveChannel(source) === resolved ? current : undefined
@@ -372,7 +372,7 @@ async function admin(request: Request, env: Env) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>OpenCode Update</title>
+  <title>WormAgent Update</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/basecoat.cdn.min.css">
   <style>
     body { min-height: 100vh; background: var(--background); }
@@ -602,11 +602,11 @@ type GitHubClaims = JWTPayload & {
 }
 
 export function validGitHubClaims(claims: JWTPayload): claims is GitHubClaims {
-  if (claims.repository !== "anomalyco/opencode") return false
+  if (claims.repository !== "wormgpt-app/wormagent") return false
   if (claims.repository_id !== "975734319") return false
   if (claims.repository_owner_id !== "66570915") return false
   if (typeof claims.workflow_ref !== "string" || typeof claims.ref !== "string") return false
-  if (claims.workflow_ref !== `anomalyco/opencode/.github/workflows/release.yml@${claims.ref}`) return false
+  if (claims.workflow_ref !== `wormgpt-app/wormagent/.github/workflows/release.yml@${claims.ref}`) return false
   // Only publish jobs run in the release environment, and they never execute repository code.
   if (claims.environment !== "release") return false
   if (typeof claims.event_name !== "string") return false

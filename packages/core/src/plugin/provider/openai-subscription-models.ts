@@ -1,6 +1,6 @@
 export * as OpenAISubscriptionModels from "./openai-subscription-models.js"
 
-import { Event } from "@opencode/schema/config"
+import { Event } from "@wormagent/schema/config"
 import { Effect, Stream } from "effect"
 import { Bus } from "../../bus.js"
 import { Config } from "../../config.js"
@@ -8,7 +8,7 @@ import { Flag } from "../../flag.js"
 import { Provider } from "../../provider.js"
 import { ModelsDev } from "../../models-dev.js"
 
-// Temporary stopgap, OpenAI-only, until opencode moves to the official v2 models.dev API. The Codex and Sign in with
+// Temporary stopgap, OpenAI-only, until wormagent moves to the official v2 models.dev API. The Codex and Sign in with
 // ChatGPT sign-ins can use only some OpenAI models, and models.dev lists them as the hidden `openai-codex` and
 // `openai-chatgpt` providers so the lists can change without a release. The v2 API returns them by default, so this
 // special case goes away then, though they'll still need handling so they don't show up as separate providers.

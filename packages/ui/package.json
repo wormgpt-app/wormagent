@@ -1,11 +1,11 @@
 {
-  "name": "@opencode/ui",
+  "name": "@wormagent/ui",
   "version": "2.4.0",
   "type": "module",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anomalyco/opencode.git",
+    "url": "git+https://github.com/wormgpt-app/wormagent.git",
     "directory": "packages/ui"
   },
   "publishConfig": {
@@ -134,7 +134,7 @@
   "dependencies": {
     "@kitlangton/solid-motion": "0.2.2",
     "@kobalte/core": "catalog:",
-    "@opencode/util": "workspace:*",
+    "@wormagent/util": "workspace:*",
     "@pierre/diffs": "catalog:",
     "@pierre/highlights": "catalog:",
     "@solid-primitives/event-listener": "catalog:",

@@ -1,5 +1,5 @@
 //! Pending forms are kept in their session's record, or under [`GLOBAL`] for elicitations without a session.
-use opencode_api::generated::*;
+use wormagent_api::generated::*;
 
 use crate::core::{Effect, Forms, Ticket};
 use crate::location::Location;

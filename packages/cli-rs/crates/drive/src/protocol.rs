@@ -5,7 +5,7 @@ use serde::Deserialize;
 use serde::de::DeserializeOwned;
 use serde_json::{Value, json};
 
-/// Capabilities are advertised in protocol order. opencode-drive requires `ui.focus` and `ui.click`, so they are
+/// Capabilities are advertised in protocol order. wormagent-drive requires `ui.focus` and `ui.click`, so they are
 /// offered, but with no renderable numbers they always fail; `ui.state` lists no elements.
 pub const CAPABILITIES: &[&str] = &[
     "ui.type",
@@ -187,7 +187,7 @@ pub fn handshake(params: &HandshakeParams, version: &str) -> Result<Value, Strin
     Ok(json!({
         "protocolVersion": 1,
         "role": "ui",
-        "server": { "name": "opencode", "version": if version.is_empty() { "unknown" } else { version } },
+        "server": { "name": "wormagent", "version": if version.is_empty() { "unknown" } else { version } },
         "capabilities": CAPABILITIES,
     }))
 }

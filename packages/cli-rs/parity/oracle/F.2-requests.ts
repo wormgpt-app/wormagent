@@ -1,6 +1,6 @@
 // P-ORACLE for F.2: records the requests the TypeScript Promise client builds, for
 // crates/api/tests/all/oracle.rs to compare with the generated Rust client. Writes parity/fixtures/F.2/requests.json.
-// The raw generated client: the exported `OpenCode.make` wraps it (one shared event subscription without
+// The raw generated client: the exported `WormAgent.make` wraps it (one shared event subscription without
 // input), and the Rust generated client corresponds to the raw one. The package exports do not expose it.
 import { make } from "../../../client/src/promise/generated/client.ts"
 import { records } from "../lib/records"

@@ -1,13 +1,13 @@
 import { createEffect, createMemo, createResource, createSignal, onCleanup, untrack } from "solid-js"
-import { writeClipboard } from "@opencode/session-ui/copy"
-import { useDialog } from "@opencode/ui/context/dialog"
-import { Tooltip } from "@opencode/ui/tooltip"
+import { writeClipboard } from "@wormagent/session-ui/copy"
+import { useDialog } from "@wormagent/ui/context/dialog"
+import { Tooltip } from "@wormagent/ui/tooltip"
 import { useLanguage } from "@/runtime/i18n/language"
 import { usePlatform } from "@/runtime/platform/platform"
 import { ExternalLink } from "@/runtime/platform/external-link"
 import { showToast } from "@/shell/notifications/toast"
 import legal from "./legal.svg"
-import anomalyBrush from "./anomaly-brush.svg"
+import wormgptBrush from "./wormgpt-brush.svg"
 import { AnimatedWordmark } from "./animated-wordmark"
 import { FALLBACK_OTHER_CONTRIBUTORS, loadOtherContributorCount } from "./contributors"
 import {
@@ -100,7 +100,7 @@ export function SettingsAbout(props: { active: boolean }) {
 
   const writerCredits = () => [
     ...writers.map(credit),
-    <ExternalLink href="https://github.com/anomalyco/opencode/graphs/contributors">
+    <ExternalLink href="https://github.com/wormgpt-app/wormagent/graphs/contributors">
       {language.plural("settings.about.otherContributor", otherContributors.latest, {
         count: otherContributors.latest,
       })}
@@ -164,7 +164,7 @@ export function SettingsAbout(props: { active: boolean }) {
       </div>
 
       <p class="settings-about-faint">
-        <ExternalLink href="https://opencode.ai">
+        <ExternalLink href="https://wormagent.net">
           <bdi dir="ltr">{language.t("settings.about.website")}</bdi>
         </ExternalLink>
       </p>
@@ -184,7 +184,7 @@ export function SettingsAbout(props: { active: boolean }) {
       <img class="settings-about-legal" src={legal} alt="" />
       <div class="settings-about-copyright">
         <p>{language.t("settings.about.copyright")}</p>
-        <img class="settings-about-anomaly-brush" src={anomalyBrush} alt="" />
+        <img class="settings-about-wormgpt-brush" src={wormgptBrush} alt="" />
       </div>
     </div>
   )

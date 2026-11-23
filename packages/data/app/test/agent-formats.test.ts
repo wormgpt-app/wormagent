@@ -19,14 +19,14 @@ describe("markdown negotiation", () => {
 
 describe("agent format urls", () => {
   test("the home page maps to index files", () => {
-    expect(markdownUrl("/data/")).toBe("https://opencode.ai/data/index.md")
-    expect(jsonUrl("/data")).toBe("https://opencode.ai/data/index.json")
+    expect(markdownUrl("/data/")).toBe("https://wormagent.net/data/index.md")
+    expect(jsonUrl("/data")).toBe("https://wormagent.net/data/index.json")
   })
 
   test("other pages append the extension", () => {
-    expect(markdownUrl("/data/deepseek")).toBe("https://opencode.ai/data/deepseek.md")
+    expect(markdownUrl("/data/deepseek")).toBe("https://wormagent.net/data/deepseek.md")
     expect(jsonUrl("/data/deepseek/deepseek-v4-1-flash")).toBe(
-      "https://opencode.ai/data/deepseek/deepseek-v4-1-flash.json",
+      "https://wormagent.net/data/deepseek/deepseek-v4-1-flash.json",
     )
   })
 })

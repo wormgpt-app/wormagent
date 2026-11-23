@@ -11,8 +11,8 @@ pub mod scroll;
 pub mod sidebar;
 pub mod tools;
 
-use opencode_api::generated::SessionMessageAssistantContentItem;
-use opencode_store::Task;
+use wormagent_api::generated::SessionMessageAssistantContentItem;
+use wormagent_store::Task;
 use std::collections::BTreeSet;
 
 use super::RouteView;
@@ -27,7 +27,7 @@ pub struct Session {
     scroll: scroll::Controls,
     _actions: actions::Actions,
     queued: queued::Queued,
-    slot: RefCell<opencode_plugin::SlotMount>,
+    slot: RefCell<wormagent_plugin::SlotMount>,
     composer_top: View,
     composer: crate::composer::Composer,
     permission: permission::Permission,
@@ -98,7 +98,7 @@ impl Session {
         let read = id.clone();
         tui.app.spawn(
             synced.0.clone(),
-            bind!(tui, |tui, _, session: Result<(), opencode_store::Error>| {
+            bind!(tui, |tui, _, session: Result<(), wormagent_store::Error>| {
                 if session.is_ok() {
                     let root = tui.data.read(|state| SessionID::from(state.root(&read)));
                     drop(tui.data.job_sync(&root));
@@ -204,12 +204,12 @@ impl RouteView for Session {
     }
 }
 
-fn composer_slot(tui: &Tui, parent: &View, id: &SessionID) -> opencode_plugin::SlotMount {
+fn composer_slot(tui: &Tui, parent: &View, id: &SessionID) -> wormagent_plugin::SlotMount {
     crate::plugins::host::slot(
         tui,
         parent,
-        opencode_plugin::slot::SESSION_COMPOSER_TOP,
-        &opencode_plugin::slot::SlotInput { session_id: Some(id.0.clone()), ..Default::default() },
+        wormagent_plugin::slot::SESSION_COMPOSER_TOP,
+        &wormagent_plugin::slot::SlotInput { session_id: Some(id.0.clone()), ..Default::default() },
         |_| {},
     )
 }
@@ -218,7 +218,7 @@ fn composer_slot(tui: &Tui, parent: &View, id: &SessionID) -> opencode_plugin::S
 fn load(tui: &Tui, task: Task<()>) {
     tui.app.spawn(
         task,
-        opencode_ui::bind!(tui, |tui, _, result| {
+        wormagent_ui::bind!(tui, |tui, _, result| {
             if let Err(error) = result {
                 tui.toasts.error(error.tui_message());
             }
@@ -240,9 +240,9 @@ fn prewarm(tui: &Tui, id: &SessionID) {
             SessionMessageAssistantContentItem::Reasoning(reasoning) => Some(reasoning.text.as_str()),
             _ => None,
         })
-        .flat_map(opencode_ui::grammars::fence_languages)
+        .flat_map(wormagent_ui::grammars::fence_languages)
         .collect();
-    opencode_ui::grammars::prewarm(languages);
+    wormagent_ui::grammars::prewarm(languages);
 }
 
 /// Load the session. A missing session closes its tab, or returns home when tabs are off.
@@ -250,11 +250,11 @@ fn missing(tui: &Tui, id: &SessionID, task: Task<()>) {
     let id = id.clone();
     tui.app.spawn(
         task,
-        opencode_ui::bind!(tui, |tui, _, result| {
+        wormagent_ui::bind!(tui, |tui, _, result| {
             let message = match result {
                 Err(error) => {
                     tui.toasts.error(error.tui_message());
-                    if matches!(*error, opencode_api::error::Error::Transport(_)) {
+                    if matches!(*error, wormagent_api::error::Error::Transport(_)) {
                         return;
                     }
                     None

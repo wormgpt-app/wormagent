@@ -8,14 +8,14 @@ use std::time::{Duration, Instant};
 
 use bytes::Bytes;
 use futures_util::StreamExt;
-use opencode_api::events::{self, Status};
-use opencode_api::transport::{BoxFuture, Request, Response, Transport};
-use opencode_local::paths::Paths;
-use opencode_local::registration;
-use opencode_service::connect::{self, Env};
-use opencode_service::follow;
-use opencode_service::ts_command::write_script;
-use opencode_store::connection::Events;
+use wormagent_api::events::{self, Status};
+use wormagent_api::transport::{BoxFuture, Request, Response, Transport};
+use wormagent_local::paths::Paths;
+use wormagent_local::registration;
+use wormagent_service::connect::{self, Env};
+use wormagent_service::follow;
+use wormagent_service::ts_command::write_script;
+use wormagent_store::connection::Events;
 use tokio::sync::watch;
 
 const OLD: u16 = 4096;
@@ -88,7 +88,7 @@ fn reply(
 
 #[tokio::test(flavor = "multi_thread")]
 async fn the_event_stream_follows_a_service_that_crashed_and_was_replaced() {
-    let dir = opencode_util::temp::tempdir().unwrap();
+    let dir = wormagent_util::temp::tempdir().unwrap();
     let paths = Paths::from_vars(|name| match name {
         "HOME" => Some(OsString::from(dir.path())),
         "XDG_STATE_HOME" => Some(dir.path().join("state").into()),
@@ -100,7 +100,7 @@ async fn the_event_stream_follows_a_service_that_crashed_and_was_replaced() {
     let file = paths.state.join("service-oc-x.json");
     std::fs::write(&file, format!(r#"{{"url":"http://127.0.0.1:{OLD}","pid":9,"password":"old"}}"#)).unwrap();
     // The contender registers the replacement under its own pid.
-    let program = dir.path().join("opencode-ts");
+    let program = dir.path().join("wormagent-ts");
     write_script(
         &program,
         &format!(

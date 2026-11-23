@@ -1,19 +1,19 @@
 import { expect } from "bun:test"
-import { Agent } from "@opencode/core/agent"
-import { App } from "@opencode/core/app"
-import { Database } from "@opencode/core/database/database"
-import { llmClient } from "@opencode/core/effect/app-node-platform"
-import { Flag } from "@opencode/core/flag"
-import { Image } from "@opencode/core/image"
-import { LocationServiceMap } from "@opencode/core/location-service-map"
-import { Session } from "@opencode/core/session"
-import { SessionBlob } from "@opencode/core/session/blob"
-import { SessionRunnerModel } from "@opencode/core/session/runner/model"
-import { BlobTable, SessionMessageTable } from "@opencode/core/session/sql"
-import { SessionStored } from "@opencode/core/session/stored"
-import { Location } from "@opencode/schema/location"
-import { AbsolutePath } from "@opencode/schema/schema"
-import { Global } from "@opencode/util/global"
+import { Agent } from "@wormagent/core/agent"
+import { App } from "@wormagent/core/app"
+import { Database } from "@wormagent/core/database/database"
+import { llmClient } from "@wormagent/core/effect/app-node-platform"
+import { Flag } from "@wormagent/core/flag"
+import { Image } from "@wormagent/core/image"
+import { LocationServiceMap } from "@wormagent/core/location-service-map"
+import { Session } from "@wormagent/core/session"
+import { SessionBlob } from "@wormagent/core/session/blob"
+import { SessionRunnerModel } from "@wormagent/core/session/runner/model"
+import { BlobTable, SessionMessageTable } from "@wormagent/core/session/sql"
+import { SessionStored } from "@wormagent/core/session/stored"
+import { Location } from "@wormagent/schema/location"
+import { AbsolutePath } from "@wormagent/schema/schema"
+import { Global } from "@wormagent/util/global"
 import { Context, Effect, Layer } from "effect"
 import { HttpServer } from "effect/http"
 import { LanguageModel, LLMClient } from "../../ai/src/effect"
@@ -30,7 +30,7 @@ const pngHash = SessionBlob.hashBytes(Buffer.from(pngBase64, "base64"))
 
 const runChannel = (channel: "dev" | "latest") =>
   Effect.gen(function* () {
-    const dir = yield* tmpdirScoped(`opencode-flag-channel-${channel}-`)
+    const dir = yield* tmpdirScoped(`wormagent-flag-channel-${channel}-`)
     const location = Location.Ref.make({ directory: AbsolutePath.make(dir.path) })
     const llm = yield* TestLLM.Test.pipe(Effect.provide(TestLLM.testLayer()))
     const model = SessionRunnerModel.resolved(
@@ -65,7 +65,7 @@ const runChannel = (channel: "dev" | "latest") =>
     const sessions = Context.get(context, Session.Service)
     const locations = Context.get(context, LocationServiceMap.Service)
     const { db } = Context.get(context, Database.Service)
-    expect(Context.get(context, App.Service)).toEqual({ name: "opencode", version: "test", channel })
+    expect(Context.get(context, App.Service)).toEqual({ name: "wormagent", version: "test", channel })
 
     const session = yield* sessions.create({
       title: `channel-${channel}`,
@@ -75,7 +75,7 @@ const runChannel = (channel: "dev" | "latest") =>
     })
 
     expect(yield* App.Service.pipe(Effect.provide(locations.get(session.location)))).toEqual({
-      name: "opencode",
+      name: "wormagent",
       version: "test",
       channel,
     })

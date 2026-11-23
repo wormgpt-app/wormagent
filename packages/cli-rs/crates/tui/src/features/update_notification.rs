@@ -1,7 +1,7 @@
 //! Register update actions only when an updater is available. Keep dismissed notices in shared storage.
 
-use opencode_api::generated::{EventKind, V2Event};
-use opencode_ui::motion::FadeInText;
+use wormagent_api::generated::{EventKind, V2Event};
+use wormagent_ui::motion::FadeInText;
 
 use crate::prelude::*;
 
@@ -80,14 +80,14 @@ pub struct Updates {
 
 pub fn set_source(tui: &Rc<Tui>, source: Rc<dyn Source>) {
     *tui.updates.source.borrow_mut() = Some(source);
-    let command = TuiCommand::new("opencode.update", bind!(tui, |tui, _, _| open(&tui, Origin::Manual)))
+    let command = TuiCommand::new("wormagent.update", bind!(tui, |tui, _, _| open(&tui, Origin::Manual)))
         .bind(Bind::Off)
-        .title("Update OpenCode")
+        .title("Update WormAgent")
         .group("System")
         .palette()
         .slash("update");
     tui.keymap
-        .install("update", [KeymapLayer::global(vec![command]), KeymapLayer::default().bindings(["opencode.update"])]);
+        .install("update", [KeymapLayer::global(vec![command]), KeymapLayer::default().bindings(["wormagent.update"])]);
     let kinds = [EventKind::InstallationUpdateAvailable, EventKind::InstallationUpdated];
     crate::features::events::subscribe(tui, kinds, |tui, event| {
         let (kind, version) = match event {

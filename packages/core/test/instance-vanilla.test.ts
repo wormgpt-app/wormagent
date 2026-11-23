@@ -2,16 +2,16 @@ import fs from "fs/promises"
 import path from "path"
 import { describe, expect } from "bun:test"
 import { Duration, Effect, Layer, LayerMap } from "effect"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { Global } from "@opencode/util/global"
-import { Config } from "@opencode/core/config"
-import { Instance } from "@opencode/core/instance"
-import { InstructionDiscovery } from "@opencode/core/instruction-discovery"
-import { LocationServiceMap } from "@opencode/core/location-services"
-import { Location } from "@opencode/core/location"
-import { Plugin } from "@opencode/core/plugin"
-import { AbsolutePath } from "@opencode/core/schema"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { Global } from "@wormagent/util/global"
+import { Config } from "@wormagent/core/config"
+import { Instance } from "@wormagent/core/instance"
+import { InstructionDiscovery } from "@wormagent/core/instruction-discovery"
+import { LocationServiceMap } from "@wormagent/core/location-services"
+import { Location } from "@wormagent/core/location"
+import { Plugin } from "@wormagent/core/plugin"
+import { AbsolutePath } from "@wormagent/core/schema"
 import { tmpdirScoped } from "./fixture/tmpdir"
 import { tempGlobalLayer } from "./fixture/global"
 import { offlineModels } from "./fixture/models"
@@ -78,7 +78,7 @@ describe("Instance vanilla", () => {
             Effect.promise(async () => {
               const directory = path.join(dir.path, name)
               await fs.mkdir(directory)
-              await fs.writeFile(path.join(directory, "opencode.json"), "{}")
+              await fs.writeFile(path.join(directory, "wormagent.json"), "{}")
               await fs.writeFile(path.join(directory, "AGENTS.md"), "planted instructions")
               return Location.Ref.make({ directory: AbsolutePath.make(directory) })
             })

@@ -1,5 +1,5 @@
-import { Icon } from "@opencode/ui/icon"
-import { Loader } from "@opencode/ui/loader"
+import { Icon } from "@wormagent/ui/icon"
+import { Loader } from "@wormagent/ui/loader"
 import { useLanguage } from "@/runtime/i18n/language"
 import { Match, Switch } from "solid-js"
 import { selectServerIndicator, type ServerHealth } from "@/runtime/server/health-machine"

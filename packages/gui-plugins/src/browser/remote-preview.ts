@@ -1,4 +1,4 @@
-import type { ServerEndpoint } from "@opencode/plugin/gui/main"
+import type { ServerEndpoint } from "@wormagent/plugin/gui/main"
 import type { WorkspaceSource } from "./workspace-file"
 import { workspacePrefix } from "./remote-address"
 

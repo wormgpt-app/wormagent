@@ -47,7 +47,7 @@ pub enum Detail {
 }
 
 /// `DialogSelectChoice`: the trailing value of a row that can be changed. The selected row shows how: `‹ dark ›`
-/// cycles with ←/→, `opencode ↵` opens a picker. Other rows pad the value to the same width so it does not shift
+/// cycles with ←/→, `wormagent ↵` opens a picker. Other rows pad the value to the same width so it does not shift
 /// as the selection moves. The value extends two cells into the row's right padding, so it ends where plain
 /// footers do.
 #[derive(Clone, Debug, PartialEq)]
@@ -1518,7 +1518,7 @@ fn option_row<T>(
     if let Some(description) = description {
         spans.push(format!(" {description}").fg(secondary));
     }
-    // TS gives the title `paddingLeft={3}`, which Core 0.8.4 lays out but does not paint (anomalyco/opentui#2054). The
+    // TS gives the title `paddingLeft={3}`, which Core 0.8.4 lays out but does not paint (wormgpt-app/opentui#2054). The
     // row grows into the same width without it, so leaving it out draws the title where TS does.
     row.add(
         &Text::new(app, spans).grow(1.0).basis(Length::Auto).fg(text).overflow(Overflow::Hidden).wrap(WrapMode::None),

@@ -21,7 +21,7 @@ import { createTuiResolvedConfig } from "../../../tui/test/fixture/tui-runtime"
 import { withNewDesigns } from "../lib/app"
 import { renderComponent } from "../lib/component"
 
-const directory = "/tmp/opencode/app"
+const directory = "/tmp/wormagent/app"
 const location = { directory, project: { id: "proj_app", directory, canonical: directory } }
 
 const credential = (id: string, label: string, status?: unknown) => ({
@@ -34,17 +34,17 @@ const credential = (id: string, label: string, status?: unknown) => ({
 
 const INTEGRATIONS = [
   {
-    id: "opencode",
-    name: "OpenCode Console",
-    methods: [{ type: "oauth", id: "device", label: "Sign in with OpenCode" }],
+    id: "wormagent",
+    name: "WormAgent Console",
+    methods: [{ type: "oauth", id: "device", label: "Sign in with WormAgent" }],
     connections: [credential("cred_work", "work"), credential("cred_home", "home")],
   },
-  // Hidden: OpenCode Go is listed only once a Go key is saved.
+  // Hidden: WormAgent Go is listed only once a Go key is saved.
   {
-    id: "opencode-go",
-    name: "OpenCode Go",
+    id: "wormagent-go",
+    name: "WormAgent Go",
     methods: [{ type: "key" }],
-    connections: [{ type: "env", name: "OPENCODE_API_KEY" }],
+    connections: [{ type: "env", name: "WORMAGENT_API_KEY" }],
   },
   {
     id: "openai",
@@ -170,7 +170,7 @@ async function render(fixture: string, ready: (frame: string) => boolean, act?: 
   })
 }
 
-// Sorted: OpenCode Console, OpenAI, GitHub Copilot, Anthropic (Popular); Acme, Zed (Services).
+// Sorted: WormAgent Console, OpenAI, GitHub Copilot, Anthropic (Popular); Acme, Zed (Services).
 // The ready check also matches the list, which shows before `act` runs.
 const listed = (frame: string) => frame.includes("Connect an integration")
 const down = async (setup: Parameters<NonNullable<Act>>[0], count: number) => {

@@ -4,7 +4,7 @@ import { setFaq } from "../faq"
 
 /**
  * The Press page (routes/press/index.tsx): the boilerplate accordion, the copy buttons (each
- * boilerplate, the Anomaly logo SVGs) and the media gallery's lightbox, which renders in the browser
+ * boilerplate, the WormGPT logo SVGs) and the media gallery's lightbox, which renders in the browser
  * on the first thumbnail click (press-lightbox.tsx).
  */
 export default function press() {
@@ -42,7 +42,7 @@ export default function press() {
   })
 }
 
-// The boilerplate accordion (faq.tsx, opened and closed by src/client/faq.ts), OpenCode's row open
+// The boilerplate accordion (faq.tsx, opened and closed by src/client/faq.ts), WormAgent's row open
 // from the server. A row grows open only once one has been toggled (data-ready), so a row a link
 // opens doesn't animate.
 function accordion(list: HTMLElement) {

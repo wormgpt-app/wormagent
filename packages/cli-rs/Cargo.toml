@@ -10,7 +10,7 @@ publish = false
 
 [workspace.lints.rust]
 unsafe_code = "deny"
-# From Anomaly's shared Rust lint set, the ones the client already has no findings for, so it keeps none.
+# From WormGPT's shared Rust lint set, the ones the client already has no findings for, so it keeps none.
 unsafe_op_in_unsafe_fn = "deny"
 unused_must_use = "deny"
 
@@ -23,26 +23,26 @@ todo = "warn"
 undocumented_unsafe_blocks = "deny"
 
 [workspace.dependencies]
-opencode-acp = { path = "crates/acp" }
-opencode-api = { path = "crates/api" }
-opencode-api-types = { path = "crates/api-types" }
-opencode-drive = { path = "crates/drive" }
-opencode-latex = { path = "crates/latex" }
-opencode-local = { path = "crates/local" }
-opencode-mermaid = { path = "crates/mermaid" }
-opencode-mini = { path = "crates/mini" }
-opencode-parity = { path = "crates/parity" }
-# Without their default features: `ts` (TypeScript TUI plugins on the JS host) is chosen by opencode-cli, so a build
+wormagent-acp = { path = "crates/acp" }
+wormagent-api = { path = "crates/api" }
+wormagent-api-types = { path = "crates/api-types" }
+wormagent-drive = { path = "crates/drive" }
+wormagent-latex = { path = "crates/latex" }
+wormagent-local = { path = "crates/local" }
+wormagent-mermaid = { path = "crates/mermaid" }
+wormagent-mini = { path = "crates/mini" }
+wormagent-parity = { path = "crates/parity" }
+# Without their default features: `ts` (TypeScript TUI plugins on the JS host) is chosen by wormagent-cli, so a build
 # without it has no JS host anywhere (ts-feature).
-opencode-plugin = { path = "crates/plugin", default-features = false }
-opencode-plugin-abi = { path = "crates/plugin-abi", features = ["host"] }
-opencode-service = { path = "crates/service" }
-opencode-store = { path = "crates/store" }
-opencode-tui = { path = "crates/tui", default-features = false }
-opencode-ui = { path = "crates/ui" }
-opencode-util = { path = "crates/util" }
+wormagent-plugin = { path = "crates/plugin", default-features = false }
+wormagent-plugin-abi = { path = "crates/plugin-abi", features = ["host"] }
+wormagent-service = { path = "crates/service" }
+wormagent-store = { path = "crates/store" }
+wormagent-tui = { path = "crates/tui", default-features = false }
+wormagent-ui = { path = "crates/ui" }
+wormagent-util = { path = "crates/util" }
 
-# OpenTUI's Rust crates (`packages/rust` of anomalyco/opentui), pinned exactly to a release on crates.io. The crate
+# OpenTUI's Rust crates (`packages/rust` of wormgpt-app/opentui), pinned exactly to a release on crates.io. The crate
 # has no native library: script/opentui-native.ts installs the release's, checked against its table; see README.md.
 opentui = { version = "=0.9.7", features = ["static", "tokio", "tree-sitter"] }
 
@@ -58,7 +58,7 @@ indexmap = { version = "2", features = ["serde"] }
 libc = "0.2"
 log = { version = "0.4", features = ["std"] }
 memchr = "2"
-# Luau plugins, behind opencode-plugin's default feature `luau`: Luau's VM and compiler. Values cross as
+# Luau plugins, behind wormagent-plugin's default feature `luau`: Luau's VM and compiler. Values cross as
 # JSON (`crates/plugin/src/luau/json.rs`), so mlua's own serde is off.
 mlua = { version = "0.12", features = ["luau"] }
 notify = "8"
@@ -66,7 +66,7 @@ percent-encoding = "2"
 rand = "0.10"
 regex = "1"
 ring = "0.17"
-# TLS is rustls on ring with the platform's roots, configured once in `opencode_api::transport`, for HTTP/1.1 only, as
+# TLS is rustls on ring with the platform's roots, configured once in `wormagent_api::transport`, for HTTP/1.1 only, as
 # Bun's fetch speaks.
 reqwest = { version = "0.13", default-features = false, features = ["rustls-no-provider", "json", "stream"] }
 rustix = { version = "1", features = ["fs", "process"] }
@@ -81,10 +81,10 @@ tokio-tungstenite = { version = "0.30", features = ["rustls-tls-native-roots"] }
 tokio-util = "0.7"
 unicode-width = "0.2"
 url = "2"
-# Win32 calls, for opencode-util's `win` module only (DW1); each use adds its features there.
+# Win32 calls, for wormagent-util's `win` module only (DW1); each use adds its features there.
 windows-sys = "0.61"
 
-# Tree-sitter grammars for opencode-ui's `grammars` feature (crates/ui/src/grammars), pinned to
+# Tree-sitter grammars for wormagent-ui's `grammars` feature (crates/ui/src/grammars), pinned to
 # the WASM releases packages/tui/src/parsers-config.ts loads where crates.io has them. The five opentui bundles take
 # its versions.
 tree-sitter-javascript = "0.25"

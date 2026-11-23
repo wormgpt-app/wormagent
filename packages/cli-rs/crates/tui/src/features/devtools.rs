@@ -1,11 +1,11 @@
 //! Developer tools bar and runtime samples.
 
-use opencode_api::events::{State, Status};
-use opencode_api::generated::ExperimentalSessionLogInput;
-use opencode_api::generated::ServerInfo;
-use opencode_api::transport::SseResponse;
-use opencode_local::cli_config::{Info, TurnTokens};
-use opencode_ui::theme::ThemeMode;
+use wormagent_api::events::{State, Status};
+use wormagent_api::generated::ExperimentalSessionLogInput;
+use wormagent_api::generated::ServerInfo;
+use wormagent_api::transport::SseResponse;
+use wormagent_local::cli_config::{Info, TurnTokens};
+use wormagent_ui::theme::ThemeMode;
 use std::time::Instant;
 
 use crate::dialogs::settings::{self, set_path};
@@ -117,11 +117,11 @@ pub fn enabled(info: &Info) -> bool {
     info.debug
         .as_ref()
         .and_then(|debug| debug.devtools)
-        .unwrap_or_else(|| opencode_local::channel::Channels::from_env().channel == "local")
+        .unwrap_or_else(|| wormagent_local::channel::Channels::from_env().channel == "local")
 }
 
 fn shown(tui: &Tui, info: &Info) -> bool {
-    enabled(info) && !matches!(&*tui.route(), Route::Plugin { id, .. } if id == "opencode.stats")
+    enabled(info) && !matches!(&*tui.route(), Route::Plugin { id, .. } if id == "wormagent.stats")
 }
 
 thread_local! {
@@ -604,7 +604,7 @@ impl Bar {
             });
         }
         let run = Rc::new(run);
-        view.mouse_pointer(opencode_ui::click_pointer(!disabled)).on_mouse(bind!(self, |bar, cx, event| {
+        view.mouse_pointer(wormagent_ui::click_pointer(!disabled)).on_mouse(bind!(self, |bar, cx, event| {
             if !bar.release(event, &target) {
                 return;
             }
@@ -693,7 +693,7 @@ fn defer(tui: &Tui, run: impl FnOnce(&Tui) + 'static) {
 }
 
 /// The last 100 durable events of the session's log; nothing when the log is unavailable.
-async fn session_events(client: &opencode_api::client::Client, id: &opencode_api::generated::SessionID) -> Vec<Value> {
+async fn session_events(client: &wormagent_api::client::Client, id: &wormagent_api::generated::SessionID) -> Vec<Value> {
     use futures_util::StreamExt;
     let input = ExperimentalSessionLogInput { session_id: id.clone(), after: None, follow: Some(false) };
     let Ok(response) = client.experimental_session_log(&input).await else { return Vec::new() };
@@ -712,7 +712,7 @@ async fn session_events(client: &opencode_api::client::Client, id: &opencode_api
 
 fn write_private(output: &Value) -> Result<String, String> {
     use std::io::Write;
-    let path = std::env::temp_dir().join(format!("opencode-debug-{}.json", opencode_local::id::v4()));
+    let path = std::env::temp_dir().join(format!("wormagent-debug-{}.json", wormagent_local::id::v4()));
     let mut options = std::fs::OpenOptions::new();
     options.write(true).create_new(true);
     #[cfg(unix)]
@@ -786,19 +786,19 @@ fn url_host(url: &str) -> String {
 
 #[cfg(windows)]
 fn cpu_time() -> f64 {
-    opencode_util::win::process_times().map_or(0.0, |times| times.cpu_seconds)
+    wormagent_util::win::process_times().map_or(0.0, |times| times.cpu_seconds)
 }
 
 /// Resident memory in bytes (`process.memoryUsage().rss`), the working set.
 #[cfg(windows)]
 fn memory() -> f64 {
-    opencode_util::win::resident_memory().map_or(0.0, |bytes| bytes as f64)
+    wormagent_util::win::resident_memory().map_or(0.0, |bytes| bytes as f64)
 }
 
 /// Process uptime in milliseconds.
 #[cfg(windows)]
 fn process_age_ms() -> f64 {
-    opencode_util::win::process_times().map_or(0.0, |times| times.age_ms.max(0.0))
+    wormagent_util::win::process_times().map_or(0.0, |times| times.age_ms.max(0.0))
 }
 
 #[cfg(not(windows))]

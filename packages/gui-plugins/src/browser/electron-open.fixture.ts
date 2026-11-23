@@ -1,10 +1,10 @@
 import { createServer, type ServerResponse } from "node:http"
 import electron from "electron"
 import { Schema } from "effect"
-import { RpcError } from "@opencode/protocol/errors"
-import type { BuiltinMainStorage } from "@opencode/plugin/gui/builtin"
-import type { Embeds } from "@opencode/plugin/gui/main"
-import type { Browser } from "@opencode/plugin-browser/rpc"
+import { RpcError } from "@wormagent/protocol/errors"
+import type { BuiltinMainStorage } from "@wormagent/plugin/gui/builtin"
+import type { Embeds } from "@wormagent/plugin/gui/main"
+import type { Browser } from "@wormagent/plugin-browser/rpc"
 import type { PaneEvent } from "./ipc"
 import type { Profile } from "./profile"
 
@@ -102,7 +102,7 @@ function createApi(directory: string) {
     if (path === "/api/plugin") {
       startup.listed += 1
       response.writeHead(200, { "content-type": "application/json" })
-      const data = loading() ? [] : [{ id: "opencode.browser", source: { type: "builtin" }, features: { server: true }, state: { status: "active" } }]
+      const data = loading() ? [] : [{ id: "wormagent.browser", source: { type: "builtin" }, features: { server: true }, state: { status: "active" } }]
 
       return void response.end(JSON.stringify({ location: session.location, data }))
     }

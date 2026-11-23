@@ -6,9 +6,9 @@ use std::path::Path;
 use std::sync::Arc;
 use std::time::Duration;
 
-use opencode_tui::Deps;
-use opencode_ui::path::Flavor;
-use opencode_ui::prompt_input::parse::file_url;
+use wormagent_tui::Deps;
+use wormagent_ui::path::Flavor;
+use wormagent_ui::prompt_input::parse::file_url;
 use serde_json::{Value, json};
 
 fn fake() -> Fake {
@@ -80,17 +80,17 @@ fn fake() -> Fake {
 struct Setup {
     harness: Harness,
     seen: Log,
-    home: opencode_util::temp::TempDir,
+    home: wormagent_util::temp::TempDir,
 }
 
 deref_harness!(Setup);
 
 impl Setup {
     fn new() -> Self {
-        Self::with_home(opencode_util::temp::tempdir().unwrap())
+        Self::with_home(wormagent_util::temp::tempdir().unwrap())
     }
 
-    fn with_home(home: opencode_util::temp::TempDir) -> Self {
+    fn with_home(home: wormagent_util::temp::TempDir) -> Self {
         let fake = fake();
         let seen = fake.log();
         let deps =
@@ -323,7 +323,7 @@ fn a_mention_keeps_its_part_through_a_theme_switch() {
     assert_eq!(after.len(), 1);
     assert_eq!(after[0].range(), before.range());
     assert!(after[0].options.atomic);
-    let style = opencode_ui::code::syntax_theme(&setup.tui.page()).get("extmark.agent");
+    let style = wormagent_ui::code::syntax_theme(&setup.tui.page()).get("extmark.agent");
     assert_eq!(after[0].options.style, style);
     assert_ne!(after[0].options.style, before.options.style);
     setup.app.type_text("now");
@@ -474,9 +474,9 @@ fn cd_completes_directories_moves_the_session_and_keeps_recents() {
 
 #[test]
 fn an_open_cd_picker_shows_the_recents_a_write_merges_back() {
-    use opencode_local::lock;
+    use wormagent_local::lock;
 
-    let home = opencode_util::temp::tempdir().unwrap();
+    let home = wormagent_util::temp::tempdir().unwrap();
     let state = home.path().join("state");
     std::fs::create_dir_all(state.join("latest/tui")).unwrap();
     std::fs::write(
@@ -531,7 +531,7 @@ fn an_open_list_stays_open_when_the_route_mounts_again() {
     setup.wait_for("/sessions");
     setup.app.press("down");
     let before = setup.app.render().text();
-    opencode_plugin::Host::remount(&*opencode_tui::plugins::host::host(&setup.tui));
+    wormagent_plugin::Host::remount(&*wormagent_tui::plugins::host::host(&setup.tui));
     assert_eq!(setup.app.render().text(), before);
     setup.app.type_text("ssions");
     setup.wait_for("/sessions");
@@ -546,7 +546,7 @@ fn a_list_typed_before_a_remounted_composer_lays_out_shows_every_row() {
         let setup = Setup::new();
         setup.app.render();
         if remount {
-            opencode_plugin::Host::remount(&*opencode_tui::plugins::host::host(&setup.tui));
+            wormagent_plugin::Host::remount(&*wormagent_tui::plugins::host::host(&setup.tui));
         }
         setup.app.type_text("/se");
         setup.wait_for("Open settings");
@@ -565,7 +565,7 @@ fn the_replay_settles_a_list_typed_before_its_composer_laid_out() {
         let setup = Setup::new();
         setup.app.render();
         if remount {
-            opencode_plugin::Host::remount(&*opencode_tui::plugins::host::host(&setup.tui));
+            wormagent_plugin::Host::remount(&*wormagent_tui::plugins::host::host(&setup.tui));
         }
         setup.app.type_text("/se");
         setup.wait_for("Open settings");
@@ -585,16 +585,16 @@ fn an_open_list_keeps_its_height_across_two_remounts_in_one_turn() {
     setup.wait_for("/sessions");
     setup.app.press("down");
     let before = setup.app.render().text();
-    let host = opencode_tui::plugins::host::host(&setup.tui);
-    opencode_plugin::Host::remount(&*host);
-    opencode_plugin::Host::remount(&*host);
+    let host = wormagent_tui::plugins::host::host(&setup.tui);
+    wormagent_plugin::Host::remount(&*host);
+    wormagent_plugin::Host::remount(&*host);
     assert_eq!(setup.app.render().text(), before);
 }
 
 #[test]
 fn a_dialog_over_an_open_list_keeps_its_keys_across_a_remount() {
     let setup = Setup::new();
-    let remount = || opencode_plugin::Host::remount(&*opencode_tui::plugins::host::host(&setup.tui));
+    let remount = || wormagent_plugin::Host::remount(&*wormagent_tui::plugins::host::host(&setup.tui));
     setup.app.type_text("/se");
     setup.wait_for("/sessions");
     for close in ["escape", "ctrl+c"] {
@@ -623,7 +623,7 @@ fn a_file_list_keeps_its_results_and_selection_across_a_remount() {
         let searches = setup.requests("GET", "/api/fs/find").len();
         setup.app.press("down");
         if remount {
-            opencode_plugin::Host::remount(&*opencode_tui::plugins::host::host(&setup.tui));
+            wormagent_plugin::Host::remount(&*wormagent_tui::plugins::host::host(&setup.tui));
         }
         let again =
             setup.app.wait_until(Duration::from_millis(200), || setup.requests("GET", "/api/fs/find").len() > searches);
@@ -665,7 +665,7 @@ fn frecency_file_is_shared_with_typescript() {
     assert_eq!(typescript.lines().next(), rust.lines().nth(1));
     assert_eq!(typescript.lines().count(), 3, "{typescript}");
 
-    let home = opencode_util::temp::TempDir::new().unwrap();
+    let home = wormagent_util::temp::TempDir::new().unwrap();
     std::fs::create_dir_all(home.path().join("state")).unwrap();
     std::fs::copy(state.join("frecency.jsonl"), home.path().join("state/frecency.jsonl")).unwrap();
     let again = Setup::with_home(home);

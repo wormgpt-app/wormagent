@@ -1,9 +1,9 @@
 //! The built-in diff viewer, shown as a route or a docked panel.
 
-use opencode_api::generated::{SessionExecutionInterruptedDataReason, V2Event};
-use opencode_plugin::abi::interact::{Button, Event, Handled, OpenPanel, PointerKind};
-use opencode_plugin::abi::v2::{Place, ScrollEvent, Surface};
-use opencode_plugin::abi::{self, Command, Dialog, Host, RequestId};
+use wormagent_api::generated::{SessionExecutionInterruptedDataReason, V2Event};
+use wormagent_plugin::abi::interact::{Button, Event, Handled, OpenPanel, PointerKind};
+use wormagent_plugin::abi::v2::{Place, ScrollEvent, Surface};
+use wormagent_plugin::abi::{self, Command, Dialog, Host, RequestId};
 
 pub mod base_branch;
 pub mod file_menu;
@@ -20,7 +20,7 @@ use viewer::{Memory, Mode, Preview, Showing, Turn, Viewer};
 
 use crate::prelude::*;
 
-pub const ID: &str = "opencode.diffs";
+pub const ID: &str = "wormagent.diffs";
 pub const ROUTE: &str = "diff";
 pub const PANEL: &str = "panel";
 pub const PAGE: &str = "diff";
@@ -29,13 +29,13 @@ const IMAGES: &str = "images";
 const FILES: &str = "files";
 const TREE: &str = "tree";
 const EDGE: &str = "edge";
-const SOURCE: &str = "opencode.diffs.source";
-const HELP: &str = "opencode.diffs.help";
-const LEAVE: &str = "opencode.diffs.leave";
-const PREVIEW: &str = "opencode.diffs.preview";
-const PICK_SOURCE: &str = "opencode.diffs.pick_source";
-const PICK_BASE: &str = "opencode.diffs.pick_base";
-const QUERY_BASE: &str = "opencode.diffs.query_base";
+const SOURCE: &str = "wormagent.diffs.source";
+const HELP: &str = "wormagent.diffs.help";
+const LEAVE: &str = "wormagent.diffs.leave";
+const PREVIEW: &str = "wormagent.diffs.preview";
+const PICK_SOURCE: &str = "wormagent.diffs.pick_source";
+const PICK_BASE: &str = "wormagent.diffs.pick_base";
+const QUERY_BASE: &str = "wormagent.diffs.query_base";
 /// The events that end a turn, after which the last turn's diff loads again.
 /// The events of a turn, and the connection's, after which the last turn's diff may load again.
 const TURNS: [&str; 5] = [

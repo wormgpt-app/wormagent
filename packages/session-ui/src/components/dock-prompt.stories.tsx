@@ -1,8 +1,8 @@
-import { Button } from "@opencode/ui/button"
+import { Button } from "@wormagent/ui/button"
 import { DockPrompt } from "./dock-prompt"
 
 export default {
-  title: "OpenCode/Requests/Prompt frame",
+  title: "WormAgent/Requests/Prompt frame",
   id: "components-dock-prompt",
   component: DockPrompt,
   args: { experimental: false },

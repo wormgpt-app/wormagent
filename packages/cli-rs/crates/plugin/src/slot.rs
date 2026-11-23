@@ -151,8 +151,8 @@ pub struct Placement {
 }
 
 /// The placement of a plugin's slot claim.
-pub fn placement(claim: &opencode_plugin_abi::SlotClaim) -> Placement {
-    use opencode_plugin_abi::SlotKind;
+pub fn placement(claim: &wormagent_plugin_abi::SlotClaim) -> Placement {
+    use wormagent_plugin_abi::SlotKind;
     let kind = match claim.kind {
         SlotKind::Prepend => Kind::Prepend,
         SlotKind::Append => Kind::Append,

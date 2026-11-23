@@ -20,7 +20,7 @@ export function serviceWorker(directory: string) {
     injectRegister: false,
     manifest: false,
     integration: {
-      // The fallback and denylist follow Vite's resolved `base`, such as `/opencode/` for `vite build --base=/opencode/`.
+      // The fallback and denylist follow Vite's resolved `base`, such as `/wormagent/` for `vite build --base=/wormagent/`.
       configureOptions(config, options) {
         const prefix = config.base.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
 

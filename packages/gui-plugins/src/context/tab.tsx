@@ -1,18 +1,18 @@
 import { createMemo, createSignal, on, onCleanup, For, Show } from "solid-js"
 import type { JSX } from "solid-js"
 import { makeEventListener } from "@solid-primitives/event-listener"
-import { checksum } from "@opencode/util/encode"
-import { Icon } from "@opencode/ui/icon"
-import { Button } from "@opencode/ui/button"
-import { Loader } from "@opencode/ui/loader"
-import { Accordion } from "@opencode/ui/accordion"
-import { StickyAccordionHeader } from "@opencode/ui/sticky-accordion-header"
-import { showToast } from "@opencode/ui/toast"
-import { useI18n } from "@opencode/ui/context/i18n"
-import { File } from "@opencode/session-ui/file"
-import type { SessionMessageInfo } from "@opencode/client/promise"
-import { lastAssistantWithUsage } from "@opencode/client/solid"
-import { createKeyed, usePlugin, type MountedSession } from "@opencode/plugin/gui"
+import { checksum } from "@wormagent/util/encode"
+import { Icon } from "@wormagent/ui/icon"
+import { Button } from "@wormagent/ui/button"
+import { Loader } from "@wormagent/ui/loader"
+import { Accordion } from "@wormagent/ui/accordion"
+import { StickyAccordionHeader } from "@wormagent/ui/sticky-accordion-header"
+import { showToast } from "@wormagent/ui/toast"
+import { useI18n } from "@wormagent/ui/context/i18n"
+import { File } from "@wormagent/session-ui/file"
+import type { SessionMessageInfo } from "@wormagent/client/promise"
+import { lastAssistantWithUsage } from "@wormagent/client/solid"
+import { createKeyed, usePlugin, type MountedSession } from "@wormagent/plugin/gui"
 import { catalogModel, syncCatalog } from "./catalog"
 import { fetchSessionExport, sessionExportFilename } from "./export"
 import { createSessionContextFormatter } from "./format"
@@ -149,7 +149,7 @@ export default function SessionContextTab(props: { session: MountedSession }) {
     if (spent === 0) {
       const ref = info()?.model ?? messages().findLast((item) => item.type === "assistant")?.model
 
-      if (ref?.providerID === "opencode-go") return
+      if (ref?.providerID === "wormagent-go") return
     }
 
     return usd().format(spent)

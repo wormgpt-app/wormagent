@@ -1,6 +1,6 @@
 //! Fallback view for unrecognized tools.
 
-use opencode_ui::tool_info::call_summary;
+use wormagent_ui::tool_info::call_summary;
 
 use super::dispatch::{ICON_WIDTH, Inline, InlineTool, Props, Status};
 use crate::prelude::*;

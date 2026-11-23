@@ -1,19 +1,19 @@
-//! OpenCode Go subscription offer and device sign-in.
+//! WormAgent Go subscription offer and device sign-in.
 
-use opencode_api::generated::{
+use wormagent_api::generated::{
     ConnectionInfo, IntegrationAttempt, IntegrationAttemptID, IntegrationID, IntegrationMethod, IntegrationMethodID,
     IntegrationOauthCancelInput, IntegrationOauthConnectInput, IntegrationOauthStatusInput, LocationQueryInput,
     ModelInfoStatus,
 };
-use opencode_local::model_pref::Model;
-use opencode_store::Catalog;
-use opencode_ui::dialog::{DIALOG_INSET, DialogCx, FooterAction, FooterProps, footer, layout_view};
+use wormagent_local::model_pref::Model;
+use wormagent_store::Catalog;
+use wormagent_ui::dialog::{DIALOG_INSET, DialogCx, FooterAction, FooterProps, footer, layout_view};
 
 use super::{go_upsell_art, integration};
 use crate::local::Local;
 use crate::prelude::*;
 
-pub const GO_URL: &str = "https://opencode.ai/go";
+pub const GO_URL: &str = "https://wormagent.net/go";
 const ACTIONS: [&str; 3] = ["don't show again", "dismiss", "subscribe"];
 const DAY_MS: f64 = 86_400_000.0;
 
@@ -266,7 +266,7 @@ fn build(cx: &Rc<DialogCx>, local: &Rc<Local>, offer: Offer) -> View {
         .fg(theme.text.muted)
         .bg(text_bg)
         .wrap(WrapMode::Word);
-    let pitch = Text::new(app, "OpenCode Go gives you reliable access to the best open-source models for $10/month.")
+    let pitch = Text::new(app, "WormAgent Go gives you reliable access to the best open-source models for $10/month.")
         .fg(theme.text.muted)
         .bg(text_bg)
         .wrap(WrapMode::Word);
@@ -298,7 +298,7 @@ fn build(cx: &Rc<DialogCx>, local: &Rc<Local>, offer: Offer) -> View {
         let colors = go_upsell_art::Colors {
             background: base,
             primary,
-            logo_base: opencode_ui::theme::tint(base, theme.text.base, 0.62),
+            logo_base: wormagent_ui::theme::tint(base, theme.text.base, 0.62),
         };
         art = Some(go_upsell_art::new(app, colors, &anchor));
     }
@@ -451,9 +451,9 @@ impl Connect {
         app.request_redraw();
     }
 
-    // The `opencode` integration and its device OAuth method, once the integrations have loaded.
+    // The `wormagent` integration and its device OAuth method, once the integrations have loaded.
     fn method(&self) -> Option<(String, Vec<Value>)> {
-        let integration = self.local.integration("opencode")?;
+        let integration = self.local.integration("wormagent")?;
         integration.methods.into_iter().find_map(|method| match method {
             // The fields as JSON: only `type`, `key`, and `default` matter for the answer.
             IntegrationMethod::Oauth(method) if method.id.0 == "device" => Some((
@@ -466,7 +466,7 @@ impl Connect {
 
     // The first credential connection has no error status.
     fn valid(&self) -> bool {
-        let Some(integration) = self.local.integration("opencode") else { return false };
+        let Some(integration) = self.local.integration("wormagent") else { return false };
         integration
             .connections
             .iter()
@@ -511,7 +511,7 @@ impl Connect {
             .filter_map(|field| Some((field["key"].as_str()?.to_owned(), field["default"].clone())))
             .collect();
         let input = IntegrationOauthConnectInput {
-            integration_id: IntegrationID("opencode".into()),
+            integration_id: IntegrationID("wormagent".into()),
             location: self.location(),
             method_id: IntegrationMethodID("device".into()),
             answer: (!answer.is_empty()).then(|| serde_json::from_value(Value::Object(answer)).ok()).flatten(),
@@ -537,7 +537,7 @@ impl Connect {
 
     fn poll(self: &Rc<Self>, attempt: IntegrationAttemptID) {
         let input = IntegrationOauthStatusInput {
-            integration_id: IntegrationID("opencode".into()),
+            integration_id: IntegrationID("wormagent".into()),
             attempt_id: attempt.clone(),
             location: self.location(),
         };
@@ -587,7 +587,7 @@ impl Connect {
                 }
                 if announce {
                     let name =
-                        state.local.integration("opencode").map_or("OpenCode Console".to_owned(), |item| item.name);
+                        state.local.integration("wormagent").map_or("WormAgent Console".to_owned(), |item| item.name);
                     state.local.toasts.show(ToastOptions::new(Variant::Success, format!("Connected {name}")));
                 }
                 state.finish();
@@ -604,7 +604,7 @@ impl Connect {
         let go = local.models(|models| {
             models
                 .iter()
-                .find(|item| item.provider_id.0 == "opencode-go" && !matches!(item.status, ModelInfoStatus::Deprecated))
+                .find(|item| item.provider_id.0 == "wormagent-go" && !matches!(item.status, ModelInfoStatus::Deprecated))
                 .map(|item| Model::new(&item.provider_id.0, &item.id))
         });
         match go {
@@ -624,7 +624,7 @@ impl Connect {
 
     fn cancel(&self, attempt: IntegrationAttemptID) {
         let input = IntegrationOauthCancelInput {
-            integration_id: IntegrationID("opencode".into()),
+            integration_id: IntegrationID("wormagent".into()),
             attempt_id: attempt,
             location: self.location(),
         };

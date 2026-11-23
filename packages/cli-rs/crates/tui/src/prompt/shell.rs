@@ -1,6 +1,6 @@
 //! Shell-mode prompt and bindings.
 
-use opencode_ui::dialog::FocusId;
+use wormagent_ui::dialog::FocusId;
 
 use super::editor::{Inner, Mode};
 

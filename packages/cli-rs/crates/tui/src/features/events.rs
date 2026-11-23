@@ -2,13 +2,13 @@
 
 use std::sync::Arc;
 
-use opencode_api::generated::{EventKind, McpServerStatus, V2Event};
-use opencode_api::kinds::EventKinds;
+use wormagent_api::generated::{EventKind, McpServerStatus, V2Event};
+use wormagent_api::kinds::EventKinds;
 
 use crate::prelude::*;
 
 type Subscribers = Rc<RefCell<Vec<(u64, Rc<dyn Fn(&Tui, &V2Event)>)>>>;
-type DeltaSubscribers = Rc<RefCell<Vec<(u64, Rc<opencode_store::DeltaListening>, Rc<dyn Fn(&[V2Event])>)>>>;
+type DeltaSubscribers = Rc<RefCell<Vec<(u64, Rc<wormagent_store::DeltaListening>, Rc<dyn Fn(&[V2Event])>)>>>;
 
 /// Last reported MCP status per server and subscribers to signals and deltas.
 #[derive(Default)]
@@ -34,7 +34,7 @@ macro_rules! handled {
     ($($variant:ident($payload:ident)),* $(,)?) => {
         #[allow(dead_code, reason = "a handler may match a variant without reading its payload")]
         pub(crate) enum Handled<'a> {
-            $($variant(&'a opencode_api::generated::$payload),)*
+            $($variant(&'a wormagent_api::generated::$payload),)*
         }
 
         impl<'a> Handled<'a> {
@@ -93,7 +93,7 @@ pub(crate) fn signals(tui: &Tui) {
 
 fn signal(tui: &Tui, event: &V2Event) {
     // Flush the previous signal's plugin actions before the next signal can navigate.
-    opencode_plugin::flush();
+    wormagent_plugin::flush();
     if let Some(event) = Handled::of(event) {
         handle(tui, &event);
     }
@@ -238,7 +238,7 @@ fn handle(tui: &Tui, event: &Handled) {
     }
 }
 
-fn here(tui: &Tui, location: Option<&opencode_api::generated::LocationRef>) -> bool {
+fn here(tui: &Tui, location: Option<&wormagent_api::generated::LocationRef>) -> bool {
     let current = crate::features::location::current(tui)
         .unwrap_or_else(|| tui.data.read(|state| state.default_location().clone()));
     location.is_some_and(|location| location.directory.0 == current.directory)

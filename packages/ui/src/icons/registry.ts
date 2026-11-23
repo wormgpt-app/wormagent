@@ -15,9 +15,9 @@ type Artwork = {
 
 const namespace = "http://www.w3.org/2000/svg"
 
-const spriteHostID = "opencode-v2-icon-host"
+const spriteHostID = "wormagent-v2-icon-host"
 
-const spriteID = "opencode-v2-icon-registered"
+const spriteID = "wormagent-v2-icon-registered"
 
 /**
  * A single unhidden host for the SVG icon sprites. Kobalte's `ariaHideOutside` skips adding an already

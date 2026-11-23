@@ -2,8 +2,8 @@ use crate::common;
 
 use common::*;
 use futures_util::FutureExt;
-use opencode_api::generated::*;
-use opencode_store::{Data, MessageExt, Options, Prompt};
+use wormagent_api::generated::*;
+use wormagent_store::{Data, MessageExt, Options, Prompt};
 use serde_json::{Value, json};
 
 const SESSION: &str = "ses_remote";

@@ -11,7 +11,7 @@ export default defineSim({
   // The failure toast lives 5 s of wall clock, so a checkpoint taken later (a capture retried under load) catches
   // it on one side only. It is not one of this scenario's states: P-APP's `E.19a/failed-toast` compares it on a
   // still clock.
-  config: { plugins: ["-opencode.notifications"] },
+  config: { plugins: ["-wormagent.notifications"] },
   sessions: [{ title: "Fix the parser", prompts: ["Why does the parser fail?"] }],
   args: ["--session", "$session:0"],
   model: [

@@ -3,10 +3,10 @@
 use std::path::PathBuf;
 use std::time::Instant;
 
-use opencode_api::client::Client;
-use opencode_local::cli_config::Info;
-use opencode_store::target::TargetInput;
-use opencode_util::error;
+use wormagent_api::client::Client;
+use wormagent_local::cli_config::Info;
+use wormagent_store::target::TargetInput;
+use wormagent_util::error;
 
 pub mod footers;
 mod prelude;
@@ -27,7 +27,7 @@ pub mod variants;
 #[cfg(test)]
 mod perf;
 
-/// What `opencode mini` runs with (`MiniCommandInput` after the handler resolved it).
+/// What `wormagent mini` runs with (`MiniCommandInput` after the handler resolved it).
 pub struct Input {
     pub client: Client,
     /// The logical working directory.
@@ -46,10 +46,10 @@ pub struct Input {
     pub replay_limit: Option<u32>,
     pub config: Info,
     /// The global paths: `cli.json` for `/settings` and `model.json` for saved variants.
-    pub paths: opencode_local::paths::Paths,
+    pub paths: wormagent_local::paths::Paths,
     pub version: String,
     pub trace: Option<signals::Trace>,
-    /// When the command started, for `OPENCODE_SHOW_TTFD`.
+    /// When the command started, for `WORMAGENT_SHOW_TTFD`.
     pub start: Instant,
 }
 

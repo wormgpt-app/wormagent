@@ -1,25 +1,25 @@
 import { expect } from "bun:test"
 import fs from "node:fs/promises"
 import path from "node:path"
-import { CodeModeApi } from "@opencode/core/codemode/api"
-import { CodeModeTool } from "@opencode/core/codemode/tool"
-import { Location } from "@opencode/core/location"
-import { LocationServiceMap } from "@opencode/core/location-service-map"
-import { Permission } from "@opencode/core/permission"
-import { AbsolutePath } from "@opencode/core/schema"
-import { Tool } from "@opencode/core/tool"
-import { Agent } from "@opencode/schema/agent"
-import { Session } from "@opencode/schema/session"
-import { SessionMessage } from "@opencode/schema/session-message"
+import { CodeModeApi } from "@wormagent/core/codemode/api"
+import { CodeModeTool } from "@wormagent/core/codemode/tool"
+import { Location } from "@wormagent/core/location"
+import { LocationServiceMap } from "@wormagent/core/location-service-map"
+import { Permission } from "@wormagent/core/permission"
+import { AbsolutePath } from "@wormagent/core/schema"
+import { Tool } from "@wormagent/core/tool"
+import { Agent } from "@wormagent/schema/agent"
+import { Session } from "@wormagent/schema/session"
+import { SessionMessage } from "@wormagent/schema/session-message"
 import { Context, Effect, Layer, Schema } from "effect"
 import { HttpEffect, HttpRouter, HttpServer } from "effect/http"
 import { tmpdir } from "../../core/test/fixture/tmpdir"
 import { it } from "../../core/test/lib/effect"
 import { createRoutes } from "../src/routes"
 
-it.live("sends Code Mode opencode:// requests to the server's own router with the server's credential", () =>
+it.live("sends Code Mode wormagent:// requests to the server's own router with the server's credential", () =>
   Effect.gen(function* () {
-    const root = yield* Effect.acquireDisposable(Effect.promise(() => tmpdir("opencode-codemode-api-")))
+    const root = yield* Effect.acquireDisposable(Effect.promise(() => tmpdir("wormagent-codemode-api-")))
     const directory = path.join(root.path, "project")
     yield* Effect.promise(() => fs.mkdir(directory))
     const app = yield* Layer.build(
@@ -33,13 +33,13 @@ it.live("sends Code Mode opencode:// requests to the server's own router with th
       }).pipe(Layer.provide(HttpServer.layerServices)),
     )
     const handler = Context.get(app, HttpRouter.HttpRouter).asHttpEffect().pipe(HttpEffect.toWebHandlerWith(app))
-    expect((yield* Effect.promise(() => handler(new Request("http://opencode.local/api/info")))).status).toBe(401)
+    expect((yield* Effect.promise(() => handler(new Request("http://wormagent.local/api/info")))).status).toBe(401)
 
     const created = yield* Effect.promise(() =>
       handler(
-        new Request("http://opencode.local/api/session", {
+        new Request("http://wormagent.local/api/session", {
           method: "POST",
-          headers: { "content-type": "application/json", authorization: `Basic ${btoa("opencode:secret")}` },
+          headers: { "content-type": "application/json", authorization: `Basic ${btoa("wormagent:secret")}` },
           body: JSON.stringify({ location: { directory } }),
         }),
       ).then((response) => response.json()),
@@ -59,12 +59,12 @@ it.live("sends Code Mode opencode:// requests to the server's own router with th
         api,
       ).execute(
         {
-          code: `const info = await (await fetch("opencode:///api/info")).json()
-            const location = await (await fetch("opencode:///api/location")).json()
-            const child = await (await fetch("opencode:///api/session", {
+          code: `const info = await (await fetch("wormagent:///api/info")).json()
+            const location = await (await fetch("wormagent:///api/location")).json()
+            const child = await (await fetch("wormagent:///api/session", {
               method: "POST",
               headers: { "content-type": "application/json" },
-              body: JSON.stringify({ title: "child", parentID: (await (await fetch("opencode:///api/session/current")).json()).data.id }),
+              body: JSON.stringify({ title: "child", parentID: (await (await fetch("wormagent:///api/session/current")).json()).data.id }),
             })).json()
             return [info.version, location.directory, child.data.title, child.data.parentID]`,
         },
@@ -72,7 +72,7 @@ it.live("sends Code Mode opencode:// requests to the server's own router with th
           sessionID: parent.id,
           agent: Agent.ID.make("build"),
           messageID: SessionMessage.ID.create(),
-          id: Tool.CallID.make("call_opencode_api"),
+          id: Tool.CallID.make("call_wormagent_api"),
           progress: () => Effect.void,
         },
       )

@@ -1,11 +1,11 @@
 [1mDESCRIPTION[0m
-  OpenCode command line interface
+  WormAgent command line interface
 
 [1mUSAGE[0m
-  [36mopencode <subcommand> [flags] [<directory>][0m
+  [36mwormagent <subcommand> [flags] [<directory>][0m
 
 [1mARGUMENTS[0m
-  [32mdirectory[0m [2mstring[0m    Directory to start OpenCode in[2m (optional)[0m
+  [32mdirectory[0m [2mstring[0m    Directory to start WormAgent in[2m (optional)[0m
 
 [1mFLAGS[0m
   [32m--standalone[0m            Run with a private server instead of the background service
@@ -24,8 +24,8 @@
   [32m--print-logs[0m                                                        Print logs to stderr (server logs require --standalone)
 
 [1mSUBCOMMANDS[0m
-  [36mupgrade, update[0m    Upgrade OpenCode to the latest or a specific version
-  [36muninstall[0m          Uninstall OpenCode, keeping session data, configuration, and state
+  [36mupgrade, update[0m    Upgrade WormAgent to the latest or a specific version
+  [36muninstall[0m          Uninstall WormAgent, keeping session data, configuration, and state
   [36macp[0m                Start an Agent Client Protocol server
   [36mapi[0m                Make a request to the running server
   [36mdebug[0m              Debugging and troubleshooting tools
@@ -35,7 +35,7 @@
   [36mmodels[0m             List all available models
   [36mstats[0m              Show shareable usage statistics
   [36mmini[0m               Start the minimal interactive interface
-  [36mrun[0m                Run OpenCode with a message
+  [36mrun[0m                Run WormAgent with a message
   [36msession[0m            Manage sessions
   [36mservice[0m            Manage the background server
   [36mreload[0m             Reload configuration

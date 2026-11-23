@@ -1,7 +1,7 @@
 import { defineCli } from "../../cli/run"
 import { commented } from "./fixture"
 
-// `mcp add --url` with headers edits the existing commented `.opencode/opencode.jsonc` and keeps its comments.
+// `mcp add --url` with headers edits the existing commented `.wormagent/wormagent.jsonc` and keeps its comments.
 export default defineCli({
   args: [
     "mcp",
@@ -14,6 +14,6 @@ export default defineCli({
     "--header",
     "X-Team=core",
   ],
-  files: { ".opencode/opencode.jsonc": commented },
-  collect: ["work/.opencode/opencode.jsonc", "work/opencode.json"],
+  files: { ".wormagent/wormagent.jsonc": commented },
+  collect: ["work/.wormagent/wormagent.jsonc", "work/wormagent.json"],
 })

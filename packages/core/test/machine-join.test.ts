@@ -2,10 +2,10 @@ import { describe, expect, test } from "bun:test"
 import { createPublicKey, verify } from "node:crypto"
 import { chmod, mkdir, readFile, stat, writeFile } from "node:fs/promises"
 import path from "node:path"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Identity } from "@opencode/core/machine/identity"
-import { Join } from "@opencode/core/machine/join"
-import { Global } from "@opencode/util/global"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Identity } from "@wormagent/core/machine/identity"
+import { Join } from "@wormagent/core/machine/join"
+import { Global } from "@wormagent/util/global"
 import { Effect, Option } from "effect"
 import { tmpdirScoped } from "./fixture/tmpdir"
 import { it } from "./lib/effect"
@@ -45,7 +45,7 @@ describe("Join", () => {
   })
 
   test("rejects a wrong prefix", () => {
-    expect(Join.decode(literal.replace("ocjoin_", "opencode_"))).toEqual(Option.none())
+    expect(Join.decode(literal.replace("ocjoin_", "wormagent_"))).toEqual(Option.none())
   })
 
   test("rejects a wrong version, key length or secret length", () => {

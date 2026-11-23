@@ -6,11 +6,11 @@ use std::cell::{Cell, RefCell};
 use std::collections::VecDeque;
 use std::rc::{Rc, Weak};
 
-use opencode_plugin_abi::interact::{
+use wormagent_plugin_abi::interact::{
     self as input, Anchor, Bind, Button, Event, Handled, Interact, Layer, LayerScope, Pointer, PointerKind,
 };
-use opencode_ui::dialog::MODAL_MODE;
-use opencode_ui::keymap::{BASE_MODE, KeymapLayer, TuiCommand};
+use wormagent_ui::dialog::MODAL_MODE;
+use wormagent_ui::keymap::{BASE_MODE, KeymapLayer, TuiCommand};
 use opentui::input::{Event as Input, KeyCode, KeyEvent, Modifiers, MouseButton, MouseEvent, MouseEventKind};
 use opentui::keymap::{Condition, Disposer, Stroke};
 use opentui::prelude::*;
@@ -71,7 +71,7 @@ struct Mounted {
     /// The mount it holds the input of, as long as it lives.
     mount: Weak<()>,
     /// That mount's ID, which a call for it names to the plugin.
-    id: opencode_plugin_abi::v2::MountId,
+    id: wormagent_plugin_abi::v2::MountId,
 }
 
 /// Where an owner is in its life, in order.
@@ -245,7 +245,7 @@ impl Owner {
         root: View,
         (lookup, nearest): (Lookup, Nearest),
         deliver: Option<Deliver>,
-        (id, mount): (opencode_plugin_abi::v2::MountId, Weak<()>),
+        (id, mount): (wormagent_plugin_abi::v2::MountId, Weak<()>),
     ) -> Rc<Self> {
         let surface = surface.to_owned();
         Rc::new(Self::new(plugin, host, Some(Mounted { surface, root, lookup, nearest, deliver, mount, id })))
@@ -506,7 +506,7 @@ impl Owner {
         let mut command = match (&declared.command, declared.key.is_empty()) {
             (Some(name), true) => TuiCommand::new(name.clone(), run),
             (Some(name), false) => {
-                TuiCommand::new(name.clone(), run).bind(opencode_ui::keymap::Bind::Key(declared.key.clone()))
+                TuiCommand::new(name.clone(), run).bind(wormagent_ui::keymap::Bind::Key(declared.key.clone()))
             }
             (None, _) => TuiCommand::inline(declared.key.clone(), run),
         };
@@ -744,7 +744,7 @@ impl Owner {
     }
 
     /// The ID of the mount it holds the input of; `None` for an activation.
-    pub(crate) fn id(&self) -> Option<&opencode_plugin_abi::v2::MountId> {
+    pub(crate) fn id(&self) -> Option<&wormagent_plugin_abi::v2::MountId> {
         self.mounted.as_ref().map(|mounted| &mounted.id)
     }
 

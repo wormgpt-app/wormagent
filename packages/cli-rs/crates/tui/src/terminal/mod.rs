@@ -6,11 +6,11 @@ pub mod pane;
 use std::sync::{Arc, OnceLock};
 
 use indexmap::IndexMap;
-use opencode_api::generated::{
+use wormagent_api::generated::{
     ExperimentalPersistentPtyCreateInput, ExperimentalPersistentPtyListInput, PersistentPtyInfo,
 };
-use opencode_api::pty::{Connector, Tungstenite};
-use opencode_local::serial::Serial;
+use wormagent_api::pty::{Connector, Tungstenite};
+use wormagent_local::serial::Serial;
 
 use crate::features::events::Handled;
 use crate::prelude::*;

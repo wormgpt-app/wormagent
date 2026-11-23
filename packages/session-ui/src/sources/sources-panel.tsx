@@ -1,12 +1,12 @@
-import { useI18n } from "@opencode/ui/context/i18n"
-import { Icon } from "@opencode/ui/icon"
+import { useI18n } from "@wormagent/ui/context/i18n"
+import { Icon } from "@wormagent/ui/icon"
 import {
   frameLoop,
   observeReducedMotion,
   prefersReducedMotion,
   Spring,
   type DurationOptions,
-} from "@opencode/ui/motion"
+} from "@wormagent/ui/motion"
 import { createEffect, createMemo, createSignal, For, Match, onCleanup, Show, Switch } from "solid-js"
 import { sourcesExpand, type SiteIconMode } from "./experiment"
 import {

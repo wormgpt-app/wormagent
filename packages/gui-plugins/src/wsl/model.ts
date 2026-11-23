@@ -28,7 +28,7 @@ export type AddServerPrimaryButton = {
   variant: "neutral" | "contrast"
   label: AddServerText
   disabled: boolean
-  action: "install-opencode" | "add" | null
+  action: "install-wormagent" | "add" | null
   loading: boolean
   width: string | null
 }
@@ -89,7 +89,7 @@ export function addServerViewModel(input: {
     addableInstalledDistros,
   )
 
-  const opencodeCheck = selectedDistro ? (state?.opencodeChecks[selectedDistro] ?? null) : null
+  const wormagentCheck = selectedDistro ? (state?.wormagentChecks[selectedDistro] ?? null) : null
   const installableDistros = addServerInstallableDistros(visibleInstalledDistros, visibleOnlineDistros)
   const filteredInstallableDistros = addServerFilteredInstallableDistros(installableDistros, catalogSearch)
   const catalogTarget = addServerCatalogTarget(selectWslDialogCatalogTarget(input.dialog), filteredInstallableDistros)
@@ -106,7 +106,7 @@ export function addServerViewModel(input: {
     visibleOnlineDistros,
     addableInstalledDistros,
     selectedDistro,
-    opencodeCheck,
+    wormagentCheck,
     wslReady: !!state?.runtime?.available && !state?.pendingRestart,
     distroStatuses: Object.fromEntries(
       addableInstalledDistros.flatMap((item) => {
@@ -120,7 +120,7 @@ export function addServerViewModel(input: {
     primaryButton: addServerPrimaryButton({
       state,
       selectedDistro,
-      opencodeCheck,
+      wormagentCheck,
       busy: working,
       installingOpencode: selectWslDialogInstallingOpencode(input.dialog, selectedDistro),
       adding: selectWslDialogAdding(input.dialog),
@@ -190,13 +190,13 @@ function addServerDistroStatus(input: {
     return { label: { key: "onboarding.distroStatus.missingTools" }, tone: "warning" }
   }
 
-  const check = input.state?.opencodeChecks[input.name]
+  const check = input.state?.wormagentChecks[input.name]
 
   if (!check) return probing ? checkingStatus() : undefined
 
   if (check.matchesDesktop === false) return { label: { key: "onboarding.updateOpencode" }, tone: "warning" }
 
-  if (!check.resolvedPath) return { label: { key: "onboarding.distroStatus.opencodeMissing" }, tone: "warning" }
+  if (!check.resolvedPath) return { label: { key: "onboarding.distroStatus.wormagentMissing" }, tone: "warning" }
 
   if (check.error) return { label: { key: "onboarding.installOpencode" }, tone: "warning" }
 
@@ -210,10 +210,10 @@ function checkingStatus(): DistroStatus {
 function addServerPrimaryButton(input: {
   state: WslServersState | undefined
   selectedDistro: string | null
-  opencodeCheck: WslOpencodeCheck | null
+  wormagentCheck: WslOpencodeCheck | null
   /** Main runs a job the dialog waits for, or the dialog waits for its own call. */
   busy: boolean
-  /** The dialog asked main to install OpenCode in the selected distro and waits for the answer. */
+  /** The dialog asked main to install WormAgent in the selected distro and waits for the answer. */
   installingOpencode: boolean
   adding: boolean
   probingAddable: boolean
@@ -221,7 +221,7 @@ function addServerPrimaryButton(input: {
   const ready = !!input.selectedDistro && wslDistroReady(input.state, input.selectedDistro)
   const probingSelected = input.probingAddable && !addServerSelectedDistroSettled(input.state, input.selectedDistro)
   const job = input.selectedDistro ? input.state?.distroJobs[input.selectedDistro] : undefined
-  const probingOpencode = probingSelected || (ready && (!input.opencodeCheck || job === "probing"))
+  const probingOpencode = probingSelected || (ready && (!input.wormagentCheck || job === "probing"))
   const installingOpencode = job === "updating" || input.installingOpencode
 
   if (!ready || probingOpencode) {
@@ -235,8 +235,8 @@ function addServerPrimaryButton(input: {
     }
   }
 
-  if (!addServerOpencodeReady(input.opencodeCheck)) {
-    const update = !!input.opencodeCheck?.resolvedPath && input.opencodeCheck.matchesDesktop === false
+  if (!addServerOpencodeReady(input.wormagentCheck)) {
+    const update = !!input.wormagentCheck?.resolvedPath && input.wormagentCheck.matchesDesktop === false
 
     return {
       variant: "neutral",
@@ -246,7 +246,7 @@ function addServerPrimaryButton(input: {
           ? { key: "onboarding.updateOpencode" }
           : { key: "onboarding.installOpencode" },
       disabled: input.busy,
-      action: "install-opencode",
+      action: "install-wormagent",
       loading: installingOpencode,
       width: update ? "138px" : "129px",
     }
@@ -276,7 +276,7 @@ function addServerSelectedDistroSettled(state: WslServersState | undefined, sele
 
   if (!wslDistroReady(state, selectedDistro)) return true
 
-  return !!state.opencodeChecks[selectedDistro]
+  return !!state.wormagentChecks[selectedDistro]
 }
 
 function addServerInstallableDistros(installedDistros: WslInstalledDistro[], onlineDistros: WslOnlineDistro[]) {
@@ -328,7 +328,7 @@ function addableProbePlan(input: {
 
     if (!state.distroProbes[item.name]) return [`distro:${item.name}`]
 
-    if (wslDistroReady(state, item.name) && !state.opencodeChecks[item.name]) return [`opencode:${item.name}`]
+    if (wslDistroReady(state, item.name) && !state.wormagentChecks[item.name]) return [`wormagent:${item.name}`]
 
     return []
   })

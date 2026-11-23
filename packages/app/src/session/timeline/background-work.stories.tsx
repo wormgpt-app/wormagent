@@ -1,7 +1,7 @@
 import { BackgroundMoveHint } from "./message-timeline"
 
 export default {
-  title: "OpenCode/Session/Background work",
+  title: "WormAgent/Session/Background work",
   id: "session-background-work",
   args: { keybind: "Ctrl+B" },
   parameters: {

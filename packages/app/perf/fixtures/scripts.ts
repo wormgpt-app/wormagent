@@ -1,4 +1,4 @@
-import type { SessionMessageAssistant } from "@opencode/client/promise"
+import type { SessionMessageAssistant } from "@wormagent/client/promise"
 
 // How many calls each of 46 Code Mode scripts made in one turn of a real audit session: most made a few, six walked a
 // source tree file by file. 19,039 calls in all.
@@ -28,7 +28,7 @@ export function scriptTools(): SessionMessageAssistant["content"] {
           status: "completed",
           input: {
             method: "file",
-            path: `C:/OpenCode/TimelineStateRegression/packages/app/src/module-${script}-${call}.ts`,
+            path: `C:/WormAgent/TimelineStateRegression/packages/app/src/module-${script}-${call}.ts`,
           },
         })),
       },

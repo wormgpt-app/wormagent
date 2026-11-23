@@ -102,7 +102,7 @@ async function measure(args: string[]) {
         [binaries.get(scenario)!, `perf::${scenario}`, "--exact", "--ignored", "--nocapture", "--test-threads=1"],
         {
           TZ: "UTC",
-          OPENCODE_PERF_SITES: sites,
+          WORMAGENT_PERF_SITES: sites,
         },
       )
       const lines = output.split("\n").filter((line) => line.startsWith("PERF-SITE "))
@@ -258,9 +258,9 @@ function option(args: string[], name: string) {
  */
 function build() {
   const targets = [
-    ["opencode-tui", "--test", "all"],
-    ["opencode-mini", "--lib"],
-    ["opencode-acp", "--lib"],
+    ["wormagent-tui", "--test", "all"],
+    ["wormagent-mini", "--lib"],
+    ["wormagent-acp", "--lib"],
   ]
   return targets.map(([pkg, ...target]) => {
     const command = ["bun", "run", "cargo", "test", "--profile", "perf", "-p", pkg, ...target]

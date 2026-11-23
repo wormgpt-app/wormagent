@@ -1,10 +1,10 @@
 {
   "groups": [
     {
-      "name": "OpenCode",
+      "name": "WormAgent",
       "layers": [
         {
-          "name": "OpenCode",
+          "name": "WormAgent",
           "image-name": "icon.png",
           "glass": false
         }

@@ -9,8 +9,8 @@ describe("normalizeBasePath", () => {
   })
 
   test("has a leading slash and no trailing slash", () => {
-    expect(normalizeBasePath("/opencode/")).toBe("/opencode")
-    expect(normalizeBasePath("opencode")).toBe("/opencode")
+    expect(normalizeBasePath("/wormagent/")).toBe("/wormagent")
+    expect(normalizeBasePath("wormagent")).toBe("/wormagent")
     expect(normalizeBasePath("//a/b//")).toBe("/a/b")
   })
 })
@@ -21,8 +21,8 @@ describe("withBasePath", () => {
   })
 
   test("prefixes paths with the base", () => {
-    expect(withBasePath("/", "/opencode")).toBe("/opencode/")
-    expect(withBasePath("/server/a/session/b#m", "/opencode")).toBe("/opencode/server/a/session/b#m")
+    expect(withBasePath("/", "/wormagent")).toBe("/wormagent/")
+    expect(withBasePath("/server/a/session/b#m", "/wormagent")).toBe("/wormagent/server/a/session/b#m")
   })
 })
 
@@ -32,19 +32,19 @@ describe("stripBasePath", () => {
   })
 
   test("removes the base", () => {
-    expect(stripBasePath("/opencode", "/opencode")).toBe("/")
-    expect(stripBasePath("/opencode/", "/opencode")).toBe("/")
-    expect(stripBasePath("/opencode?draftId=1", "/opencode")).toBe("/?draftId=1")
-    expect(stripBasePath("/opencode/new-session#top", "/opencode")).toBe("/new-session#top")
+    expect(stripBasePath("/wormagent", "/wormagent")).toBe("/")
+    expect(stripBasePath("/wormagent/", "/wormagent")).toBe("/")
+    expect(stripBasePath("/wormagent?draftId=1", "/wormagent")).toBe("/?draftId=1")
+    expect(stripBasePath("/wormagent/new-session#top", "/wormagent")).toBe("/new-session#top")
   })
 
   test("keeps paths outside the base", () => {
-    expect(stripBasePath("/opencode-other/x", "/opencode")).toBe("/opencode-other/x")
-    expect(stripBasePath("/elsewhere", "/opencode")).toBe("/elsewhere")
+    expect(stripBasePath("/wormagent-other/x", "/wormagent")).toBe("/wormagent-other/x")
+    expect(stripBasePath("/elsewhere", "/wormagent")).toBe("/elsewhere")
   })
 
   test("round-trips with withBasePath", () => {
     for (const path of ["/", "/new-session", "/server/a/session/b?q=1#h"])
-      expect(stripBasePath(withBasePath(path, "/opencode"), "/opencode")).toBe(path)
+      expect(stripBasePath(withBasePath(path, "/wormagent"), "/wormagent")).toBe(path)
   })
 })

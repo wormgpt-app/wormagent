@@ -1,5 +1,5 @@
 import { NodeFileSystem } from "@effect/platform-node"
-import { compile, emitEffectImported, emitEffectShape, emitPromise, write } from "@opencode/httpapi-codegen"
+import { compile, emitEffectImported, emitEffectShape, emitPromise, write } from "@wormagent/httpapi-codegen"
 import {
   ClientApi,
   clientNamespace,
@@ -7,50 +7,50 @@ import {
   effectOmitEndpoints,
   groupNames,
   promiseOmitEndpoints,
-} from "@opencode/protocol/client"
-import { Agent } from "@opencode/schema/agent"
-import { Artifact } from "@opencode/schema/artifact"
-import { Automation } from "@opencode/schema/automation"
-import { Command } from "@opencode/schema/command"
-import { Config } from "@opencode/schema/config"
-import { Credential } from "@opencode/schema/credential"
-import { Event } from "@opencode/schema/event"
-import { EventLog } from "@opencode/schema/event-log"
-import { FileDiff } from "@opencode/schema/file-diff"
-import { FileSystem } from "@opencode/schema/filesystem"
-import { Form } from "@opencode/schema/form"
-import { Generate } from "@opencode/schema/generate"
-import { Instruction } from "@opencode/schema/instruction"
-import { InstructionEntry } from "@opencode/schema/instruction-entry"
-import { Integration } from "@opencode/schema/integration"
-import { Job } from "@opencode/schema/job"
-import { Location } from "@opencode/schema/location"
-import { Mcp } from "@opencode/schema/mcp"
-import { Model } from "@opencode/schema/model"
-import { Money } from "@opencode/schema/money"
-import { Permission } from "@opencode/schema/permission"
-import { PermissionSaved } from "@opencode/schema/permission-saved"
-import { Plugin } from "@opencode/schema/plugin"
-import { Project } from "@opencode/schema/project"
-import { Worktree } from "@opencode/schema/worktree"
-import { AgentAttachment, FileAttachment, Prompt, PromptMention } from "@opencode/schema/prompt"
-import { PromptInput } from "@opencode/schema/prompt-input"
-import { Provider } from "@opencode/schema/provider"
-import { Pty } from "@opencode/schema/pty"
-import { PtyTicket } from "@opencode/schema/pty-ticket"
-import { Question } from "@opencode/schema/question"
-import { Reference } from "@opencode/schema/reference"
-import { AbsolutePath, RelativePath } from "@opencode/schema/schema"
-import { Session } from "@opencode/schema/session"
-import { SessionMessage } from "@opencode/schema/session-message"
-import { SessionInbox } from "@opencode/schema/session-inbox"
-import { Shell } from "@opencode/schema/shell"
-import { Skill } from "@opencode/schema/skill"
-import { Snapshot } from "@opencode/schema/snapshot"
-import { UsageLimits } from "@opencode/schema/usage-limits"
-import { Vcs } from "@opencode/schema/vcs"
-import { WebSearch } from "@opencode/schema/websearch"
-import { Workspace } from "@opencode/schema/workspace"
+} from "@wormagent/protocol/client"
+import { Agent } from "@wormagent/schema/agent"
+import { Artifact } from "@wormagent/schema/artifact"
+import { Automation } from "@wormagent/schema/automation"
+import { Command } from "@wormagent/schema/command"
+import { Config } from "@wormagent/schema/config"
+import { Credential } from "@wormagent/schema/credential"
+import { Event } from "@wormagent/schema/event"
+import { EventLog } from "@wormagent/schema/event-log"
+import { FileDiff } from "@wormagent/schema/file-diff"
+import { FileSystem } from "@wormagent/schema/filesystem"
+import { Form } from "@wormagent/schema/form"
+import { Generate } from "@wormagent/schema/generate"
+import { Instruction } from "@wormagent/schema/instruction"
+import { InstructionEntry } from "@wormagent/schema/instruction-entry"
+import { Integration } from "@wormagent/schema/integration"
+import { Job } from "@wormagent/schema/job"
+import { Location } from "@wormagent/schema/location"
+import { Mcp } from "@wormagent/schema/mcp"
+import { Model } from "@wormagent/schema/model"
+import { Money } from "@wormagent/schema/money"
+import { Permission } from "@wormagent/schema/permission"
+import { PermissionSaved } from "@wormagent/schema/permission-saved"
+import { Plugin } from "@wormagent/schema/plugin"
+import { Project } from "@wormagent/schema/project"
+import { Worktree } from "@wormagent/schema/worktree"
+import { AgentAttachment, FileAttachment, Prompt, PromptMention } from "@wormagent/schema/prompt"
+import { PromptInput } from "@wormagent/schema/prompt-input"
+import { Provider } from "@wormagent/schema/provider"
+import { Pty } from "@wormagent/schema/pty"
+import { PtyTicket } from "@wormagent/schema/pty-ticket"
+import { Question } from "@wormagent/schema/question"
+import { Reference } from "@wormagent/schema/reference"
+import { AbsolutePath, RelativePath } from "@wormagent/schema/schema"
+import { Session } from "@wormagent/schema/session"
+import { SessionMessage } from "@wormagent/schema/session-message"
+import { SessionInbox } from "@wormagent/schema/session-inbox"
+import { Shell } from "@wormagent/schema/shell"
+import { Skill } from "@wormagent/schema/skill"
+import { Snapshot } from "@wormagent/schema/snapshot"
+import { UsageLimits } from "@wormagent/schema/usage-limits"
+import { Vcs } from "@wormagent/schema/vcs"
+import { WebSearch } from "@wormagent/schema/websearch"
+import { Workspace } from "@wormagent/schema/workspace"
 import { Effect, Schema } from "effect"
 import { fileURLToPath } from "url"
 
@@ -67,54 +67,54 @@ const effectContract = compile(ClientApi, {
   aliases: deprecatedClientPaths,
 })
 const effectTypeReferences = [
-  ...namespaceTypes("Agent", "@opencode/schema/agent", Agent),
-  ...namespaceTypes("Artifact", "@opencode/schema/artifact", Artifact),
-  ...namespaceTypes("Automation", "@opencode/schema/automation", Automation),
-  ...namespaceTypes("Command", "@opencode/schema/command", Command),
-  ...namespaceTypes("Config", "@opencode/schema/config", Config),
-  ...namespaceTypes("Credential", "@opencode/schema/credential", Credential),
-  ...namespaceTypes("Event", "@opencode/schema/event", Event),
-  ...namespaceTypes("EventLog", "@opencode/schema/event-log", EventLog),
-  ...namespaceTypes("FileDiff", "@opencode/schema/file-diff", FileDiff),
-  ...namespaceTypes("FileSystem", "@opencode/schema/filesystem", FileSystem),
-  ...namespaceTypes("Form", "@opencode/schema/form", Form),
-  ...namespaceTypes("Generate", "@opencode/schema/generate", Generate),
-  ...namespaceTypes("Instruction", "@opencode/schema/instruction", Instruction),
-  ...namespaceTypes("InstructionEntry", "@opencode/schema/instruction-entry", InstructionEntry),
-  ...namespaceTypes("Integration", "@opencode/schema/integration", Integration),
-  ...namespaceTypes("Job", "@opencode/schema/job", Job),
-  typeReference("Location.PublicRef", "@opencode/schema/location", Location.PublicRef),
-  typeReference("Location.PublicInfo", "@opencode/schema/location", Location.PublicInfo),
-  ...namespaceTypes("Mcp", "@opencode/schema/mcp", Mcp),
-  ...namespaceTypes("Model", "@opencode/schema/model", Model),
-  ...namespaceTypes("Money", "@opencode/schema/money", Money),
-  ...namespaceTypes("Permission", "@opencode/schema/permission", Permission),
-  ...namespaceTypes("PermissionSaved", "@opencode/schema/permission-saved", PermissionSaved),
-  ...namespaceTypes("Plugin", "@opencode/schema/plugin", Plugin),
-  ...namespaceTypes("Project", "@opencode/schema/project", Project),
-  ...namespaceTypes("Worktree", "@opencode/schema/worktree", Worktree),
-  ...namespaceTypes("PromptInput", "@opencode/schema/prompt-input", PromptInput),
-  ...namespaceTypes("Provider", "@opencode/schema/provider", Provider),
-  ...namespaceTypes("Pty", "@opencode/schema/pty", Pty),
-  ...namespaceTypes("PtyTicket", "@opencode/schema/pty-ticket", PtyTicket),
-  ...namespaceTypes("Question", "@opencode/schema/question", Question),
-  ...namespaceTypes("Reference", "@opencode/schema/reference", Reference),
-  ...namespaceTypes("Session", "@opencode/schema/session", Session),
-  ...namespaceTypes("SessionMessage", "@opencode/schema/session-message", SessionMessage),
-  ...namespaceTypes("SessionInbox", "@opencode/schema/session-inbox", SessionInbox),
-  ...namespaceTypes("Shell", "@opencode/schema/shell", Shell),
-  ...namespaceTypes("Skill", "@opencode/schema/skill", Skill),
-  ...namespaceTypes("Snapshot", "@opencode/schema/snapshot", Snapshot),
-  ...namespaceTypes("UsageLimits", "@opencode/schema/usage-limits", UsageLimits),
-  ...namespaceTypes("Vcs", "@opencode/schema/vcs", Vcs),
-  ...namespaceTypes("WebSearch", "@opencode/schema/websearch", WebSearch),
-  ...namespaceTypes("Workspace", "@opencode/schema/workspace", Workspace),
-  typeReference("Prompt", "@opencode/schema/prompt", Prompt),
-  typeReference("PromptMention", "@opencode/schema/prompt", PromptMention),
-  typeReference("FileAttachment", "@opencode/schema/prompt", FileAttachment),
-  typeReference("AgentAttachment", "@opencode/schema/prompt", AgentAttachment),
-  typeReference("AbsolutePath", "@opencode/schema/schema", AbsolutePath),
-  typeReference("RelativePath", "@opencode/schema/schema", RelativePath),
+  ...namespaceTypes("Agent", "@wormagent/schema/agent", Agent),
+  ...namespaceTypes("Artifact", "@wormagent/schema/artifact", Artifact),
+  ...namespaceTypes("Automation", "@wormagent/schema/automation", Automation),
+  ...namespaceTypes("Command", "@wormagent/schema/command", Command),
+  ...namespaceTypes("Config", "@wormagent/schema/config", Config),
+  ...namespaceTypes("Credential", "@wormagent/schema/credential", Credential),
+  ...namespaceTypes("Event", "@wormagent/schema/event", Event),
+  ...namespaceTypes("EventLog", "@wormagent/schema/event-log", EventLog),
+  ...namespaceTypes("FileDiff", "@wormagent/schema/file-diff", FileDiff),
+  ...namespaceTypes("FileSystem", "@wormagent/schema/filesystem", FileSystem),
+  ...namespaceTypes("Form", "@wormagent/schema/form", Form),
+  ...namespaceTypes("Generate", "@wormagent/schema/generate", Generate),
+  ...namespaceTypes("Instruction", "@wormagent/schema/instruction", Instruction),
+  ...namespaceTypes("InstructionEntry", "@wormagent/schema/instruction-entry", InstructionEntry),
+  ...namespaceTypes("Integration", "@wormagent/schema/integration", Integration),
+  ...namespaceTypes("Job", "@wormagent/schema/job", Job),
+  typeReference("Location.PublicRef", "@wormagent/schema/location", Location.PublicRef),
+  typeReference("Location.PublicInfo", "@wormagent/schema/location", Location.PublicInfo),
+  ...namespaceTypes("Mcp", "@wormagent/schema/mcp", Mcp),
+  ...namespaceTypes("Model", "@wormagent/schema/model", Model),
+  ...namespaceTypes("Money", "@wormagent/schema/money", Money),
+  ...namespaceTypes("Permission", "@wormagent/schema/permission", Permission),
+  ...namespaceTypes("PermissionSaved", "@wormagent/schema/permission-saved", PermissionSaved),
+  ...namespaceTypes("Plugin", "@wormagent/schema/plugin", Plugin),
+  ...namespaceTypes("Project", "@wormagent/schema/project", Project),
+  ...namespaceTypes("Worktree", "@wormagent/schema/worktree", Worktree),
+  ...namespaceTypes("PromptInput", "@wormagent/schema/prompt-input", PromptInput),
+  ...namespaceTypes("Provider", "@wormagent/schema/provider", Provider),
+  ...namespaceTypes("Pty", "@wormagent/schema/pty", Pty),
+  ...namespaceTypes("PtyTicket", "@wormagent/schema/pty-ticket", PtyTicket),
+  ...namespaceTypes("Question", "@wormagent/schema/question", Question),
+  ...namespaceTypes("Reference", "@wormagent/schema/reference", Reference),
+  ...namespaceTypes("Session", "@wormagent/schema/session", Session),
+  ...namespaceTypes("SessionMessage", "@wormagent/schema/session-message", SessionMessage),
+  ...namespaceTypes("SessionInbox", "@wormagent/schema/session-inbox", SessionInbox),
+  ...namespaceTypes("Shell", "@wormagent/schema/shell", Shell),
+  ...namespaceTypes("Skill", "@wormagent/schema/skill", Skill),
+  ...namespaceTypes("Snapshot", "@wormagent/schema/snapshot", Snapshot),
+  ...namespaceTypes("UsageLimits", "@wormagent/schema/usage-limits", UsageLimits),
+  ...namespaceTypes("Vcs", "@wormagent/schema/vcs", Vcs),
+  ...namespaceTypes("WebSearch", "@wormagent/schema/websearch", WebSearch),
+  ...namespaceTypes("Workspace", "@wormagent/schema/workspace", Workspace),
+  typeReference("Prompt", "@wormagent/schema/prompt", Prompt),
+  typeReference("PromptMention", "@wormagent/schema/prompt", PromptMention),
+  typeReference("FileAttachment", "@wormagent/schema/prompt", FileAttachment),
+  typeReference("AgentAttachment", "@wormagent/schema/prompt", AgentAttachment),
+  typeReference("AbsolutePath", "@wormagent/schema/schema", AbsolutePath),
+  typeReference("RelativePath", "@wormagent/schema/schema", RelativePath),
 ]
 
 await Effect.runPromise(
@@ -139,8 +139,8 @@ await Effect.runPromise(
           typeReferences: effectTypeReferences,
           outputTypes: {
             "event.subscribe": {
-              name: "OpenCodeEvent",
-              import: 'import type { OpenCodeEvent } from "@opencode/protocol/groups/event"',
+              name: "WormAgentEvent",
+              import: 'import type { WormAgentEvent } from "@wormagent/protocol/groups/event"',
             },
           },
         }),

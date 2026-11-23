@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, mock, spyOn, test } from "bun:test"
-import { OpenCode, type SessionMessageUser } from "@opencode/client/promise"
+import { WormAgent, type SessionMessageUser } from "@wormagent/client/promise"
 import {
   createSession,
   resolveCurrentSession,
@@ -200,7 +200,7 @@ describe("run session shared", () => {
   })
 
   test("restores current prompt history from stored text and file references", async () => {
-    const client = OpenCode.make({ baseUrl: "https://opencode.test" })
+    const client = WormAgent.make({ baseUrl: "https://wormagent.test" })
     spyOn(client.message, "list").mockImplementation(() =>
       Promise.resolve({
         data: [

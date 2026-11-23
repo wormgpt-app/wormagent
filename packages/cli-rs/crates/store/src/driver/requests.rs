@@ -5,8 +5,8 @@ use std::sync::Arc;
 
 use futures_util::FutureExt;
 use futures_util::future::{BoxFuture, try_join_all};
-use opencode_api::client::Client;
-use opencode_api::generated::*;
+use wormagent_api::client::Client;
+use wormagent_api::generated::*;
 use tokio_util::sync::CancellationToken;
 
 use super::{Data, Remote, Task, Tasks};
@@ -533,7 +533,7 @@ impl Data {
         let prompt = prompt.into();
         let mut request = prompt.input;
         let session = request.session_id.clone();
-        let id = request.id.clone().flatten().unwrap_or_else(|| SessionMessageID(opencode_api::id::message()));
+        let id = request.id.clone().flatten().unwrap_or_else(|| SessionMessageID(wormagent_api::id::message()));
         request.id = Some(Some(id.clone()));
         let fresh = self.write(|state| state.admit_prompt(&request));
         let prepare = prompt.prepare;
@@ -556,7 +556,7 @@ impl Data {
     /// request. The server may coalesce onto another ID; the response's ID then replaces the
     /// proposed row.
     pub fn compact(&self, session: &SessionID, model: Option<ModelRef>) -> Task<SessionInboxCompaction> {
-        let id = SessionMessageID(opencode_api::id::message());
+        let id = SessionMessageID(wormagent_api::id::message());
         let existing = self.write_tasks(|state, tasks| {
             let token = state.admit_compaction(session, &id)?;
             Some(tasks.compactions[&token].clone())
@@ -862,7 +862,7 @@ async fn settle_form(
     owner: String,
     id: FormID,
     location: Option<Location>,
-    result: Result<(), opencode_api::error::Error>,
+    result: Result<(), wormagent_api::error::Error>,
 ) -> Result<(), Error> {
     if let Err(error) = result {
         let settled = error.declared().is_some_and(|declared| {
@@ -880,7 +880,7 @@ async fn settle_form(
 fn form_client(client: &Client, owner: &str, location: Option<&Location>) -> Client {
     match (owner, location) {
         (GLOBAL, Some(location)) => {
-            client.with_header("x-opencode-directory", opencode_api::js::encode_component(&location.directory))
+            client.with_header("x-wormagent-directory", wormagent_api::js::encode_component(&location.directory))
         }
         _ => client.clone(),
     }
@@ -890,7 +890,7 @@ async fn load(
     client: &Client,
     catalog: Catalog,
     location: &Location,
-) -> Result<(Location, Loaded), opencode_api::error::Error> {
+) -> Result<(Location, Loaded), wormagent_api::error::Error> {
     let query = location.query();
     Ok(match catalog {
         Catalog::Vcs => {

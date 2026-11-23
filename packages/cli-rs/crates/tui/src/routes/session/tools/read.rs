@@ -30,7 +30,7 @@ impl Read {
 
     pub fn update(&self, cx: &Context<'_>, props: &Props<'_>) {
         let path = props.input.path().str();
-        let input = opencode_ui::tool_info::ReadInput(props.input);
+        let input = wormagent_ui::tool_info::ReadInput(props.input);
         let mut text = format!("Read {}", format_path(cx, path));
         if input.offset().value().is_some() || input.limit().value().is_some() {
             let offset = finite(input.offset().value()).unwrap_or(1.0);

@@ -1,10 +1,10 @@
-// P-CLI: runs one command with the TS CLI and with `opencode-native`, each against its own fake
+// P-CLI: runs one command with the TS CLI and with `wormagent-native`, each against its own fake
 // server, and compares exit code, stdout, stderr, and the requests after normalization.
 //
 //   bun run parity/cli/run.ts [--sides ts,rs] [scenario.cli.ts ...]
 //
 // Without files it runs every `parity/scenarios/**/*.cli.ts`. `--sides ts,ts` checks that a case is
-// deterministic. Each side's record goes to `$TMPDIR/opencode-parity/cli/<name>.<n>-<side>.json`. Cases run
+// deterministic. Each side's record goes to `$TMPDIR/wormagent-parity/cli/<name>.<n>-<side>.json`. Cases run
 // one per core at a time; PARITY_CLI_JOBS changes that number.
 
 import { parseArgs } from "node:util"
@@ -73,7 +73,7 @@ export async function runCli(side: Side, value: CliCase) {
   const server = value.server ? await startFakeServer(value.server) : undefined
   // The fake server answers only its run's clients: the password goes in their environment, and a client left
   // over from another run cannot log a request that the comparison would see.
-  if (server) box.env.OPENCODE_PASSWORD = server.password
+  if (server) box.env.WORMAGENT_PASSWORD = server.password
   await value.setup?.(box.root, server?.url, server?.password)
   const proc = Bun.spawn(value.command?.(side) ?? command(side, withServer(value.args, server?.url)), {
     cwd: box.cwd,
@@ -171,7 +171,7 @@ if (import.meta.main) {
     await Promise.all(
       records.map((record, index) =>
         Bun.write(
-          path.join(tmpdir(), "opencode-parity/cli", `${name}.${index}-${sides[index]}.json`),
+          path.join(tmpdir(), "wormagent-parity/cli", `${name}.${index}-${sides[index]}.json`),
           JSON.stringify(record, null, 2) + "\n",
         ),
       ),

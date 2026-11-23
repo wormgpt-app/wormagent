@@ -1,6 +1,6 @@
-import { selectTheme } from "@opencode/theme/tui"
-import type { BackgroundDefinition, TextDefinition, ThemeDefinition, ThemeDocument } from "@opencode/theme/tui"
-import { getOpenCodeClassicTheme } from "../../../src/theme"
+import { selectTheme } from "@wormagent/theme/tui"
+import type { BackgroundDefinition, TextDefinition, ThemeDefinition, ThemeDocument } from "@wormagent/theme/tui"
+import { getWormAgentClassicTheme } from "../../../src/theme"
 
 const text = {
   base: "$hue.neutral.900",
@@ -40,17 +40,17 @@ const background = {
 } satisfies BackgroundDefinition
 
 const definition = {
-  ...selectTheme(getOpenCodeClassicTheme(), "light"),
+  ...selectTheme(getWormAgentClassicTheme(), "light"),
   "@dialog": { background: { base: "$background.raised.base" } },
 } satisfies ThemeDefinition
 
 export const document = {
-  base: getOpenCodeClassicTheme().base,
+  base: getWormAgentClassicTheme().base,
   light: { hue: definition.hue },
   dark: definition,
 } satisfies ThemeDocument
-export const lightOnly = { base: getOpenCodeClassicTheme().base, light: { hue: definition.hue } } satisfies ThemeDocument
-export const darkOnly = { base: getOpenCodeClassicTheme().base, dark: definition } satisfies ThemeDocument
+export const lightOnly = { base: getWormAgentClassicTheme().base, light: { hue: definition.hue } } satisfies ThemeDocument
+export const darkOnly = { base: getWormAgentClassicTheme().base, dark: definition } satisfies ThemeDocument
 // @ts-expect-error A theme document must provide at least one mode.
 export const empty = {} satisfies ThemeDocument
 // @ts-expect-error A base mode must be complete; partial tokens are only valid under @dialog.

@@ -4,23 +4,23 @@ use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 
-use opencode_api::generated::{
+use wormagent_api::generated::{
     EventKind, IntegrationInfo, LocationQueryInput, McpServer, ModelInfo, ModelRef, PluginInfo, PluginListInput,
     PluginSource, PluginState, ProviderID, ProviderInfo, SessionInboxDelivery, UsageLimitsInfo, V2Event, VcsInfo,
 };
-use opencode_api::kinds::EventKinds;
-use opencode_local::cli_config::AttentionSoundName;
-use opencode_local::serial::Serial;
-use opencode_local::storage::Storage;
-use opencode_plugin::abi;
-use opencode_plugin::loader::approval::{self, Approvals, Artifact, Decision};
-use opencode_plugin::loader::{Configured, Loader, ServerPart};
-use opencode_plugin::node::{abi_mode, assign, refill, theme_color};
-use opencode_plugin::{Builtin, Definition, Host, Registry, RouteMount, SlotInput, SlotMount, Status};
-use opencode_store::State;
-use opencode_store::location::{Catalog, Location, LocationData};
-use opencode_ui::dialog::DialogKeymap;
-use opencode_ui::markdown::CodeBlockRenderers;
+use wormagent_api::kinds::EventKinds;
+use wormagent_local::cli_config::AttentionSoundName;
+use wormagent_local::serial::Serial;
+use wormagent_local::storage::Storage;
+use wormagent_plugin::abi;
+use wormagent_plugin::loader::approval::{self, Approvals, Artifact, Decision};
+use wormagent_plugin::loader::{Configured, Loader, ServerPart};
+use wormagent_plugin::node::{abi_mode, assign, refill, theme_color};
+use wormagent_plugin::{Builtin, Definition, Host, Registry, RouteMount, SlotInput, SlotMount, Status};
+use wormagent_store::State;
+use wormagent_store::location::{Catalog, Location, LocationData};
+use wormagent_ui::dialog::DialogKeymap;
+use wormagent_ui::markdown::CodeBlockRenderers;
 
 use crate::features::attention::focus::When;
 use crate::features::attention::notify::{self, Request, Sound};
@@ -30,9 +30,9 @@ pub struct Plugins {
     registry: Registry,
     loader: RefCell<Option<Rc<Loader>>>,
     #[cfg(feature = "ts")]
-    pub scripts: RefCell<Option<Rc<opencode_plugin::pipe::Scripts>>>,
+    pub scripts: RefCell<Option<Rc<wormagent_plugin::pipe::Scripts>>>,
     /// Last plugin list delivered to subscribers.
-    told: RefCell<Vec<opencode_plugin::Entry>>,
+    told: RefCell<Vec<wormagent_plugin::Entry>>,
     telling: Cell<bool>,
     /// The host's own `/plugins` while the plugin manager has failed.
     fallback: RefCell<Option<Disposer>>,
@@ -111,7 +111,7 @@ impl Host for Tui {
                 Some(object) => object.extend(fields),
                 None => *stored = serde_json::Value::Object(fields),
             };
-            storage.update_within(key, &serde_json::json!({}), opencode_plugin::storage::VALUE_BYTES, merge).map(drop)
+            storage.update_within(key, &serde_json::json!({}), wormagent_plugin::storage::VALUE_BYTES, merge).map(drop)
         });
         Ok(())
     }
@@ -211,14 +211,14 @@ impl Host for Tui {
         if held(self, target)
             .and_then(|(artifact, _)| artifact.ok())
             .as_ref()
-            .is_some_and(opencode_plugin::luau::approves)
+            .is_some_and(wormagent_plugin::luau::approves)
         {
             let message =
-                "This project wants to run a Luau plugin inside opencode. Run /plugins to approve or decline it.";
+                "This project wants to run a Luau plugin inside wormagent. Run /plugins to approve or decline it.";
             return pending_toast(self, target, message);
         }
         let message =
-            "This project wants to run TypeScript code in opencode's JS host. Run /plugins to approve or decline it.";
+            "This project wants to run TypeScript code in wormagent's JS host. Run /plugins to approve or decline it.";
         pending_toast(self, target, message);
     }
 
@@ -345,7 +345,7 @@ impl Host for Tui {
     }
 
     fn set_model(&self, provider: &str, model: &str) {
-        self.local.set(&opencode_local::model_pref::Model::new(provider, model), true);
+        self.local.set(&wormagent_local::model_pref::Model::new(provider, model), true);
     }
 
     fn tab_allowed(&self, edit: &abi::TabEdit, staged: &[abi::TabEdit]) -> bool {
@@ -393,7 +393,7 @@ impl Host for Tui {
         }
     }
 
-    fn foreground(&self, program: abi::Foreground, alive: Box<dyn Fn() -> bool>, reply: opencode_plugin::Reply) {
+    fn foreground(&self, program: abi::Foreground, alive: Box<dyn Fn() -> bool>, reply: wormagent_plugin::Reply) {
         crate::features::foreground::run(self, program, alive, reply);
     }
 
@@ -418,7 +418,7 @@ impl Host for Tui {
     }
 
     fn install_theme(&self, name: &str, theme: Value) {
-        if !opencode_plugin::theme_file_name(name) || !opencode_ui::theme::is_theme_source(&theme) {
+        if !wormagent_plugin::theme_file_name(name) || !wormagent_ui::theme::is_theme_source(&theme) {
             log::warn!("a plugin installs a theme that is not one, or not as a plain file name: {name:?}");
             return;
         }
@@ -436,14 +436,14 @@ impl Host for Tui {
             options.write(true).create(true).truncate(true);
             let bytes = serde_json::to_vec_pretty(&theme).unwrap_or_default();
             let written = std::fs::create_dir_all(&themes)
-                .and_then(|()| opencode_util::busy::replace(&themes.join(&file), &temporary, &options, &bytes));
+                .and_then(|()| wormagent_util::busy::replace(&themes.join(&file), &temporary, &options, &bytes));
             if let Err(error) = written {
                 log::error!("Failed to install theme {file}: {error}");
             }
         });
     }
 
-    fn on_deltas(&self, run: opencode_plugin::Deltas) -> Option<Disposer> {
+    fn on_deltas(&self, run: wormagent_plugin::Deltas) -> Option<Disposer> {
         Some(crate::features::events::subscribe_deltas(self, move |events| run(events)))
     }
 
@@ -462,7 +462,7 @@ impl Host for Tui {
         Some(self.reads.revision.get())
     }
 
-    fn router(&self) -> Option<&opencode_plugin::interact::Router> {
+    fn router(&self) -> Option<&wormagent_plugin::interact::Router> {
         Some(&self.router)
     }
 
@@ -486,7 +486,7 @@ impl Host for Tui {
         let prompt = self.prompt.current.borrow().upgrade();
         if let Some(prompt) = prompt.filter(|prompt| prompt.shown()) {
             crate::frame::activate_session(self);
-            opencode_plugin::interact::refocus(self, || self.app.focus(&prompt.textarea));
+            wormagent_plugin::interact::refocus(self, || self.app.focus(&prompt.textarea));
         }
     }
 
@@ -620,7 +620,7 @@ pub fn changed(tui: &Tui, changes: &Changes, sync: impl FnOnce(Option<&abi::Chan
 }
 
 /// Shows `shown` under storage key `key` at once, and queues `change` of the latest stored value under the storage
-/// lock after every write made before it. The plugin queues [`opencode_plugin::Host::storage_changed`] after it.
+/// lock after every write made before it. The plugin queues [`wormagent_plugin::Host::storage_changed`] after it.
 fn store(tui: &Tui, key: &str, shown: Value, change: impl FnOnce(&mut Value) + Send + 'static) {
     queue(tui, key, Some(shown.to_string()), |storage, key| {
         storage.update(key, &serde_json::json!({}), change).map(drop)
@@ -632,7 +632,7 @@ fn queue(
     tui: &Tui,
     key: &str,
     shown: Option<String>,
-    write: impl FnOnce(&Storage, &str) -> Result<(), opencode_local::storage::Error> + Send + 'static,
+    write: impl FnOnce(&Storage, &str) -> Result<(), wormagent_local::storage::Error> + Send + 'static,
 ) {
     tui.reads.stored.borrow_mut().insert(key.to_owned(), shown);
     if let Some(storage) = tui.storage() {
@@ -654,7 +654,7 @@ fn queue(
                 Ok(()) => false,
                 Err(error) => {
                     log::error!("Failed to store {key}: {error}");
-                    matches!(error, opencode_local::storage::Error::TooLarge(..))
+                    matches!(error, wormagent_local::storage::Error::TooLarge(..))
                 }
             };
             // The flag is set before the write counts as done, so a read that sees no write pending sees it; the
@@ -916,7 +916,7 @@ impl abi::Read for Reader<'_> {
             size: self.tui.app.size(),
             location: abi::LocationRef { directory: location.directory, workspace: location.workspace_id },
             failed_plugins: failed + server_failed(&self.tui.reads.server.borrow().1),
-            locale: opencode_plugin::facts::locale(),
+            locale: wormagent_plugin::facts::locale(),
         }
     }
 
@@ -952,7 +952,7 @@ impl abi::Read for Reader<'_> {
         let prompt = self.tui.prompt.current.borrow().upgrade().filter(|prompt| prompt.shown())?;
         let text = prompt.textarea.text();
         // The buffer converts the cursor's cells to a byte with its own widths: a tab takes the tab width.
-        let cursor = opencode_ui::prompt_input::index_at(&prompt.textarea, prompt.textarea.cursor_offset());
+        let cursor = wormagent_ui::prompt_input::index_at(&prompt.textarea, prompt.textarea.cursor_offset());
         Some(abi::Composer { text, cursor, focused: prompt.focused() })
     }
 
@@ -1051,15 +1051,15 @@ impl abi::Read for Reader<'_> {
     }
 
     fn image_size(&self, bytes: &[u8]) -> Option<(u32, u32)> {
-        opencode_plugin::surface::decoded_size(&self.tui.app, bytes)
+        wormagent_plugin::surface::decoded_size(&self.tui.app, bytes)
     }
 
     fn utc_offset(&self, at: i64) -> i32 {
-        opencode_plugin::facts::utc_offset(at)
+        wormagent_plugin::facts::utc_offset(at)
     }
 
     fn measure(&self, text: &str) -> abi::Measure {
-        opencode_plugin::facts::measure(&self.tui.app, text)
+        wormagent_plugin::facts::measure(&self.tui.app, text)
     }
 }
 
@@ -1075,7 +1075,7 @@ fn set_setting(tui: &Tui, name: &str, value: Value) {
     };
     let mut candidate = Value::Object(Default::default());
     crate::dialogs::settings::set_path(&mut candidate, &path, value.clone());
-    let decoded = opencode_local::cli_config::decode_text(&candidate.to_string()).map(|info| info.to_value());
+    let decoded = wormagent_local::cli_config::decode_text(&candidate.to_string()).map(|info| info.to_value());
     let taken = decoded.and_then(|decoded| path.iter().try_fold(decoded, |value, key| value.get(key).cloned()));
     if taken.as_ref() != Some(&value) {
         log::warn!("a plugin sets {name} to {value}, which the setting does not take");
@@ -1089,7 +1089,7 @@ fn set_setting(tui: &Tui, name: &str, value: Value) {
 }
 
 /// Omit error text from plugin-visible entries: it may contain another plugin's secrets.
-fn entry(entry: opencode_plugin::Entry) -> abi::PluginEntry {
+fn entry(entry: wormagent_plugin::Entry) -> abi::PluginEntry {
     let status = match entry.status {
         Status::Active => abi::PluginStatus::Active,
         Status::Inactive => abi::PluginStatus::Inactive,
@@ -1103,10 +1103,10 @@ fn entry(entry: opencode_plugin::Entry) -> abi::PluginEntry {
         id: entry.id,
         target: entry.target,
         origin: match entry.source {
-            opencode_plugin::Source::Builtin => abi::PluginOrigin::Builtin,
-            opencode_plugin::Source::Added => abi::PluginOrigin::Added,
-            opencode_plugin::Source::Configured => abi::PluginOrigin::Configured,
-            opencode_plugin::Source::External => abi::PluginOrigin::External,
+            wormagent_plugin::Source::Builtin => abi::PluginOrigin::Builtin,
+            wormagent_plugin::Source::Added => abi::PluginOrigin::Added,
+            wormagent_plugin::Source::Configured => abi::PluginOrigin::Configured,
+            wormagent_plugin::Source::External => abi::PluginOrigin::External,
         },
         status,
         active: entry.active,
@@ -1115,7 +1115,7 @@ fn entry(entry: opencode_plugin::Entry) -> abi::PluginEntry {
 }
 
 /// Tells the plugins that read the plugins ([`abi::Setup::on_plugins`]) that they changed, once the current event is
-/// handled and only if what [`opencode_plugin::Registry::entries`] lists differs from what they heard last. While the
+/// handled and only if what [`wormagent_plugin::Registry::entries`] lists differs from what they heard last. While the
 /// plugin manager has failed, the host's own `/plugins` stands in for it.
 pub fn tell_plugins(tui: &Tui) {
     if tui.plugins.telling.replace(true) {
@@ -1127,14 +1127,14 @@ pub fn tell_plugins(tui: &Tui) {
             .plugins
             .entries()
             .into_iter()
-            .map(|entry| opencode_plugin::Entry { slow: entry.slow.map(|_| String::new()), ..entry })
+            .map(|entry| wormagent_plugin::Entry { slow: entry.slow.map(|_| String::new()), ..entry })
             .collect();
         if *tui.plugins.told.borrow() == entries {
             return;
         }
         // Identify the active manager, not a held build sharing its ID.
-        let manager = opencode_plugin::Entry::plugin_key(super::manager::ID);
-        let failed = |entries: &[opencode_plugin::Entry]| {
+        let manager = wormagent_plugin::Entry::plugin_key(super::manager::ID);
+        let failed = |entries: &[wormagent_plugin::Entry]| {
             entries.iter().any(|entry| entry.key == manager && matches!(entry.status, Status::Failed(_)))
         };
         if failed(&entries) != tui.plugins.fallback.borrow().is_some() {
@@ -1170,10 +1170,10 @@ pub fn local_changed(tui: &Tui) {
     tui.reads.changed(tui);
 }
 
-fn status(status: opencode_store::SessionStatus) -> abi::SessionStatus {
+fn status(status: wormagent_store::SessionStatus) -> abi::SessionStatus {
     match status {
-        opencode_store::SessionStatus::Idle => abi::SessionStatus::Idle,
-        opencode_store::SessionStatus::Running => abi::SessionStatus::Running,
+        wormagent_store::SessionStatus::Idle => abi::SessionStatus::Idle,
+        wormagent_store::SessionStatus::Running => abi::SessionStatus::Running,
     }
 }
 
@@ -1198,7 +1198,7 @@ fn builtins(external: Vec<Builtin>) -> Vec<Builtin> {
 }
 
 /// The registry of the built-ins and the `plugins` config, not yet active.
-pub fn registry(info: &opencode_local::cli_config::Info, external: Vec<Builtin>) -> Plugins {
+pub fn registry(info: &wormagent_local::cli_config::Info, external: Vec<Builtin>) -> Plugins {
     let targets = info.plugins.iter().flatten().map(target);
     Plugins {
         registry: Registry::new(builtins(external), targets),
@@ -1214,10 +1214,10 @@ pub fn registry(info: &opencode_local::cli_config::Info, external: Vec<Builtin>)
     }
 }
 
-fn target(plugin: &opencode_local::cli_config::Plugin) -> &str {
+fn target(plugin: &wormagent_local::cli_config::Plugin) -> &str {
     match plugin {
-        opencode_local::cli_config::Plugin::Name(name) => name,
-        opencode_local::cli_config::Plugin::Package { package, .. } => package,
+        wormagent_local::cli_config::Plugin::Name(name) => name,
+        wormagent_local::cli_config::Plugin::Package { package, .. } => package,
     }
 }
 
@@ -1321,7 +1321,7 @@ fn set_server_parts(tui: &Rc<Tui>, plugins: &[PluginInfo]) {
         }
         return;
     }
-    let skipped = Status::Skipped(opencode_plugin::SKIPPED_OFF.to_owned());
+    let skipped = Status::Skipped(wormagent_plugin::SKIPPED_OFF.to_owned());
     let before = tui.plugins.server_parts.replace(parts.clone());
     let entries = tui.plugins.entries();
     let status = |target: &str| entries.iter().find(|entry| entry.target.as_deref() == Some(target)).map(|e| &e.status);
@@ -1333,7 +1333,7 @@ fn set_server_parts(tui: &Rc<Tui>, plugins: &[PluginInfo]) {
         }
     }
     for part in parts.iter().filter(|target| status(target).is_none()) {
-        log::warn!("plugin {part} skipped: {}", opencode_plugin::SKIPPED_OFF);
+        log::warn!("plugin {part} skipped: {}", wormagent_plugin::SKIPPED_OFF);
         tui.plugins.set_unloaded(part, Some(skipped.clone()));
         changed = true;
     }
@@ -1352,9 +1352,9 @@ fn tell_skipped(tui: &Tui) {
     let mut reasons: Vec<(String, Vec<String>)> = Vec::new();
     for entry in tui.plugins.entries() {
         let Status::Skipped(reason) = &entry.status else { continue };
-        let starting = reason == opencode_plugin::loader::STARTING;
+        let starting = reason == wormagent_plugin::loader::STARTING;
         #[cfg(luau)]
-        let starting = starting || reason == opencode_plugin::luau::STARTING;
+        let starting = starting || reason == wormagent_plugin::luau::STARTING;
         if !entry.key.starts_with("target:") || starting || !told.insert(entry.key) {
             continue;
         }
@@ -1370,7 +1370,7 @@ fn tell_skipped(tui: &Tui) {
     }
     let lines: Vec<String> = reasons.iter().map(|(reason, names)| format!("{}: {reason}.", names.join(", "))).collect();
     let other =
-        [opencode_plugin::SKIPPED_NATIVE, opencode_plugin::SKIPPED_NO_LUAU, opencode_plugin::SKIPPED_NO_PLUGINS];
+        [wormagent_plugin::SKIPPED_NATIVE, wormagent_plugin::SKIPPED_NO_LUAU, wormagent_plugin::SKIPPED_NO_PLUGINS];
     let kind = match reasons.iter().any(|(reason, _)| other.contains(&reason.as_str())) {
         true => "",
         false => "TypeScript ",
@@ -1404,10 +1404,10 @@ fn same_machine(local: bool, url: &url::Url) -> bool {
 
 /// Apply global config entries and removals in configuration order.
 fn user_plugins(tui: &Tui, config_dir: &Path) -> Vec<String> {
-    let global = ["opencode.json", "opencode.jsonc"]
+    let global = ["wormagent.json", "wormagent.jsonc"]
         .iter()
         .filter_map(|name| std::fs::read_to_string(config_dir.join(name)).ok())
-        .filter_map(|text| opencode_local::jsonc::parse(&text))
+        .filter_map(|text| wormagent_local::jsonc::parse(&text))
         .flat_map(|config| match config.get("plugins") {
             Some(Value::Array(entries)) => entries.clone(),
             _ => Vec::new(),
@@ -1418,8 +1418,8 @@ fn user_plugins(tui: &Tui, config_dir: &Path) -> Vec<String> {
             _ => None,
         });
     let cli = tui.config().info.plugins.clone().unwrap_or_default().into_iter().map(|plugin| match plugin {
-        opencode_local::cli_config::Plugin::Name(name) => name,
-        opencode_local::cli_config::Plugin::Package { package, .. } => package,
+        wormagent_local::cli_config::Plugin::Name(name) => name,
+        wormagent_local::cli_config::Plugin::Package { package, .. } => package,
     });
     global.chain(cli).collect()
 }
@@ -1456,10 +1456,10 @@ pub struct External {
 
 struct PluginsChanged;
 
-/// How the JS host runs ([`external_with`]): `opencode_plugin::pipe::Config` in a build with the `ts` feature; in one
+/// How the JS host runs ([`external_with`]): `wormagent_plugin::pipe::Config` in a build with the `ts` feature; in one
 /// without it, nothing can be made, so only `None` is passed (ts-feature).
 #[cfg(feature = "ts")]
-pub type JsHost = opencode_plugin::pipe::Config;
+pub type JsHost = wormagent_plugin::pipe::Config;
 /// How the JS host runs ([`external_with`]): in a build without the `ts` feature there is none (ts-feature).
 #[cfg(not(feature = "ts"))]
 pub enum JsHost {}
@@ -1484,12 +1484,12 @@ pub fn external(tui: &Rc<Tui>, external: External) {
 pub fn external(tui: &Rc<Tui>, external: External) {
     let args = &tui.startup.args;
     let server = match args.local {
-        true => opencode_plugin::pipe::Server::Local(args.server_executable.clone()),
-        false => opencode_plugin::pipe::Server::Remote,
+        true => wormagent_plugin::pipe::Server::Local(args.server_executable.clone()),
+        false => wormagent_plugin::pipe::Server::Remote,
     };
-    let scripts = opencode_plugin::pipe::Config::from_env(&server).map(|config| opencode_plugin::pipe::Config {
+    let scripts = wormagent_plugin::pipe::Config::from_env(&server).map(|config| wormagent_plugin::pipe::Config {
         version: crate::dialogs::debug::VERSION.to_owned(),
-        channel: opencode_local::channel::Channels::from_env().channel,
+        channel: wormagent_local::channel::Channels::from_env().channel,
         ..config
     });
     external_with(tui, external, scripts);
@@ -1498,7 +1498,7 @@ pub fn external(tui: &Rc<Tui>, external: External) {
 /// Load external plugins using the given JS host configuration. Without a host, list TypeScript plugins as skipped.
 pub fn external_with(tui: &Rc<Tui>, external: External, scripts: Option<JsHost>) {
     let entries = configured(tui, tui.plugins.skipped());
-    let project = opencode_plugin::loader::project_root(&external.cwd);
+    let project = wormagent_plugin::loader::project_root(&external.cwd);
     let loader = Loader::new(external.config_dir, external.cwd, entries);
     // `--no-plugins`: no carrier starts, and every target is listed as skipped.
     let off = tui.startup.args.no_plugins;
@@ -1507,7 +1507,7 @@ pub fn external_with(tui: &Rc<Tui>, external: External, scripts: Option<JsHost>)
         false => (loader, scripts),
     };
     #[cfg(luau)]
-    let loader = match opencode_plugin::luau::enabled() && !off {
+    let loader = match wormagent_plugin::luau::enabled() && !off {
         true => {
             let proxy = tui.app.proxy();
             loader.with_luau(move || {
@@ -1527,7 +1527,7 @@ pub fn external_with(tui: &Rc<Tui>, external: External, scripts: Option<JsHost>)
     };
     #[cfg(feature = "ts")]
     let loader = {
-        let scripts = scripts.map(|config| opencode_plugin::pipe::Scripts::new(config, &host(tui)));
+        let scripts = scripts.map(|config| wormagent_plugin::pipe::Scripts::new(config, &host(tui)));
         let loader = Rc::new(match &scripts {
             Some(scripts) => loader.with_scripts(scripts.clone()),
             None => loader,
@@ -1618,8 +1618,8 @@ pub fn decide(
         }
         done(tui, recorded);
     };
-    if !found.as_ref().is_some_and(opencode_plugin::loader::Found::walks) {
-        return record(tui, found.map(opencode_plugin::loader::Found::identify));
+    if !found.as_ref().is_some_and(wormagent_plugin::loader::Found::walks) {
+        return record(tui, found.map(wormagent_plugin::loader::Found::identify));
     }
     let Some(found) = found else { return };
     let weak = tui.weak();
@@ -1633,7 +1633,7 @@ pub fn decide(
 fn configured(tui: &Tui, targets: Vec<String>) -> Vec<Configured> {
     let options = |target: &str| {
         tui.config().info.plugins.iter().flatten().find_map(|plugin| match plugin {
-            opencode_local::cli_config::Plugin::Package { package, options: Some(options) } if package == target => {
+            wormagent_local::cli_config::Plugin::Package { package, options: Some(options) } if package == target => {
                 Some(serde_json::Value::Object(options.clone()).to_string())
             }
             _ => None,
@@ -1642,13 +1642,13 @@ fn configured(tui: &Tui, targets: Vec<String>) -> Vec<Configured> {
     targets.into_iter().map(|target| Configured { options: options(&target), target }).collect()
 }
 
-type Watched<W = opencode_local::watch::Watch> = (PathBuf, Option<u64>, W);
+type Watched<W = wormagent_local::watch::Watch> = (PathBuf, Option<u64>, W);
 
 fn watch(tui: &Tui, loader: &Loader, watches: &RefCell<Vec<Watched>>) {
     let fresh = unwatched(&mut watches.borrow_mut(), loader.watch_dirs());
     for (dir, id) in fresh {
         let proxy = tui.app.proxy();
-        let watch = opencode_local::watch::watch(
+        let watch = wormagent_local::watch::watch(
             &dir,
             |_| true,
             Duration::from_millis(100),
@@ -1684,7 +1684,7 @@ fn identity(dir: &std::path::Path) -> Option<u64> {
 
 #[cfg(windows)]
 fn identity(dir: &std::path::Path) -> Option<u64> {
-    opencode_util::win::file_index(dir).ok()
+    wormagent_util::win::file_index(dir).ok()
 }
 
 /// Adds and activates one more plugin, then remounts the route so its claims show.
@@ -1708,7 +1708,7 @@ pub fn code_blocks(tui: &Tui) -> CodeBlockRenderers {
     tui.plugins.code_blocks(Rc::new(move || weak.upgrade().map_or_else(|| last.clone(), |tui| tui.page())))
 }
 
-pub fn tool_claims(tui: &Tui) -> opencode_plugin::claim::ToolClaims {
+pub fn tool_claims(tui: &Tui) -> wormagent_plugin::claim::ToolClaims {
     tui.plugins.tool_claims()
 }
 
@@ -1721,14 +1721,14 @@ pub fn markdown(tui: &Tui) -> opentui::widget::Markdown {
 pub fn markdown_with(tui: &Tui, renderers: &CodeBlockRenderers) -> opentui::widget::Markdown {
     let page = tui.page();
     let conceal = tui.config().info.session.as_ref().and_then(|session| session.markdown)
-        != Some(opencode_local::cli_config::Markdown::Source);
-    let syntax = opencode_ui::code::syntax_theme(&page);
-    opencode_ui::markdown::view(&tui.app, &page, &syntax, renderers, conceal, false)
+        != Some(wormagent_local::cli_config::Markdown::Source);
+    let syntax = wormagent_ui::code::syntax_theme(&page);
+    wormagent_ui::markdown::view(&tui.app, &page, &syntax, renderers, conceal, false)
 }
 
 /// A Code Mode script the session itself runs (the prompt footer's and the Scripts tab's count).
-pub(crate) fn is_script(job: &opencode_api::generated::JobInfo, session: &SessionID) -> bool {
-    matches!(job, opencode_api::generated::JobInfo::Codemode(_)) && job.session_id() == session.0
+pub(crate) fn is_script(job: &wormagent_api::generated::JobInfo, session: &SessionID) -> bool {
+    matches!(job, wormagent_api::generated::JobInfo::Codemode(_)) && job.session_id() == session.0
 }
 
 #[cfg(test)]
@@ -1748,13 +1748,13 @@ mod tests {
             ("a\\b", false),
             ("tôkyo", false),
         ] {
-            assert_eq!(opencode_plugin::theme_file_name(name), plain, "{name:?}");
+            assert_eq!(wormagent_plugin::theme_file_name(name), plain, "{name:?}");
         }
     }
 
     #[test]
     fn a_directory_made_again_is_watched_again() {
-        let root = opencode_util::temp::tempdir().unwrap();
+        let root = wormagent_util::temp::tempdir().unwrap();
         let (a, b) = (root.path().join("a"), root.path().join("b"));
         std::fs::create_dir(&a).unwrap();
         std::fs::create_dir(&b).unwrap();

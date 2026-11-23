@@ -5,8 +5,8 @@ use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 use std::time::Duration;
 
-use opencode_local::cli_config::{Grouping, Info, Session, Verbosity};
-use opencode_tui::{Deps, Route};
+use wormagent_local::cli_config::{Grouping, Info, Session, Verbosity};
+use wormagent_tui::{Deps, Route};
 use opentui::widget::Widget;
 use serde_json::{Value, json};
 
@@ -902,7 +902,7 @@ fn a_resize_in_the_frame_of_a_key_never_skips_rows() {
 
 #[test]
 fn freed_rows_go_back_to_the_system_once_the_reader_stops() {
-    let runs = opencode_tui::features::release::runs;
+    let runs = wormagent_tui::features::release::runs;
     let h = open(turns(LONG), Info::default());
     h.press("ctrl+g");
     h.wait_for("┃  Question 1\n");

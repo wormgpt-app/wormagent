@@ -1,18 +1,18 @@
 [package]
-name = "opencode-cli"
-description = "The opencode-native binary."
+name = "wormagent-cli"
+description = "The wormagent-native binary."
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 publish.workspace = true
 
 [[bin]]
-name = "opencode-native"
+name = "wormagent-native"
 path = "src/main.rs"
 
 # Runs the prompt kit's parity scripts (parity/oracle/C.p-prompts.ts); not shipped.
 [[bin]]
-name = "opencode-prompt-demo"
+name = "wormagent-prompt-demo"
 path = "src/prompt/demo.rs"
 test = false
 
@@ -33,18 +33,18 @@ unicode-width.workspace = true
 url.workspace = true
 # The terminal size and raw reads of the prompt kit.
 opentui.workspace = true
-opencode-acp.workspace = true
-opencode-api.workspace = true
-opencode-latex.workspace = true
-opencode-local.workspace = true
-opencode-mermaid.workspace = true
-opencode-mini.workspace = true
-opencode-plugin.workspace = true
-opencode-service.workspace = true
-opencode-store.workspace = true
-opencode-tui.workspace = true
-opencode-ui.workspace = true
-opencode-util.workspace = true
+wormagent-acp.workspace = true
+wormagent-api.workspace = true
+wormagent-latex.workspace = true
+wormagent-local.workspace = true
+wormagent-mermaid.workspace = true
+wormagent-mini.workspace = true
+wormagent-plugin.workspace = true
+wormagent-service.workspace = true
+wormagent-store.workspace = true
+wormagent-tui.workspace = true
+wormagent-ui.workspace = true
+wormagent-util.workspace = true
 
 [target.'cfg(unix)'.dependencies]
 rustix = { workspace = true, features = ["termios", "event", "pty"] }
@@ -52,11 +52,11 @@ libc.workspace = true
 
 [features]
 # TypeScript TUI plugins on the JS host: the pipe carrier, the JS host and its embedded `host.ts` and `compat.js`
-# (ts-feature). On by default; `OPENCODE_PLUGIN_JS=0` still turns the host off at run time.
+# (ts-feature). On by default; `WORMAGENT_PLUGIN_JS=0` still turns the host off at run time.
 default = ["ts", "luau"]
-ts = ["opencode-tui/ts", "opencode-plugin/ts"]
-# Luau plugins, in process. On by default; `OPENCODE_PLUGIN_LUAU=0` turns them off at run time.
-luau = ["opencode-tui/luau"]
+ts = ["wormagent-tui/ts", "wormagent-plugin/ts"]
+# Luau plugins, in process. On by default; `WORMAGENT_PLUGIN_LUAU=0` turns them off at run time.
+luau = ["wormagent-tui/luau"]
 
 [dev-dependencies]
 serde_json.workspace = true

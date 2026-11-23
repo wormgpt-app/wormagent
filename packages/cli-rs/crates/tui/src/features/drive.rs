@@ -1,7 +1,7 @@
 //! Headless simulation endpoint.
 
 use crate::app::{Launch, Tui};
-use opencode_drive::Manifest;
+use wormagent_drive::Manifest;
 use opentui::app::HeadlessOptions;
 use opentui::{App, AppOptions};
 use std::net::SocketAddr;
@@ -9,7 +9,7 @@ use std::path::Path;
 use std::rc::Rc;
 
 pub fn manifest() -> Option<opentui::Result<Manifest>> {
-    opencode_drive::manifest::resolve(|name| std::env::var(name).ok())
+    wormagent_drive::manifest::resolve(|name| std::env::var(name).ok())
         .map(|manifest| manifest.map_err(opentui::Error::other))
 }
 
@@ -25,7 +25,7 @@ pub fn run(manifest: Manifest, options: AppOptions, launch: Launch) -> opentui::
     let version = launch.args.version.clone();
     crate::app::run_on(app, launch, |tui| {
         let server = start(tui, manifest.ui_addr(), version, manifest.recording.as_deref())?;
-        eprintln!("opencode drive ui websocket: {}", server.url());
+        eprintln!("wormagent drive ui websocket: {}", server.url());
         Ok(())
     })
 }
@@ -35,6 +35,6 @@ pub fn start(
     addr: SocketAddr,
     version: String,
     recording: Option<&Path>,
-) -> std::io::Result<opencode_drive::Server> {
-    opencode_drive::start(&tui.app, addr, version, recording)
+) -> std::io::Result<wormagent_drive::Server> {
+    wormagent_drive::start(&tui.app, addr, version, recording)
 }

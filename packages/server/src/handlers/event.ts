@@ -1,4 +1,4 @@
-import { Event } from "@opencode/schema/event"
+import { Event } from "@wormagent/schema/event"
 import { Effect, Stream } from "effect"
 import { HttpServerResponse } from "effect/http"
 import { HttpApiBuilder } from "effect/http-api"

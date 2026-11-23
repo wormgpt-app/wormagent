@@ -19,15 +19,15 @@ const descriptions: Record<string, string> = {
 // Rows the sidebar's secondary nav doesn't have, after it.
 const extra = [
   { label: "Humans", href: "/humans.txt", description: "the team and contributors" },
-  { label: "Anomaly", href: "https://anoma.ly", description: "the company behind OpenCode" },
+  { label: "WormGPT", href: "https://anoma.ly", description: "the company behind WormAgent" },
 ]
 
 const secondaryDescriptions: Record<string, string> = {
-  "https://discord.gg/opencode": "chat with the team and other users",
+  "https://discord.gg/wormagent": "chat with the team and other users",
   "/press": "press kit and facts",
   "/brand": "logos, colors and usage",
   "/legal": "privacy policy and terms",
-  "https://status.opencode.ai": "live system status",
+  "https://status.wormagent.net": "live system status",
 }
 
 /**
@@ -72,7 +72,7 @@ export function forHumansRows() {
       `  ├── ${row.label.padEnd(15)}${row.description ? row.href.padEnd(path) + row.description : row.href}`.trimEnd(),
     ),
     "  │",
-    "  ├── Source         https://github.com/anomalyco/opencode",
-    "  └── Contribute     https://github.com/anomalyco/opencode/blob/dev/CONTRIBUTING.md",
+    "  ├── Source         https://github.com/wormgpt-app/wormagent",
+    "  └── Contribute     https://github.com/wormgpt-app/wormagent/blob/dev/CONTRIBUTING.md",
   ].join("\n")
 }

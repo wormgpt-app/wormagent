@@ -1,10 +1,10 @@
 import { describe, expect } from "bun:test"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Config } from "@opencode/core/config"
-import { Document, Info } from "@opencode/schema/config"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Config } from "@wormagent/core/config"
+import { Document, Info } from "@wormagent/schema/config"
 import { Effect, Layer, Stream } from "effect"
-import { SkillPlugin } from "@opencode/core/plugin/skill"
-import { Skill } from "@opencode/core/skill"
+import { SkillPlugin } from "@wormagent/core/plugin/skill"
+import { Skill } from "@wormagent/core/skill"
 import { testEffect } from "../lib/effect"
 import { host } from "./host"
 
@@ -37,10 +37,10 @@ describe("SkillPlugin.Plugin", () => {
 
       expect(skills).toContainEqual(
         expect.objectContaining({
-          id: "opencode",
-          name: "OpenCode",
-          path: "skill://opencode/SKILL.md",
-          description: expect.stringContaining("any question about OpenCode itself"),
+          id: "wormagent",
+          name: "WormAgent",
+          path: "skill://wormagent/SKILL.md",
+          description: expect.stringContaining("any question about WormAgent itself"),
         }),
       )
       expect(skills).toContainEqual(
@@ -48,10 +48,10 @@ describe("SkillPlugin.Plugin", () => {
           id: "report",
           name: "Report",
           path: "skill://report/SKILL.md",
-          description: expect.stringContaining("opencode issue"),
+          description: expect.stringContaining("wormagent issue"),
         }),
       )
-      expect(report?.content).toContain("- opencode version: 1.2.3")
+      expect(report?.content).toContain("- wormagent version: 1.2.3")
       expect(report?.content).toContain("- install/channel: beta")
     }),
   )

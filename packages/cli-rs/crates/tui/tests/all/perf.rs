@@ -16,12 +16,12 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 use std::time::Duration;
 
 use bytes::Bytes;
-use opencode_api::client::Client;
-use opencode_api::events::Event;
-use opencode_api::generated::{SessionID, V2Event};
-use opencode_api::transport::{BoxFuture, Request, Response, Transport};
-use opencode_store::{Data, LoadMore, Options as StoreOptions, Payload, Wanted};
-use opencode_tui::{Deps, Route, Tui};
+use wormagent_api::client::Client;
+use wormagent_api::events::Event;
+use wormagent_api::generated::{SessionID, V2Event};
+use wormagent_api::transport::{BoxFuture, Request, Response, Transport};
+use wormagent_store::{Data, LoadMore, Options as StoreOptions, Payload, Wanted};
+use wormagent_tui::{Deps, Route, Tui};
 use opentui::testing::TestApp;
 use serde_json::{Value, json};
 
@@ -253,7 +253,7 @@ fn model_picker() {
     assert!(loaded, "the catalog never loaded:\n{}", h.app.text());
     settle(&h.app);
     let probe = Probe::start();
-    opencode_tui::dialogs::model::show(&local, None);
+    wormagent_tui::dialogs::model::show(&local, None);
     settle(&h.app);
     let query = "model 4 7";
     for character in query.chars() {
@@ -274,7 +274,7 @@ fn model_picker() {
 fn store_open() {
     let runtime = tokio::runtime::Builder::new_current_thread().enable_all().build_local(Default::default()).unwrap();
     let server = Arc::new(Server::new().long());
-    let client = Client::with_transport("http://opencode.local", server).unwrap();
+    let client = Client::with_transport("http://wormagent.local", server).unwrap();
     let id = SessionID(LONG.into());
     let probe = Probe::start();
     let options = StoreOptions { directory: support::DIRECTORY.into(), ..StoreOptions::default() };
@@ -293,7 +293,7 @@ fn store_open() {
 #[ignore = "performance scenario; run with `bun run perf`"]
 fn store_stream() {
     let runtime = tokio::runtime::Builder::new_current_thread().enable_all().build_local(Default::default()).unwrap();
-    let client = Client::with_transport("http://opencode.local", Arc::new(Server::new().short())).unwrap();
+    let client = Client::with_transport("http://wormagent.local", Arc::new(Server::new().short())).unwrap();
     let id = SessionID(SHORT.into());
     let options = StoreOptions { directory: support::DIRECTORY.into(), ..StoreOptions::default() };
     let data = runtime.block_on(async { Data::local(client, options) });
@@ -327,7 +327,7 @@ fn decode_events() {
         body.chunks(16 * 1024).map(|chunk| Ok(Bytes::copy_from_slice(chunk))).collect();
     let probe = Probe::start();
     let decoded = runtime.block_on(async {
-        let stream = opencode_api::sse::events::<V2Event, _, _>(futures_util::stream::iter(chunks), || {});
+        let stream = wormagent_api::sse::events::<V2Event, _, _>(futures_util::stream::iter(chunks), || {});
         stream.fold(0u64, |count, event| async move { count + u64::from(event.is_ok()) }).await
     });
     probe.finish("decode_events", decoded);
@@ -337,10 +337,10 @@ fn decode_events() {
 #[test]
 #[ignore = "performance scenario; run with `bun run perf`"]
 fn decode_responses() {
-    use opencode_api::generated::{MessageListInput, MessageListInputOrder, SessionListInput};
+    use wormagent_api::generated::{MessageListInput, MessageListInputOrder, SessionListInput};
     let runtime = tokio::runtime::Builder::new_current_thread().build().unwrap();
     let server = Arc::new(Server::new().long().sessions(SESSIONS).models());
-    let client = Client::with_transport("http://opencode.local", server).unwrap();
+    let client = Client::with_transport("http://wormagent.local", server).unwrap();
     let probe = Probe::start();
     let decoded = runtime.block_on(async {
         let input = MessageListInput {
@@ -365,7 +365,7 @@ fn decode_responses() {
 
 /// The config carries an `experimental` key, as users' configs do, so a per-frame copy of the config shows in the counts.
 fn mount(server: Server, route: Route, width: u16, height: u16) -> support::Harness {
-    let info = opencode_local::cli_config::Info {
+    let info = wormagent_local::cli_config::Info {
         experimental: Some([("perf-probe".to_owned(), true)].into_iter().collect()),
         ..support::still()
     };
@@ -485,8 +485,8 @@ impl Server {
             "model": { "providerID": "provider-0", "id": "model-0-0" },
         });
         let integration = json!([{
-            "id": "opencode", "name": "OpenCode Console",
-            "methods": [{ "id": "device", "type": "oauth", "label": "Sign in with OpenCode" }],
+            "id": "wormagent", "name": "WormAgent Console",
+            "methods": [{ "id": "device", "type": "oauth", "label": "Sign in with WormAgent" }],
             "connections": [{ "type": "credential", "id": "cred_1", "label": "Acme", "method": "oauth" }],
         }]);
         let mut server = Self::default();

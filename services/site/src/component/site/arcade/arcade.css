@@ -568,7 +568,7 @@
     }
   }
 
-  /* The title: the Anomaly wordmark on the CRT's pixel grid (pixel-logo.tsx), "ARCADE" under it in
+  /* The title: the WormGPT wordmark on the CRT's pixel grid (pixel-logo.tsx), "ARCADE" under it in
      the screen's font, and a small "PRESS START" near the bottom. */
   [data-slot="start"] {
     position: absolute;

@@ -4,9 +4,9 @@ use crate::support::{self, WAIT};
 
 use std::sync::{Arc, Mutex};
 
-use opencode_api::memory::{Memory, Route as MemoryRoute};
-use opencode_api::transport::{BoxFuture, Request, Response, Transport};
-use opencode_tui::{Deps, Route};
+use wormagent_api::memory::{Memory, Route as MemoryRoute};
+use wormagent_api::transport::{BoxFuture, Request, Response, Transport};
+use wormagent_tui::{Deps, Route};
 use serde_json::json;
 
 /// The memory server, with the configured model changeable while it runs.

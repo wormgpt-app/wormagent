@@ -4,9 +4,9 @@ use std::sync::Arc;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
 use common::*;
-use opencode_api::events::{self, Status};
-use opencode_api::generated::*;
-use opencode_store::{
+use wormagent_api::events::{self, Status};
+use wormagent_api::generated::*;
+use wormagent_store::{
     Catalog, CreateSession, Data, HELD, LoadMore, MAILBOX, Options, Payload, Touched, Unwoken, Wanted,
 };
 use serde_json::{Value, json};
@@ -86,7 +86,7 @@ async fn a_coalesced_reconnect_invalidates_reads_and_flushes_everything() {
     let (data, paths) = counting();
     let (status, watcher) = watch::channel(state(Status::Connected));
     let (batches, receiver) = mpsc::channel(8);
-    let driver = tokio::spawn(opencode_store::connection::run(data.remote(), watcher, receiver));
+    let driver = tokio::spawn(wormagent_store::connection::run(data.remote(), watcher, receiver));
     batches.send(vec![connected().into()]).await.unwrap();
     settle().await;
     let path = "/api/session/ses_a/message";
@@ -146,7 +146,7 @@ async fn an_owner_that_stops_draining_keeps_the_stream_and_every_event() {
     let capacity = sent.len() + HELD;
     let (status, watcher) = watch::channel(state(Status::Connected));
     let (batches, receiver) = mpsc::channel(capacity);
-    tokio::spawn(opencode_store::connection::run(data.remote(), watcher, receiver));
+    tokio::spawn(wormagent_store::connection::run(data.remote(), watcher, receiver));
     for batch in sent {
         batches.send(batch).await.unwrap();
     }
@@ -205,7 +205,7 @@ async fn the_connection_records_a_declared_error_by_its_message() {
     let declared = json!({ "_tag": "Unauthorized", "message": "no" });
     let data =
         data(handler(move |_req: Req| std::future::ready(Reply::Json(401, declared.clone()))), Options::default());
-    let (connection, _task) = opencode_store::connection::connect(&data, events::Options::default());
+    let (connection, _task) = wormagent_store::connection::connect(&data, events::Options::default());
     wait(|| connection.history().len() > 1).await;
     assert_eq!(connection.history()[1].error.as_deref(), Some("no"));
 }
@@ -236,7 +236,7 @@ async fn a_payload_that_does_not_decode_ends_its_stream() {
     let data = Data::new(client, options, tokio::runtime::Handle::current(), || Ok(()));
     let _listening = data.listen([EventKind::TuiPromptAppend]);
     let options = events::Options { reconnect_delay: std::time::Duration::from_millis(10), ..Default::default() };
-    let (connection, _task) = opencode_store::connection::connect(&data, options);
+    let (connection, _task) = wormagent_store::connection::connect(&data, options);
     let appended = |data: &Data| {
         let mut taken = Vec::new();
         data.drain();
@@ -253,10 +253,10 @@ async fn a_payload_that_does_not_decode_ends_its_stream() {
     assert_eq!(seen, ["evt_1", "evt_4"], "what came before it, then the next stream's events");
     assert_eq!(opened.load(Ordering::SeqCst), 2);
     let error = connection.history().into_iter().find_map(|record| record.error);
-    let read = opencode_api::sse::decode::<V2Event>(&malformed.to_string()).unwrap_err();
+    let read = wormagent_api::sse::decode::<V2Event>(&malformed.to_string()).unwrap_err();
     assert_eq!(
         error,
-        Some(opencode_api::error::Error::from(read).error_message()),
+        Some(wormagent_api::error::Error::from(read).error_message()),
         "the error the stream's read gives"
     );
 }
@@ -268,7 +268,7 @@ async fn the_dying_streams_tail_batch_applies_before_the_disconnect() {
     let (data, paths) = counting();
     let (status, watcher) = watch::channel(state(Status::Connected));
     let (batches, receiver) = mpsc::channel(8);
-    let driver = tokio::spawn(opencode_store::connection::run(data.remote(), watcher, receiver));
+    let driver = tokio::spawn(wormagent_store::connection::run(data.remote(), watcher, receiver));
     batches.send(vec![connected().into()]).await.unwrap();
     settle().await;
 
@@ -479,7 +479,7 @@ fn connect_works_from_a_thread_outside_the_runtime() {
     // The UI thread, which owns the store, has no runtime context.
     let connection = std::thread::spawn(move || {
         let data = Data::new(client, Options::default(), handle, || Ok(()));
-        opencode_store::connection::connect(&data, events::Options::default()).0
+        wormagent_store::connection::connect(&data, events::Options::default()).0
     })
     .join()
     .expect("connect does not panic outside the runtime");
@@ -533,7 +533,7 @@ async fn a_budget_refusal_refreshes_usage_limits() {
         }),
         Options::default(),
     );
-    let location = opencode_store::Location::new("/project");
+    let location = wormagent_store::Location::new("/project");
     data.catalog_sync(Catalog::UsageLimits, Some(&location)).await.unwrap();
     let failed = |event: &str, error: &str| {
         let mut value = durable(

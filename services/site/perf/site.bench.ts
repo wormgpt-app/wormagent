@@ -1,4 +1,4 @@
-// Main-thread work on the site's pages and interactions, for strobe (https://github.com/anomalyco/strobe).
+// Main-thread work on the site's pages and interactions, for strobe (https://github.com/wormgpt-app/strobe).
 // Each variant is the production build (script/build.ts) served in workerd by perf/serve.ts.
 //
 //   strobe bench services/site/perf/site.bench.ts --base origin/dev --head . --headless
@@ -35,7 +35,7 @@ export default bench({
     desktop: web({ url: "/", viewport: desktop }),
     phone: web({ url: "/", emulate: "mobile" }),
     // The live site, for reference only: `--target production --blocks 5 --head .` (nothing to build).
-    production: url("https://opencode.ai/", { viewport: desktop }),
+    production: url("https://wormagent.net/", { viewport: desktop }),
   },
   setup: ({ page }) => page.idle(),
   cases: {

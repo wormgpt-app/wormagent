@@ -1,15 +1,15 @@
-import { SessionMessage } from "@opencode/schema/session-message"
-import { SessionInbox } from "@opencode/schema/session-inbox"
-import { PromptInput } from "@opencode/schema/prompt-input"
-import { Session } from "@opencode/schema/session"
-import { SessionStats } from "@opencode/schema/session-stats"
-import { TokenUsage } from "@opencode/schema/token-usage"
-import { Money } from "@opencode/schema/money"
-import { InstructionEntry } from "@opencode/schema/instruction-entry"
-import { Project } from "@opencode/schema/project"
-import { DateTimeUtcFromMillis, NonNegativeInt, optional, PositiveInt } from "@opencode/schema/schema"
-import { Event } from "@opencode/schema/event"
-import { SessionLegacy } from "@opencode/schema/session-legacy"
+import { SessionMessage } from "@wormagent/schema/session-message"
+import { SessionInbox } from "@wormagent/schema/session-inbox"
+import { PromptInput } from "@wormagent/schema/prompt-input"
+import { Session } from "@wormagent/schema/session"
+import { SessionStats } from "@wormagent/schema/session-stats"
+import { TokenUsage } from "@wormagent/schema/token-usage"
+import { Money } from "@wormagent/schema/money"
+import { InstructionEntry } from "@wormagent/schema/instruction-entry"
+import { Project } from "@wormagent/schema/project"
+import { DateTimeUtcFromMillis, NonNegativeInt, optional, PositiveInt } from "@wormagent/schema/schema"
+import { Event } from "@wormagent/schema/event"
+import { SessionLegacy } from "@wormagent/schema/session-legacy"
 import { Context, Schema, SchemaGetter, Struct } from "effect"
 import { HttpApiEndpoint, HttpApiGroup, HttpApiMiddleware, HttpApiSchema, OpenApi } from "effect/http-api"
 import {
@@ -29,15 +29,15 @@ import {
   SkillNotFoundError,
   UnknownError,
 } from "../errors.js"
-import { Agent } from "@opencode/schema/agent"
-import { Skill } from "@opencode/schema/skill"
-import { Model } from "@opencode/schema/model"
-import { Permission } from "@opencode/schema/permission"
-import { Location } from "@opencode/schema/location"
-import { SessionEvent } from "@opencode/schema/session-event"
-import { EventLog } from "@opencode/schema/event-log"
-import { FileDiff } from "@opencode/schema/file-diff"
-import { Form } from "@opencode/schema/form"
+import { Agent } from "@wormagent/schema/agent"
+import { Skill } from "@wormagent/schema/skill"
+import { Model } from "@wormagent/schema/model"
+import { Permission } from "@wormagent/schema/permission"
+import { Location } from "@wormagent/schema/location"
+import { SessionEvent } from "@wormagent/schema/session-event"
+import { EventLog } from "@wormagent/schema/event-log"
+import { FileDiff } from "@wormagent/schema/file-diff"
+import { Form } from "@wormagent/schema/form"
 import { PublicSessionMessage } from "./message.js"
 
 const SessionActive = Schema.Struct({
@@ -206,7 +206,7 @@ export const makeSessionGroup = <I extends HttpApiMiddleware.AnyId, S, FormI ext
             description: "Defaults to the server's working directory. Ignored when parentID is set.",
           }),
           metadata: Session.Metadata.pipe(Schema.optional).annotate({
-            description: "Opaque to OpenCode. Child sessions inherit the parent's metadata unless you pass your own.",
+            description: "Opaque to WormAgent. Child sessions inherit the parent's metadata unless you pass your own.",
           }),
           permissions: Permission.Ruleset.pipe(Schema.optional).annotate({
             description:
@@ -758,7 +758,7 @@ export const makeSessionGroup = <I extends HttpApiMiddleware.AnyId, S, FormI ext
         },
         success: Schema.Struct({
           interrupted: Schema.Boolean.annotate({
-            description: "Whether an active execution owned by this OpenCode process was interrupted.",
+            description: "Whether an active execution owned by this WormAgent process was interrupted.",
           }),
         }).annotate({ identifier: "SessionInterruptResponse" }),
         error: SessionNotFoundError,

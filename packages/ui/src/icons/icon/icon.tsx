@@ -9,9 +9,9 @@ import {
 } from "../registry"
 import "./icon.css"
 
-const spriteID = "opencode-v2-icon-sprite"
+const spriteID = "wormagent-v2-icon-sprite"
 
-const symbol = (name: string) => `opencode-v2-icon-${name}`
+const symbol = (name: string) => `wormagent-v2-icon-${name}`
 
 let spriteInserted = false
 

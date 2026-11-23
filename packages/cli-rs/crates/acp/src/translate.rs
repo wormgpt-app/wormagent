@@ -5,13 +5,13 @@ use std::collections::{HashMap, HashSet};
 use std::sync::Arc;
 
 use indexmap::{Equivalent, IndexMap};
-use opencode_api::de::Raw;
-use opencode_api::generated::{
+use wormagent_api::de::Raw;
+use wormagent_api::generated::{
     FormInfo, PermissionAskedData, SessionCreatedData, SessionID, SessionInboxCancelled, SessionInboxDelivered,
     SessionInboxEnqueuedData, SessionInboxItem, SessionMessageAssistantFinish, SessionStructuredError, TokenUsageInfo,
     V2Event,
 };
-use opencode_util::json_object;
+use wormagent_util::json_object;
 use serde::de::Error as _;
 use serde::{Deserialize, Deserializer, Serialize};
 use serde_json::{Value, json};
@@ -22,7 +22,7 @@ use crate::error::Failure;
 use crate::tools::{self, DiffSource, Part};
 use crate::update::{Chunk, Content, Id, Input, Kind, Meta, Update};
 
-const RETRY_META: &str = "opencode/retry";
+const RETRY_META: &str = "wormagent/retry";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum StartKind {
@@ -123,7 +123,7 @@ pub struct TurnState {
     pub execution_error: Option<SessionStructuredError>,
 }
 
-/// A scheduled retry, as `_meta["opencode/retry"]` shows it.
+/// A scheduled retry, as `_meta["wormagent/retry"]` shows it.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Retry {
@@ -289,7 +289,7 @@ pub fn failure(state: &TurnState) -> Option<Failure> {
     Some(Failure::ServiceFailure {
         safe_message: Some(error.message.as_str())
             .filter(|message| !message.is_empty())
-            .unwrap_or("OpenCode prompt failed")
+            .unwrap_or("WormAgent prompt failed")
             .to_owned(),
         service: Some("session".to_owned()),
         error_name: Some(error.r#type.clone()),
@@ -455,7 +455,7 @@ fn session_event<'a>(
             let data = &scheduled.data;
             let retry = Retry {
                 attempt: data.attempt,
-                next_retry_at: opencode_util::time::iso(data.at),
+                next_retry_at: wormagent_util::time::iso(data.at),
                 error: forwarded(incoming).clone(),
             };
             state.retries.insert(session_id.to_owned(), retry.clone());

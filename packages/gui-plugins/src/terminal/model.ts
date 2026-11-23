@@ -6,8 +6,8 @@ import {
   isPtyFeatureUnsupportedError,
   isPtyNotFoundError,
   isServiceUnavailableError,
-} from "@opencode/client"
-import type { Layout, Persisted, ServerRef, SessionRef, Storage, Toasts } from "@opencode/plugin/gui"
+} from "@wormagent/client"
+import type { Layout, Persisted, ServerRef, SessionRef, Storage, Toasts } from "@wormagent/plugin/gui"
 import { createDispatch } from "./dispatch"
 import { defaultTitle, titleNumber } from "./title"
 import {

@@ -1,7 +1,7 @@
 // Opening, scrolling and selecting in the desktop model picker with 96 models from 19 providers, at 1440×900.
 import { bench, web, type Case } from "@hona/strobe"
 import { draftHref } from "../e2e/utils/app"
-import { mockOpenCodeServer, type MockProviderCatalog } from "../e2e/utils/mock-server"
+import { mockWormAgentServer, type MockProviderCatalog } from "../e2e/utils/mock-server"
 import { fixture } from "../e2e/utils/session-fixture"
 import { installProjects } from "./fixtures/home"
 import { cached } from "./fixtures/mock"
@@ -124,12 +124,12 @@ export default bench({
 
   targets: {
     web: web<{}, Setup>({
-      expect: { title: "OpenCode" },
+      expect: { title: "WormAgent" },
       viewport: { width: 1440, height: 900 },
       async prepare(ctx) {
         const server = new URL(ctx.url).origin
         const page = cached(ctx)
-        await mockOpenCodeServer(page, {
+        await mockWormAgentServer(page, {
           server,
           sessions: fixture.sessions,
           provider: catalog(),

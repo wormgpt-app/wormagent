@@ -4,7 +4,7 @@
 
 use std::ops::BitOr;
 
-use opencode_api::generated::{AgentID, ModelRef, SessionID};
+use wormagent_api::generated::{AgentID, ModelRef, SessionID};
 
 use crate::driver::Data;
 use crate::forms::GLOBAL;

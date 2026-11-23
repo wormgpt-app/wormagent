@@ -57,6 +57,6 @@ export function homeMarkdown(context: MarkdownContext) {
     ]
       .map((item) => `- ${link(item.label, item.href)}`)
       .join("\n"),
-    `© ${new Date().getFullYear()} ${link("Anomaly", "https://anoma.ly")}`,
+    `© ${new Date().getFullYear()} ${link("WormGPT", "https://anoma.ly")}`,
   )
 }

@@ -1,4 +1,4 @@
-// How P-CLI and P-PTY start the two clients: the TS CLI from source and the Rust `opencode-native`, each
+// How P-CLI and P-PTY start the two clients: the TS CLI from source and the Rust `wormagent-native`, each
 // in a fresh home with its own XDG roots, so neither reads or writes the user's config, state, or service.
 
 import { mkdir, mkdtemp } from "node:fs/promises"
@@ -28,32 +28,32 @@ export function command(side: Side, args: string[]) {
       path.join(cli, "src/index.ts"),
       ...args,
     ]
-  return [process.env.OPENCODE_RS_BIN ?? path.join(rs, "target/debug/opencode-native"), ...args]
+  return [process.env.WORMAGENT_RS_BIN ?? path.join(rs, "target/debug/wormagent-native"), ...args]
 }
 
-// Builds the debug `opencode-native` (and the other debug binaries scenarios run) once per run, unless
-// OPENCODE_RS_BIN names a binary.
+// Builds the debug `wormagent-native` (and the other debug binaries scenarios run) once per run, unless
+// WORMAGENT_RS_BIN names a binary.
 export async function buildRust(sides: Side[]) {
-  if (!sides.includes("rs") || process.env.OPENCODE_RS_BIN) return
+  if (!sides.includes("rs") || process.env.WORMAGENT_RS_BIN) return
   // The package script `cargo` runs first: OpenTUI's native library for the pin, when it is missing.
-  const proc = Bun.spawn(["bun", "run", "--silent", "cargo", "build", "--quiet", "-p", "opencode-cli", "--bins"], {
+  const proc = Bun.spawn(["bun", "run", "--silent", "cargo", "build", "--quiet", "-p", "wormagent-cli", "--bins"], {
     cwd: rs,
     stdout: "inherit",
     stderr: "inherit",
   })
-  if ((await proc.exited) !== 0) throw new Error("cargo build -p opencode-cli failed")
+  if ((await proc.exited) !== 0) throw new Error("cargo build -p wormagent-cli failed")
 }
 
 export type Sandbox = { root: string; cwd: string; env: Record<string, string> }
 
 // A temporary root with `home`, the XDG roots, `tmp`, and `work` (the working directory). The
-// environment starts empty, so no OPENCODE_* variable of the calling session leaks in.
+// environment starts empty, so no WORMAGENT_* variable of the calling session leaks in.
 //
 // The root must not lie under the user's home: the TS server discovers `.agents`, `.claude`, and
-// `.opencode` in every ancestor of the working directory and watches them, so a sandbox under
-// `~/.cache/tmp` watched `~/.agents/skills` and `~/.opencode`. PARITY_SANDBOX_DIR moves it.
+// `.wormagent` in every ancestor of the working directory and watches them, so a sandbox under
+// `~/.cache/tmp` watched `~/.agents/skills` and `~/.wormagent`. PARITY_SANDBOX_DIR moves it.
 //
-// The root is private to its run, never inside the shared `/tmp/opencode-parity` tree: that tree holds
+// The root is private to its run, never inside the shared `/tmp/wormagent-parity` tree: that tree holds
 // the runners' test reports and the leftovers of failed runs, and a cleanup of it (or a recursive
 // removal still walking it) deleted live clients' working directory mid-run (C.15/enum and
 // D131/plugins, 20261122-004827: the wizard's second instance failed `current_dir`, and TS died on
@@ -61,7 +61,7 @@ export type Sandbox = { root: string; cwd: string; env: Record<string, string> }
 export async function sandbox(env: Record<string, string> = {}): Promise<Sandbox> {
   const parent = process.env.PARITY_SANDBOX_DIR ?? "/tmp"
   await mkdir(parent, { recursive: true })
-  const root = await mkdtemp(path.join(parent, "opencode-rs-sandbox-"))
+  const root = await mkdtemp(path.join(parent, "wormagent-rs-sandbox-"))
   const dirs = {
     home: "home",
     config: "home/.config",
@@ -83,15 +83,15 @@ export async function sandbox(env: Record<string, string> = {}): Promise<Sandbox
       PATH: process.env.PATH ?? "/usr/bin:/bin",
       LANG: "C.UTF-8",
       HOME: paths.home,
-      // The TS home for discovery and the global skill folders (`@opencode/util/global`).
-      OPENCODE_TEST_HOME: paths.home,
+      // The TS home for discovery and the global skill folders (`@wormagent/util/global`).
+      WORMAGENT_TEST_HOME: paths.home,
       XDG_CONFIG_HOME: paths.config,
       XDG_DATA_HOME: paths.data,
       XDG_STATE_HOME: paths.state,
       XDG_CACHE_HOME: paths.cache,
       TMPDIR: paths.tmp,
-      OPENCODE_CLI_NAME: "opencode",
-      OPENCODE_DISABLE_AUTOUPDATE: "1",
+      WORMAGENT_CLI_NAME: "wormagent",
+      WORMAGENT_DISABLE_AUTOUPDATE: "1",
       ...env,
     },
   }

@@ -1,6 +1,6 @@
 //! Offer to move the session when the server cannot find its working directory.
 
-use opencode_api::generated::{AbsolutePath, ProjectID, SessionMoveInput, WorktreeCreateInput};
+use wormagent_api::generated::{AbsolutePath, ProjectID, SessionMoveInput, WorktreeCreateInput};
 
 use crate::dialogs::worktrees::Selection;
 use crate::prelude::*;
@@ -46,7 +46,7 @@ impl LocationMissing {
 
     /// Shows the view while the location error names the session's directory.
     pub fn sync(&self, tui: &Tui) {
-        let here = |location: &opencode_store::Location| {
+        let here = |location: &wormagent_store::Location| {
             tui.data.read(|state| {
                 state.session(&self.session).is_some_and(|info| info.location.directory.0 == location.directory)
             })
@@ -99,8 +99,8 @@ fn dispose(tui: &Tui, layer: Option<Disposer>) {
 fn view(tui: &Tui, session: &SessionID, directory: &str) -> View {
     let app = &tui.app;
     let theme = tui.page();
-    let home = opencode_local::paths::home();
-    let shown = opencode_ui::select::truncate_middle(&opencode_ui::path::abbreviate_home(directory, &home), 72);
+    let home = wormagent_local::paths::home();
+    let shown = wormagent_ui::select::truncate_middle(&wormagent_ui::path::abbreviate_home(directory, &home), 72);
     let header = View::new(app)
         .row()
         .gap(1)
@@ -167,7 +167,7 @@ fn choose(tui: &Tui, session: SessionID, directory: String) {
         tui,
         crate::dialogs::worktrees::Props {
             project_id: project.clone(),
-            location: Some(opencode_store::Location::new(directory.clone())),
+            location: Some(wormagent_store::Location::new(directory.clone())),
             current: Some(Selection::Directory { directory, subdirectory }),
             on_select: Rc::new(move |tui, selection| {
                 tui.dialogs.clear();

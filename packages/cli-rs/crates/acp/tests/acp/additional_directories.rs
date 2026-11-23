@@ -1,10 +1,10 @@
-use opencode_acp::paths::resolve_lexical;
-use opencode_util::path::Flavor;
+use wormagent_acp::paths::resolve_lexical;
+use wormagent_util::path::Flavor;
 use serde_json::{Value, json};
 
 use crate::wire::{Wire, WireOptions, assert_matches, make_session, start_wire};
 
-const KEY: &str = "opencode.acp.additionalDirectories";
+const KEY: &str = "wormagent.acp.additionalDirectories";
 
 /// `path.join(directory, "*")`.
 fn grant(directory: &str) -> Value {

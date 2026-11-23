@@ -1,6 +1,6 @@
 use futures_util::stream::BoxStream;
-use opencode_api::client::Client;
-use opencode_api::error::Error;
+use wormagent_api::client::Client;
+use wormagent_api::error::Error;
 use serde::de::DeserializeOwned;
 use serde_json::Value;
 
@@ -53,7 +53,7 @@ pub fn decode_session_id(value: &str) -> Result<String, Failure> {
 
 /// One `GET /api/event` stream of events. A failure to open the stream is its first item.
 pub fn subscribe<T: DeserializeOwned + Send + 'static>(client: &Client) -> BoxStream<'static, Result<T, Error>> {
-    opencode_api::events::raw(client)
+    wormagent_api::events::raw(client)
 }
 
 /// The `type` of an event.

@@ -7,11 +7,11 @@ use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Duration;
 
-use opencode_api::generated::V2Event;
-use opencode_api::memory::{Memory, Route as MemoryRoute};
-use opencode_api::transport::{BoxFuture, Request, Response, Transport};
-use opencode_plugin::abi;
-use opencode_tui::{Deps, Tui};
+use wormagent_api::generated::V2Event;
+use wormagent_api::memory::{Memory, Route as MemoryRoute};
+use wormagent_api::transport::{BoxFuture, Request, Response, Transport};
+use wormagent_plugin::abi;
+use wormagent_tui::{Deps, Tui};
 use opentui::prelude::*;
 use opentui::testing::TestApp;
 use serde_json::{Value, json};
@@ -27,10 +27,10 @@ fn location_at(directory: &str) -> Value {
 
 fn limits(spent: f64) -> Value {
     json!({
-        "workspace": { "id": "wrk_1", "name": "Acme", "usageURL": "https://opencode.ai/console/wrk_1/usage" },
+        "workspace": { "id": "wrk_1", "name": "Acme", "usageURL": "https://wormagent.net/console/wrk_1/usage" },
         "budgets": [{
             "id": "big", "limit": 10, "spent": 0, "scope": "each", "per": "model", "coverage": "models",
-            "models": [{ "providerID": "opencode", "modelID": "big", "name": "Big Pickle", "spent": spent }],
+            "models": [{ "providerID": "wormagent", "modelID": "big", "name": "Big Pickle", "spent": spent }],
             "vendors": [], "picked": false, "shared": false, "resetsAt": 1894708800000_i64,
         }],
     })
@@ -40,18 +40,18 @@ fn limits(spent: f64) -> Value {
 fn location_routes(directory: &str, query: Option<&str>, spent: f64) -> Vec<MemoryRoute> {
     let list = |data: Value| json!({ "location": location_at(directory), "data": data });
     let model = json!({
-        "id": "big", "modelID": "big", "providerID": "opencode", "name": "Big Pickle", "status": "active",
+        "id": "big", "modelID": "big", "providerID": "wormagent", "name": "Big Pickle", "status": "active",
         "enabled": true, "capabilities": { "tools": true, "input": ["text"], "output": ["text"] },
         "cost": [{ "input": 10.0, "output": 30.0, "cache": { "read": 0, "write": 0 } }],
         "limit": { "context": 200000, "output": 32000 }, "time": { "released": 0 }, "variants": [],
     });
     let provider = json!({
-        "id": "opencode", "name": "OpenCode", "integrationID": "opencode", "activation": "auto",
+        "id": "wormagent", "name": "WormAgent", "integrationID": "wormagent", "activation": "auto",
         "package": "@ai-sdk/test",
     });
     let agent = json!({
         "id": "build", "name": "build", "mode": "primary", "hidden": false, "permissions": [],
-        "model": { "providerID": "opencode", "id": "big" },
+        "model": { "providerID": "wormagent", "id": "big" },
         "request": { "settings": {}, "headers": {}, "body": {} },
     });
     let routes = [
@@ -88,7 +88,7 @@ fn turns(count: u64) -> Vec<Value> {
                         "time": { "created": created } }),
                 json!({
                     "id": format!("msg_{turn:03}b"), "type": "assistant", "agent": "build",
-                    "model": { "providerID": "opencode", "id": "big" },
+                    "model": { "providerID": "wormagent", "id": "big" },
                     "time": { "created": created + 1000, "completed": created + 2000 }, "finish": "stop",
                     "content": [{ "type": "text", "text": format!("Answer {turn} one.\n\nAnswer {turn} two.\n\nAnswer {turn} three.") }],
                 }),
@@ -348,10 +348,10 @@ fn a_catalog_read_inside_the_messages_visitor_loads_after_the_render() {
 
 #[test]
 fn the_sidebar_limit_follows_the_selected_model() {
-    use opencode_local::model_pref::Model;
+    use wormagent_local::model_pref::Model;
     let model = |id: &str, name: &str| {
         json!({
-            "id": id, "modelID": id, "providerID": "opencode", "name": name, "status": "active",
+            "id": id, "modelID": id, "providerID": "wormagent", "name": name, "status": "active",
             "enabled": true, "capabilities": { "tools": true, "input": ["text"], "output": ["text"] },
             "cost": [{ "input": 10.0, "output": 30.0, "cache": { "read": 0, "write": 0 } }],
             "limit": { "context": 200000, "output": 32000 }, "time": { "released": 0 }, "variants": [],
@@ -367,9 +367,9 @@ fn the_sidebar_limit_follows_the_selected_model() {
     h.wait_for("Running low on Big Pickle");
     h.tui.toasts.dismiss();
     h.wait_for("$5 remaining");
-    h.tui.local.set(&Model::new("opencode", "small"), false);
+    h.tui.local.set(&Model::new("wormagent", "small"), false);
     h.wait("the limit to go", || !h.app.text().contains("remaining"));
-    h.tui.local.set(&Model::new("opencode", "big"), false);
+    h.tui.local.set(&Model::new("wormagent", "big"), false);
     h.wait_for("$5 remaining");
 }
 
@@ -463,7 +463,7 @@ fn a_limits_read_made_stale_is_discarded_and_its_location_read_again() {
     h.wait("the held limits request", || h.reads(LIMITS) == 1);
     let event: V2Event = serde_json::from_value(json!({
         "id": "evt_credential", "created": 1, "type": "credential.updated",
-        "data": { "integrationID": "opencode", "credentialID": "credential" },
+        "data": { "integrationID": "wormagent", "credentialID": "credential" },
     }))
     .unwrap();
     h.tui.data.apply(vec![event]);
@@ -509,7 +509,7 @@ fn a_credential_change_reads_the_footer_limits_again() {
     let before = h.limits().len();
     let event: V2Event = serde_json::from_value(json!({
         "id": "evt_credential", "created": 1, "type": "credential.updated",
-        "data": { "integrationID": "opencode", "credentialID": "credential" },
+        "data": { "integrationID": "wormagent", "credentialID": "credential" },
     }))
     .unwrap();
     h.tui.data.apply(vec![event]);
@@ -522,7 +522,7 @@ fn a_session_view_lets_go_of_its_settings_listeners() {
     h.wait_for("Answer 30 three.");
     let mounted = h.tui.settings.listener_count();
     for _ in 0..5 {
-        h.tui.navigate(opencode_tui::Route::Home);
+        h.tui.navigate(wormagent_tui::Route::Home);
         h.tui.navigate(support::session_route("ses_a"));
         h.settle();
     }

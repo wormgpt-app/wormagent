@@ -34,7 +34,7 @@ test.each([
   ["rune", ["rune"]],
   ["  Anom   RUNE ", ["anom", "rune"]],
   // People paste whole addresses: the scheme and `www.` are not what they search for.
-  ["https://www.GitHub.com/anomalyco", ["github.com/anomalyco"]],
+  ["https://www.GitHub.com/wormgpt-app", ["github.com/wormgpt-app"]],
   ["https://", undefined],
   ["   ", undefined],
 ])("the words of %p are %p", (text, words) => {
@@ -42,7 +42,7 @@ test.each([
 })
 
 test("the matched parts of every word are marked once, in the text's own case", () => {
-  expect(markMatches("anomalyco/Rune-desktop", parseQuery("rune anom"))).toEqual([
+  expect(markMatches("wormgpt-app/Rune-desktop", parseQuery("rune anom"))).toEqual([
     { text: "anom", match: true },
     { text: "alyco/", match: false },
     { text: "Rune", match: true },

@@ -35,7 +35,7 @@ if (snapshotArg === "--snapshot=") {
 const ver = raw.replace(/^v/, "")
 const root = path.resolve(import.meta.dir, "..")
 const lockfile = path.join(root, "bun.lock")
-const skip = new Set([".git", ".opencode", ".turbo", "dist", "node_modules"])
+const skip = new Set([".git", ".wormagent", ".turbo", "dist", "node_modules"])
 const keys = ["@opentui/core", "@opentui/keymap", "@opentui/solid"] as const
 
 const files = (await Array.fromAsync(new Bun.Glob("**/package.json").scan({ cwd: root }))).filter(
@@ -51,7 +51,7 @@ const setVersion = (cur: string) => {
   return ver
 }
 
-// Peer ranges are left alone: @opencode/plugin's @opentui peers are public API, raised only when a type it exports changes.
+// Peer ranges are left alone: @wormagent/plugin's @opentui peers are public API, raised only when a type it exports changes.
 const editDeps = (obj: unknown) => {
   if (!obj || typeof obj !== "object") return false
   const map = obj as Record<string, unknown>

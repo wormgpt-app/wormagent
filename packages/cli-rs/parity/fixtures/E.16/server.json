@@ -291,7 +291,7 @@
       {
         "id": "big-pickle",
         "modelID": "big-pickle",
-        "providerID": "opencode",
+        "providerID": "wormagent",
         "name": "Big Pickle",
         "status": "active",
         "enabled": true,
@@ -327,7 +327,7 @@
       {
         "id": "grok-code",
         "modelID": "grok-code",
-        "providerID": "opencode",
+        "providerID": "wormagent",
         "name": "Grok Code",
         "status": "active",
         "enabled": true,
@@ -375,9 +375,9 @@
         "package": "@ai-sdk/test"
       },
       {
-        "id": "opencode",
-        "name": "OpenCode",
-        "integrationID": "opencode",
+        "id": "wormagent",
+        "name": "WormAgent",
+        "integrationID": "wormagent",
         "activation": "auto",
         "package": "@ai-sdk/test"
       }
@@ -430,13 +430,13 @@
     ],
     "/api/integration": [
       {
-        "id": "opencode",
-        "name": "OpenCode Console",
+        "id": "wormagent",
+        "name": "WormAgent Console",
         "methods": [
           {
             "id": "device",
             "type": "oauth",
-            "label": "Sign in with OpenCode"
+            "label": "Sign in with WormAgent"
           }
         ],
         "connections": [
@@ -453,7 +453,7 @@
       "workspace": {
         "id": "wrk_1",
         "name": "Acme",
-        "usageURL": "https://opencode.ai/console/wrk_1/usage"
+        "usageURL": "https://wormagent.net/console/wrk_1/usage"
       },
       "budgets": [
         {

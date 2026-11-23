@@ -28,8 +28,8 @@ test(
       // The profile's history, through the pinned Electron's SQLite: three visited pages, found by a word of the path
       // and completed from the start of a host, and none left after a clear.
       expect(result.pages).toBe(3)
-      expect(result.found).toEqual(["https://github.com/anomalyco/rune-desktop"])
-      expect(result.completed).toEqual(["https://github.com/", "https://github.com/anomalyco/rune-desktop"])
+      expect(result.found).toEqual(["https://github.com/wormgpt-app/rune-desktop"])
+      expect(result.completed).toEqual(["https://github.com/", "https://github.com/wormgpt-app/rune-desktop"])
       expect(result.cleared).toBe(0)
     } finally {
       await rm(made.home, { recursive: true, force: true }).catch(() => undefined)

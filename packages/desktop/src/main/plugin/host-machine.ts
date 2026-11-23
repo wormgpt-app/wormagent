@@ -1,5 +1,5 @@
-import type { BuiltinCatalog } from "@opencode/plugin/gui/builtin"
-import type { Messages } from "@opencode/plugin/gui/main"
+import type { BuiltinCatalog } from "@wormagent/plugin/gui/builtin"
+import type { Messages } from "@wormagent/plugin/gui/main"
 import { Predicate } from "effect"
 
 export const WATCH_RETRY_MS = 1_000

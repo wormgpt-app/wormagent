@@ -1,16 +1,16 @@
 # cli-rs
 
-The OpenCode native CLI (`opencode-native`), in Rust on OpenTUI. The root `AGENTS.md` applies too. User-facing names
-say "native"; crates, this directory, and `OPENCODE_RS_*` variables say "rs".
+The WormAgent native CLI (`wormagent-native`), in Rust on OpenTUI. The root `AGENTS.md` applies too. User-facing names
+say "native"; crates, this directory, and `WORMAGENT_RS_*` variables say "rs".
 
 ## Build
 
-- Run cargo through the package script, for example `bun run --cwd packages/cli-rs cargo check -p opencode-api`. It
+- Run cargo through the package script, for example `bun run --cwd packages/cli-rs cargo check -p wormagent-api`. It
   installs OpenTUI's native library, and cargo reads `.cargo/config.toml` only from the current directory.
 - `rust-toolchain.toml` pins the toolchain.
 - OpenTUI is the crates.io `opentui` at an exact `version` in `Cargo.toml`. To re-pin it, change these together: the
   release's rows in the sha256 table in `script/opentui-native.ts`, the `version`, `Cargo.lock`, and the directory in
-  `.cargo/config.toml`. Send changes to OpenTUI's crates to `anomalyco/opentui`.
+  `.cargo/config.toml`. Send changes to OpenTUI's crates to `wormgpt-app/opentui`.
 
 ## Checks
 
@@ -22,7 +22,7 @@ Before merging, the whole package must pass:
 - `bun run check:drift`
 - `bun run parity:machines`
 
-Each of `opencode-tui` and `opencode-ui` has one integration test binary, `tests/all/main.rs`, with one module per
+Each of `wormagent-tui` and `wormagent-ui` has one integration test binary, `tests/all/main.rs`, with one module per
 area. Add tests as a module there, not as a new `tests/*.rs`. The package has no `test` script on purpose, because
 CI would run the slow parity machines through turbo; run them with `bun run parity:machines`.
 

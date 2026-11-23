@@ -1,8 +1,8 @@
 //! Move the current session to a worktree or stage one for the next session.
 
-use opencode_api::generated::{LocationGetInput, LocationQueryInput, ProjectID, SessionInfo, WorktreeCreateInput};
-use opencode_store::Location;
-use opencode_ui::motion::Spinner;
+use wormagent_api::generated::{LocationGetInput, LocationQueryInput, ProjectID, SessionInfo, WorktreeCreateInput};
+use wormagent_store::Location;
+use wormagent_ui::motion::Spinner;
 
 use super::editor::Inner;
 use crate::dialogs::worktrees::{self, Selection};

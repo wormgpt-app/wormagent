@@ -61,7 +61,7 @@ fn acp_stream() {
     runtime.block_on(tokio::task::yield_now());
     let probe = Probe::start();
     let (terminal, sent) = runtime.block_on(async {
-        let mut events = std::pin::pin!(opencode_api::sse::events::<translate::Event, _, _>(
+        let mut events = std::pin::pin!(wormagent_api::sse::events::<translate::Event, _, _>(
             futures_util::stream::iter(chunks),
             || {}
         ));

@@ -7,13 +7,13 @@ use std::cell::RefCell;
 use std::collections::HashSet;
 use std::rc::Rc;
 
-use opencode_plugin::abi::{self, v2};
-use opencode_plugin::node::{self, Act};
-use opencode_plugin::reconcile::{self, Env, Refused, Tree, Work};
-use opencode_plugin::{Host, SlotMount};
-use opencode_ui::dialog::DialogKeymap;
-use opencode_ui::keymap::{Keybinds, Options};
-use opencode_ui::theme::{Catalog, Theme, ThemeMode};
+use wormagent_plugin::abi::{self, v2};
+use wormagent_plugin::node::{self, Act};
+use wormagent_plugin::reconcile::{self, Env, Refused, Tree, Work};
+use wormagent_plugin::{Host, SlotMount};
+use wormagent_ui::dialog::DialogKeymap;
+use wormagent_ui::keymap::{Keybinds, Options};
+use wormagent_ui::theme::{Catalog, Theme, ThemeMode};
 use opentui::prelude::*;
 use opentui::testing::{Capture, TestApp};
 
@@ -44,7 +44,7 @@ impl Host for TestHost {
 
 fn theme(index: usize) -> Theme {
     let (name, mode) =
-        [("opencode", ThemeMode::Dark), ("opencode", ThemeMode::Light), ("tokyonight", ThemeMode::Dark)][index % 3];
+        [("wormagent", ThemeMode::Dark), ("wormagent", ThemeMode::Light), ("tokyonight", ThemeMode::Dark)][index % 3];
     Catalog::default().load(name, mode).unwrap().theme
 }
 
@@ -107,12 +107,12 @@ fn apply_in(
         slot: &slot,
         source: &source,
         measure: &|source| match source {
-            v2::Source::Text(text) => opencode_plugin::reconcile::measure(text),
-            _ => opencode_plugin::reconcile::Measure::default(),
+            v2::Source::Text(text) => wormagent_plugin::reconcile::measure(text),
+            _ => wormagent_plugin::reconcile::Measure::default(),
         },
         content: &|_| false,
         dropped: &|_| false,
-        image: &|_| opencode_plugin::image::Picture::Pending,
+        image: &|_| wormagent_plugin::image::Picture::Pending,
         full: false,
         draw: None,
         owner: None,
@@ -239,12 +239,12 @@ impl Twin<'_> {
                 Some(view.as_any())
             }
             v2::Node::Diff { content: v2::Source::Text(patch), view, filetype, .. } => {
-                let syntax = opencode_ui::code::syntax_theme(&self.theme);
+                let syntax = wormagent_ui::code::syntax_theme(&self.theme);
                 let view = match view {
                     v2::DiffView::Unified => opentui::widget::DiffView::Unified,
                     v2::DiffView::Split => opentui::widget::DiffView::Split,
                 };
-                let patch = opencode_ui::diff::view(
+                let patch = wormagent_ui::diff::view(
                     app,
                     &self.theme,
                     &syntax,

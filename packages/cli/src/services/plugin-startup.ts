@@ -1,9 +1,9 @@
-import type { OpenCodeClient } from "@opencode/client"
+import type { WormAgentClient } from "@wormagent/client"
 import { Effect, Schedule } from "effect"
 
 // Catalog reads return whatever is loaded, and a cold Location lists no plugins until its first activation.
 // One-shot commands read once and exit, so they give that activation a moment before reading.
-export const waitForPlugins = (client: OpenCodeClient, directory: string) =>
+export const waitForPlugins = (client: WormAgentClient, directory: string) =>
   Effect.tryPromise((signal) => client.plugin.list({ location: { directory } }, { signal })).pipe(
     Effect.repeat({
       until: (plugins) => plugins.data.length > 0,

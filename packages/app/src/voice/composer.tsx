@@ -1,13 +1,13 @@
-import { motionTuning } from "@opencode/ui/motion-tuning"
-import { Button } from "@opencode/ui/button"
-import { Icon } from "@opencode/ui/icon"
-import { IconButton } from "@opencode/ui/icon-button"
-import { Loader } from "@opencode/ui/loader"
+import { motionTuning } from "@wormagent/ui/motion-tuning"
+import { Button } from "@wormagent/ui/button"
+import { Icon } from "@wormagent/ui/icon"
+import { IconButton } from "@wormagent/ui/icon-button"
+import { Loader } from "@wormagent/ui/loader"
 import { Schema } from "effect"
 import { makeEventListener } from "@solid-primitives/event-listener"
 import { createEffect, createSignal, For, onCleanup, onMount, Show, untrack, type ParentProps } from "solid-js"
 import { createStore } from "solid-js/store"
-import type { SessionInfo } from "@opencode/client/promise"
+import type { SessionInfo } from "@wormagent/client/promise"
 import { useServer } from "@/runtime/server/current"
 import { useLanguage } from "@/runtime/i18n/language"
 import { usePlatform } from "@/runtime/platform/platform"
@@ -53,7 +53,7 @@ export function VoiceComposer(props: ParentProps<{ session: SessionInfo | undefi
   onCleanup(motionTuning.subscribe(() => setState("enabled", toggle())))
 
   const enabled = () =>
-    platform.platform === "desktop" && import.meta.env.VITE_OPENCODE_CHANNEL !== "prod" && state.enabled
+    platform.platform === "desktop" && import.meta.env.VITE_WORMAGENT_CHANNEL !== "prod" && state.enabled
 
   createEffect(() => {
     const session = props.session

@@ -1,8 +1,8 @@
-import type { LocationRef, UsageLimitsInfo } from "@opencode/client/promise"
-import { Button } from "@opencode/ui/button"
-import { useDialog } from "@opencode/ui/context/dialog"
-import { Dialog, DialogBody, DialogFooter, DialogHeader, DialogTitleGroup } from "@opencode/ui/dialog"
-import { Loader } from "@opencode/ui/loader"
+import type { LocationRef, UsageLimitsInfo } from "@wormagent/client/promise"
+import { Button } from "@wormagent/ui/button"
+import { useDialog } from "@wormagent/ui/context/dialog"
+import { Dialog, DialogBody, DialogFooter, DialogHeader, DialogTitleGroup } from "@wormagent/ui/dialog"
+import { Loader } from "@wormagent/ui/loader"
 import {
   createEffect,
   createMemo,
@@ -40,7 +40,7 @@ import {
 } from "./machine"
 import "./dialog.css"
 
-/** The Usage dialog: the location's OpenCode Go allowance and Console budgets, refreshed when it opens. */
+/** The Usage dialog: the location's WormAgent Go allowance and Console budgets, refreshed when it opens. */
 export function DialogUsage(props: {
   location: LocationRef
   /** The model in use, so a per-model budget shows this model's counter. */

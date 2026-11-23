@@ -1,7 +1,7 @@
 export * as CodeModeFetch from "./fetch.js"
 
-import { Extension } from "@opencode/codemode"
-import { isRecord } from "@opencode/util/record"
+import { Extension } from "@wormagent/codemode"
+import { isRecord } from "@wormagent/util/record"
 import { Effect, Option } from "effect"
 import { Location } from "../location.js"
 import { Permission } from "../permission.js"
@@ -27,7 +27,7 @@ const fetch = (input: string | URL, init: Init = {}) =>
     // Rules match the URL, so `https://user@evil.com` would slip past a rule for `https://evil.com/*`.
     if (parsed?.username || parsed?.password)
       return yield* Effect.fail(new TypeError("fetch cannot be used with credentials in the URL."))
-    if (parsed?.protocol === "opencode:") return yield* fetchOpencode(url, init)
+    if (parsed?.protocol === "wormagent:") return yield* fetchOpencode(url, init)
     const execution = yield* CodeModeExecution.Service
     const permission = yield* Permission.Service
     const source = { type: "tool" as const, messageID: execution.messageID, id: execution.id }
@@ -97,10 +97,10 @@ const fetchOpencode = (url: string, init: Init) =>
     const headers = new Headers(init.headers)
     // Without a directory the server would answer for its own default Location, not the session's.
     const location = yield* Effect.serviceOption(Location.Service)
-    if (Option.isSome(location) && !headers.has("x-opencode-directory") && !path.includes("location[directory]="))
-      headers.set("x-opencode-directory", encodeURIComponent(location.value.directory))
+    if (Option.isSome(location) && !headers.has("x-wormagent-directory") && !path.includes("location[directory]="))
+      headers.set("x-wormagent-directory", encodeURIComponent(location.value.directory))
     const response = yield* api.fetch(
-      new Request(new URL(path, "http://opencode.local").href, {
+      new Request(new URL(path, "http://wormagent.local").href, {
         method,
         headers,
         body: method === "GET" || method === "HEAD" ? undefined : init.body,

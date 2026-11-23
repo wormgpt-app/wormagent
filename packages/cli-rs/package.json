@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@opencode/cli-rs",
+  "name": "@wormagent/cli-rs",
   "private": true,
   "type": "module",
   "scripts": {
@@ -25,10 +25,10 @@
     "typecheck:tsc": "tsc --noEmit"
   },
   "devDependencies": {
-    "@opencode/httpapi-codegen": "workspace:*",
-    "@opencode/plugin": "workspace:*",
-    "@opencode/protocol": "workspace:*",
-    "@opencode/tui": "workspace:*",
+    "@wormagent/httpapi-codegen": "workspace:*",
+    "@wormagent/plugin": "workspace:*",
+    "@wormagent/protocol": "workspace:*",
+    "@wormagent/tui": "workspace:*",
     "@opentui/core": "catalog:",
     "@opentui/solid": "catalog:",
     "@tsconfig/bun": "catalog:",

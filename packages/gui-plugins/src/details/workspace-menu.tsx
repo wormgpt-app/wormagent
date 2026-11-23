@@ -1,11 +1,11 @@
-import { Button } from "@opencode/ui/button"
-import { Dialog, DialogBody, DialogFooter, DialogHeader, DialogTitleGroup } from "@opencode/ui/dialog"
-import { ErrorDetails } from "@opencode/ui/error-details"
-import { Icon } from "@opencode/ui/icon"
-import { Loader } from "@opencode/ui/loader"
-import { Menu } from "@opencode/ui/menu"
-import { MenuScroll } from "@opencode/ui/menu-scroll"
-import { getFilename } from "@opencode/util/path"
+import { Button } from "@wormagent/ui/button"
+import { Dialog, DialogBody, DialogFooter, DialogHeader, DialogTitleGroup } from "@wormagent/ui/dialog"
+import { ErrorDetails } from "@wormagent/ui/error-details"
+import { Icon } from "@wormagent/ui/icon"
+import { Loader } from "@wormagent/ui/loader"
+import { Menu } from "@wormagent/ui/menu"
+import { MenuScroll } from "@wormagent/ui/menu-scroll"
+import { getFilename } from "@wormagent/util/path"
 import {
   createMemo,
   createRoot,
@@ -24,7 +24,7 @@ import {
   type MountedSession,
   type Project,
   type ServerRef,
-} from "@opencode/plugin/gui"
+} from "@wormagent/plugin/gui"
 import {
   createWorkspaceMoveState,
   transitionWorkspaceMove,

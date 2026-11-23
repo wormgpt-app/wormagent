@@ -1,22 +1,22 @@
 import { expect } from "bun:test"
-import { Agent } from "@opencode/core/agent"
-import { Automation } from "@opencode/core/automation"
-import { AutomationTable } from "@opencode/core/automation/sql"
-import { Bus } from "@opencode/core/bus"
-import { Database } from "@opencode/core/database/database"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Instance } from "@opencode/core/instance/service"
-import { Permission } from "@opencode/core/permission"
-import { PersistentPty } from "@opencode/core/persistent-pty"
-import { PluginHooks } from "@opencode/core/plugin/hooks"
-import { Session } from "@opencode/core/session"
-import { SessionEvent } from "@opencode/core/session/event"
-import { SessionExecution } from "@opencode/core/session/execution"
-import { SessionMessage } from "@opencode/core/session/message"
-import { SessionInboxTable } from "@opencode/core/session/sql"
-import { AbsolutePath } from "@opencode/schema/schema"
-import { Tool } from "@opencode/schema/tool"
-import { LayerNode } from "@opencode/util/effect/layer-node"
+import { Agent } from "@wormagent/core/agent"
+import { Automation } from "@wormagent/core/automation"
+import { AutomationTable } from "@wormagent/core/automation/sql"
+import { Bus } from "@wormagent/core/bus"
+import { Database } from "@wormagent/core/database/database"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Instance } from "@wormagent/core/instance/service"
+import { Permission } from "@wormagent/core/permission"
+import { PersistentPty } from "@wormagent/core/persistent-pty"
+import { PluginHooks } from "@wormagent/core/plugin/hooks"
+import { Session } from "@wormagent/core/session"
+import { SessionEvent } from "@wormagent/core/session/event"
+import { SessionExecution } from "@wormagent/core/session/execution"
+import { SessionMessage } from "@wormagent/core/session/message"
+import { SessionInboxTable } from "@wormagent/core/session/sql"
+import { AbsolutePath } from "@wormagent/schema/schema"
+import { Tool } from "@wormagent/schema/tool"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
 import { eq } from "drizzle-orm"
 import { Clock, Effect, Fiber, Layer, Schedule } from "effect"
 import { rm } from "node:fs/promises"
@@ -43,7 +43,7 @@ it.live("approves the fixed command once and records a failed exit without wakin
   Effect.gen(function* () {
     const directory = AbsolutePath.make((yield* tmpdirScoped()).path)
     yield* Effect.promise(() =>
-      Bun.write(path.join(directory, "opencode.json"), JSON.stringify({ permission: { shell: "ask" } })),
+      Bun.write(path.join(directory, "wormagent.json"), JSON.stringify({ permission: { shell: "ask" } })),
     )
     const sessions = yield* Session.Service
     const session = yield* sessions.create({ location: { directory } })
@@ -108,7 +108,7 @@ it.live("uses the saved location after the creating session moves and pauses if 
   Effect.gen(function* () {
     const directory = AbsolutePath.make((yield* tmpdirScoped()).path)
     const destination = AbsolutePath.make((yield* tmpdirScoped()).path)
-    yield* Effect.promise(() => Bun.write(path.join(directory, "opencode.json"), JSON.stringify({ automations: true })))
+    yield* Effect.promise(() => Bun.write(path.join(directory, "wormagent.json"), JSON.stringify({ automations: true })))
     const sessions = yield* Session.Service
     const session = yield* sessions.create({
       location: { directory },
@@ -176,7 +176,7 @@ it.live("rejects a shell action that changes to a denied external directory", ()
     const directory = AbsolutePath.make((yield* tmpdirScoped()).path)
     yield* Effect.promise(() =>
       Bun.write(
-        path.join(directory, "opencode.json"),
+        path.join(directory, "wormagent.json"),
         JSON.stringify({
           permission: { shell: "allow", external_directory: "deny" },
         }),
@@ -220,7 +220,7 @@ it.live("scheduled code uses session capabilities after one-time approval", () =
     const directory = AbsolutePath.make((yield* tmpdirScoped()).path)
     yield* Effect.promise(() =>
       Bun.write(
-        path.join(directory, "opencode.json"),
+        path.join(directory, "wormagent.json"),
         JSON.stringify({
           experimental: { full_codemode: true },
           permission: {

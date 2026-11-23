@@ -4,9 +4,9 @@ import path from "path"
 import { readFile } from "fs/promises"
 import { statSync } from "fs"
 import { Context, Effect, Layer, Schema } from "effect"
-import { makeLocationNode } from "@opencode/util/effect/app-node"
-import { FSUtil } from "@opencode/util/fs-util"
-import { Global } from "@opencode/util/global"
+import { makeLocationNode } from "@wormagent/util/effect/app-node"
+import { FSUtil } from "@wormagent/util/fs-util"
+import { Global } from "@wormagent/util/global"
 import { Bus } from "../bus.js"
 import { State } from "../state.js"
 import { isAppExecutionAlias, which } from "../util/which.js"
@@ -51,7 +51,7 @@ export interface Interface extends State.Transformable<Editor> {
   readonly list?: () => Effect.Effect<Item[]>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@opencode/ShellSelect") {}
+export class Service extends Context.Service<Service, Interface>()("@wormagent/ShellSelect") {}
 
 export const Event = {
   /** The configured shell changed, so whatever names the shell can refresh. */

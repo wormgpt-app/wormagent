@@ -1,16 +1,16 @@
-import type { PluginInfo } from "@opencode/client"
-import { Button } from "@opencode/ui/button"
-import { Dialog, DialogBody, DialogHeader, DialogTitleGroup } from "@opencode/ui/dialog"
-import { ErrorDetails } from "@opencode/ui/error-details"
-import { Icon } from "@opencode/ui/icon"
-import { Loader } from "@opencode/ui/loader"
-import { createMcpSignIn, type McpSignInFailure } from "@opencode/ui/mcp-sign-in"
-import { MenuScroll } from "@opencode/ui/menu-scroll"
-import { RedirectPasteForm } from "@opencode/ui/redirect-paste"
-import { Switch } from "@opencode/ui/switch"
-import { showToast } from "@opencode/ui/toast"
-import { Tooltip } from "@opencode/ui/tooltip"
-import { TruncatedText } from "@opencode/ui/truncated-text"
+import type { PluginInfo } from "@wormagent/client"
+import { Button } from "@wormagent/ui/button"
+import { Dialog, DialogBody, DialogHeader, DialogTitleGroup } from "@wormagent/ui/dialog"
+import { ErrorDetails } from "@wormagent/ui/error-details"
+import { Icon } from "@wormagent/ui/icon"
+import { Loader } from "@wormagent/ui/loader"
+import { createMcpSignIn, type McpSignInFailure } from "@wormagent/ui/mcp-sign-in"
+import { MenuScroll } from "@wormagent/ui/menu-scroll"
+import { RedirectPasteForm } from "@wormagent/ui/redirect-paste"
+import { Switch } from "@wormagent/ui/switch"
+import { showToast } from "@wormagent/ui/toast"
+import { Tooltip } from "@wormagent/ui/tooltip"
+import { TruncatedText } from "@wormagent/ui/truncated-text"
 import {
   children,
   createMemo,
@@ -26,9 +26,9 @@ import {
   type JSX,
 } from "solid-js"
 import { createStore } from "solid-js/store"
-import { createKeyed, useDrawer, usePlugin, type MountedSession, type ServerRef } from "@opencode/plugin/gui"
+import { createKeyed, useDrawer, usePlugin, type MountedSession, type ServerRef } from "@wormagent/plugin/gui"
 import { globalConfigDirectory, serviceConfigFile } from "./config-file"
-import { builtinContext } from "@opencode/plugin/gui/builtin"
+import { builtinContext } from "@wormagent/plugin/gui/builtin"
 import { createFlyoutMotion } from "./flyout-motion"
 import {
   configActionView,
@@ -995,7 +995,7 @@ function ServiceConfigLink(props: { owner: ServiceProps; service: Service }) {
   )
 }
 
-// Starts a draft session in the global configuration's directory that asks OpenCode to set the service up.
+// Starts a draft session in the global configuration's directory that asks WormAgent to set the service up.
 function ServiceSetup(props: { owner: ServiceProps; service: Service }) {
   const ctx = usePlugin()
 

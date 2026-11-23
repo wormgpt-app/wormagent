@@ -1,10 +1,10 @@
 [Desktop Entry]
-Name=OpenCode
-Exec=/opt/OpenCode/ai.opencode %U
+Name=WormAgent
+Exec=/opt/WormAgent/ai.wormagent %U
 Terminal=false
 Type=Application
-Icon=ai.opencode
-StartupWMClass=ai.opencode.desktop
+Icon=ai.wormagent
+StartupWMClass=ai.wormagent.desktop
 NoDisplay=true
 Comment=Open source AI coding agent
 Categories=Development;

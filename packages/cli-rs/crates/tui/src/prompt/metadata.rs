@@ -3,12 +3,12 @@
 use std::cell::Cell;
 use std::sync::Arc;
 
-use opencode_api::generated::{
+use wormagent_api::generated::{
     AgentInfo, CommandInfo, ConfigEntry, ConfigEntryDocumentInfoModel, ModelInfo, ModelRef, ProviderID, ProviderInfo,
 };
-use opencode_store::location::{Catalog as Read, Location};
-use opencode_store::{Data, Parts, State, Task};
-use opencode_ui::theme::Theme;
+use wormagent_store::location::{Catalog as Read, Location};
+use wormagent_store::{Data, Parts, State, Task};
+use wormagent_ui::theme::Theme;
 use opentui::prelude::*;
 use unicode_width::UnicodeWidthStr;
 
@@ -110,8 +110,8 @@ impl Catalog {
         crate::local::speed_of(&self.models, &self.model(choice))
     }
 
-    fn model(&self, choice: &Choice) -> opencode_local::model_pref::Model {
-        opencode_local::model_pref::Model::new(&choice.provider_id, &choice.model_id)
+    fn model(&self, choice: &Choice) -> wormagent_local::model_pref::Model {
+        wormagent_local::model_pref::Model::new(&choice.provider_id, &choice.model_id)
     }
 
     pub fn color(&self, theme: &Theme, id: &str) -> Option<Color> {
@@ -328,8 +328,8 @@ mod tests {
 
     #[test]
     fn layout_drops_the_provider_before_it_truncates_the_model() {
-        let full = display("Claude Sonnet", "OpenCode / Anthropic", Some("high"));
-        assert_eq!(layout(80, 100, &full).provider, "OpenCode / Anthropic");
+        let full = display("Claude Sonnet", "WormAgent / Anthropic", Some("high"));
+        assert_eq!(layout(80, 100, &full).provider, "WormAgent / Anthropic");
         assert_eq!(layout(40, 100, &full).provider, "Anthropic");
         assert_eq!(layout(30, 100, &full).provider, "");
         let narrow = layout(18, 100, &full);
@@ -340,16 +340,16 @@ mod tests {
         assert!(layout(80, 100, &auto).auto);
         let tight = layout(flat(&auto).width() - 1, 100, &auto);
         assert!(!tight.auto);
-        assert_eq!(tight.provider, "OpenCode / Anthropic");
+        assert_eq!(tight.provider, "WormAgent / Anthropic");
     }
 
     #[test]
     fn layout_keeps_the_limit_and_counts_it() {
         let full = Display {
             limit: Some(("$5 left".into(), false)),
-            ..display("Claude Sonnet", "OpenCode / Anthropic", Some("high"))
+            ..display("Claude Sonnet", "WormAgent / Anthropic", Some("high"))
         };
-        assert_eq!(flat(&full), "Build · Claude Sonnet OpenCode / Anthropic · high  $5 left");
+        assert_eq!(flat(&full), "Build · Claude Sonnet WormAgent / Anthropic · high  $5 left");
         // The provider goes before the limit does, and the model truncates around it.
         assert_eq!(layout(50, 100, &full).provider, "Anthropic");
         assert_eq!(layout(40, 100, &full).provider, "");

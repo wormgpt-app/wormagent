@@ -4,10 +4,10 @@ use std::collections::BTreeMap;
 use std::sync::{Arc, Mutex};
 
 use base64::Engine;
-use opencode_api::client::{Auth, Client};
-use opencode_api::generated::*;
-use opencode_api::query;
-use opencode_api::transport::{BoxFuture, Request, Response, Transport};
+use wormagent_api::client::{Auth, Client};
+use wormagent_api::generated::*;
+use wormagent_api::query;
+use wormagent_api::transport::{BoxFuture, Request, Response, Transport};
 use serde_json::{Value, json};
 
 /// Records every request and fails it, as the TypeScript oracle's fetch does.
@@ -30,7 +30,7 @@ async fn requests_match_the_typescript_client() {
     let record = Arc::new(Record::default());
     let client = Client::with_transport("http://127.0.0.1:4096/prefix", record.clone())
         .unwrap()
-        .auth(Auth::Basic { username: "opencode".to_owned(), password: "secret".to_owned() });
+        .auth(Auth::Basic { username: "wormagent".to_owned(), password: "secret".to_owned() });
     let location = |directory: &str| Some(LocationQueryInput { directory: Some(directory.to_owned()) });
     let _ = client.config_get(&ConfigGetInput { location: location("/tmp/a b&c=d") }).await;
     let _ = client

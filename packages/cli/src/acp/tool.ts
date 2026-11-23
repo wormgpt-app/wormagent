@@ -1,8 +1,8 @@
 import { isAbsolute, resolve } from "node:path"
 import type { ToolCall, ToolCallContent, ToolCallLocation, ToolCallUpdate, ToolKind } from "@agentclientprotocol/sdk"
-import type { Tool } from "@opencode/schema/tool"
-import { readDisplayText } from "@opencode/tui/mini/tool"
-import { Patch } from "@opencode/util/patch"
+import type { Tool } from "@wormagent/schema/tool"
+import { readDisplayText } from "@wormagent/tui/mini/tool"
+import { Patch } from "@wormagent/util/patch"
 import { Result } from "effect"
 
 export type ToolInput = Record<string, unknown>

@@ -1,6 +1,6 @@
-use opencode_acp::catalog::{Catalog, Mode};
-use opencode_acp::config_option::{Selection, config_options, parse_model_selection};
-use opencode_api::generated::{ModelInfo, ModelRef, ProviderID};
+use wormagent_acp::catalog::{Catalog, Mode};
+use wormagent_acp::config_option::{Selection, config_options, parse_model_selection};
+use wormagent_api::generated::{ModelInfo, ModelRef, ProviderID};
 use serde_json::json;
 
 fn model(provider: &str, id: &str, name: &str, variants: &[&str]) -> ModelInfo {

@@ -10,10 +10,10 @@ use std::cell::RefCell;
 use std::sync::Arc;
 use std::time::Duration;
 
-use opencode_plugin::abi::interact::{Event, Handled};
-use opencode_plugin::abi::{self, v2};
-use opencode_plugin::{behave, reconcile};
-use opencode_tui::{Deps, Route};
+use wormagent_plugin::abi::interact::{Event, Handled};
+use wormagent_plugin::abi::{self, v2};
+use wormagent_plugin::{behave, reconcile};
+use wormagent_tui::{Deps, Route};
 
 /// The rows of a card that is not reviewed: its header, then two hunks of three rows with a header row between.
 const CARD: i32 = 8;
@@ -1161,20 +1161,20 @@ fn the_transcript_takes_three_verbs_from_a_handler_only() {
 /// A host with a theme and nothing else, for adopting trees straight into a [`reconcile::Tree`].
 struct Plain {
     app: opentui::testing::TestApp,
-    keymap: opencode_ui::dialog::DialogKeymap,
-    theme: opencode_ui::theme::Theme,
+    keymap: wormagent_ui::dialog::DialogKeymap,
+    theme: wormagent_ui::theme::Theme,
 }
 
-impl opencode_plugin::Host for Plain {
+impl wormagent_plugin::Host for Plain {
     fn app(&self) -> &opentui::prelude::App {
         &self.app
     }
 
-    fn theme(&self) -> opencode_ui::theme::Theme {
+    fn theme(&self) -> wormagent_ui::theme::Theme {
         self.theme.clone()
     }
 
-    fn keymap(&self) -> &opencode_ui::dialog::DialogKeymap {
+    fn keymap(&self) -> &wormagent_ui::dialog::DialogKeymap {
         &self.keymap
     }
 }
@@ -1182,19 +1182,19 @@ impl opencode_plugin::Host for Plain {
 fn plain() -> Plain {
     Plain {
         app: opentui::testing::TestApp::new(40, 10),
-        keymap: opencode_ui::dialog::DialogKeymap::new(
-            opencode_ui::keymap::Keybinds::defaults(),
-            opencode_ui::keymap::Options::default(),
+        keymap: wormagent_ui::dialog::DialogKeymap::new(
+            wormagent_ui::keymap::Keybinds::defaults(),
+            wormagent_ui::keymap::Options::default(),
         ),
-        theme: opencode_ui::theme::Catalog::default()
-            .load("opencode", opencode_ui::theme::ThemeMode::Dark)
+        theme: wormagent_ui::theme::Catalog::default()
+            .load("wormagent", wormagent_ui::theme::ThemeMode::Dark)
             .unwrap()
             .theme,
     }
 }
 
 fn adopt(host: &Plain, tree: &mut reconcile::Tree, nodes: &[v2::Node]) -> Result<(), reconcile::Refused> {
-    let act: opencode_plugin::node::Act = std::rc::Rc::new(|_| {});
+    let act: wormagent_plugin::node::Act = std::rc::Rc::new(|_| {});
     let slot = |_: &opentui::prelude::View, _: &str| None;
     let source = |source: &v2::Source| match source {
         v2::Source::Text(text) => Some(std::rc::Rc::from(text.as_str())),
@@ -1207,12 +1207,12 @@ fn adopt(host: &Plain, tree: &mut reconcile::Tree, nodes: &[v2::Node]) -> Result
         slot: &slot,
         source: &source,
         measure: &|source| match source {
-            v2::Source::Text(text) => opencode_plugin::reconcile::measure(text),
-            _ => opencode_plugin::reconcile::Measure::default(),
+            v2::Source::Text(text) => wormagent_plugin::reconcile::measure(text),
+            _ => wormagent_plugin::reconcile::Measure::default(),
         },
         content: &|_| false,
         dropped: &|_| false,
-        image: &|_| opencode_plugin::image::Picture::Pending,
+        image: &|_| wormagent_plugin::image::Picture::Pending,
         full: false,
         draw: None,
         owner: None,
@@ -2449,7 +2449,7 @@ fn a_panicking_layout_fails_its_plugin_and_leaves_the_behaviors() {
     settled(&harness);
     let status =
         harness.tui.plugins.entries().into_iter().find(|entry| entry.id == "test.probe").map(|entry| entry.status);
-    assert!(matches!(status, Some(opencode_plugin::Status::Failed(_))), "{status:?}");
+    assert!(matches!(status, Some(wormagent_plugin::Status::Failed(_))), "{status:?}");
     let (before, layouts) = (behave::counts(), seen(|seen| seen.geometries.len()));
     for _ in 0..5 {
         harness.app.press("f11");
@@ -2470,7 +2470,7 @@ fn the_hook_stays_the_roots_last_child() {
     let app = harness.app.app();
     let hook = app.root().children().last().map(|last| last.id());
     let late = View::new(app).absolute().width(1).height(1);
-    opencode_ui::root::add(app, &late);
+    wormagent_ui::root::add(app, &late);
     for _ in 0..3 {
         harness.app.press("f11");
         harness.app.scroll(4, 4, true);
@@ -2569,12 +2569,12 @@ fn an_event_acts_on_the_mount_it_came_from() {
     TWICE.with(|twice| twice.borrow_mut().clear());
     let deps = Deps {
         route: Route::Home,
-        builtins: vec![opencode_plugin::abi::Plugin { id: "test.twice", setup: twice_setup }.into()],
+        builtins: vec![wormagent_plugin::abi::Plugin { id: "test.twice", setup: twice_setup }.into()],
         ..support::deps(Arc::new(support::empty()))
     };
     let harness = support::mount_still(80, 16, deps);
     harness.app.advance(Duration::ZERO);
-    let host = opencode_tui::plugins::host::host(&harness.tui);
+    let host = wormagent_tui::plugins::host::host(&harness.tui);
     let app = harness.app.app();
     let frame = View::new(app).row().absolute().z_index(3000).width(80).height(12);
     let mounts: Vec<_> = (0..2)
@@ -2586,7 +2586,7 @@ fn an_event_acts_on_the_mount_it_came_from() {
             mount
         })
         .collect();
-    opencode_ui::root::add(app, &frame);
+    wormagent_ui::root::add(app, &frame);
     let settle = || {
         for _ in 0..3 {
             harness.app.advance(Duration::from_millis(1));
@@ -2656,12 +2656,12 @@ fn a_handler_and_a_layout_name_the_mount_they_are_for() {
     LAID.with(|laid| laid.borrow_mut().clear());
     let deps = Deps {
         route: Route::Home,
-        builtins: vec![opencode_plugin::abi::Plugin { id: "test.keyed", setup: keyed_setup }.into()],
+        builtins: vec![wormagent_plugin::abi::Plugin { id: "test.keyed", setup: keyed_setup }.into()],
         ..support::deps(Arc::new(support::empty()))
     };
     let harness = support::mount_still(80, 16, deps);
     harness.app.advance(Duration::ZERO);
-    let host = opencode_tui::plugins::host::host(&harness.tui);
+    let host = wormagent_tui::plugins::host::host(&harness.tui);
     let app = harness.app.app();
     let frame = View::new(app).row().absolute().z_index(3000).width(80).height(12);
     let cells: Vec<View> = (0..2).map(|_| View::new(app).column().width(40).height(12)).collect();
@@ -2674,7 +2674,7 @@ fn a_handler_and_a_layout_name_the_mount_they_are_for() {
         mount
     };
     let mut mounts: Vec<_> = cells.iter().map(open).collect();
-    opencode_ui::root::add(app, &frame);
+    wormagent_ui::root::add(app, &frame);
     let settle = || {
         for _ in 0..3 {
             harness.app.advance(Duration::from_millis(1));

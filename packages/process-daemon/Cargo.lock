@@ -183,7 +183,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "opencode-pty"
+name = "wormagent-pty"
 version = "0.6.0"
 dependencies = [
  "anyhow",

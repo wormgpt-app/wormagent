@@ -1,7 +1,7 @@
-import { usePlugin } from "@opencode/plugin/gui"
-import { Button } from "@opencode/ui/button"
-import { Icon } from "@opencode/ui/icon"
-import { IconButton } from "@opencode/ui/icon-button"
+import { usePlugin } from "@wormagent/plugin/gui"
+import { Button } from "@wormagent/ui/button"
+import { Icon } from "@wormagent/ui/icon"
+import { IconButton } from "@wormagent/ui/icon-button"
 import { For, Show } from "solid-js"
 import type definition from "./index"
 

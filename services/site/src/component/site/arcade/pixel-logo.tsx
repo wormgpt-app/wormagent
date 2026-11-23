@@ -1,7 +1,7 @@
 import { createResource, Show } from "solid-js"
 
-// The site's Anomaly wordmark (the press kit's vector), and how many CRT pixels wide it is drawn.
-const source = "/press/anomaly/anomaly-wordmark-white.svg"
+// The site's WormGPT wordmark (the press kit's vector), and how many CRT pixels wide it is drawn.
+const source = "/press/wormgpt/wormgpt-wordmark-white.svg"
 const columns = 64
 
 type Cells = { path: string; cells: (readonly [number, number])[]; width: number; height: number }
@@ -16,7 +16,7 @@ export function loadPixelLogo() {
 }
 
 /**
- * The Anomaly wordmark as the CRT draws it: the real logo vector rasterised to a coarse grid (64
+ * The WormGPT wordmark as the CRT draws it: the real logo vector rasterised to a coarse grid (64
  * cells wide, cropped to the ink) and drawn as square cells in the phosphor colour, like the
  * screen's bitmap font (pixel-text.tsx), so the scanlines, glow and mask fall on it the same way.
  */

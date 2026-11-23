@@ -1,10 +1,10 @@
 export * as PatchTool from "./patch.js"
 
-import type { Context } from "@opencode/plugin/effect/plugin"
-import { ToolFailure } from "@opencode/ai/effect"
-import { FileDiff } from "@opencode/schema/file-diff"
+import type { Context } from "@wormagent/plugin/effect/plugin"
+import { ToolFailure } from "@wormagent/ai/effect"
+import { FileDiff } from "@wormagent/schema/file-diff"
 import { Effect, Result, Schema } from "effect"
-import { Bom } from "@opencode/util/bom"
+import { Bom } from "@wormagent/util/bom"
 import { Config } from "../../config.js"
 import { ConfigEntryObserver } from "../../config/plugin/entry-observer.js"
 import { Flag } from "../../flag.js"
@@ -13,7 +13,7 @@ import { Environment } from "../../environment/index.js"
 import { Formatter } from "../../formatter.js"
 import { FileMutation } from "../../file-mutation.js"
 import { FileAccess } from "../../file-access.js"
-import { Patch } from "@opencode/util/patch"
+import { Patch } from "@wormagent/util/patch"
 import { Permission } from "../../permission.js"
 import DESCRIPTION from "../patch.txt"
 import GRAMMAR from "../patch-grammar.txt"
@@ -50,7 +50,7 @@ type Prepared =
     })
 
 export const Plugin = {
-  id: "opencode.tool.patch",
+  id: "wormagent.tool.patch",
   effect: Effect.fn("PatchTool.Plugin")(function* (ctx: Context) {
     const access = yield* FileAccess.Service
     const fileMutation = yield* FileMutation.Service

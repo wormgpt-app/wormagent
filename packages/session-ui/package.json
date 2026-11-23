@@ -1,5 +1,5 @@
 {
-  "name": "@opencode/session-ui",
+  "name": "@wormagent/session-ui",
   "version": "2.4.0",
   "private": true,
   "type": "module",
@@ -72,10 +72,10 @@
   "dependencies": {
     "@kitlangton/solid-motion": "0.2.2",
     "@kobalte/core": "catalog:",
-    "@opencode/client": "workspace:*",
-    "@opencode/patchmark": "workspace:*",
-    "@opencode/ui": "workspace:*",
-    "@opencode/util": "workspace:*",
+    "@wormagent/client": "workspace:*",
+    "@wormagent/patchmark": "workspace:*",
+    "@wormagent/ui": "workspace:*",
+    "@wormagent/util": "workspace:*",
     "@pierre/diffs": "catalog:",
     "@pierre/highlights": "catalog:",
     "@solid-primitives/event-listener": "catalog:",

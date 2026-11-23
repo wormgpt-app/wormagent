@@ -1,8 +1,8 @@
-import type { SessionMessageAssistantTool } from "@opencode/client/promise"
-import { AnimatedNumber } from "@opencode/ui/animated-number"
-import { Badge } from "@opencode/ui/badge"
-import { type UiI18n, useI18n } from "@opencode/ui/context/i18n"
-import { TextShimmer } from "@opencode/ui/text-shimmer"
+import type { SessionMessageAssistantTool } from "@wormagent/client/promise"
+import { AnimatedNumber } from "@wormagent/ui/animated-number"
+import { Badge } from "@wormagent/ui/badge"
+import { type UiI18n, useI18n } from "@wormagent/ui/context/i18n"
+import { TextShimmer } from "@wormagent/ui/text-shimmer"
 import { createMemo, For, Index, Match, Show, Switch } from "solid-js"
 import { BasicTool } from "../../components/basic-tool"
 import {
@@ -441,7 +441,7 @@ function SkillsItem(props: { tools: SessionMessageAssistantTool[] }) {
     }),
   )
 
-  const marker = "__OPENCODE_LOADED_SKILL__"
+  const marker = "__WORMAGENT_LOADED_SKILL__"
   const loaded = createMemo(() => i18n.plural("ui.tool.loadedSkills", skills().length, { name: marker }))
 
   return (

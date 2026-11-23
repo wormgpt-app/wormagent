@@ -128,7 +128,7 @@ html:has([data-site][data-theme="dark"]) {
   --text-inverted: light-dark(#ffffff, #0c0c0c);
   --border: var(--grey-5);
   --border-strong: var(--grey-6);
-  /* The OpenCode Console accent blue; dark mode uses a lighter blue from Settings › Dark blue. */
+  /* The WormAgent Console accent blue; dark mode uses a lighter blue from Settings › Dark blue. */
   --link-dark: #4f8bff;
   --link: light-dark(#3b5cf6, var(--link-dark));
   --status-ok: light-dark(hsl(142, 64%, 38%), hsl(142, 60%, 58%));
@@ -237,7 +237,7 @@ html:has([data-site][data-theme="dark"]) {
   --mono-size: var(--fs-ui);
   /* Body copy. Phones raise it (see the mobile type scale near the end of this file). */
   --body-size: var(--fs-body);
-  /* Section titles ("What is OpenCode?", "FAQ") and product names. The site serves OpenTUI Mono
+  /* Section titles ("What is WormAgent?", "FAQ") and product names. The site serves OpenTUI Mono
      in Regular and Bold only, so a hairline stroke adds the "medium" weight; drop it for a real medium face. */
   --title-size: var(--fs-title);
   --title-stroke: 0.2px currentColor;
@@ -2209,7 +2209,7 @@ html:has([data-site][data-theme="dark"]) {
         stroke: color-mix(in srgb, var(--link) 45%, transparent);
       }
 
-      /* Out of the "opencode" order, the whole mark is blue (a lighter hatch) until it is put back. */
+      /* Out of the "wormagent" order, the whole mark is blue (a lighter hatch) until it is put back. */
       &[data-ready][data-reordered] {
         --wm-line: var(--link);
         --wm-node: var(--link);
@@ -3082,15 +3082,15 @@ html:has([data-site][data-theme="dark"]) {
   }
 }
 
-/* The Anomaly signature in the copyright line: about the height of the text, sitting on its
+/* The WormGPT signature in the copyright line: about the height of the text, sitting on its
    baseline like a signature. */
 [data-site] [data-slot="copyright"] {
-  a:has([data-slot="anomaly"]) {
+  a:has([data-slot="wormgpt"]) {
     display: inline-flex;
     vertical-align: -0.3em;
   }
 
-  [data-slot="anomaly"] {
+  [data-slot="wormgpt"] {
     display: block;
     height: 1.4em;
     width: auto;
@@ -3241,7 +3241,7 @@ html:has([data-site][data-theme="dark"]) {
   }
 }
 
-/* Settings › Nav groups: Anomaly's products sit under a muted label after the open source links. */
+/* Settings › Nav groups: WormGPT's products sit under a muted label after the open source links. */
 [data-site] {
   [data-component="nav"] li[data-slot="group"],
   [data-component="site-menu-sheet"] li[data-slot="group"] {
@@ -3973,7 +3973,7 @@ html:has([data-site][data-light-bg="fefefe"]) {
     translate: 0 -2px;
   }
 
-  /* The status link opens status.opencode.ai in a new tab: the same arrow after its label. */
+  /* The status link opens status.wormagent.net in a new tab: the same arrow after its label. */
   &[data-component="status"]:focus-visible [data-slot="external"] {
     opacity: 1;
     translate: 0 -2px;

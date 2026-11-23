@@ -1,4 +1,4 @@
-import { getDirectory, getFilename } from "@opencode/util/path"
+import { getDirectory, getFilename } from "@wormagent/util/path"
 import {
   createComputed,
   createEffect,
@@ -22,12 +22,12 @@ import {
   type LineCommentEditorConfig,
   type LineCommentEditorEffect,
   type LineCommentEditorEvent,
-} from "@opencode/ui/line-comment/machine"
-import { Button } from "@opencode/ui/button"
-import { FileIcon } from "@opencode/ui/file-icon"
-import { Icon } from "@opencode/ui/icon"
+} from "@wormagent/ui/line-comment/machine"
+import { Button } from "@wormagent/ui/button"
+import { FileIcon } from "@wormagent/ui/file-icon"
+import { Icon } from "@wormagent/ui/icon"
 import { installLineCommentStyles } from "./line-comment-styles"
-import { useI18n } from "@opencode/ui/context/i18n"
+import { useI18n } from "@wormagent/ui/context/i18n"
 
 installLineCommentStyles()
 

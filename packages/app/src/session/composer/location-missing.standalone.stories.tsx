@@ -1,5 +1,5 @@
-import type { SessionInfo, SessionMoveInput, WorktreeDirectory } from "@opencode/client/promise"
-import { Button } from "@opencode/ui/button"
+import type { SessionInfo, SessionMoveInput, WorktreeDirectory } from "@wormagent/client/promise"
+import { Button } from "@wormagent/ui/button"
 import { createSignal, onMount, Show } from "solid-js"
 import {
   createMemoryStorage,
@@ -126,7 +126,7 @@ function Replay(props: Args) {
 }
 
 export default {
-  title: "OpenCode/Session/Missing location",
+  title: "WormAgent/Session/Missing location",
   id: "session-missing-location",
   args: { directory: `${STORY_DIRECTORY}-old`, git: true, worktrees: "available", failFirstMove: false } satisfies Args,
   argTypes: { worktrees: { options: ["available", "none"] } },

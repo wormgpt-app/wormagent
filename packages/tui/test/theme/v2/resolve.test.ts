@@ -9,21 +9,21 @@ import {
   type Mode,
   type ResolvedTheme,
   type ThemeDefinition,
-} from "@opencode/theme/tui"
-import { getOpenCodeTheme, getOpenCodeClassicTheme, parseTheme, type ThemeDocumentSource } from "../../../src/theme"
+} from "@wormagent/theme/tui"
+import { getWormAgentTheme, getWormAgentClassicTheme, parseTheme, type ThemeDocumentSource } from "../../../src/theme"
 
-const opencodeLight = selectTheme(getOpenCodeClassicTheme(), "light")
-const opencodeDark = selectTheme(getOpenCodeClassicTheme(), "dark")
+const wormagentLight = selectTheme(getWormAgentClassicTheme(), "light")
+const wormagentDark = selectTheme(getWormAgentClassicTheme(), "dark")
 const chromaticHues = ["gray", "red", "orange", "green", "cyan", "blue", "purple"] as const
 const light: ThemeDefinition = {
-  ...opencodeLight,
+  ...wormagentLight,
   categorical: ["blue", "purple"],
-  hue: { ...opencodeLight.hue, accent: "$hue.blue", interactive: "$hue.blue", neutral: "$hue.gray" },
+  hue: { ...wormagentLight.hue, accent: "$hue.blue", interactive: "$hue.blue", neutral: "$hue.gray" },
 }
 const dark: ThemeDefinition = {
-  ...opencodeDark,
+  ...wormagentDark,
   categorical: ["blue", "purple"],
-  hue: { ...opencodeDark.hue, accent: "$hue.blue", interactive: "$hue.blue", neutral: "$hue.gray" },
+  hue: { ...wormagentDark.hue, accent: "$hue.blue", interactive: "$hue.blue", neutral: "$hue.gray" },
 }
 
 test("orders light hues dark-to-light and dark hues light-to-dark", () => {
@@ -95,10 +95,10 @@ test("resolves arbitrary hue names across aliases, categorical colors, and token
 })
 
 test("validates hue relationships in every provided mode while parsing", () => {
-  const source = structuredClone(getOpenCodeClassicTheme()) as ThemeDocumentSource
+  const source = structuredClone(getWormAgentClassicTheme()) as ThemeDocumentSource
   const darkMode = source.dark as Record<string, unknown>
   darkMode.hue = { ...(darkMode.hue as Record<string, unknown>), accent: "$hue.missing" }
-  const missingSemantic = structuredClone(getOpenCodeClassicTheme()) as ThemeDocumentSource
+  const missingSemantic = structuredClone(getWormAgentClassicTheme()) as ThemeDocumentSource
   const lightMode = missingSemantic.light as Record<string, unknown>
   const lightHues = lightMode.hue as Record<string, unknown>
   delete lightHues.neutral
@@ -122,7 +122,7 @@ test("generates syntax with one categorical hue", () => {
 
 test("draws paste chip text dark in dark mode and light in light mode", () => {
   for (const mode of ["dark", "light"] as const) {
-    const theme = resolveThemeDocument(getOpenCodeTheme(), mode)
+    const theme = resolveThemeDocument(getWormAgentTheme(), mode)
     const owner = new ResourceContext({ objectCapacity: 1, renderCellsMax: 1 })
     const syntax = generateSyntax(theme, owner)
     try {

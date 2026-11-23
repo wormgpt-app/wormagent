@@ -1,8 +1,8 @@
 //! Renders tool progress and final results into scrollback. Mini adds structured bodies to the one-line summaries
 //! shared with `run`.
 
-use opencode_api::generated::{SessionMessageAssistantToolState as State, ToolContent};
-use opencode_ui::tool_info::{
+use wormagent_api::generated::{SessionMessageAssistantToolState as State, ToolContent};
+use wormagent_ui::tool_info::{
     LspInput, QuestionInput, SearchInput, ShellInput, SkillInput, SubagentInput, Todo, TodoInput, TodoStatus,
     ToolInput, ToolKind, WebFetchInput, WebSearchInput, WriteInput, canonical_tool_name, normalize_metadata,
     primitive_input_summary, todo_marker, tool_display_content, tool_display_metadata, tool_output_text, tool_path,
@@ -116,14 +116,14 @@ fn state_of(state: &State) -> Option<ToolState> {
 
 impl Frame<'_> {
     fn path(&self, input: &str, home: bool) -> String {
-        let home = home.then(opencode_local::paths::home);
+        let home = home.then(wormagent_local::paths::home);
         tool_path(input, self.directory.as_deref(), home.as_deref())
     }
 
     /// `span`: how long the tool ran.
     fn span(&self) -> String {
         match (self.start, self.end) {
-            (Some(start), Some(end)) if end > start => opencode_ui::locale::duration(end - start),
+            (Some(start), Some(end)) if end > start => wormagent_ui::locale::duration(end - start),
             _ => String::new(),
         }
     }
@@ -202,7 +202,7 @@ fn scroll(phase: Phase, frame: &Frame) -> String {
                 .into_iter()
                 .flatten()
                 .find(|name| !name.is_null())
-                .map(opencode_api::js::js_string)
+                .map(wormagent_api::js::js_string)
                 .unwrap_or_default();
             Some(format!("→ Skill \"{name}\""))
         }
@@ -296,7 +296,7 @@ fn shell_final(frame: &Frame) -> String {
     let suffix = if time.is_empty() { String::new() } else { format!(" · {time}") };
     match frame.meta.get("exit").filter(|exit| !exit.is_null()) {
         None => format!("shell completed{suffix}"),
-        Some(code) => format!("shell completed (exit {}){suffix}", opencode_api::js::js_string(code)),
+        Some(code) => format!("shell completed (exit {}){suffix}", wormagent_api::js::js_string(code)),
     }
 }
 
@@ -349,7 +349,7 @@ fn patch_final(frame: &Frame) -> String {
 }
 
 fn agent_kind(frame: &Frame, fallback: &str) -> String {
-    opencode_ui::tool_info::titlecase(match SubagentInput(frame.input).legacy_agent().text() {
+    wormagent_ui::tool_info::titlecase(match SubagentInput(frame.input).legacy_agent().text() {
         "" => fallback,
         agent => agent,
     })
@@ -410,7 +410,7 @@ fn lsp_title(frame: &Frame) -> String {
     if file.is_empty() {
         return format!("LSP {operation}");
     }
-    let number = |value: Option<&Value>| value.filter(|value| value.is_number()).map(opencode_api::js::js_string);
+    let number = |value: Option<&Value>| value.filter(|value| value.is_number()).map(wormagent_api::js::js_string);
     let position = match (number(input.line().value()), number(input.character().value())) {
         (Some(line), Some(character)) => format!(":{line}:{character}"),
         _ => String::new(),
@@ -706,8 +706,8 @@ pub fn filetype(path: &str) -> Option<&'static str> {
 }
 
 /// `PatchDiff`'s colors from the block theme, with `text` for the code (the scrollback's and the permission's).
-pub fn diff_look(block: &crate::theme::BlockTheme, text: Color) -> opencode_ui::diff::Look {
-    opencode_ui::diff::Look {
+pub fn diff_look(block: &crate::theme::BlockTheme, text: Color) -> wormagent_ui::diff::Look {
+    wormagent_ui::diff::Look {
         colors: DiffColors {
             line_number: block.diff_line_number,
             line_number_bg: block.diff_context_bg,
@@ -736,7 +736,7 @@ pub fn structured_widget(app: &App, snapshot: &Snapshot, theme: &RunTheme, mono:
     let syntax = theme.syntax.clone().unwrap_or_default();
     match snapshot {
         Snapshot::Code { title, content, file } => {
-            opencode_ui::grammars::register();
+            wormagent_ui::grammars::register();
             let code = Code::new(app)
                 .fg(block.text)
                 .syntax_theme(syntax)
@@ -760,7 +760,7 @@ pub fn structured_widget(app: &App, snapshot: &Snapshot, theme: &RunTheme, mono:
                     let plural = if lines == 1 { "" } else { "s" };
                     entry.add(&text(&format!("-{lines} line{plural}"), block.diff_removed));
                 } else {
-                    let diff = opencode_ui::diff::view_with(
+                    let diff = wormagent_ui::diff::view_with(
                         app,
                         &look,
                         &syntax,

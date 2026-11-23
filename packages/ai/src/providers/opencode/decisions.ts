@@ -1,2 +1,2 @@
-export { decisionModel as model } from "../opencode.js"
-export type { Settings } from "../opencode.js"
+export { decisionModel as model } from "../wormagent.js"
+export type { Settings } from "../wormagent.js"

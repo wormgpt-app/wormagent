@@ -4,8 +4,8 @@ use std::borrow::Cow;
 use std::sync::{Arc, LazyLock};
 
 use indexmap::IndexSet;
-use opencode_api::generated::ToolContent;
-use opencode_api::tool::{
+use wormagent_api::generated::ToolContent;
+use wormagent_api::tool::{
     ExternalDirectoryInput, Field, PatchInput, ShellInput, ToolInput, ToolKind, read_display_text,
 };
 use regex::Regex;

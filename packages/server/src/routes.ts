@@ -1,49 +1,49 @@
-import { Database } from "@opencode/core/database/database"
-import { V1Migration } from "@opencode/core/database/v1-migration"
-import { App } from "@opencode/core/app"
-import { CodeModeApi } from "@opencode/core/codemode/api"
-import { LayerNode } from "@opencode/util/effect/layer-node"
-import { Node } from "@opencode/util/effect/app-node"
-import { fetchLayer, httpClient, httpFetch } from "@opencode/util/effect/app-node-platform"
-import { AppNodeBuilder } from "@opencode/core/effect/app-node-builder"
-import { Bus } from "@opencode/core/bus"
-import { EventLogger } from "@opencode/core/event-logger"
-import { FileSystemSearch } from "@opencode/core/filesystem/search"
-import { Credential } from "@opencode/core/credential"
-import { Config } from "@opencode/core/config"
-import { PermissionSaved } from "@opencode/core/permission/saved"
-import { PtyTicket } from "@opencode/core/pty/ticket"
-import { PersistentPty } from "@opencode/core/persistent-pty"
-import { Project } from "@opencode/core/project"
-import { BlobStore } from "@opencode/core/blob-store"
-import { VideoGeneration } from "@opencode/core/video-generation"
-import { Worktree } from "@opencode/core/worktree"
-import { Session } from "@opencode/core/session"
-import { Instance } from "@opencode/core/instance/service"
-import { SessionTransfer } from "@opencode/core/session/transfer"
-import { InstructionEntry } from "@opencode/core/session/instruction-entry"
-import { ShellSelect } from "@opencode/core/shell/select"
-import { Shell } from "@opencode/core/shell"
-import { Job } from "@opencode/core/job"
-import { KV } from "@opencode/core/kv"
-import { Mcp } from "@opencode/core/mcp/index"
-import { Global } from "@opencode/util/global"
-import { FSUtil } from "@opencode/util/fs-util"
-import { InstructionDiscovery } from "@opencode/core/instruction-discovery"
-import { LocationServiceMap } from "@opencode/core/location-service-map"
-import { LocationActivity } from "@opencode/core/location-activity"
-import { Identity } from "@opencode/core/machine/identity"
-import { Machines } from "@opencode/core/machine/machines"
-import { SessionSearchBuild } from "@opencode/core/session/search-build"
-import { ModelsDev } from "@opencode/core/models-dev"
-import { SessionRestart } from "@opencode/core/session/execution/restart"
-import { Automation } from "@opencode/core/automation"
-import { PluginUpdate } from "@opencode/core/plugin/update"
-import { SdkPlugins } from "@opencode/core/plugin/sdk"
-import { WellKnown } from "@opencode/core/wellknown"
-import { Workspace } from "@opencode/core/workspace"
-import { Watcher } from "@opencode/core/filesystem/watcher"
-import { FileWatch } from "@opencode/core/filesystem/file-watch"
+import { Database } from "@wormagent/core/database/database"
+import { V1Migration } from "@wormagent/core/database/v1-migration"
+import { App } from "@wormagent/core/app"
+import { CodeModeApi } from "@wormagent/core/codemode/api"
+import { LayerNode } from "@wormagent/util/effect/layer-node"
+import { Node } from "@wormagent/util/effect/app-node"
+import { fetchLayer, httpClient, httpFetch } from "@wormagent/util/effect/app-node-platform"
+import { AppNodeBuilder } from "@wormagent/core/effect/app-node-builder"
+import { Bus } from "@wormagent/core/bus"
+import { EventLogger } from "@wormagent/core/event-logger"
+import { FileSystemSearch } from "@wormagent/core/filesystem/search"
+import { Credential } from "@wormagent/core/credential"
+import { Config } from "@wormagent/core/config"
+import { PermissionSaved } from "@wormagent/core/permission/saved"
+import { PtyTicket } from "@wormagent/core/pty/ticket"
+import { PersistentPty } from "@wormagent/core/persistent-pty"
+import { Project } from "@wormagent/core/project"
+import { BlobStore } from "@wormagent/core/blob-store"
+import { VideoGeneration } from "@wormagent/core/video-generation"
+import { Worktree } from "@wormagent/core/worktree"
+import { Session } from "@wormagent/core/session"
+import { Instance } from "@wormagent/core/instance/service"
+import { SessionTransfer } from "@wormagent/core/session/transfer"
+import { InstructionEntry } from "@wormagent/core/session/instruction-entry"
+import { ShellSelect } from "@wormagent/core/shell/select"
+import { Shell } from "@wormagent/core/shell"
+import { Job } from "@wormagent/core/job"
+import { KV } from "@wormagent/core/kv"
+import { Mcp } from "@wormagent/core/mcp/index"
+import { Global } from "@wormagent/util/global"
+import { FSUtil } from "@wormagent/util/fs-util"
+import { InstructionDiscovery } from "@wormagent/core/instruction-discovery"
+import { LocationServiceMap } from "@wormagent/core/location-service-map"
+import { LocationActivity } from "@wormagent/core/location-activity"
+import { Identity } from "@wormagent/core/machine/identity"
+import { Machines } from "@wormagent/core/machine/machines"
+import { SessionSearchBuild } from "@wormagent/core/session/search-build"
+import { ModelsDev } from "@wormagent/core/models-dev"
+import { SessionRestart } from "@wormagent/core/session/execution/restart"
+import { Automation } from "@wormagent/core/automation"
+import { PluginUpdate } from "@wormagent/core/plugin/update"
+import { SdkPlugins } from "@wormagent/core/plugin/sdk"
+import { WellKnown } from "@wormagent/core/wellknown"
+import { Workspace } from "@wormagent/core/workspace"
+import { Watcher } from "@wormagent/core/filesystem/watcher"
+import { FileWatch } from "@wormagent/core/filesystem/file-watch"
 import { HttpEffect, HttpRouter } from "effect/http"
 import { HttpApiBuilder } from "effect/http-api"
 import { Context, Effect, Layer, Option } from "effect"
@@ -139,9 +139,9 @@ function makeRoutes(
   instances?: InstanceNode,
 ) {
   const auth = ServerAuth.Config.configLayer({ password })
-  // Code Mode `opencode://` fetches go straight to this router, set once the router below is built. They carry the
+  // Code Mode `wormagent://` fetches go straight to this router, set once the router below is built. They carry the
   // server's own credential, added here after the script handed the request over, so the script never sees it.
-  const credential = Option.map(password, (value) => `Basic ${Base64.encode(`opencode:${value}`)}`)
+  const credential = Option.map(password, (value) => `Basic ${Base64.encode(`wormagent:${value}`)}`)
   let internal: ((request: Request) => Promise<Response>) | undefined
   const standard: LayerNode.Replacements = [
     CodeModeApi.node.replace(
@@ -151,7 +151,7 @@ function makeRoutes(
           fetch: (request) =>
             Effect.suspend(() => {
               const handle = internal
-              if (!handle) return Effect.fail(new Error("The OpenCode API is not ready yet."))
+              if (!handle) return Effect.fail(new Error("The WormAgent API is not ready yet."))
               if (Option.isSome(credential)) request.headers.set("authorization", credential.value)
               return Effect.tryPromise({
                 try: () => handle(request),
@@ -189,7 +189,7 @@ function makeRoutes(
     Mcp.node.replace(
       Mcp.configured({
         clientInfo: {
-          name: "opencode",
+          name: "wormagent",
           version: options.app?.version ?? "unknown",
         },
       }),
@@ -207,7 +207,7 @@ function makeRoutes(
   const serviceLayer = options.simulation
     ? Layer.unwrap(
         Effect.gen(function* () {
-          const { simulationReplacements } = yield* Effect.promise(() => import("@opencode/simulation/backend"))
+          const { simulationReplacements } = yield* Effect.promise(() => import("@wormagent/simulation/backend"))
           const simulation = yield* simulationReplacements({ version: App.make(options.app).version })
           return build([...overrides, ...simulation])
         }),

@@ -2,7 +2,7 @@
 
 mod accents;
 
-use opencode_api_types::js::is_whitespace;
+use wormagent_api_types::js::is_whitespace;
 use std::borrow::Borrow;
 use std::collections::HashMap;
 

@@ -19,9 +19,9 @@ use std::sync::{Arc, Mutex};
 
 use common::*;
 use futures_util::FutureExt;
-use opencode_api::generated::SessionID;
-use opencode_store::{Changes, Data, LoadMore, Location, Options, Task, Touched};
-use opencode_util::rng::SplitMix64;
+use wormagent_api::generated::SessionID;
+use wormagent_store::{Changes, Data, LoadMore, Location, Options, Task, Touched};
+use wormagent_util::rng::SplitMix64;
 use serde_json::{Value, json};
 use tokio::sync::oneshot;
 
@@ -438,7 +438,7 @@ enum Mutant {
     Silent,
 }
 
-fn observe(state: &opencode_store::State, s: u8, mutant: Mutant, sticky: &HashMap<u8, Vec<(String, String)>>) -> Seen {
+fn observe(state: &wormagent_store::State, s: u8, mutant: Mutant, sticky: &HashMap<u8, Vec<(String, String)>>) -> Seen {
     let session = SessionID(format!("ses_{s}"));
     let mut permissions: Option<Vec<(String, String)>> = state
         .permissions(&session)
@@ -514,7 +514,7 @@ struct Run {
     seen: Vec<Seen>,
     /// Sync tasks and older-page loads started, to check they finish.
     tasks: Vec<(String, Task<()>)>,
-    loads: Vec<(u8, tokio::task::JoinHandle<Result<(), opencode_store::Error>>)>,
+    loads: Vec<(u8, tokio::task::JoinHandle<Result<(), wormagent_store::Error>>)>,
     /// Sessions whose `session.deleted` was delivered.
     deleted: HashSet<u8>,
     /// Requests and forms whose settlement event was delivered.
@@ -536,7 +536,7 @@ fn project() -> Location {
     Location::new(PROJECT)
 }
 
-fn observe_shells(state: &opencode_store::State) -> Option<Vec<String>> {
+fn observe_shells(state: &wormagent_store::State) -> Option<Vec<String>> {
     let shells = state.location(Some(&project()))?.shell.as_ref()?;
     Some(shells.keys().map(|id| id.0.clone()).collect())
 }
@@ -1193,7 +1193,7 @@ impl fmt::Display for Found {
         writeln!(f, "seed {} case {}: [{}] {}", self.seed, self.case, self.failure.class, self.failure.message)?;
         writeln!(
             f,
-            "reproduce: MODEL_SEED={} MODEL_LEN={} MODEL_CASES={} cargo test -p opencode-store --test all model:: -- --ignored",
+            "reproduce: MODEL_SEED={} MODEL_LEN={} MODEL_CASES={} cargo test -p wormagent-store --test all model:: -- --ignored",
             self.seed,
             self.len,
             self.case + 1

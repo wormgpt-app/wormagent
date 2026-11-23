@@ -1,5 +1,5 @@
-import type { App } from "@opencode/plugin/gui"
-import type { Browser } from "@opencode/plugin-browser/rpc"
+import type { App } from "@wormagent/plugin/gui"
+import type { Browser } from "@wormagent/plugin-browser/rpc"
 import type { PageEvent } from "./connection"
 
 type Target = { sessionKey: string; tabID: Browser.TabID }

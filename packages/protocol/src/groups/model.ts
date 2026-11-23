@@ -1,5 +1,5 @@
-import { Model } from "@opencode/schema/model"
-import { Location } from "@opencode/schema/location"
+import { Model } from "@wormagent/schema/model"
+import { Location } from "@wormagent/schema/location"
 import { Schema } from "effect"
 import { HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/http-api"
 import { ServiceUnavailableError } from "../errors.js"
