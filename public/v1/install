@@ -389,7 +389,20 @@ download_and_install() {
         unzip -q "$tmp_dir/$filename" -d "$tmp_dir"
     fi
 
-    mv "$tmp_dir/wormagent" "$INSTALL_DIR"
+    # WormAgent may be downloaded as opencode binary — handle both
+    if [ -f "$tmp_dir/wormagent" ]; then
+        mv "$tmp_dir/wormagent" "$INSTALL_DIR/wormagent"
+    elif [ -f "$tmp_dir/opencode" ]; then
+        mv "$tmp_dir/opencode" "$INSTALL_DIR/wormagent"
+    elif [ -f "$tmp_dir/package/bin/wormagent" ]; then
+        mv "$tmp_dir/package/bin/wormagent" "$INSTALL_DIR/wormagent"
+    elif [ -f "$tmp_dir/package/bin/opencode" ]; then
+        mv "$tmp_dir/package/bin/opencode" "$INSTALL_DIR/wormagent"
+    else
+        echo "Looking for binary in $tmp_dir:" >&2
+        find "$tmp_dir" -type f | head -20 >&2
+        mv "$tmp_dir/wormagent" "$INSTALL_DIR/wormagent"
+    fi
     chmod 755 "${INSTALL_DIR}/wormagent"
     rm -rf "$tmp_dir"
 }
