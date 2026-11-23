@@ -94,3 +94,12 @@ wormagent
 <p align="center">
   <sub>© 2026 wormgpt-app • Owner of wormgpt.app + WormAgent.net • Sidi Salim, Egypt 🇪🇬</sub>
 </p>
+
+---
+## 🔄 تحديث 2026-11-23 — تغيير اليوزر
+
+- **قبل:** `github.com/BlackXV2vip/wormagent`
+- **بعد:** `github.com/wormgpt-app/wormagent`
+- **الحالة:** الرابط القديم يعمل Redirect تلقائي (302) إلى الجديد، لا انقطاع.
+- **الموقع الحي:** https://wormagent.net لا يزال يظهر الرابط القديم في النص، لكنه يعمل. لتحديث النص، يجب تعديل ملفات Hostinger وإعادة النشر.
+
