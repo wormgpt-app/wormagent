@@ -39,7 +39,7 @@ export const configure = (input: Config = {}) => {
   const provider = input.provider ?? "wormgpt"
   const baseURL = input.baseURL ?? defaultBaseURL
   const { provider: _, baseURL: _b, apiKey: _apiKey, auth: _auth, ...rest } = input as any
-  const auth = AuthOptions.bearer(input as any, [])
+  const auth = AuthOptions.bearer(input as any, "WORMGPT_API_KEY")
   const route = OpenAICompatibleChat.route.with({
     ...rest,
     provider,
