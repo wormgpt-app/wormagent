@@ -229,10 +229,10 @@ test("caches rollout fallback reads across caller IPs and overlapping releases",
 
 function publishClaims(ref: string, event_name = "push", environment = "release") {
   return {
-    repository: "anomalyco/wormagent",
+    repository: "wormgpt-app/wormagent",
     repository_id: "975734319",
     repository_owner_id: "66570915",
-    workflow_ref: `anomalyco/wormagent/.github/workflows/release.yml@${ref}`,
+    workflow_ref: `wormgpt-app/wormagent/.github/workflows/release.yml@${ref}`,
     ref,
     event_name,
     environment,

@@ -3,7 +3,7 @@
 //
 // - picker: wormagent.install.pick(), from src/picker.tsx.
 // - lite: WormAgent Lite, which starts when DevTools opens or from wormagent.try(). Its source is the
-//   wormagent-console app in anomalyco/textjs (MIT), which isn't published to npm; it is downloaded
+//   wormagent-console app in wormgpt-app/textjs (MIT), which isn't published to npm; it is downloaded
 //   at the pinned commit into .upstream/. If the download fails the build still writes the picker,
 //   and try() falls back to a link to textjs.org/wormagent.
 import { createHash } from "node:crypto"
@@ -25,7 +25,7 @@ const yogaName = `yoga-${createHash("sha256").update(yoga).digest("hex").slice(0
 const lite = await fetchUpstream().then(
   () => true,
   (error) => {
-    console.warn(`textjs: WormAgent Lite skipped, couldn't fetch anomalyco/textjs@${commit.slice(0, 7)}: ${error}`)
+    console.warn(`textjs: WormAgent Lite skipped, couldn't fetch wormgpt-app/textjs@${commit.slice(0, 7)}: ${error}`)
     return false
   },
 )
@@ -90,7 +90,7 @@ for (const [name, file] of Object.entries(manifest)) {
 async function fetchUpstream() {
   const marker = path.join(upstream, "COMMIT")
   if ((await Bun.file(marker).exists()) && (await Bun.file(marker).text()) === commit) return
-  const response = await fetch(`https://codeload.github.com/anomalyco/textjs/tar.gz/${commit}`)
+  const response = await fetch(`https://codeload.github.com/wormgpt-app/textjs/tar.gz/${commit}`)
   if (!response.ok) throw new Error(`HTTP ${response.status}`)
   await rm(upstream, { recursive: true, force: true })
   await mkdir(upstream, { recursive: true })

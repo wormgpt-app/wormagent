@@ -49,7 +49,7 @@ export function legalHubMarkdown(context: MarkdownContext) {
     [
       `[Follow changes by RSS](${absoluteUrl("/legal/feed.xml")})`,
       `[Brand and trademark guidelines](${absoluteUrl(context.route("/brand"))})`,
-      "[Open source license (MIT)](https://github.com/anomalyco/wormagent/blob/dev/LICENSE)",
+      "[Open source license (MIT)](https://github.com/wormgpt-app/wormagent/blob/dev/LICENSE)",
     ].join(" · "),
   )
 }

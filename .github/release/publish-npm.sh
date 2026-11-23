@@ -17,7 +17,7 @@ fi
 
 if ! dry_run; then
   for file in "$npm_dir"/*.tgz; do
-    gh attestation verify "$file" --repo anomalyco/wormagent --signer-workflow anomalyco/wormagent/.github/workflows/release.yml > /dev/null
+    gh attestation verify "$file" --repo wormgpt-app/wormagent --signer-workflow wormgpt-app/wormagent/.github/workflows/release.yml > /dev/null
   done
 fi
 

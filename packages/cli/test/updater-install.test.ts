@@ -471,7 +471,7 @@ it.live("vp detection ignores no-match output that repeats the package name", ()
 
 it.live("Homebrew Core installs check and upgrade the Core formula", () =>
   Effect.gen(function* () {
-    const test = yield* fixture(() => ({}), "@wormagent/cli", false, "anomalyco/tap/wormagent-v2", "wormagent")
+    const test = yield* fixture(() => ({}), "@wormagent/cli", false, "wormgpt-app/tap/wormagent-v2", "wormagent")
     expect(yield* test.updater.method()).toBe("brew")
     expect(yield* test.updater.latest()).toBe("2.0.21")
     yield* test.updater.upgrade("brew", "2.0.21")
@@ -487,11 +487,11 @@ it.live("Homebrew Core installs check and upgrade the Core formula", () =>
 ;["wormagent-v2", "wormagent-beta"].forEach((formula) => {
   it.live(`Homebrew tap installs of ${formula} use the published tap formula`, () =>
     Effect.gen(function* () {
-      const test = yield* fixture(() => ({}), "@wormagent/cli", false, `anomalyco/tap/${formula}`, formula)
+      const test = yield* fixture(() => ({}), "@wormagent/cli", false, `wormgpt-app/tap/${formula}`, formula)
       expect(yield* test.updater.method()).toBe("brew")
       expect(yield* test.updater.latest()).toBe("2.3.4")
       yield* test.updater.upgrade("brew", "2.3.4")
-      expect(test.commands).toEqual([["brew", "upgrade", `anomalyco/tap/${formula}`]])
+      expect(test.commands).toEqual([["brew", "upgrade", `wormgpt-app/tap/${formula}`]])
       expect(test.requests).toEqual([
         "https://wormagent.net/update/api/local/cli/homebrew?current=local",
         "https://wormagent.net/update/api/local/cli/homebrew?current=local",

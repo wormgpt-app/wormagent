@@ -103,7 +103,7 @@ Windows Terminal
 Yarn
 Zellij
 Zed
-anomalyco
+wormgpt-app
 ```
 
 Extracted from link labels in the English docs (review and prune as desired):
@@ -676,7 +676,7 @@ zod
 ```text
 24601/wormagent-zellij-namer
 angristan/wormagent-wakatime
-anomalyco/wormagent
+wormgpt-app/wormagent
 apps/wormagent-agent
 athal7/wormagent-devcontainers
 awesome-wormagent/awesome-wormagent

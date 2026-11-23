@@ -10,7 +10,7 @@ const args = parseArgs({
   options: {
     manifest: { type: "string", default: "public/product-assets/manifest.json" },
     "max-behind": { type: "string", default: "3" },
-    repo: { type: "string", default: "anomalyco/wormagent" },
+    repo: { type: "string", default: "wormgpt-app/wormagent" },
   },
 }).values
 

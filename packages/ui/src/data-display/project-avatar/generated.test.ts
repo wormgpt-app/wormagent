@@ -39,7 +39,7 @@ describe("getProjectAvatarGenerated", () => {
     expect(getProjectAvatarGenerated({ id: "abc", icon: { override: "data:custom" } })).toBeUndefined()
     expect(getProjectAvatarGenerated({ id: "abc", icon: { url: "data:auto" } })).toBeUndefined()
     expect(getProjectAvatarGenerated({ id: "abc", icon: { color: "blue" } })).toBeUndefined()
-    const wormagent = createHash("sha1").update("git-remote:github.com/anomalyco/wormagent").digest("hex")
+    const wormagent = createHash("sha1").update("git-remote:github.com/wormgpt-app/wormagent").digest("hex")
     expect(getProjectAvatarGenerated({ id: wormagent, worktree: "/repo" })).toBeUndefined()
   })
 

@@ -3,13 +3,13 @@ import { extensionPages } from "~/component/site/extension-data"
 
 const browse = extensionPages.find((extension) => extension.slug === "browse")!
 
-// The browse page (anomalyco/browse): the Chrome Web Store is the main action, the install leads
+// The browse page (wormgpt-app/browse): the Chrome Web Store is the main action, the install leads
 // with the extension and then lists the CLI commands, and the product name is always lowercase.
 describe("browse", () => {
   test("is a product at /product/browse with the Chrome Web Store as its main action", () => {
     expect(browse.product).toBe(true)
     expect(browse.store).toBe("https://chromewebstore.google.com/detail/mfnicocicmmlkpjnaffgihfjhdgjkdjg")
-    expect(browse.source).toBe("https://github.com/anomalyco/browse")
+    expect(browse.source).toBe("https://github.com/wormgpt-app/browse")
   })
 
   test("leads the install with the extension, then lists the standalone scripts first", () => {

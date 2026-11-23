@@ -50,7 +50,7 @@ defaults:
 
 jobs:
   plan:
-    if: github.repository == 'anomalyco/wormagent'
+    if: github.repository == 'wormgpt-app/wormagent'
     runs-on: ubuntu-24.04
     permissions:
       contents: read

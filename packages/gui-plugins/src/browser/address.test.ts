@@ -130,7 +130,7 @@ test("the window's list keeps one newest-first visit per URL and, alone, suggest
 })
 
 test("an address completes the typed text and fills the field as Chrome's address bar does", () => {
-  const rune = "https://github.com/anomalyco/rune-desktop"
+  const rune = "https://github.com/wormgpt-app/rune-desktop"
 
   // The text may leave out the scheme and a leading www., in any case; a text that is not the start completes nothing.
   const completions: readonly (readonly [text: string, url: string, rest: string | undefined])[] = [

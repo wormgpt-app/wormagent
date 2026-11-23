@@ -50,7 +50,7 @@ duplicate the notification.
 | Background marker    | completed, unacknowledged | absent                      |
 
 The dynamic hold tool avoids the static adapter loading issue in
-[wormagent-drive#116](https://github.com/anomalyco/wormagent-drive/issues/116).
+[wormagent-drive#116](https://github.com/wormgpt-app/wormagent-drive/issues/116).
 
 ## History
 

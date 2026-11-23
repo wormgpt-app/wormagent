@@ -554,7 +554,7 @@ story("shows a stable GitHub mark without changing link text or other sites", as
     const { mountMarkdown } = await import(fixture)
     await mountMarkdown({
       text: [
-        "[#540](https://github.com/anomalyco/wormagent/pull/540)",
+        "[#540](https://github.com/wormgpt-app/wormagent/pull/540)",
         "[GitHub](https://github.com)",
         "[other site](https://example.com/docs)",
         "[lookalike](https://github.com.evil.example/pull/540)",
@@ -566,7 +566,7 @@ story("shows a stable GitHub mark without changing link text or other sites", as
   const markdown = page.getByTestId("markdown-fixture").locator('[data-component="markdown"]')
   await expect(markdown).toHaveAttribute("data-markdown-ready", "")
   const github = markdown.getByRole("link", { name: "#540" })
-  await expect(github).toHaveAttribute("href", "https://github.com/anomalyco/wormagent/pull/540")
+  await expect(github).toHaveAttribute("href", "https://github.com/wormgpt-app/wormagent/pull/540")
   await expect(github).toHaveText("#540")
   const mark = github.locator(".markdown-link-favicon[data-github]")
   expect(await mark.evaluate((icon) => getComputedStyle(icon, "::before").width)).toBe("14px")
@@ -588,8 +588,8 @@ for (const mode of ["cached", "streamed"] as const) {
         const { mountMarkdown } = await import(fixture)
         await mountMarkdown({
           text: [
-            "Console [removes `providerCost` from managed standard and Go events](https://github.com/anomalyco/wormagent/pull/1) **before** [writing them to the log queue](https://github.com/anomalyco/wormagent/pull/2).",
-            "[`providerCost`](https://github.com/anomalyco/wormagent/pull/3) and [`https://example.com/code`](https://example.com/target)",
+            "Console [removes `providerCost` from managed standard and Go events](https://github.com/wormgpt-app/wormagent/pull/1) **before** [writing them to the log queue](https://github.com/wormgpt-app/wormagent/pull/2).",
+            "[`providerCost`](https://github.com/wormgpt-app/wormagent/pull/3) and [`https://example.com/code`](https://example.com/target)",
           ].join("\n\n"),
           cached: mode === "cached",
           streaming: mode === "streamed",
@@ -605,19 +605,19 @@ for (const mode of ["cached", "streamed"] as const) {
     await expect(markdown).toHaveAttribute("data-markdown-ready", "")
 
     const mixed = markdown.getByRole("link", { name: "removes providerCost from managed standard and Go events" })
-    await expect(mixed).toHaveAttribute("href", "https://github.com/anomalyco/wormagent/pull/1")
+    await expect(mixed).toHaveAttribute("href", "https://github.com/wormgpt-app/wormagent/pull/1")
     await expect(mixed.locator("code")).toHaveText("providerCost")
     await expect(mixed.locator(".markdown-link-favicon[data-github]")).toHaveCount(1)
     await expect(markdown.getByRole("link", { name: "writing them to the log queue" })).toHaveAttribute(
       "href",
-      "https://github.com/anomalyco/wormagent/pull/2",
+      "https://github.com/wormgpt-app/wormagent/pull/2",
     )
     await expect(markdown.locator("p").first()).toHaveText(
       "Console removes providerCost from managed standard and Go events before writing them to the log queue.",
     )
 
     const code = markdown.getByRole("link", { name: "providerCost", exact: true })
-    await expect(code).toHaveAttribute("href", "https://github.com/anomalyco/wormagent/pull/3")
+    await expect(code).toHaveAttribute("href", "https://github.com/wormgpt-app/wormagent/pull/3")
     await expect(code.locator("code")).toHaveText("providerCost")
     await expect(markdown.getByRole("link", { name: "https://example.com/code" })).toHaveAttribute(
       "href",
@@ -633,7 +633,7 @@ for (const theme of ["light", "dark"]) {
     await page.evaluate(async (fixture) => {
       const { mountMarkdown } = await import(fixture)
       await mountMarkdown({
-        text: "[removes `providerCost` from events](https://github.com/anomalyco/wormagent/pull/1) and `plainCode`",
+        text: "[removes `providerCost` from events](https://github.com/wormgpt-app/wormagent/pull/1) and `plainCode`",
         cached: true,
       })
     }, fixture)
@@ -697,7 +697,7 @@ story("keeps favicon space stable across loading and failure without fetching pr
         "[docs](https://developer.mozilla.org/docs)",
         "[missing](https://broken.example.org/docs)",
         "[private](http://localhost:8080/docs)",
-        "[GitHub](https://github.com/anomalyco/wormagent)",
+        "[GitHub](https://github.com/wormgpt-app/wormagent)",
       ].join(" · "),
       cached: true,
     })
@@ -755,7 +755,7 @@ story("keeps link icons on the same line as the start of their label", async ({ 
     await mountMarkdown({
       text: [
         "Read the [MDN reference](https://developer.mozilla.org/docs) and",
-        "[#540](https://github.com/anomalyco/wormagent/pull/540) then",
+        "[#540](https://github.com/wormgpt-app/wormagent/pull/540) then",
         "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/white-space/long-path",
       ].join(" "),
       cached: true,
@@ -801,7 +801,7 @@ story("selects the whole paragraph on triple click across link icons", async ({ 
   await page.evaluate(async (fixture) => {
     const { mountMarkdown } = await import(fixture)
     await mountMarkdown({
-      text: "The release is running ([run 41750815701](https://github.com/anomalyco/strobe/actions/runs/41750815701)), see [MDN](https://developer.mozilla.org/docs) for more.",
+      text: "The release is running ([run 41750815701](https://github.com/wormgpt-app/strobe/actions/runs/41750815701)), see [MDN](https://developer.mozilla.org/docs) for more.",
       cached: true,
     })
   }, fixture)

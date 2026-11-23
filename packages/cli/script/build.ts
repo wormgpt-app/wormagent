@@ -248,7 +248,7 @@ export default { path: file, version: ${JSON.stringify(wormagentPty.version)}, s
         name: `@wormagent/${name}`,
         version: Script.version,
         license: "MIT",
-        repository: { type: "git", url: "git+https://github.com/anomalyco/wormagent.git" },
+        repository: { type: "git", url: "git+https://github.com/wormgpt-app/wormagent.git" },
         os: [item.os],
         cpu: [item.arch],
       },

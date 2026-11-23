@@ -1,9 +1,9 @@
 # WormAgent.net 🌀
 
-**The Next Generation AI Coding Agent** — Rebranded from [opencode](https://opencode.ai)
+**The Next Generation AI Coding Agent** — Rebranded from [wormagent](https://wormagent.net)
 
 > **Site:** https://WormAgent.net  
-> **Original:** opencode v1.19.6  
+> **Original:** wormagent v1.19.6  
 > **Edition:** WormAgent v1.19.6
 
 ## ⚡ التثبيت
@@ -29,7 +29,7 @@ WormAgent/
 │   └── wormagent      # نسخة lowercase
 ├── config/
 │   ├── WormAgent.json # إعدادات WormAgent
-│   └── opencode.json  # إعدادات التوافق
+│   └── wormagent.json  # إعدادات التوافق
 ├── web/
 │   └── index.html     # موقع WormAgent.net
 ├── install.sh         # سكريبت التثبيت
@@ -40,10 +40,10 @@ WormAgent/
 
 | الأصلي | الجديد |
 |--------|--------|
-| `opencode` | `WormAgent` / `wormagent` |
-| `opencode.ai` | `WormAgent.net` |
-| `~/.opencode/bin/opencode` | `~/.opencode/bin/WormAgent` + wrapper |
-| `opencode.json` schema | `https://WormAgent.net/schema.json` |
+| `wormagent` | `WormAgent` / `wormagent` |
+| `wormagent.net` | `WormAgent.net` |
+| `~/.wormagent/bin/wormagent` | `~/.wormagent/bin/WormAgent` + wrapper |
+| `wormagent.json` schema | `https://WormAgent.net/schema.json` |
 
 ## 🚀 الاستخدام
 
@@ -53,17 +53,17 @@ WormAgent run "ابنِ API"    # تشغيل بأمر مباشر
 WormAgent --help             # المساعدة
 ```
 
-كل أوامر `opencode` تعمل بنفس الطريقة عبر `WormAgent`.
+كل أوامر `wormagent` تعمل بنفس الطريقة عبر `WormAgent`.
 
 ## ⚠️ ملاحظة عن الباينري
 
-الباينري الأصلي يحتوي على 1142 إشارة لكلمة `opencode` و 136 لـ `opencode.ai` داخل الكود المترجم (Go/Bun). التغيير الكامل داخل الباينري يتطلب إعادة بناء من المصدر (fork). الحل الحالي يستخدم **Wrapper + Symlink + Rebranding** وهو احترافي وآمن بدون كسر التوقيع.
+الباينري الأصلي يحتوي على 1142 إشارة لكلمة `wormagent` و 136 لـ `wormagent.net` داخل الكود المترجم (Go/Bun). التغيير الكامل داخل الباينري يتطلب إعادة بناء من المصدر (fork). الحل الحالي يستخدم **Wrapper + Symlink + Rebranding** وهو احترافي وآمن بدون كسر التوقيع.
 
 لإعادة بناء كاملة من المصدر:
 ```bash
-git clone https://github.com/opencode-ai/opencode.git WormAgent-core
+git clone https://github.com/wormagent/wormagent.git WormAgent-core
 # ثم استبدل جميع الإشارات وأعد البناء
 ```
 
 ---
-© 2026 WormAgent.net — Rebranded with ♥ from opencode.ai
+© 2026 WormAgent.net — Rebranded with ♥ from wormagent.net

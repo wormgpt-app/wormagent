@@ -102,7 +102,7 @@ logged but do not fail requests or retry; this is not lossless audit logging.
 Requests blocked before reaching the Worker are not recorded.
 
 The stream ID in `wrangler.jsonc` comes from the `lake.stream` output of the
-`anomalyco/platform/production` Pulumi stack. Update the binding if that stream is
+`wormgpt-app/platform/production` Pulumi stack. Update the binding if that stream is
 replaced. The stream is shared across release channels because the update service
 has a single public deployment.
 

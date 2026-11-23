@@ -21,7 +21,7 @@ export const organizationData = {
   name: "Anomaly",
   url: "https://anoma.ly",
   logo: "https://anoma.ly/apple-touch-icon.png",
-  sameAs: ["https://github.com/anomalyco", config.social.twitter, config.social.discord],
+  sameAs: ["https://github.com/wormgpt-app", config.social.twitter, config.social.discord],
 }
 
 export function websiteData(language: string) {

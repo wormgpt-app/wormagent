@@ -10,7 +10,7 @@ say "native"; crates, this directory, and `WORMAGENT_RS_*` variables say "rs".
 - `rust-toolchain.toml` pins the toolchain.
 - OpenTUI is the crates.io `opentui` at an exact `version` in `Cargo.toml`. To re-pin it, change these together: the
   release's rows in the sha256 table in `script/opentui-native.ts`, the `version`, `Cargo.lock`, and the directory in
-  `.cargo/config.toml`. Send changes to OpenTUI's crates to `anomalyco/opentui`.
+  `.cargo/config.toml`. Send changes to OpenTUI's crates to `wormgpt-app/opentui`.
 
 ## Checks
 

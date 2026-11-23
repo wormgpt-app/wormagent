@@ -1,8 +1,8 @@
 // The image preview over the prompt's Kitty thumbnail, on a terminal that shows Kitty graphics with 20x40-pixel cells.
 // In the preview a 1600x1200 noise image is no smaller than its source, so its upload is larger than one frame's
-// output. TS sends it with Kitty across frames; Rust, since anomalyco/opentui#2135, sends one copy that fits a frame.
+// output. TS sends it with Kitty across frames; Rust, since wormgpt-app/opentui#2135, sends one copy that fits a frame.
 // Both show it with Kitty, so the open preview compares, and closing it leaves no block glyph over the thumbnail
-// (anomalyco/opentui#2130, which cleared the half blocks Rust drew there before #2135).
+// (wormgpt-app/opentui#2130, which cleared the half blocks Rust drew there before #2135).
 import { tmpdir } from "node:os"
 import path from "node:path"
 import { deflateSync } from "node:zlib"

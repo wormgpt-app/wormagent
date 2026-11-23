@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Mints a short-lived Cloudflare token for the current job from the token issuer
-# (anomalyco/secrets). Run after aws-actions/configure-aws-credentials has assumed
+# (wormgpt-app/secrets). Run after aws-actions/configure-aws-credentials has assumed
 # arn:aws:iam::604439173067:role/github/wormagent-<stage> (release, dev or production): the Lambda
 # identifies the role from the SigV4 signature and mints only that stage's token. No repo, stage,
 # permission or TTL is sent in the request, and the token is pinned to the runner's IP.

@@ -15,7 +15,7 @@ This extension requires the [wormagent CLI](https://wormagent.net) to be install
 
 ## Support
 
-This is an early release. If you encounter issues or have feedback, please create an issue at https://github.com/anomalyco/wormagent/issues.
+This is an early release. If you encounter issues or have feedback, please create an issue at https://github.com/wormgpt-app/wormagent/issues.
 
 ## Development
 

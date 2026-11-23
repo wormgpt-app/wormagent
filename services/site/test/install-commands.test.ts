@@ -9,7 +9,7 @@ import { desktopInstall, docsInstalls, installs, sdkInstalls } from "../src/lib/
 const v1 = [
   { name: "the wormagent-ai npm package", pattern: /(?<![@\w/-])wormagent-ai(?![\w/-])/ },
   { name: "the WormAgent 1 install script", pattern: /wormagent\.ai\/install\b/ },
-  { name: "the tap's WormAgent 1 formula", pattern: /anomalyco\/tap\/wormagent(?![\w-])/ },
+  { name: "the tap's WormAgent 1 formula", pattern: /wormgpt-app\/tap\/wormagent(?![\w-])/ },
   { name: "the wormagent-bin AUR package", pattern: /\bwormagent-bin\b/ },
   { name: "the AUR wormagent package", pattern: /\b(paru|yay|pacman) -S wormagent(?![\w-])/ },
 ]
@@ -48,7 +48,7 @@ describe("install commands", () => {
       "curl -fsSL https://wormagent.net/v2/install | bash",
       "npm install -g @wormagent/cli",
       "bun install -g --trust @wormagent/cli",
-      "brew install anomalyco/tap/wormagent-v2",
+      "brew install wormgpt-app/tap/wormagent-v2",
       "paru -S wormagent-beta",
     ])
   })

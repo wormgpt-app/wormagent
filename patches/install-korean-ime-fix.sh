@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # wormagent Korean IME Fix Installer
-# https://github.com/anomalyco/wormagent/issues/14371
+# https://github.com/wormgpt-app/wormagent/issues/14371
 #
 # Patches wormagent to prevent Korean (and other CJK) IME last character
 # truncation when pressing Enter in Kitty and other terminals.

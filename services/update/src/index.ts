@@ -39,7 +39,7 @@ const githubKeys = createRemoteJWKSet(new URL("https://token.actions.githubuserc
 const hosts = ["wormagent.net", "dev.wormagent.net"]
 const prefix = "/update"
 // Cloudflare Access sits in front of the admin routes; the Worker also verifies the identity it asserts.
-const accessTeam = "https://anomalyco.cloudflareaccess.com"
+const accessTeam = "https://wormgpt-app.cloudflareaccess.com"
 const accessAudience = "d369a93ad5ce8cf96eebe30620488dd2537427c92fed439c310288832a282987"
 const accessKeys = createRemoteJWKSet(new URL(`${accessTeam}/cdn-cgi/access/certs`))
 // Clients poll every lookup path, and querying D1 on each request overloaded it.
@@ -602,11 +602,11 @@ type GitHubClaims = JWTPayload & {
 }
 
 export function validGitHubClaims(claims: JWTPayload): claims is GitHubClaims {
-  if (claims.repository !== "anomalyco/wormagent") return false
+  if (claims.repository !== "wormgpt-app/wormagent") return false
   if (claims.repository_id !== "975734319") return false
   if (claims.repository_owner_id !== "66570915") return false
   if (typeof claims.workflow_ref !== "string" || typeof claims.ref !== "string") return false
-  if (claims.workflow_ref !== `anomalyco/wormagent/.github/workflows/release.yml@${claims.ref}`) return false
+  if (claims.workflow_ref !== `wormgpt-app/wormagent/.github/workflows/release.yml@${claims.ref}`) return false
   // Only publish jobs run in the release environment, and they never execute repository code.
   if (claims.environment !== "release") return false
   if (typeof claims.event_name !== "string") return false

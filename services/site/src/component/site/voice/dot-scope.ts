@@ -1,4 +1,4 @@
-// Hex's recording indicator, Dot scope (anomalyco/hex `src/rune_hud/dot_scope/scope.rs` and
+// Hex's recording indicator, Dot scope (wormgpt-app/hex `src/rune_hud/dot_scope/scope.rs` and
 // `src/rune_hud.wgsl`): a plate of dots lit by a braided pair of oscilloscope traces that follow the
 // voice. The 240 Hz simulation, the auto level and the beam are ported from the Rust; the plate is
 // drawn with Canvas 2D instead of the WGSL fragment. Hex has one voice; here the assistant's reply

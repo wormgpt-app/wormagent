@@ -408,7 +408,7 @@ export const connect = Effect.fnUntraced(function* (options: ConnectOptions) {
       capabilities: {
         ...(elicitation ? { elicitation: { form: {}, url: {} } } : {}),
         // Legacy era only: roots are deprecated as of 2026-07-28 and modern servers cannot request them.
-        // Some legacy servers refuse to run without one (https://github.com/anomalyco/wormagent/issues/2308).
+        // Some legacy servers refuse to run without one (https://github.com/wormgpt-app/wormagent/issues/2308).
         ...(options.roots === false ? {} : { roots: {} }),
         ...(options.events ? { extensions: { [EVENTS]: {} } } : {}),
       },

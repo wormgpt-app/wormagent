@@ -109,7 +109,7 @@ describe("funnel config", () => {
       "ide",
     )
     expect(downloadOf(new URL("https://open-vsx.org/extension/sst-dev/wormagent"))?.target).toBe("ide")
-    expect(downloadOf(new URL("https://github.com/anomalyco/wormagent/releases"))).toBeUndefined()
+    expect(downloadOf(new URL("https://github.com/wormgpt-app/wormagent/releases"))).toBeUndefined()
     expect(downloadOf(new URL("https://example.com/update/api/latest/desktop/wormagent/x.dmg"))).toBeUndefined()
   })
 })

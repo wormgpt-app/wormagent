@@ -1,4 +1,4 @@
-<!-- WormAgent — rebranded from OpenCode (https://github.com/sst/opencode), MIT licensed. © SST — see LICENSE. -->
+<!-- WormAgent — rebranded from WormAgent (https://github.com/sst/wormagent), MIT licensed. © SST — see LICENSE. -->
 <p align="center">
   <a href="https://wormagent.net">
     <picture>
@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://wormagent.net/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
   <a href="https://www.npmjs.com/package/@wormagent/cli"><img alt="npm" src="https://img.shields.io/npm/v/@wormagent/cli?style=flat-square" /></a>
-  <a href="https://github.com/anomalyco/wormagent/actions/workflows/release.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/wormagent/release.yml?style=flat-square&branch=dev" /></a>
+  <a href="https://github.com/wormgpt-app/wormagent/actions/workflows/release.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/wormgpt-app/wormagent/release.yml?style=flat-square&branch=dev" /></a>
 </p>
 
 <p align="center">
@@ -52,12 +52,12 @@ curl -fsSL https://wormagent.net/v2/install | bash
 
 # Package managers
 npm i -g @wormagent/cli@latest      # or bun/pnpm/yarn
-brew install anomalyco/tap/wormagent-v2 # macOS and Linux (recommended, always up to date)
+brew install wormgpt-app/tap/wormagent-v2 # macOS and Linux (recommended, always up to date)
 brew install wormagent              # macOS and Linux (official brew formula, updated less)
 sudo pacman -S wormagent            # Arch Linux (Stable)
 paru -S wormagent-beta              # Arch Linux (Latest from AUR)
 mise use -g wormagent               # Any OS
-nix run github:anomalyco/wormagent  # Nix
+nix run github:wormgpt-app/wormagent  # Nix
 ```
 
 > [!TIP]

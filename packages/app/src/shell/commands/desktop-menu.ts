@@ -279,12 +279,12 @@ export const DESKTOP_MENU: DesktopMenu[] = [
       {
         type: "item",
         labelKey: "desktop.menu.shareFeedback",
-        href: "https://github.com/anomalyco/wormagent/issues/new?template=feature_request.yml",
+        href: "https://github.com/wormgpt-app/wormagent/issues/new?template=feature_request.yml",
       },
       {
         type: "item",
         labelKey: "desktop.menu.reportBug",
-        href: "https://github.com/anomalyco/wormagent/issues/new?template=bug_report.yml",
+        href: "https://github.com/wormgpt-app/wormagent/issues/new?template=bug_report.yml",
       },
     ],
   },

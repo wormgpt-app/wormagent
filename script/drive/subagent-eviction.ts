@@ -8,7 +8,7 @@ const evict = process.env.DEMO_EVICT !== "false"
 
 // Run with WORMAGENT_DRIVE_DB=proof.sqlite. Only model output and fixture_hold are
 // simulated. The debug endpoint closes the real graph without waiting an hour.
-// Dynamic tools avoid the static adapter issue: anomalyco/wormagent-drive#116.
+// Dynamic tools avoid the static adapter issue: wormgpt-app/wormagent-drive#116.
 export default WormAgentDriver.use(
   {
     wormagent: { dev: process.env.WORMAGENT_DEV ?? process.cwd() },

@@ -8,8 +8,8 @@ import { route, type Locale } from "../lib/language"
 export type HeaderLink = { href: string; label: string }
 
 export const githubLink = {
-  href: "https://github.com/anomalyco/wormagent",
-  apiHref: "https://api.github.com/repos/anomalyco/wormagent",
+  href: "https://github.com/wormgpt-app/wormagent",
+  apiHref: "https://api.github.com/repos/wormgpt-app/wormagent",
   fallbackStars: "220K",
 }
 export const themePreferences = ["dark", "light", "system"] as const
@@ -211,7 +211,7 @@ export function Footer(props: {
     { href: "https://wormagent.net/discord", label: i18n.t("footer.community") },
     { href: "https://x.com/wormagent", label: "X" },
     { href: githubLink.href, label: i18n.t("header.github") },
-    { href: "https://www.youtube.com/@anomalyco", label: i18n.t("footer.youtube") },
+    { href: "https://www.youtube.com/@wormgpt-app", label: i18n.t("footer.youtube") },
   ]
   const bridge = () =>
     props.bridge === undefined

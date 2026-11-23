@@ -289,7 +289,7 @@ describe("editing", () => {
 
 describe("main's history answers after the field shows what was typed", () => {
   const epoch = reports(blank)
-  const rune: HistoryPage = { url: "https://github.com/anomalyco/rune-desktop", title: "anomalyco/rune-desktop", score: 5 }
+  const rune: HistoryPage = { url: "https://github.com/wormgpt-app/rune-desktop", title: "wormgpt-app/rune-desktop", score: 5 }
   const github: HistoryPage = { url: "https://github.com/", title: "GitHub", score: 17 }
   const gitlab: HistoryPage = { url: "https://gitlab.com/", title: "GitLab", score: 2 }
 
@@ -325,7 +325,7 @@ describe("main's history answers after the field shows what was typed", () => {
 
     expect(answered.effects).toEqual([{ type: "select-completion", start: 4 }])
     expect(view(answered.state, epoch)).toMatchObject({ listed: true, active: 0, field: "github.com", completion: "ub.com" })
-    expect(labels(answered.state)).toEqual(["github.com/", "search: gith", "github.com/anomalyco/rune-desktop"])
+    expect(labels(answered.state)).toEqual(["github.com/", "search: gith", "github.com/wormgpt-app/rune-desktop"])
     expect(enter(answered.state)).toEqual({ type: "navigate", tabID, url: "https://github.com/" })
   })
 
@@ -335,7 +335,7 @@ describe("main's history answers after the field shows what was typed", () => {
 
     expect(answered.effects).toEqual([])
     expect(view(answered.state, epoch)).toMatchObject({ listed: true, active: 0, field: "rune", completion: "" })
-    expect(labels(answered.state)).toEqual(["search: rune", "github.com/anomalyco/rune-desktop"])
+    expect(labels(answered.state)).toEqual(["search: rune", "github.com/wormgpt-app/rune-desktop"])
     expect(enter(answered.state)).toEqual({ type: "navigate", tabID, url: "https://www.google.com/search?q=rune" })
     // One step down chooses it.
     const stepped = transitionAddress(answered.state, { type: "key.pressed", key: "ArrowDown", epoch, visits: [] }).state
@@ -375,7 +375,7 @@ describe("main's history answers after the field shows what was typed", () => {
     const more = type(answered, "gith")
 
     // GitLab no longer matches; the others show before main answers "gith", and GitHub's address is completed.
-    expect(labels(more.state)).toEqual(["github.com/", "search: gith", "github.com/anomalyco/rune-desktop"])
+    expect(labels(more.state)).toEqual(["github.com/", "search: gith", "github.com/wormgpt-app/rune-desktop"])
     expect(more.effects).toContainEqual({ type: "select-completion", start: 4 })
     // Emptying the field drops it: no text has that answer.
     expect(labels(type(more.state, "", false).state)).toEqual([])
@@ -394,7 +394,7 @@ describe("main's history answers after the field shows what was typed", () => {
     const typed = type(focused, "github.com", false)
     const answered = answer(typed.state, asked(typed.effects)[0]?.attempt ?? -1, [github, rune]).state
 
-    expect(labels(answered)).toEqual(["github.com/", "search: github.com", "github.com/anomalyco/rune-desktop"])
+    expect(labels(answered)).toEqual(["github.com/", "search: github.com", "github.com/wormgpt-app/rune-desktop"])
     expect(view(answered, epoch)).toMatchObject({ active: 0, field: "github.com", completion: "" })
   })
 
@@ -429,8 +429,8 @@ describe("main's history answers after the field shows what was typed", () => {
 
     expect(forgotten.effects).toEqual([{ type: "prevent-default" }, { type: "forget", url: "https://github.com/" }])
     // The next page's address begins with the text too, so it takes the first row and stays chosen.
-    expect(labels(forgotten.state)).toEqual(["github.com/anomalyco/rune-desktop", "search: gith"])
-    expect(view(forgotten.state, epoch)).toMatchObject({ listed: true, active: 0, field: "https://github.com/anomalyco/rune-desktop" })
+    expect(labels(forgotten.state)).toEqual(["github.com/wormgpt-app/rune-desktop", "search: gith"])
+    expect(view(forgotten.state, epoch)).toMatchObject({ listed: true, active: 0, field: "https://github.com/wormgpt-app/rune-desktop" })
     // A later answer that still holds the forgotten page does not bring it back.
     expect(answer(forgotten.state, asked(typed.effects)[0]?.attempt ?? -1, [github, rune]).state).toBe(forgotten.state)
 
@@ -450,8 +450,8 @@ describe("the list and its keys are Chrome's", () => {
 
   const history: readonly PageVisit[] = [
     { url: "https://github.com/", title: "GitHub", visits: 40, typed: 12, visited: now - day },
-    { url: "https://github.com/anomalyco/rune-desktop", title: "anomalyco/rune-desktop", visits: 25, typed: 2, visited: now - day },
-    { url: "https://github.com/anomalyco/rune-desktop/pulls", title: "Pull requests", visits: 9, typed: 0, visited: now - 2 * day },
+    { url: "https://github.com/wormgpt-app/rune-desktop", title: "wormgpt-app/rune-desktop", visits: 25, typed: 2, visited: now - day },
+    { url: "https://github.com/wormgpt-app/rune-desktop/pulls", title: "Pull requests", visits: 9, typed: 0, visited: now - 2 * day },
     { url: "https://github.com/sst/opentui", title: "sst/opentui", visits: 5, typed: 0, visited: now - 3 * day },
     { url: "https://github.com/oven-sh/bun", title: "oven-sh/bun", visits: 4, typed: 0, visited: now - 9 * day },
     { url: "https://docs.rune.example/guide", title: "Guide", visits: 6, typed: 0, visited: now - 5 * day },
@@ -535,8 +535,8 @@ describe("the list and its keys are Chrome's", () => {
 
   const google = (text: string) => `https://www.google.com/search?q=${encodeURIComponent(text)}`
   const front = "github.com/"
-  const desktop = "github.com/anomalyco/rune-desktop"
-  const pulls = "github.com/anomalyco/rune-desktop/pulls"
+  const desktop = "github.com/wormgpt-app/rune-desktop"
+  const pulls = "github.com/wormgpt-app/rune-desktop/pulls"
   const guide = "docs.rune.example/guide"
 
   const cases: readonly (readonly [name: string, steps: readonly string[], outcome: Outcome])[] = [

@@ -859,7 +859,7 @@ export function LegalHub(props: {
             <a href={language.route("/brand")}>Brand and trademark guidelines</a>
           </li>
           <li>
-            <a href="https://github.com/anomalyco/wormagent/blob/dev/LICENSE" target="_blank" rel="noopener">
+            <a href="https://github.com/wormgpt-app/wormagent/blob/dev/LICENSE" target="_blank" rel="noopener">
               Open source license (MIT)
               <ExternalArrow />
               <NewTab />

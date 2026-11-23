@@ -13,7 +13,7 @@ import { siteSettings } from "./settings"
 // after `gh repo fork --clone`. Output lines are what gh and git print (gh's "✓" marks left out: OpenTUI
 // Mono has no check mark); comments explain.
 const transcript = [
-  { kind: "command", text: "gh repo fork anomalyco/wormagent --clone" },
+  { kind: "command", text: "gh repo fork wormgpt-app/wormagent --clone" },
   { kind: "output", text: "Created fork you/wormagent" },
   { kind: "output", text: "Cloning into 'wormagent'..." },
   { kind: "output", text: "Cloned fork" },

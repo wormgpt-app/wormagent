@@ -157,7 +157,7 @@ const textHeaders = {
 }
 
 async function installScript() {
-  const response = await fetch("https://raw.githubusercontent.com/anomalyco/wormagent/dev/install")
+  const response = await fetch("https://raw.githubusercontent.com/wormgpt-app/wormagent/dev/install")
   const headers = new Headers(response.headers)
   headers.set("Cache-Control", "no-store")
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers })

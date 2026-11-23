@@ -8,7 +8,7 @@ import { faces } from "../src/lib/contributor-faces"
 import type { GithubSnapshot } from "../src/lib/github-snapshot"
 
 const root = path.resolve(import.meta.dir, "..")
-const api = "https://api.github.com/repos/anomalyco/wormagent"
+const api = "https://api.github.com/repos/wormgpt-app/wormagent"
 const headers = {
   Accept: "application/vnd.github+json",
   "User-Agent": "WormAgent-Console",

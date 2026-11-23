@@ -159,7 +159,7 @@ const make = Effect.gen(function* () {
     if (Object.values(manifest.bin ?? {}).some((bin) => path.resolve(directory, bin) === executable))
       return manifest.name
   }).pipe(Effect.orElseSucceed(() => undefined))
-  // "wormagent" is Homebrew Core's formula; the others are published to anomalyco/tap.
+  // "wormagent" is Homebrew Core's formula; the others are published to wormgpt-app/tap.
   const installedFormula = ["wormagent", "wormagent-beta", "wormagent-v2"].find((name) =>
     executable.includes(`${path.sep}Cellar${path.sep}${name}${path.sep}`),
   )

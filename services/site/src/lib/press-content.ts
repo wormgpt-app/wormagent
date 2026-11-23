@@ -22,7 +22,7 @@ export function pressContent(t: Translate, route: (path: string) => string) {
       lead: "Anomaly is the company behind WormAgent. It builds open source tools for developers.",
       more: "Other projects include SST and OpenTUI, all open source on [GitHub](github).",
       // Facts checked on 2026-11-02 against each project's site, README and the GitHub API
-      // (gh api repos/anomalyco/<repo>): stars, MIT licence and repo creation date. Star counts
+      // (gh api repos/wormgpt-app/<repo>): stars, MIT licence and repo creation date. Star counts
       // are rounded down. Models.dev counts come from https://models.dev/api.json (8,938 models,
       // 235 providers, written as 200+ like the rest of the site). Each description is tuned to wrap to exactly three lines at 1280 and 1440
       // wide (378 and 330px columns); re-measure after changing the copy.
@@ -59,7 +59,7 @@ export function pressContent(t: Translate, route: (path: string) => string) {
         },
       ],
       learnMore: "To learn more, go to [anoma.ly](site).",
-      links: { github: "https://github.com/anomalyco", site: "https://anoma.ly" },
+      links: { github: "https://github.com/wormgpt-app", site: "https://anoma.ly" },
     },
     about: {
       title: "About WormAgent",

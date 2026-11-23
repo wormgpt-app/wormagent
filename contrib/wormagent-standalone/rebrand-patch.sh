@@ -7,10 +7,10 @@ echo "=========================================="
 
 # 1. تحديث ملفات الإعدادات
 echo "→ Updating configs..."
-find /home/user -name "*.json" -type f 2>/dev/null | xargs grep -l "opencode" 2>/dev/null | while read f; do
+find /home/user -name "*.json" -type f 2>/dev/null | xargs grep -l "wormagent" 2>/dev/null | while read f; do
   echo "  patching $f"
-  sed -i 's|opencode\.ai|WormAgent.net|g' "$f" 2>/dev/null
-  sed -i 's|opencode|WormAgent|g' "$f" 2>/dev/null
+  sed -i 's|wormagent\.ai|WormAgent.net|g' "$f" 2>/dev/null
+  sed -i 's|wormagent|WormAgent|g' "$f" 2>/dev/null
 done
 
 # 2. إنشاء إعدادات WormAgent الشاملة
@@ -29,14 +29,14 @@ cp /home/user/.config/WormAgent/config.json /home/user/.WormAgent/config.json
 # 3. تحديث متغيرات البيئة
 echo "→ Updating shell configs..."
 # إزالة الأسطر القديمة وإضافة الجديدة
-grep -v "opencode" /home/user/.bashrc > /tmp/bashrc.tmp 2>/dev/null && mv /tmp/bashrc.tmp /home/user/.bashrc
-echo 'export PATH=/home/user/.opencode/bin:/home/user/WormAgent/bin:$PATH # WormAgent.net' >> /home/user/.bashrc
+grep -v "wormagent" /home/user/.bashrc > /tmp/bashrc.tmp 2>/dev/null && mv /tmp/bashrc.tmp /home/user/.bashrc
+echo 'export PATH=/home/user/.wormagent/bin:/home/user/WormAgent/bin:$PATH # WormAgent.net' >> /home/user/.bashrc
 echo 'export WORMAGENT_SITE="https://WormAgent.net"' >> /home/user/.bashrc
 echo 'alias WormAgent="/home/user/WormAgent/bin/WormAgent"' >> /home/user/.bashrc
 echo 'alias wormagent="/home/user/WormAgent/bin/wormagent"' >> /home/user/.bashrc
 
-grep -v "opencode" /home/user/.profile > /tmp/profile.tmp 2>/dev/null && mv /tmp/profile.tmp /home/user/.profile
-echo 'export PATH=/home/user/.opencode/bin:/home/user/WormAgent/bin:$PATH # WormAgent.net' >> /home/user/.profile
+grep -v "wormagent" /home/user/.profile > /tmp/profile.tmp 2>/dev/null && mv /tmp/profile.tmp /home/user/.profile
+echo 'export PATH=/home/user/.wormagent/bin:/home/user/WormAgent/bin:$PATH # WormAgent.net' >> /home/user/.profile
 
 # 4. إنشاء اختصارات إضافية
 echo "→ Creating global shortcuts..."

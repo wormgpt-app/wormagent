@@ -42,7 +42,7 @@ wormagent-tui = { path = "crates/tui", default-features = false }
 wormagent-ui = { path = "crates/ui" }
 wormagent-util = { path = "crates/util" }
 
-# OpenTUI's Rust crates (`packages/rust` of anomalyco/opentui), pinned exactly to a release on crates.io. The crate
+# OpenTUI's Rust crates (`packages/rust` of wormgpt-app/opentui), pinned exactly to a release on crates.io. The crate
 # has no native library: script/opentui-native.ts installs the release's, checked against its table; see README.md.
 opentui = { version = "=0.9.7", features = ["static", "tokio", "tree-sitter"] }
 

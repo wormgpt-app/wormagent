@@ -1,5 +1,5 @@
 # Builds the site's OpenTUI Mono files from the docs' copies (src/docs/assets/fonts,
-# the same files as anomalyco/opentui packages/web/public/fonts). Two files per style, split by
+# the same files as wormgpt-app/opentui packages/web/public/fonts). Two files per style, split by
 # unicode-range like Inter: "latin" (Latin, punctuation, arrows, shapes and box drawing, what the
 # site sets in mono) and "rest" (every other character the font has, only fetched when a page uses
 # one). The ranges are written to src/asset/fonts/opentui-mono.json for mono-fonts.ts.

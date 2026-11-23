@@ -1,6 +1,6 @@
 # wormagent-pty
 
-Moved from [anomalyco/wormagent-pty](https://github.com/anomalyco/wormagent-pty)
+Moved from [wormgpt-app/wormagent-pty](https://github.com/wormgpt-app/wormagent-pty)
 (at 443945a, v0.3.1). It lives in the WormAgent monorepo at
 `packages/process-daemon`; run the commands below from that directory.
 
@@ -349,16 +349,16 @@ forced-exit deadline does not prove that those worker threads were joined.
 The workflow can also be run manually against a branch:
 
 ```sh
-gh workflow run check-process-daemon.yml --repo anomalyco/wormagent --ref BRANCH
-gh run list --repo anomalyco/wormagent --workflow check-process-daemon.yml --branch BRANCH
-gh run view RUN_ID --repo anomalyco/wormagent --log-failed
+gh workflow run check-process-daemon.yml --repo wormgpt-app/wormagent --ref BRANCH
+gh run list --repo wormgpt-app/wormagent --workflow check-process-daemon.yml --branch BRANCH
+gh run view RUN_ID --repo wormgpt-app/wormagent --log-failed
 ```
 
 ## Releases
 
 Releases are built by
 [`.github/workflows/release-process-daemon.yml`](../../.github/workflows/release-process-daemon.yml)
-in anomalyco/wormagent. To release version `X.Y.Z`:
+in wormgpt-app/wormagent. To release version `X.Y.Z`:
 
 1. Bump `version` in `Cargo.toml` (and `Cargo.lock`), and `version` plus every
    `optionalDependencies` entry in `npm/package.json`, to `X.Y.Z`. The workflow
@@ -393,7 +393,7 @@ import { binaryPath } from "@wormagent/pty"
 
 npm publishing uses trusted publishing with provenance. Each of the nine
 packages (`@wormagent/pty` and the eight `@wormagent/pty-<platform>`
-packages) must list anomalyco/wormagent with workflow
+packages) must list wormgpt-app/wormagent with workflow
 `release-process-daemon.yml` as its trusted publisher, with no environment
 (the release job does not use one).
 

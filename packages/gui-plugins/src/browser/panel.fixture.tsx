@@ -184,9 +184,9 @@ const DAY = 86_400_000
 // A made-up history as an import from another browser leaves it in main: many GitHub repositories, of which a few
 // have "rune" in their name or title, and other sites. No page has an icon, as imported pages have none.
 const repositories = [
-  "anomalyco/wormagent",
-  "anomalyco/opentui",
-  "anomalyco/models.dev",
+  "wormgpt-app/wormagent",
+  "wormgpt-app/opentui",
+  "wormgpt-app/models.dev",
   "sst/sst",
   "solidjs/solid",
   "oven-sh/bun",
@@ -215,9 +215,9 @@ function importedPages(now: number): PageVisit[] {
   const page = (url: string, title: string, visits: number, days: number, typed = 0): PageVisit => ({ url, title, visits, typed, visited: now - days * DAY })
 
   return [
-    page("https://github.com/anomalyco/rune-desktop", "anomalyco/rune-desktop: Rune for the desktop", 46, 1, 3),
-    page("https://github.com/anomalyco/rune-desktop/pulls", "Pull requests · anomalyco/rune-desktop", 18, 2),
-    page("https://github.com/anomalyco/rune-desktop/issues/128", "Rune panel flickers on resize · Issue #128 · anomalyco/rune-desktop", 5, 6),
+    page("https://github.com/wormgpt-app/rune-desktop", "wormgpt-app/rune-desktop: Rune for the desktop", 46, 1, 3),
+    page("https://github.com/wormgpt-app/rune-desktop/pulls", "Pull requests · wormgpt-app/rune-desktop", 18, 2),
+    page("https://github.com/wormgpt-app/rune-desktop/issues/128", "Rune panel flickers on resize · Issue #128 · wormgpt-app/rune-desktop", 5, 6),
     page("https://github.com/runelabs/rune-lang", "runelabs/rune-lang: A small language for layouts", 7, 40),
     page("https://docs.rune.example/guide/getting-started", "Getting started - Rune guide", 9, 12),
     page("https://github.com/", "GitHub", 22, 0, 12),

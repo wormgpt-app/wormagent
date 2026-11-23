@@ -2,9 +2,9 @@
 #...:....|....:....|....:....|....:....|....:....|....:....|....:....|....:....|
 # ------------------------------------------------------------------------------
 #                                  ▄
-# █▀▀█ █▀▀█ █▀▀█ █▀▀▄ █▀▀▀ █▀▀█ █▀▀█ █▀▀█
+# █   █ █▀▀█ █▀▀█ █▄ ▄█ █▀▀█ █▀▀█ █▀▀▀ █  █ ▀▀█▀▀
 # █  █ █  █ █▀▀▀ █  █ █    █  █ █  █ █▀▀▀
-# ▀▀▀▀ █▀▀▀ ▀▀▀▀ ▀  ▀ ▀▀▀▀ ▀▀▀▀ ▀▀▀▀ ▀▀▀▀
+#  ▀ ▀  ▀▀▀▀ ▀  ▀ ▀   ▀ ▀  ▀ ▀▀▀▀ ▀▀▀▀ ▀ ▀▀   ▀
 #
 # wormagent.net · SECURITY CONTACTS · RFC 9116
 # ------------------------------------------------------------------------------
@@ -27,10 +27,10 @@
 # | Language           | English                                               |
 # +--------------------+-------------------------------------------------------+
 # ------------------------------------------------------------------------------
-Contact: https://github.com/anomalyco/wormagent/security/advisories/new
+Contact: https://github.com/wormgpt-app/wormagent/security/advisories/new
 Contact: mailto:security@anoma.ly
 Expires: 2027-11-04T00:00:00.000Z
-Policy: https://github.com/anomalyco/wormagent/security/policy
+Policy: https://github.com/wormgpt-app/wormagent/security/policy
 Preferred-Languages: en
 Canonical: https://wormagent.net/.well-known/security.txt
 Hiring: mailto:engineering@anomaly.jobs

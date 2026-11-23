@@ -2,7 +2,7 @@
 
 ## Sources
 
-- PR #9817: https://github.com/anomalyco/wormagent/pull/9817
+- PR #9817: https://github.com/wormgpt-app/wormagent/pull/9817
 
 ## Do Not Translate (Locale Additions)
 

@@ -7,7 +7,7 @@ Status: **terminal is automated** (`script/capture-assets.ts`). The other surfac
 
 ## 1. Current assets (Nov 2 2026)
 
-Latest release: **v2.2.5** (Oct 30 2026). Source: `gh api 'repos/anomalyco/wormagent/releases?per_page=8'`.
+Latest release: **v2.2.5** (Oct 30 2026). Source: `gh api 'repos/wormgpt-app/wormagent/releases?per_page=8'`.
 
 | Used on                     | File                                                                   | Source                                                                         | Shows                                                                                                                           | Size                       | Mode | Problem                                                                                      |
 | --------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ---- | -------------------------------------------------------------------------------------------- |
@@ -52,7 +52,7 @@ How it works:
 3. It writes a VHS tape that runs `wormagent --standalone`, types the prompt and takes three `Screenshot`s: `home` (prompt typed), `permission` (diff and "Allow once"), and `done` (tests pass and summary). `Wait+Screen` reacts to the real UI, so there are no fixed sleeps for model output.
 4. It writes `manifest.json` and `wormagent-terminal-screenshots.zip`.
 
-Requirements: `wormagent` (or `WORMAGENT_BIN=/path/to/build`), `vhs` 0.12+ (`brew install vhs`, which installs ttyd and uses headless Chrome), `bun`, `git` and `zip`. Font: `--font` / `CAPTURE_FONT` (default OpenTUI Mono, which must be installed; its OFL files are in anomalyco/opentui `packages/web/public/fonts`).
+Requirements: `wormagent` (or `WORMAGENT_BIN=/path/to/build`), `vhs` 0.12+ (`brew install vhs`, which installs ttyd and uses headless Chrome), `bun`, `git` and `zip`. Font: `--font` / `CAPTURE_FONT` (default OpenTUI Mono, which must be installed; its OFL files are in wormgpt-app/opentui `packages/web/public/fonts`).
 
 Output: `fresh-assets/` next to the checkout (override with `--out` or `FRESH_ASSETS_DIR`; not the temp folder, which a reboot wipes): 6 PNGs, 3200×2000, light and dark, manifest and zip. The /brand terminal pair is the `done` beat, copied to `public/brand/screenshots/wormagent-terminal-{dark,light}.png` with 1600×1000 WebP previews (`cwebp -q 82 -m 6 -resize 1600 1000`), and `manifest.json` next to them feeds the "captured from" line.
 
@@ -124,7 +124,7 @@ Until then, the web capture with the desktop window chrome (vertical tabs, title
 
 ### Mobile: iOS Simulator (not automated yet)
 
-The `real-ios` recording builds `anomalyco/wormagent-ios` in the simulator, drives it with XCUITest and talks to a local demo server with the stub model. For stills:
+The `real-ios` recording builds `wormgpt-app/wormagent-ios` in the simulator, drives it with XCUITest and talks to a local demo server with the stub model. For stills:
 
 ```sh
 xcrun simctl boot "iPhone 17 Pro"

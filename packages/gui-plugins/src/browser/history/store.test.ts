@@ -19,9 +19,9 @@ const page = (url: string, title: string, visits: number, days: number, typed = 
   visited: NOW - days * DAY,
 })
 
-const rune = "https://github.com/anomalyco/rune-desktop"
+const rune = "https://github.com/wormgpt-app/rune-desktop"
 
-const wormagent = "https://github.com/anomalyco/wormagent"
+const wormagent = "https://github.com/wormgpt-app/wormagent"
 
 const opentui = "https://github.com/sst/opentui"
 
@@ -34,8 +34,8 @@ const keynote = "https://www.youtube.com/watch?v=abc"
 const dashboard = "http://localhost:3000/dashboard"
 
 const seeded = [
-  page(rune, "anomalyco/rune-desktop: Rune for the desktop", 40, 1, 2),
-  page(wormagent, "anomalyco/wormagent: The open source coding agent", 120, 0, 5),
+  page(rune, "wormgpt-app/rune-desktop: Rune for the desktop", 40, 1, 2),
+  page(wormagent, "wormgpt-app/wormagent: The open source coding agent", 120, 0, 5),
   page(opentui, "sst/opentui", 30, 3),
   page(essence, "Rune essence - The RuneScape Wiki", 3, 200),
   page(pruned, "Pruned trees", 500, 0),
@@ -78,7 +78,7 @@ describe("what the address field finds", () => {
     // and how recently they were visited, whether the address or only the title matches.
     ["gith", ["https://github.com/", wormagent, rune, opentui, keynote]],
     ["GITH", ["https://github.com/", wormagent, rune, opentui, keynote]],
-    ["github.com/anomalyco/ru", [rune]],
+    ["github.com/wormgpt-app/ru", [rune]],
     ["https://github.com/sst", [opentui]],
     ["desktop", [rune]],
     // Inside a word only: by visits and recency.
@@ -220,7 +220,7 @@ test("removing a page forgets it, and clearing forgets every page and leaves non
 
   expect(await stored()).toContain("zebra-marker")
 
-  store.remove("http://www.github.com/anomalyco/rune-desktop/")
+  store.remove("http://www.github.com/wormgpt-app/rune-desktop/")
   expect(addresses(store, "rune")).toEqual(["https://runescape.wiki/", essence, pruned])
 
   store.clear()

@@ -32,8 +32,8 @@ export const legalHistory = {
       addedCount: 23,
       removedCount: 5,
       source:
-        "https://github.com/anomalyco/wormagent/blob/9e9b551e3a72b12b839ba3fe266a0db89c909602/services/site/src/lib/legal/privacy-policy.ts",
-      diff: "https://github.com/anomalyco/wormagent/commit/9e9b551e3a72b12b839ba3fe266a0db89c909602#diff-13f1bdb3583f198406200946a0d6bde1bc1f9271e4e629272db2023a211e2819",
+        "https://github.com/wormgpt-app/wormagent/blob/9e9b551e3a72b12b839ba3fe266a0db89c909602/services/site/src/lib/legal/privacy-policy.ts",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/9e9b551e3a72b12b839ba3fe266a0db89c909602#diff-13f1bdb3583f198406200946a0d6bde1bc1f9271e4e629272db2023a211e2819",
     },
     {
       sha: "9c7212c99a69b9d1c644fc30ad79068124aab1a7",
@@ -59,8 +59,8 @@ export const legalHistory = {
       addedCount: 36,
       removedCount: 2,
       source:
-        "https://github.com/anomalyco/wormagent/blob/9c7212c99a69b9d1c644fc30ad79068124aab1a7/services/site/src/lib/legal/privacy-policy.ts",
-      diff: "https://github.com/anomalyco/wormagent/commit/9c7212c99a69b9d1c644fc30ad79068124aab1a7#diff-13f1bdb3583f198406200946a0d6bde1bc1f9271e4e629272db2023a211e2819",
+        "https://github.com/wormgpt-app/wormagent/blob/9c7212c99a69b9d1c644fc30ad79068124aab1a7/services/site/src/lib/legal/privacy-policy.ts",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/9c7212c99a69b9d1c644fc30ad79068124aab1a7#diff-13f1bdb3583f198406200946a0d6bde1bc1f9271e4e629272db2023a211e2819",
     },
     {
       sha: "76ff9a6ab25fca4b8f0f5c43e4ef12bd0c10cc3e",
@@ -99,8 +99,8 @@ export const legalHistory = {
       addedCount: 16,
       removedCount: 12,
       source:
-        "https://github.com/anomalyco/wormagent/blob/76ff9a6ab25fca4b8f0f5c43e4ef12bd0c10cc3e/services/site/src/lib/legal/privacy-policy.ts",
-      diff: "https://github.com/anomalyco/wormagent/commit/76ff9a6ab25fca4b8f0f5c43e4ef12bd0c10cc3e#diff-13f1bdb3583f198406200946a0d6bde1bc1f9271e4e629272db2023a211e2819",
+        "https://github.com/wormgpt-app/wormagent/blob/76ff9a6ab25fca4b8f0f5c43e4ef12bd0c10cc3e/services/site/src/lib/legal/privacy-policy.ts",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/76ff9a6ab25fca4b8f0f5c43e4ef12bd0c10cc3e#diff-13f1bdb3583f198406200946a0d6bde1bc1f9271e4e629272db2023a211e2819",
     },
     {
       sha: "926b2af0cc606398342b487a26ada2ee7badd39c",
@@ -122,8 +122,8 @@ export const legalHistory = {
       addedCount: 0,
       removedCount: 8,
       source:
-        "https://github.com/anomalyco/wormagent/blob/926b2af0cc606398342b487a26ada2ee7badd39c/packages/console/app/src/routes/legal/privacy-policy/index.tsx",
-      diff: "https://github.com/anomalyco/wormagent/commit/926b2af0cc606398342b487a26ada2ee7badd39c#diff-86623c1b761ddcf78790804023aeabaca6b33689a83d2402241105bf407fdc31",
+        "https://github.com/wormgpt-app/wormagent/blob/926b2af0cc606398342b487a26ada2ee7badd39c/packages/console/app/src/routes/legal/privacy-policy/index.tsx",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/926b2af0cc606398342b487a26ada2ee7badd39c#diff-86623c1b761ddcf78790804023aeabaca6b33689a83d2402241105bf407fdc31",
     },
     {
       sha: "eb463de93ef91b3c9355ecfefe937c68556f0040",
@@ -149,8 +149,8 @@ export const legalHistory = {
       addedCount: 38,
       removedCount: 1,
       source:
-        "https://github.com/anomalyco/wormagent/blob/eb463de93ef91b3c9355ecfefe937c68556f0040/packages/console/app/src/routes/legal/privacy-policy/index.tsx",
-      diff: "https://github.com/anomalyco/wormagent/commit/eb463de93ef91b3c9355ecfefe937c68556f0040#diff-86623c1b761ddcf78790804023aeabaca6b33689a83d2402241105bf407fdc31",
+        "https://github.com/wormgpt-app/wormagent/blob/eb463de93ef91b3c9355ecfefe937c68556f0040/packages/console/app/src/routes/legal/privacy-policy/index.tsx",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/eb463de93ef91b3c9355ecfefe937c68556f0040#diff-86623c1b761ddcf78790804023aeabaca6b33689a83d2402241105bf407fdc31",
     },
     {
       sha: "51070b6f598fc171636f5a52cb53f90f2cdccbc3",
@@ -167,8 +167,8 @@ export const legalHistory = {
       addedCount: 2,
       removedCount: 3,
       source:
-        "https://github.com/anomalyco/wormagent/blob/51070b6f598fc171636f5a52cb53f90f2cdccbc3/packages/console/app/src/routes/legal/privacy-policy/index.tsx",
-      diff: "https://github.com/anomalyco/wormagent/commit/51070b6f598fc171636f5a52cb53f90f2cdccbc3#diff-86623c1b761ddcf78790804023aeabaca6b33689a83d2402241105bf407fdc31",
+        "https://github.com/wormgpt-app/wormagent/blob/51070b6f598fc171636f5a52cb53f90f2cdccbc3/packages/console/app/src/routes/legal/privacy-policy/index.tsx",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/51070b6f598fc171636f5a52cb53f90f2cdccbc3#diff-86623c1b761ddcf78790804023aeabaca6b33689a83d2402241105bf407fdc31",
     },
     {
       sha: "4863aedf3dfcabf02d7c193a5d5e4e4da0535717",
@@ -193,8 +193,8 @@ export const legalHistory = {
       addedCount: 5,
       removedCount: 5,
       source:
-        "https://github.com/anomalyco/wormagent/blob/4863aedf3dfcabf02d7c193a5d5e4e4da0535717/packages/console/app/src/routes/legal/privacy-policy/index.tsx",
-      diff: "https://github.com/anomalyco/wormagent/commit/4863aedf3dfcabf02d7c193a5d5e4e4da0535717#diff-86623c1b761ddcf78790804023aeabaca6b33689a83d2402241105bf407fdc31",
+        "https://github.com/wormgpt-app/wormagent/blob/4863aedf3dfcabf02d7c193a5d5e4e4da0535717/packages/console/app/src/routes/legal/privacy-policy/index.tsx",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/4863aedf3dfcabf02d7c193a5d5e4e4da0535717#diff-86623c1b761ddcf78790804023aeabaca6b33689a83d2402241105bf407fdc31",
     },
     {
       sha: "b83282b9405fe3a89d483453c343ee7e4d645379",
@@ -212,8 +212,8 @@ export const legalHistory = {
       addedCount: 4,
       removedCount: 2,
       source:
-        "https://github.com/anomalyco/wormagent/blob/b83282b9405fe3a89d483453c343ee7e4d645379/packages/console/app/src/routes/legal/privacy-policy/index.tsx",
-      diff: "https://github.com/anomalyco/wormagent/commit/b83282b9405fe3a89d483453c343ee7e4d645379#diff-86623c1b761ddcf78790804023aeabaca6b33689a83d2402241105bf407fdc31",
+        "https://github.com/wormgpt-app/wormagent/blob/b83282b9405fe3a89d483453c343ee7e4d645379/packages/console/app/src/routes/legal/privacy-policy/index.tsx",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/b83282b9405fe3a89d483453c343ee7e4d645379#diff-86623c1b761ddcf78790804023aeabaca6b33689a83d2402241105bf407fdc31",
     },
     {
       sha: "289b2b6a51c3a02b5263dbb10e8dc413c23867a4",
@@ -226,8 +226,8 @@ export const legalHistory = {
       addedCount: 352,
       removedCount: 0,
       source:
-        "https://github.com/anomalyco/wormagent/blob/289b2b6a51c3a02b5263dbb10e8dc413c23867a4/packages/console/app/src/routes/legal/privacy-policy/index.tsx",
-      diff: "https://github.com/anomalyco/wormagent/commit/289b2b6a51c3a02b5263dbb10e8dc413c23867a4#diff-86623c1b761ddcf78790804023aeabaca6b33689a83d2402241105bf407fdc31",
+        "https://github.com/wormgpt-app/wormagent/blob/289b2b6a51c3a02b5263dbb10e8dc413c23867a4/packages/console/app/src/routes/legal/privacy-policy/index.tsx",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/289b2b6a51c3a02b5263dbb10e8dc413c23867a4#diff-86623c1b761ddcf78790804023aeabaca6b33689a83d2402241105bf407fdc31",
     },
   ],
   "/legal/terms-of-service": [
@@ -248,8 +248,8 @@ export const legalHistory = {
       addedCount: 2,
       removedCount: 2,
       source:
-        "https://github.com/anomalyco/wormagent/blob/9c7212c99a69b9d1c644fc30ad79068124aab1a7/services/site/src/lib/legal/terms-of-service.ts",
-      diff: "https://github.com/anomalyco/wormagent/commit/9c7212c99a69b9d1c644fc30ad79068124aab1a7#diff-209b8f3fa7d4510762a9da362f1ccd8ea7c8754348118dec83377de38a818b32",
+        "https://github.com/wormgpt-app/wormagent/blob/9c7212c99a69b9d1c644fc30ad79068124aab1a7/services/site/src/lib/legal/terms-of-service.ts",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/9c7212c99a69b9d1c644fc30ad79068124aab1a7#diff-209b8f3fa7d4510762a9da362f1ccd8ea7c8754348118dec83377de38a818b32",
     },
     {
       sha: "24008abeb3df6d2bf7c9d39f69803558499062b2",
@@ -272,8 +272,8 @@ export const legalHistory = {
       addedCount: 4,
       removedCount: 4,
       source:
-        "https://github.com/anomalyco/wormagent/blob/24008abeb3df6d2bf7c9d39f69803558499062b2/services/site/src/lib/legal/terms-of-service.ts",
-      diff: "https://github.com/anomalyco/wormagent/commit/24008abeb3df6d2bf7c9d39f69803558499062b2#diff-209b8f3fa7d4510762a9da362f1ccd8ea7c8754348118dec83377de38a818b32",
+        "https://github.com/wormgpt-app/wormagent/blob/24008abeb3df6d2bf7c9d39f69803558499062b2/services/site/src/lib/legal/terms-of-service.ts",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/24008abeb3df6d2bf7c9d39f69803558499062b2#diff-209b8f3fa7d4510762a9da362f1ccd8ea7c8754348118dec83377de38a818b32",
     },
     {
       sha: "d0ceaef6aa44ce60b9b02a1084d6650e0decfb94",
@@ -289,8 +289,8 @@ export const legalHistory = {
       addedCount: 2,
       removedCount: 1,
       source:
-        "https://github.com/anomalyco/wormagent/blob/d0ceaef6aa44ce60b9b02a1084d6650e0decfb94/packages/console/app/src/routes/legal/terms-of-service/index.tsx",
-      diff: "https://github.com/anomalyco/wormagent/commit/d0ceaef6aa44ce60b9b02a1084d6650e0decfb94#diff-af798db409166356bf4ec3212cb527b5fe96befbd94700a605c3a4672fca2168",
+        "https://github.com/wormgpt-app/wormagent/blob/d0ceaef6aa44ce60b9b02a1084d6650e0decfb94/packages/console/app/src/routes/legal/terms-of-service/index.tsx",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/d0ceaef6aa44ce60b9b02a1084d6650e0decfb94#diff-af798db409166356bf4ec3212cb527b5fe96befbd94700a605c3a4672fca2168",
     },
     {
       sha: "4863aedf3dfcabf02d7c193a5d5e4e4da0535717",
@@ -311,8 +311,8 @@ export const legalHistory = {
       addedCount: 3,
       removedCount: 3,
       source:
-        "https://github.com/anomalyco/wormagent/blob/4863aedf3dfcabf02d7c193a5d5e4e4da0535717/packages/console/app/src/routes/legal/terms-of-service/index.tsx",
-      diff: "https://github.com/anomalyco/wormagent/commit/4863aedf3dfcabf02d7c193a5d5e4e4da0535717#diff-af798db409166356bf4ec3212cb527b5fe96befbd94700a605c3a4672fca2168",
+        "https://github.com/wormgpt-app/wormagent/blob/4863aedf3dfcabf02d7c193a5d5e4e4da0535717/packages/console/app/src/routes/legal/terms-of-service/index.tsx",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/4863aedf3dfcabf02d7c193a5d5e4e4da0535717#diff-af798db409166356bf4ec3212cb527b5fe96befbd94700a605c3a4672fca2168",
     },
     {
       sha: "b83282b9405fe3a89d483453c343ee7e4d645379",
@@ -334,8 +334,8 @@ export const legalHistory = {
       addedCount: 4,
       removedCount: 3,
       source:
-        "https://github.com/anomalyco/wormagent/blob/b83282b9405fe3a89d483453c343ee7e4d645379/packages/console/app/src/routes/legal/terms-of-service/index.tsx",
-      diff: "https://github.com/anomalyco/wormagent/commit/b83282b9405fe3a89d483453c343ee7e4d645379#diff-af798db409166356bf4ec3212cb527b5fe96befbd94700a605c3a4672fca2168",
+        "https://github.com/wormgpt-app/wormagent/blob/b83282b9405fe3a89d483453c343ee7e4d645379/packages/console/app/src/routes/legal/terms-of-service/index.tsx",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/b83282b9405fe3a89d483453c343ee7e4d645379#diff-af798db409166356bf4ec3212cb527b5fe96befbd94700a605c3a4672fca2168",
     },
     {
       sha: "289b2b6a51c3a02b5263dbb10e8dc413c23867a4",
@@ -348,8 +348,8 @@ export const legalHistory = {
       addedCount: 174,
       removedCount: 0,
       source:
-        "https://github.com/anomalyco/wormagent/blob/289b2b6a51c3a02b5263dbb10e8dc413c23867a4/packages/console/app/src/routes/legal/terms-of-service/index.tsx",
-      diff: "https://github.com/anomalyco/wormagent/commit/289b2b6a51c3a02b5263dbb10e8dc413c23867a4#diff-af798db409166356bf4ec3212cb527b5fe96befbd94700a605c3a4672fca2168",
+        "https://github.com/wormgpt-app/wormagent/blob/289b2b6a51c3a02b5263dbb10e8dc413c23867a4/packages/console/app/src/routes/legal/terms-of-service/index.tsx",
+      diff: "https://github.com/wormgpt-app/wormagent/commit/289b2b6a51c3a02b5263dbb10e8dc413c23867a4#diff-af798db409166356bf4ec3212cb527b5fe96befbd94700a605c3a4672fca2168",
     },
   ],
 } satisfies Record<string, LegalVersion[]>

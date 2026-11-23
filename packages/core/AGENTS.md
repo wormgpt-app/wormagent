@@ -4,4 +4,4 @@
 - Never use SQL newer than SQLite 3.39.4. macOS 13.0 is the oldest macOS Bun supports. Check the version that added a function or syntax before using it: `concat()` and `string_agg()` are 3.44, and the `jsonb` functions are 3.45.
 - macOS 12 is outside Bun's support but still runs WormAgent, on SQLite 3.36.0 (12.0 to 12.2) or 3.37.0. Keep it working where that costs nothing: avoid the `->` and `->>` operators and `unixepoch()`, all added in 3.38.
 - `json_extract(column, '$.path')` replaces `->` only for an array or object. For a scalar it returns the SQL value, as `->>` does, so `json()` around it fails on a JSON string, and a JSON `null` becomes SQL `NULL`, the same as a missing key. Use `json_type` when that difference matters.
-- Unit tests don't catch this: they run on Linux and Windows only, where the bundled SQLite is current. v2.4.0 broke every session on macOS 12 this way (https://github.com/anomalyco/wormagent/issues/65764).
+- Unit tests don't catch this: they run on Linux and Windows only, where the bundled SQLite is current. v2.4.0 broke every session on macOS 12 this way (https://github.com/wormgpt-app/wormagent/issues/65764).

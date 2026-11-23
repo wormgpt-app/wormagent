@@ -1,9 +1,9 @@
 #!/bin/bash
-# WormAgent.net - Rebranded from opencode
+# WormAgent.net - Rebranded from wormagent
 # Site: https://WormAgent.net
 # Version: 1.19.6-wormagent
 
-CORE="/home/user/.opencode/bin/opencode"
+CORE="/home/user/.wormagent/bin/wormagent"
 SITE="https://WormAgent.net"
 
 # تخصيص الألوان
@@ -15,7 +15,7 @@ NC='\033[0m'
 # معالجة --version بشكل مخصص
 if [[ "$1" == "--version" || "$1" == "-v" ]]; then
   echo -e "${CYAN}WormAgent v1.19.6${NC} — ${GREEN}WormAgent.net${NC}"
-  echo -e "Core: opencode 1.19.6 (rebranded)"
+  echo -e "Core: wormagent 1.19.6 (rebranded)"
   echo -e "Site: ${YELLOW}https://WormAgent.net${NC}"
   exit 0
 fi
@@ -31,10 +31,10 @@ if [[ "$1" == "--help" || "$1" == "-h" ]]; then
   echo "   ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝   "
   echo -e "${NC}"
   echo -e "${GREEN}WormAgent.net${NC} — The Next Generation AI Coding Agent"
-  echo -e "Rebranded from opencode • ${YELLOW}https://WormAgent.net${NC}"
+  echo -e "Rebranded from wormagent • ${YELLOW}https://WormAgent.net${NC}"
   echo ""
-  # عرض المساعدة الأصلية مع استبدال opencode -> WormAgent
-  $CORE --help 2>&1 | sed 's/opencode/WormAgent/g' | sed 's/OPENCODE/WORMAGENT/g' | sed 's/opencode\.ai/WormAgent.net/g'
+  # عرض المساعدة الأصلية مع استبدال wormagent -> WormAgent
+  $CORE --help 2>&1 | sed 's/wormagent/WormAgent/g' | sed 's/WORMAGENT/WORMAGENT/g' | sed 's/wormagent\.ai/WormAgent.net/g'
   exit 0
 fi
 
@@ -46,4 +46,4 @@ if [[ $# -eq 0 ]]; then
 fi
 
 # تمرير كل شيء للـ core مع استبدال المخرجات إن أمكن
-exec $CORE "$@" 2>&1 | sed 's/opencode/WormAgent/g' | sed 's/opencode\.ai/WormAgent.net/g' 2>&1 || exec $CORE "$@"
+exec $CORE "$@" 2>&1 | sed 's/wormagent/WormAgent/g' | sed 's/wormagent\.ai/WormAgent.net/g' 2>&1 || exec $CORE "$@"

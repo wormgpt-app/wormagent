@@ -4,7 +4,7 @@ TypeScript: the TUI copies with `@opentui/core` 0.8.4's `all-available` policy. 
 and sends OSC 52 to the terminal at once, while that write runs. On X11 and Wayland the last writer owns the
 clipboard, so the app usually ends as the owner and the copy is gone after the user quits.
 
-Rust: the client pins OpenTUI `95933781d`, which includes anomalyco/opentui#2035 and #2038. In a local session, a
+Rust: the client pins OpenTUI `95933781d`, which includes wormgpt-app/opentui#2035 and #2038. In a local session, a
 copy writes the system clipboard first and sends OSC 52 when that write ends (with any result) or when the app
 exits; of several copies in flight, the terminal gets only the newest. The terminal then owns the selection and
 the copy outlives the app. Over SSH, OSC 52 is still sent at once. A system clipboard write on macOS or Windows that

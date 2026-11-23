@@ -2,7 +2,7 @@
 // opentui-sys links, and every licence and source-notice file of the zip (under `licenses/`). The zip is checked
 // against the sha256 in `releases` below and its `opentui.h` against the release's header hash, which opentui-sys's
 // build script checks again against its bindings. The release zips carry no GitHub attestation, so this table is the
-// control: a re-pin adds the release's rows from `gh release view <tag> -R anomalyco/opentui --json assets`.
+// control: a re-pin adds the release's rows from `gh release view <tag> -R wormgpt-app/opentui --json assets`.
 //
 // Usage: bun run script/opentui-native.ts [--target <rust-target>] [--dest <dir>] [--quiet]
 //   The tag is `v` and the exact crates.io version of the `opentui` dependency in Cargo.toml
@@ -120,7 +120,7 @@ async function download() {
   const cache = path.join(process.env.XDG_CACHE_HOME || path.join(homedir(), ".cache"), "wormagent", "opentui-native")
   const cached = Bun.file(path.join(cache, zip))
   if ((await cached.exists()) && digest(await cached.bytes()) === sha256) return cached.bytes()
-  const url = `https://github.com/anomalyco/opentui/releases/download/${tag}/${zip}`
+  const url = `https://github.com/wormgpt-app/opentui/releases/download/${tag}/${zip}`
   console.error(`opentui-native: downloading ${url}`)
   const response = await fetch(url)
   if (!response.ok) fail(`${url}: ${response.status} ${response.statusText}`)

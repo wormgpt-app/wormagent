@@ -23,7 +23,7 @@ target="$release/targets/site/$mode"
 [ -f "$target/root.json" ] && [ -f "$target/worker.json" ] || die "No pinned site targets for $mode"
 
 : "${CLOUDFLARE_API_TOKEN:?Set CLOUDFLARE_API_TOKEN}"
-# Pinned in targets/ and in the token issuer's config (anomalyco/secrets).
+# Pinned in targets/ and in the token issuer's config (wormgpt-app/secrets).
 CLOUDFLARE_ACCOUNT_ID=$(stage_account "$mode")
 export CLOUDFLARE_ACCOUNT_ID
 

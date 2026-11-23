@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://wormagent.net/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
   <a href="https://www.npmjs.com/package/@wormagent/cli"><img alt="npm" src="https://img.shields.io/npm/v/@wormagent/cli?style=flat-square" /></a>
-  <a href="https://github.com/anomalyco/wormagent/actions/workflows/release.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/wormagent/release.yml?style=flat-square&branch=dev" /></a>
+  <a href="https://github.com/wormgpt-app/wormagent/actions/workflows/release.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/wormgpt-app/wormagent/release.yml?style=flat-square&branch=dev" /></a>
 </p>
 
 <p align="center">
@@ -51,12 +51,12 @@ curl -fsSL https://wormagent.net/v2/install | bash
 
 # مديري الحزم
 npm i -g @wormagent/cli@latest      # او bun/pnpm/yarn
-brew install anomalyco/tap/wormagent-v2 # macOS و Linux (موصى به، دائما محدث)
+brew install wormgpt-app/tap/wormagent-v2 # macOS و Linux (موصى به، دائما محدث)
 brew install wormagent              # macOS و Linux (صيغة brew الرسمية، تحديث اقل)
 sudo pacman -S wormagent            # Arch Linux (Stable)
 paru -S wormagent-beta              # Arch Linux (Latest from AUR)
 mise use -g wormagent               # اي نظام
-nix run github:anomalyco/wormagent  # Nix
+nix run github:wormgpt-app/wormagent  # Nix
 ```
 
 > [!TIP]

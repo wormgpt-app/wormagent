@@ -63,7 +63,7 @@ ${installRows}
   └── Try            wormagent.try() for WormAgent Lite, nothing to install
 
   BUGS
-  ├── Report         github.com/anomalyco/wormagent/issues/new
+  ├── Report         github.com/wormgpt-app/wormagent/issues/new
   ├── Include        what you saw, the steps, your OS and terminal
   ├── Version        wormagent -v
   ├── Logs           wormagent debug paths log

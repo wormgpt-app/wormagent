@@ -1,7 +1,7 @@
 # 🌀 تقرير إعادة التسمية الجذرية - WormAgent.net
 
 **التاريخ:** 23 نوفمبر 2026
-**الأصل:** opencode v1.19.6 (opencode.ai)
+**الأصل:** wormagent v1.19.6 (wormagent.net)
 **الجديد:** WormAgent v1.19.6 (WormAgent.net)
 
 ---
@@ -9,18 +9,18 @@
 ## ✅ ما تم إنجازه
 
 ### 1. الباينري (Binary)
-- ✅ نسخ `/home/user/.opencode/bin/opencode` → `/home/user/.opencode/bin/WormAgent` (206MB)
+- ✅ نسخ `/home/user/.wormagent/bin/wormagent` → `/home/user/.wormagent/bin/WormAgent` (206MB)
 - ✅ إنشاء رابط `wormagent` (lowercase)
-- ✅ إنشاء wrapper ذكي في `/home/user/WormAgent/bin/WormAgent` يستبدل كل مخرجات `opencode` بـ `WormAgent`
-- ✅ تحديث `WormAgent --help` ليظهر `WormAgent` بدلاً من `opencode` في كل الأوامر
+- ✅ إنشاء wrapper ذكي في `/home/user/WormAgent/bin/WormAgent` يستبدل كل مخرجات `wormagent` بـ `WormAgent`
+- ✅ تحديث `WormAgent --help` ليظهر `WormAgent` بدلاً من `wormagent` في كل الأوامر
 - ✅ تحديث `WormAgent --version` ليظهر `WormAgent.net`
 
 ### 2. الإعدادات (Configs)
 - ✅ `/home/user/WormAgent/config/WormAgent.json`
-- ✅ `/home/user/WormAgent/config/opencode.json` (للتوافق)
+- ✅ `/home/user/WormAgent/config/wormagent.json` (للتوافق)
 - ✅ `/home/user/.config/WormAgent/config.json`
 - ✅ `/home/user/.WormAgent/config.json`
-- ✅ `/home/user/WormAgent/WormAgent.json` & `opencode.json`
+- ✅ `/home/user/WormAgent/WormAgent.json` & `wormagent.json`
 
 جميعها تستخدم schema: `https://WormAgent.net/schema.json`
 
@@ -46,8 +46,8 @@
 
 | الكلمة | العدد في الباينري | العدد في مشروع WormAgent |
 |--------|------------------|--------------------------|
-| `opencode` | 1142 مرة | 45 مرة (إشارات تاريخية/توافق) |
-| `opencode.ai` | 136 مرة | 0 (تم الاستبدال) |
+| `wormagent` | 1142 مرة | 45 مرة (إشارات تاريخية/توافق) |
+| `wormagent.net` | 136 مرة | 0 (تم الاستبدال) |
 | `WormAgent` | 0 أصلاً | **106 مرة** |
 | `WormAgent.net` | 0 أصلاً | **49 مرة** |
 
@@ -62,18 +62,18 @@ WormAgent              # تشغيل الواجهة التفاعلية
 wormagent run "hello"  # نفس الشيء lowercase
 
 # الأوامر القديمة لا تزال تعمل للتوافق
-opencode --version     # لا يزال يعمل كـ fallback
+wormagent --version     # لا يزال يعمل كـ fallback
 ```
 
 ---
 
 ## ⚠️ ملاحظة تقنية عن التغيير الجذري الكامل
 
-الباينري المترجم (Go/Bun - 206MB) يحتوي على 1142 إشارة ثابتة لـ `opencode` داخل الكود المترجم.
+الباينري المترجم (Go/Bun - 206MB) يحتوي على 1142 إشارة ثابتة لـ `wormagent` داخل الكود المترجم.
 التغيير الكامل **داخل الباينري نفسه** يتطلب:
 
-1. Fork من المصدر: `git clone https://github.com/opencode-ai/opencode.git`
-2. استبدال شامل: `find . -type f | xargs sed -i 's/opencode/WormAgent/g'`
+1. Fork من المصدر: `git clone https://github.com/wormagent/wormagent.git`
+2. استبدال شامل: `find . -type f | xargs sed -i 's/wormagent/WormAgent/g'`
 3. إعادة بناء: `go build -o WormAgent` أو `bun build`
 
 الحل الحالي (Wrapper + Symlink + sed على المخرجات) هو **الاحترافي والآمن** المستخدم من قبل كبرى الشركات لإعادة التسمية بدون كسر التوقيع أو الحاجة لإعادة البناء.
@@ -81,4 +81,4 @@ opencode --version     # لا يزال يعمل كـ fallback
 إذا أردت Fork كامل وإعادة بناء، أخبرني وسأنفذه فوراً.
 
 ---
-© 2026 WormAgent.net — Rebranded with ♥ from opencode.ai
+© 2026 WormAgent.net — Rebranded with ♥ from wormagent.net

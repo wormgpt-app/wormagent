@@ -5,7 +5,7 @@ edition = "2024"
 rust-version = "1.90"
 description = "Persistent PTY service for WormAgent"
 license = "MIT"
-repository = "https://github.com/anomalyco/wormagent"
+repository = "https://github.com/wormgpt-app/wormagent"
 links = "ghostty-vt"
 
 [dependencies]

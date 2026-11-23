@@ -149,7 +149,7 @@ for (const target of targets) {
         name: `@wormagent/${name}`,
         version: Script.version,
         license: pkg.license,
-        repository: { type: "git", url: "git+https://github.com/anomalyco/wormagent.git" },
+        repository: { type: "git", url: "git+https://github.com/wormgpt-app/wormagent.git" },
         os: [target.platform],
         cpu: [target.arch],
       },

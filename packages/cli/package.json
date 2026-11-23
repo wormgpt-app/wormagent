@@ -84,7 +84,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anomalyco/wormagent.git",
+    "url": "git+https://github.com/wormgpt-app/wormagent.git",
     "directory": "packages/cli"
   }
 }

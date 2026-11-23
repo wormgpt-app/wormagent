@@ -4,7 +4,7 @@ TypeScript: the TUI uses `@opentui/core` 0.8.4 from npm. Its native notification
 byte and drops only C0, DEL and ESC. A C1 control (U+009C is ST in its UTF-8 form) passes through, and OSC 9 text
 that starts with a digit reads as a ConEmu subcommand (`9;4;…` is progress). ConEmu, detected by name, gets OSC 9.
 
-Rust: the client pins OpenTUI `ff703d174`, which includes anomalyco/opentui#1998. C0, DEL and C1 controls become
+Rust: the client pins OpenTUI `ff703d174`, which includes wormgpt-app/opentui#1998. C0, DEL and C1 controls become
 spaces, text that is not UTF-8 sends nothing, OSC 9 text that starts with a digit gets one leading space
 (`ESC ] 9 ; ␠2 files: …`), and ConEmu gets no OSC 9 (it shows none for it anyway). The client's `normalize_text`
 (`tui/src/features/attention/notify.rs`) already removes control characters and always passes a non-empty title, so

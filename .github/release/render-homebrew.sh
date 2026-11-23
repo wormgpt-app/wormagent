@@ -12,7 +12,7 @@ cat > "$tap/wormagent-v2.rb" <<FORMULA
 
 class WormagentV2 < Formula
   desc "WormAgent V2 - the AI coding agent for the terminal"
-  homepage "https://github.com/anomalyco/wormagent"
+  homepage "https://github.com/wormgpt-app/wormagent"
   version "$WORMAGENT_VERSION"
   license "MIT"
 

@@ -3,7 +3,7 @@
 تم تحديث المستودع عبر WormAgent Environment (Africa/Cairo).
 
 ## ما الجديد
-- **Wrapper ذكي** في `contrib/wormagent-standalone/bin/WormAgent` — يحول `opencode` → `WormAgent` و `opencode.ai` → `WormAgent.net` في كل المخرجات
+- **Wrapper ذكي** في `contrib/wormagent-standalone/bin/WormAgent` — يحول `wormagent` → `WormAgent` و `wormagent.net` → `WormAgent.net` في كل المخرجات
 - **موقع WormAgent.net** landing page جديد في `contrib/wormagent-standalone/web/index.html`
 - **إعدادات WormAgent.net** في `contrib/wormagent-standalone/config/`
 - **سكريبت تثبيت** `curl -fsSL https://WormAgent.net/install | bash`
@@ -15,6 +15,6 @@ WormAgent --help     # كل الأوامر WormAgent
 ```
 
 ## البيئة
-- opencode core 1.19.6 (binary) → WormAgent wrapper
+- wormagent core 1.19.6 (binary) → WormAgent wrapper
 - wormagent repo 2.4.0 (full rebrand)
 - تم التحديث عبر Git token BlackXV2vip

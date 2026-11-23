@@ -28,7 +28,7 @@ const v1ConfigValues = {
   url: "https://wormagent.net",
   console: "https://wormagent.net/auth",
   email: "help@anoma.ly",
-  github: "https://github.com/anomalyco/wormagent",
+  github: "https://github.com/wormgpt-app/wormagent",
   discord: "https://wormagent.net/discord",
 }
 

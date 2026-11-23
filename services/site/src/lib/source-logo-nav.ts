@@ -72,7 +72,7 @@ export function forHumansRows() {
       `  ├── ${row.label.padEnd(15)}${row.description ? row.href.padEnd(path) + row.description : row.href}`.trimEnd(),
     ),
     "  │",
-    "  ├── Source         https://github.com/anomalyco/wormagent",
-    "  └── Contribute     https://github.com/anomalyco/wormagent/blob/dev/CONTRIBUTING.md",
+    "  ├── Source         https://github.com/wormgpt-app/wormagent",
+    "  └── Contribute     https://github.com/wormgpt-app/wormagent/blob/dev/CONTRIBUTING.md",
   ].join("\n")
 }

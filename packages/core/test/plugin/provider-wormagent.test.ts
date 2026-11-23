@@ -1227,7 +1227,7 @@ describe("WormagentPlugin", () => {
                 providerID: state.providerID,
                 results: [
                   {
-                    url: "https://github.com/anomalyco/wormagent",
+                    url: "https://github.com/wormgpt-app/wormagent",
                     title: "WormAgent",
                     content: "Open source AI coding agent.",
                     time: { published: 1_700_000_000_000 },
@@ -1269,7 +1269,7 @@ describe("WormagentPlugin", () => {
               providerID: WebSearch.ID.make("wormagent"),
               results: [
                 {
-                  url: "https://github.com/anomalyco/wormagent",
+                  url: "https://github.com/wormgpt-app/wormagent",
                   title: "WormAgent",
                   content: "Open source AI coding agent.",
                   time: { published: 1_700_000_000_000 },

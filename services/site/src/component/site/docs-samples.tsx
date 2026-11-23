@@ -37,7 +37,7 @@ export function DocsSamples(props: {
           <p>
             Body · Run <code>wormagent</code> in a project to open the terminal interface. See{" "}
             <a href="#config">Config</a> for every option, or read the{" "}
-            <a href="https://github.com/anomalyco/wormagent" target="_blank">
+            <a href="https://github.com/wormgpt-app/wormagent" target="_blank">
               source on GitHub
             </a>
             .
@@ -108,7 +108,7 @@ export function DocsSamples(props: {
           <blockquote>
             <p>
               Homebrew's own <code>brew install wormagent</code> formula also installs WormAgent 2. Each release publishes
-              first to the <code>anomalyco/tap/wormagent-v2</code> formula.
+              first to the <code>wormgpt-app/tap/wormagent-v2</code> formula.
             </p>
           </blockquote>
         </props.Sample>
@@ -198,7 +198,7 @@ export function DocsSamples(props: {
                   [
                     "curl -fsSL https://wormagent.net/v2/install | bash",
                     "npm install -g @wormagent/cli",
-                    "brew install anomalyco/tap/wormagent-v2",
+                    "brew install wormgpt-app/tap/wormagent-v2",
                   ][tab()]
                 }
               </code>
@@ -208,7 +208,7 @@ export function DocsSamples(props: {
                   [
                     "curl -fsSL https://wormagent.net/v2/install | bash",
                     "npm install -g @wormagent/cli",
-                    "brew install anomalyco/tap/wormagent-v2",
+                    "brew install wormgpt-app/tap/wormagent-v2",
                   ][tab()]
                 }
               />
@@ -639,7 +639,7 @@ export function DocsSamples(props: {
         </props.Sample>
         <props.Sample variant="editLink" label="last updated">
           <p data-component="edit-link">
-            <a href="https://github.com/anomalyco/wormagent" target="_blank">
+            <a href="https://github.com/wormgpt-app/wormagent" target="_blank">
               Edit this page on GitHub
             </a>{" "}
             <span>Last updated 2 Nov 2026</span>

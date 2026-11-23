@@ -6,9 +6,9 @@
 // - npm: @wormagent/cli, dist-tag latest = 2.2.5. Its postinstall links the platform binary, so Bun
 //   needs --trust and pnpm needs --allow-build. mise resolves `wormagent` to npm:@wormagent/cli.
 // - https://wormagent.net/v2/install reads wormagent.net/update/api/latest/cli/npm (@wormagent/cli 2.2.5).
-// - Homebrew: anomalyco/tap/wormagent-v2 = 2.2.5. AUR: wormagent-beta = 2.2.5-1.
+// - Homebrew: wormgpt-app/tap/wormagent-v2 = 2.2.5. AUR: wormagent-beta = 2.2.5-1.
 // WormAgent 1 still lives under the old names: the wormagent-ai npm package (1.19.5),
-// https://wormagent.net/install, anomalyco/tap/wormagent (1.19.5) and the wormagent-bin AUR package
+// https://wormagent.net/install, wormgpt-app/tap/wormagent (1.19.5) and the wormagent-bin AUR package
 // (1.19.5). test/install-commands.test.ts keeps them out of the site.
 
 /** The home install row, the Terminal and Mini pages, llms.txt, the console API and the view-source comment. */
@@ -16,7 +16,7 @@ export const installs = [
   { id: "curl", name: "Script", command: "curl -fsSL https://wormagent.net/v2/install | bash" },
   { id: "npm", name: "npm", command: "npm install -g @wormagent/cli" },
   { id: "bun", name: "Bun", command: "bun install -g --trust @wormagent/cli" },
-  { id: "brew", name: "Homebrew", command: "brew install anomalyco/tap/wormagent-v2" },
+  { id: "brew", name: "Homebrew", command: "brew install wormgpt-app/tap/wormagent-v2" },
   { id: "paru", name: "AUR", command: "paru -S wormagent-beta" },
 ] as const
 

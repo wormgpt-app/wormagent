@@ -13,7 +13,7 @@ if ! dry_run; then
   unset RELEASE_TAG_KEY
   echo 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' > "$ssh_dir/known_hosts"
   export GIT_SSH_COMMAND="ssh -i $ssh_dir/key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$ssh_dir/known_hosts"
-  git remote set-url origin git@github.com:anomalyco/wormagent.git
+  git remote set-url origin git@github.com:wormgpt-app/wormagent.git
 fi
 # @wormagent/pty is versioned separately, by process-daemon-v<version> tags.
 git ls-files -z -- '*package.json' bun.lock ':!packages/process-daemon/**' | xargs -0 sed -i -E "s/\"version\": \"[^\"]+\"/\"version\": \"$WORMAGENT_VERSION\"/g"

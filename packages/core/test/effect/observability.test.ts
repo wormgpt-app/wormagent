@@ -17,10 +17,10 @@ afterEach(() => {
 describe("resource", () => {
   test("parses and decodes OTEL resource attributes", () => {
     process.env.OTEL_RESOURCE_ATTRIBUTES =
-      "service.namespace=anomalyco,team=platform%2Cobservability,label=hello%3Dworld,key%2Fname=value%20here"
+      "service.namespace=wormgpt-app,team=platform%2Cobservability,label=hello%3Dworld,key%2Fname=value%20here"
 
     expect(resource().attributes).toMatchObject({
-      "service.namespace": "anomalyco",
+      "service.namespace": "wormgpt-app",
       team: "platform,observability",
       label: "hello=world",
       "key/name": "value here",
@@ -28,7 +28,7 @@ describe("resource", () => {
   })
 
   test("drops OTEL resource attributes when any entry is invalid", () => {
-    process.env.OTEL_RESOURCE_ATTRIBUTES = "service.namespace=anomalyco,broken"
+    process.env.OTEL_RESOURCE_ATTRIBUTES = "service.namespace=wormgpt-app,broken"
 
     expect(resource().attributes["service.namespace"]).toBeUndefined()
     expect(resource().attributes["wormagent.client"]).toBeDefined()
@@ -36,12 +36,12 @@ describe("resource", () => {
 
   test("keeps built-in attributes when env values conflict", () => {
     process.env.OTEL_RESOURCE_ATTRIBUTES =
-      "wormagent.client=web,service.instance.id=override,service.namespace=anomalyco"
+      "wormagent.client=web,service.instance.id=override,service.namespace=wormgpt-app"
 
     const app = { client: "cli", version: "1.2.3", channel: "beta" }
     expect(resource(app).attributes).toMatchObject({
       "wormagent.client": "cli",
-      "service.namespace": "anomalyco",
+      "service.namespace": "wormgpt-app",
     })
     expect(resource(app).attributes["service.instance.id"]).not.toBe("override")
     expect(resource(app).attributes["wormagent.run"]).toMatch(/^[0-9a-f]{8}$/)

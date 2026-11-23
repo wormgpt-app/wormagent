@@ -43,7 +43,7 @@ from `dev`. Install it from `https://wormagent.net/update/api/beta/desktop/worma
 
 ## Startup benchmark
 
-`perf/startup.bench.ts` times a launch with [strobe](https://github.com/anomalyco/strobe), from process spawn to what a
+`perf/startup.bench.ts` times a launch with [strobe](https://github.com/wormgpt-app/strobe), from process spawn to what a
 person waits for, in pairs of launches of two builds with an interval per case. Every launch runs in a private home
 (its own `%APPDATA%`, XDG folders, database, config and service registration, the developer's `WORMAGENT_*`, `OTEL_*`
 and `SENTRY_*` environment removed), so it never touches the developer's app, profile or live service.

@@ -151,7 +151,7 @@ const page = `<!doctype html>
       <nav>
         <a href="https://wormagent.net">Home</a>
         <a href="https://wormagent.net/docs">Docs</a>
-        <a href="https://github.com/anomalyco/wormagent">GitHub</a>
+        <a href="https://github.com/wormgpt-app/wormagent">GitHub</a>
         <a href="https://wormagent.net/discord">Discord</a>
       </nav>
     </main>

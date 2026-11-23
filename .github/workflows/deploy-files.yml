@@ -28,7 +28,7 @@ permissions:
 
 jobs:
   files-build:
-    if: github.repository == 'anomalyco/wormagent' && (github.ref_name == 'dev' || github.ref_name == 'production')
+    if: github.repository == 'wormgpt-app/wormagent' && (github.ref_name == 'dev' || github.ref_name == 'production')
     runs-on: blacksmith-4vcpu-ubuntu-2404
     outputs:
       digest: ${{ steps.upload.outputs.digest }}
@@ -65,7 +65,7 @@ jobs:
 
   files-deploy:
     needs: files-build
-    if: github.repository == 'anomalyco/wormagent' && (github.ref_name == 'dev' || github.ref_name == 'production')
+    if: github.repository == 'wormgpt-app/wormagent' && (github.ref_name == 'dev' || github.ref_name == 'production')
     runs-on: blacksmith-4vcpu-ubuntu-2404
     environment: ${{ github.ref_name }}
     permissions:
@@ -102,7 +102,7 @@ jobs:
           role-session-name: wormagent-${{ github.run_id }}
           aws-region: us-east-1
 
-      # A 15-minute token for this stage, minted by the token issuer (anomalyco/secrets) from the role above.
+      # A 15-minute token for this stage, minted by the token issuer (wormgpt-app/secrets) from the role above.
       # It is a step output, so only the Deploy step gets it.
       - name: Cloudflare token
         id: cloudflare-token

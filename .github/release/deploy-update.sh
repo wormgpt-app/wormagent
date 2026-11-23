@@ -19,7 +19,7 @@ target="$release/targets/update/production/wrangler.json"
 [ -f "$target" ] || die "No pinned update target"
 
 : "${CLOUDFLARE_API_TOKEN:?Set CLOUDFLARE_API_TOKEN}"
-# Pinned in targets/ and in the token issuer's config (anomalyco/secrets).
+# Pinned in targets/ and in the token issuer's config (wormgpt-app/secrets).
 export CLOUDFLARE_ACCOUNT_ID=15d29c8639fd3733b1b5486a2acfd968
 
 unexpected=$(cd "$src" && find . ! -type d ! -type f -o -type f ! -path ./SHA256SUMS ! -path ./index.js)

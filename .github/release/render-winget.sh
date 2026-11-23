@@ -22,8 +22,8 @@ manifests() {
   {
     header "$id" defaultLocale
     printf '%s\n' "PackageLocale: en-US" "Publisher: WormAgent" "PublisherUrl: https://anoma.ly/" \
-      "PublisherSupportUrl: https://github.com/anomalyco/wormagent/issues" "PrivacyUrl: https://wormagent.net/legal/privacy-policy" \
-      "PackageName: $name" "PackageUrl: https://wormagent.net/" "License: MIT" "LicenseUrl: https://github.com/anomalyco/wormagent/blob/HEAD/LICENSE" \
+      "PublisherSupportUrl: https://github.com/wormgpt-app/wormagent/issues" "PrivacyUrl: https://wormagent.net/legal/privacy-policy" \
+      "PackageName: $name" "PackageUrl: https://wormagent.net/" "License: MIT" "LicenseUrl: https://github.com/wormgpt-app/wormagent/blob/HEAD/LICENSE" \
       "ShortDescription: $description" "Moniker: $moniker" "Tags:" "- ai" "- coding-agent" "- developer-tools" \
       "Documentations:" "- DocumentLabel: Docs" "  DocumentUrl: https://wormagent.net/docs"
     footer defaultLocale

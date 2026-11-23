@@ -194,7 +194,7 @@ export function CheckIcon() {
 
 /**
  * The Hex mark: two hexagon rings around a solid hexagon. Hex has no vector logo, so this is its app
- * icon's mark (anomalyco/hex app/AppIcon.icon/Assets/Image.png) rebuilt from that image's measured
+ * icon's mark (wormgpt-app/hex app/AppIcon.icon/Assets/Image.png) rebuilt from that image's measured
  * edges and corner radii.
  */
 export function HexMark() {
@@ -231,7 +231,7 @@ export function OpenTunnelMark() {
   )
 }
 
-/** The OpenTUI mark, from its site's favicon (anomalyco/opentui packages/web): a frame with a cursor cut out. */
+/** The OpenTUI mark, from its site's favicon (wormgpt-app/opentui packages/web): a frame with a cursor cut out. */
 export function OpenTUIMark() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

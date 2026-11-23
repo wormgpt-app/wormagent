@@ -9,7 +9,7 @@ export const config = {
 
   // GitHub
   github: {
-    repoUrl: "https://github.com/anomalyco/wormagent",
+    repoUrl: "https://github.com/wormgpt-app/wormagent",
     starsFormatted: {
       compact: "220K",
       full: "220,000",

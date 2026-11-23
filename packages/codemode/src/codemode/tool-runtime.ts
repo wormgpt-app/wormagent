@@ -206,7 +206,7 @@ export type SearchEntry = {
 type SearchField = "namespace" | "name" | "description" | "parameters" | "namespaceDescription"
 
 // Standard field-weighted BM25 (k1 1.2, b 0.75) plus a preference for short names. Compared against other rankers on
-// model-written and real search queries over an ~11k-tool catalog (anomalyco/evals, dumber/evals/tool-search).
+// model-written and real search queries over an ~11k-tool catalog (wormgpt-app/evals, dumber/evals/tool-search).
 const fieldWeights: Record<SearchField, number> = {
   name: 3,
   namespace: 2,

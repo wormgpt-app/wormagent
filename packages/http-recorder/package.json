@@ -7,11 +7,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anomalyco/wormagent.git",
+    "url": "git+https://github.com/wormgpt-app/wormagent.git",
     "directory": "packages/http-recorder"
   },
-  "homepage": "https://github.com/anomalyco/wormagent/tree/dev/packages/http-recorder",
-  "bugs": "https://github.com/anomalyco/wormagent/issues",
+  "homepage": "https://github.com/wormgpt-app/wormagent/tree/dev/packages/http-recorder",
+  "bugs": "https://github.com/wormgpt-app/wormagent/issues",
   "keywords": [
     "effect",
     "http",

@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import type { ChangelogRelease } from "../src/lib/changelog"
 import { changelogEntryView, changelogView, parseReleaseNotes } from "../src/lib/changelog-notes"
 
-const pr = (number: number) => `[#${number}](https://github.com/anomalyco/wormagent/pull/${number})`
+const pr = (number: number) => `[#${number}](https://github.com/wormgpt-app/wormagent/pull/${number})`
 
 // The shape of v2.2.6: five highlights, each repeated as a note under the area it belongs to.
 const body = [
@@ -42,7 +42,7 @@ const release: ChangelogRelease = {
   tag: "v2.2.6",
   name: "v2.2.6",
   date: "2026-11-06T23:37:20Z",
-  url: "https://github.com/anomalyco/wormagent/releases/tag/v2.2.6",
+  url: "https://github.com/wormgpt-app/wormagent/releases/tag/v2.2.6",
   highlights: [],
   sections: [],
   notes: parseReleaseNotes(body),

@@ -6,7 +6,7 @@ import { createDemoClient } from "../.upstream/wormagent-console/lib/demo"
 
 // wormagent.try(): WormAgent Lite, the WormAgent TUI built with Text.js, in sandbox mode. Its
 // in-memory backend scripts the agent, so nothing runs and nothing is installed. The source comes
-// from anomalyco/textjs (apps/wormagent-console) at the commit script/build.ts pins. The site also
+// from wormgpt-app/textjs (apps/wormagent-console) at the commit script/build.ts pins. The site also
 // starts it on its own when a visitor opens DevTools (src/lib/console-api.ts).
 
 // Text.js 1.6 fetches Yoga's WebAssembly instead of carrying it inline. The build names the file

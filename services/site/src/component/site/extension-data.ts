@@ -1,6 +1,6 @@
 // Light product pages with copy from their READMEs and source. Browse is a product, listed on
 // /product with the others and served at /product/browse. SSH and WSL, built-in desktop app extensions
-// (anomalyco/wormagent packages/gui-extensions), were listed under /extensions.
+// (wormgpt-app/wormagent packages/gui-extensions), were listed under /extensions.
 
 // SSH and WSL are left out for now, like Isocast in links.ts: to bring them back, restore "ssh" |
 // "wsl" here, uncomment their entries below and their pages in routes/extensions (now redirects).
@@ -62,7 +62,7 @@ export const extensionPages: readonly Extension[] = [
     store: "https://chromewebstore.google.com/detail/mfnicocicmmlkpjnaffgihfjhdgjkdjg",
     product: true,
     hero: true,
-    source: "https://github.com/anomalyco/browse",
+    source: "https://github.com/wormgpt-app/browse",
   },
   // {
   //   slug: "ssh",
@@ -84,7 +84,7 @@ export const extensionPages: readonly Extension[] = [
   //     { title: "Sign in as usual", body: "SSH authentication prompts appear in the app." },
   //   ],
   //   install: { lead: "Built into the desktop app. Open the server menu and choose Add SSH server." },
-  //   source: "https://github.com/anomalyco/wormagent/tree/v2/packages/gui-extensions/src/ssh",
+  //   source: "https://github.com/wormgpt-app/wormagent/tree/v2/packages/gui-extensions/src/ssh",
   // },
   // {
   //   slug: "wsl",
@@ -106,6 +106,6 @@ export const extensionPages: readonly Extension[] = [
   //     { title: "More distros", body: "Install another distribution from the WSL catalog." },
   //   ],
   //   install: { lead: "Built into the desktop app on Windows. Open the server menu and choose Add WSL server." },
-  //   source: "https://github.com/anomalyco/wormagent/tree/v2/packages/gui-extensions/src/wsl",
+  //   source: "https://github.com/wormgpt-app/wormagent/tree/v2/packages/gui-extensions/src/wsl",
   // },
 ]

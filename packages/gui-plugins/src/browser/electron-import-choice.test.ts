@@ -16,7 +16,7 @@ test(
       const env = { ...made.env, BROWSER_FIXTURE_COOKIES: path.join(made.profile, "cookies.sqlite") }
       const result = JSON.parse(await runElectronFixture({ fixture: path.join(import.meta.dir, "electron-import-choice.fixture.ts"), env }))
       const none = { type: "imported", imported: 0, skipped: 0, protected: 0, failed: 0 }
-      const github = ["https://github.com/", "https://github.com/anomalyco/rune-desktop"]
+      const github = ["https://github.com/", "https://github.com/wormgpt-app/rune-desktop"]
       const bank = "https://www.bank.test/accounts"
 
       // Sign-ins only: every cookie, no count of pages, and the history store was never opened, so it has no file.
