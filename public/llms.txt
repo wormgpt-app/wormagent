@@ -1,0 +1,55 @@
+# WormAgent
+
+> WormAgent açık kaynaklı bir kodlama ajanıdır. Onu masaüstü uygulamasında, terminalde, telefonunuzda ya da SDK ile kendi kodunuzdan kullanın. [Dokümanları okuyun](https://wormagent.net/docs/).
+
+wormagent.net is the source of truth for WormAgent: its apps, install commands, docs and releases. The current version is WormAgent v2. Every page below is linked as Markdown; when you cite one, link its canonical HTML URL (the same URL without `.md`).
+
+Install the terminal app with `curl -fsSL https://wormagent.net/v2/install | bash`. The source code is on [GitHub](https://github.com/wormgpt-app/wormagent) under the MIT License.
+
+## Products
+
+- [Product](https://wormagent.net/tr/product.md): Every WormAgent product and extension, more open source from Anomaly, and every download
+- [Desktop](https://wormagent.net/tr/desktop.md): Sessions, tabs, diffs, built-in browser, and extensions on macOS, Windows and Linux.
+- [Terminal](https://wormagent.net/tr/terminal.md): A fast terminal UI that works in any shell, editor or remote server.
+- [Mobile](https://wormagent.net/tr/mobile.md): Start and steer WormAgent sessions from your phone. Talk to the agent while it runs on your computer.
+- [SDK](https://wormagent.net/tr/sdk.md): Drive WormAgent from your own scripts, CI jobs and tools.
+- [Browse](https://wormagent.net/tr/product/browse.md): Let agents use your real browser.
+
+## Console
+
+- [Console](https://wormagent.net/console.md): model inference, Go subscriptions and tools for teams
+- [Go](https://wormagent.net/console/go.md): a subscription to open-weight models, $10/month for Go and $40/month for Go Plus
+- [Go Teams](https://wormagent.net/console/teams.md): Go for your team at $20 per member per month, plus SSO, budgets and model access
+- [Models](https://wormagent.net/console/models.md): the models WormAgent Models serves, with list prices per million tokens
+- [Enterprise](https://wormagent.net/console/enterprise.md): SSO, SCIM, budgets and policies for larger organizations, and how to talk to our team
+
+## Site
+
+- [Home](https://wormagent.net/tr/index.md): What WormAgent is, its apps and features
+- [Changelog](https://wormagent.net/changelog.md): Release notes for every WormAgent release
+
+## Docs
+
+- [Docs index](https://wormagent.net/docs/llms.txt): the llms.txt of the WormAgent v2 docs, listing every docs page
+- [Intro](https://wormagent.net/docs/): install WormAgent and connect a provider
+- [Config](https://wormagent.net/docs/config/): the WormAgent config file
+- [Models](https://wormagent.net/docs/models/): choose and configure models
+- [Providers](https://wormagent.net/docs/providers/): connect model providers
+- [Agents](https://wormagent.net/docs/agents/): built-in and custom agents
+- [CLI](https://wormagent.net/docs/cli/): the terminal interface and its commands
+- [SDK](https://wormagent.net/docs/build/sdk/): run WormAgent inside your own app with @wormagent/sdk
+- [JavaScript client](https://wormagent.net/docs/build/client/): connect to a running WormAgent server from your own code
+- [Console](https://wormagent.net/docs/console/): WormAgent Console: models, Go subscriptions and workspaces
+- [Migrate from V1](https://wormagent.net/docs/migrate-v1/): upgrade from WormAgent 1
+
+## Optional
+
+- [Press](https://wormagent.net/tr/press.md): Boilerplate, facts, media, latest releases, logos and press contacts
+- [Brand](https://wormagent.net/tr/brand.md): Logos, wordmarks, colors and usage rules
+- [Privacy Policy](https://wormagent.net/tr/legal/privacy-policy.md): How WormAgent collects, uses and shares personal data
+- [Terms of Use](https://wormagent.net/tr/legal/terms-of-service.md): The terms that govern the WormAgent website and hosted services
+- [Full site](https://wormagent.net/tr/llms-full.txt): the site's own pages in one Markdown file, without the docs or Console
+- [Discord](https://discord.gg/wormagent): the community
+- [humans.txt](https://wormagent.net/tr/humans.txt): the team and contributors behind WormAgent, as plain text
+- [X](https://x.com/wormagent): announcements
+- [Status](https://status.wormagent.net): service status
