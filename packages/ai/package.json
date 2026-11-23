@@ -114,6 +114,7 @@
     "./providers/openai/responses": "./src/providers/openai/responses.ts",
     "./providers/wormagent": "./src/providers/wormagent.ts",
     "./providers/wormagent/decisions": "./src/providers/wormagent/decisions.ts",
+    "./providers/wormgpt": "./src/providers/wormgpt.ts",
     "./providers/openrouter": "./src/providers/openrouter.ts",
     "./providers/openrouter/decisions": "./src/providers/openrouter/decisions.ts",
     "./providers/openrouter/embeddings": "./src/providers/openrouter/embeddings.ts",

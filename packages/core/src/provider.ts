@@ -148,6 +148,7 @@ const builtins = new Map<string, () => Promise<unknown>>([
     () => import("@wormagent/ai/providers/openai-compatible-responses"),
   ],
   ["@wormagent/ai/providers/wormagent/decisions", () => import("@wormagent/ai/providers/wormagent/decisions")],
+  ["@wormagent/ai/providers/wormgpt", () => import("@wormagent/ai/providers/wormgpt")],
   ["@wormagent/ai/providers/openrouter", () => import("@wormagent/ai/providers/openrouter")],
   ["@wormagent/ai/providers/openrouter/decisions", () => import("@wormagent/ai/providers/openrouter/decisions")],
   ["@wormagent/ai/providers/openrouter/embeddings", () => import("@wormagent/ai/providers/openrouter/embeddings")],
