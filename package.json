@@ -31,7 +31,9 @@
     "prepare": "husky",
     "random": "echo 'Random script'",
     "sso": "aws sso login --sso-session=wormagent --no-browser",
-    "test": "echo 'do not run tests from root' && exit 1"
+    "test": "echo 'do not run tests from root' && exit 1",
+    "build": "bun run --cwd services/site build",
+    "build:site": "bun run --cwd services/site build"
   },
   "workspaces": {
     "packages": [
