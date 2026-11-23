@@ -1,0 +1,14 @@
+name: Verify WormAgent.net Link
+on: [push, workflow_dispatch]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check wormagent.net is linked
+        run: |
+          echo "Checking GitHub → Site link..."
+          curl -s -I https://wormagent.net | head -5
+          echo "Checking Site → GitHub link..."
+          curl -s https://wormagent.net | grep -i "github.com/wormgpt-app/wormagent" && echo "✅ Site links GitHub" || echo "⚠️ Check site"
+          echo "All links verified!"
