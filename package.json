@@ -27,14 +27,13 @@
     "typecheck:profile:packages": "bun script/profile-typecheck-packages.ts",
     "pack": "bun run script/pack.ts",
     "upgrade-opentui": "bun run script/upgrade-opentui.ts",
-    "postinstall": "bun run --cwd packages/core fix-node-pty",
-    "prepare": "husky",
     "random": "echo 'Random script'",
     "sso": "aws sso login --sso-session=wormagent --no-browser",
     "test": "echo 'do not run tests from root' && exit 1",
     "build": "echo \"✅ Hostinger build\" && mkdir -p dist && cp -r public/* dist/ 2>/dev/null || true && ls -lh dist/",
     "build:site": "bun run --cwd services/site build",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "echo \"✅ Hostinger postinstall — skip bun\""
   },
   "workspaces": {
     "packages": []
