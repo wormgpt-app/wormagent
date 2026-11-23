@@ -27,7 +27,7 @@ const fetch = (input: string | URL, init: Init = {}) =>
     // Rules match the URL, so `https://user@evil.com` would slip past a rule for `https://evil.com/*`.
     if (parsed?.username || parsed?.password)
       return yield* Effect.fail(new TypeError("fetch cannot be used with credentials in the URL."))
-    if (parsed?.protocol === "wormagent:") return yield* fetchOpencode(url, init)
+    if (parsed?.protocol === "wormagent:") return yield* fetchWormagent(url, init)
     const execution = yield* CodeModeExecution.Service
     const permission = yield* Permission.Service
     const source = { type: "tool" as const, messageID: execution.messageID, id: execution.id }
@@ -88,7 +88,7 @@ export const MAX_REDIRECTS = 20
 const redirectStatuses = new Set([301, 302, 303, 307, 308])
 
 // No permission check and no timeout: the request runs in this process and ends with the execute call.
-const fetchOpencode = (url: string, init: Init) =>
+const fetchWormagent = (url: string, init: Init) =>
   Effect.gen(function* () {
     const execution = yield* CodeModeExecution.Service
     const path = yield* CodeModeApi.path(url, execution.sessionID)

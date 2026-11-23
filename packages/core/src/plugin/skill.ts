@@ -12,10 +12,10 @@ import os from "os"
 import wormagentContent from "./skill/wormagent.md" with { type: "text" }
 import reportContent from "./skill/report.md" with { type: "text" }
 
-export const OpencodeContent = wormagentContent
+export const WormagentContent = wormagentContent
 export const ReportContent = reportContent
 
-export const OpencodeDescription =
+export const WormagentDescription =
   "Use this skill for any question about WormAgent itself, including how WormAgent works, using or configuring it, migrating from V1 to V2, troubleshooting it, developing plugins or integrations, using the WormAgent SDK, clients, server, or API, and contributing to the WormAgent codebase. Also use it for WormAgent agents, commands, skills, tools, permissions, MCP servers, providers, models, themes, keybinds, formatters, the CLI, TUI, desktop app, and web app."
 const REPORT_DESCRIPTION =
   "Use when the user wants to report an wormagent issue or bug. Collect standard diagnostics, add user-specific reproduction context, and publish the issue with GitHub CLI."
@@ -29,9 +29,9 @@ export const Plugin = define({
         Skill.Info.make({
           id: Skill.ID.make("wormagent"),
           name: Skill.Name.make("WormAgent"),
-          description: OpencodeDescription,
+          description: WormagentDescription,
           path: AbsolutePath.make("skill://wormagent/SKILL.md"),
-          content: OpencodeContent,
+          content: WormagentContent,
         }),
       )
       editor.add(

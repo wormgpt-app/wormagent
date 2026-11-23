@@ -24,7 +24,7 @@ import { Plugin } from "@wormagent/core/plugin"
 import { PluginHooks } from "@wormagent/core/plugin/hooks"
 import { PluginHost } from "@wormagent/core/plugin/host"
 import { OpenAIPlugin } from "@wormagent/core/plugin/provider/openai"
-import { OpencodePlugin } from "@wormagent/core/plugin/provider/wormagent"
+import { WormagentPlugin } from "@wormagent/core/plugin/provider/wormagent"
 import { Provider } from "@wormagent/core/provider"
 import { Session } from "@wormagent/core/session"
 import { Skill } from "@wormagent/core/skill"
@@ -40,7 +40,7 @@ const it = testEffect(PluginTestLayer)
 const addPlugin = Effect.fn(function* () {
   const plugin = yield* Plugin.Service
   const host = yield* PluginHost.make(plugin, "test")
-  yield* OpencodePlugin.effect(host)
+  yield* WormagentPlugin.effect(host)
 })
 
 // The Console's config merges as an integration document; its policies are what organization policy the member gets.
@@ -142,7 +142,7 @@ const cost = (input: number, output = 0) => [
   },
 ]
 
-describe("OpencodePlugin", () => {
+describe("WormagentPlugin", () => {
   it.effect("registers account and service account methods", () =>
     Effect.gen(function* () {
       yield* addPlugin()
@@ -2145,7 +2145,7 @@ describe("OpencodePlugin", () => {
   )
 })
 
-describe("OpencodePlugin with a Console config", () => {
+describe("WormagentPlugin with a Console config", () => {
   const $schema = "https://wormagent.net/config.json"
   const deny: ConfigPolicy.Info = { action: "tool.use", resource: "shell:*", effect: "deny" }
 
@@ -2171,7 +2171,7 @@ describe("OpencodePlugin with a Console config", () => {
             }),
           })
           const host = yield* PluginHost.make(yield* Plugin.Service, "test")
-          yield* OpencodePlugin.effect(host).pipe(inProcess(server))
+          yield* WormagentPlugin.effect(host).pipe(inProcess(server))
           yield* ConfigPolicyPlugin.Plugin.effect(host)
 
           const document = required(yield* consoleDocument(config))
@@ -2340,7 +2340,7 @@ describe("OpencodePlugin with a Console config", () => {
             value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: server.url.origin } }),
           })
           const host = yield* PluginHost.make(yield* Plugin.Service, "test")
-          yield* OpencodePlugin.effect(host)
+          yield* WormagentPlugin.effect(host)
           yield* ConfigProviderPlugin.Plugin.effect(host)
 
           const provider = required(yield* providers.get(Provider.ID.make("remote")))
@@ -2391,7 +2391,7 @@ describe("OpencodePlugin with a Console config", () => {
           })
           const host = yield* PluginHost.make(yield* Plugin.Service, "test")
           // Registered in production order: the WormAgent and OpenAI provider plugins, then config in `post`.
-          yield* OpencodePlugin.effect(host).pipe(inProcess(server))
+          yield* WormagentPlugin.effect(host).pipe(inProcess(server))
           yield* OpenAIPlugin.effect(host)
           yield* ConfigProviderPlugin.Plugin.effect(host)
 
@@ -2439,7 +2439,7 @@ describe("OpencodePlugin with a Console config", () => {
             value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: server.url.origin } }),
           })
           const host = yield* PluginHost.make(yield* Plugin.Service, "test")
-          yield* OpencodePlugin.effect(host).pipe(inProcess(server))
+          yield* WormagentPlugin.effect(host).pipe(inProcess(server))
           yield* ConfigWebSearchPlugin.Plugin.effect(host)
           // A workspace without hosted search, or a member its policy denies, would get only failed searches.
           expect(yield* websearch.providers()).not.toContainEqual(wormagent)

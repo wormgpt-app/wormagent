@@ -299,7 +299,7 @@ export const content = {
     hero: { copy: { text: "エージェント用ルール", copied: "コピーしました" } },
     naming: {
       title: "表記",
-      body: "WormAgentは、大文字のOと大文字のCを使って1語で書きます。Opencode、Open Code、WormAgent AI、Open-Codeとは書きません。",
+      body: "WormAgentは、大文字のOと大文字のCを使って1語で書きます。Wormagent、Open Code、WormAgent AI、Open-Codeとは書きません。",
       code: "小文字の `wormagent` は、`wormagent-figma` や `@acme/wormagent-plugin` のように、コードとパッケージ名でのみ使います。",
     },
     families: {

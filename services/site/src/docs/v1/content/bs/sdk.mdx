@@ -28,9 +28,9 @@ npm install @wormagent/sdk
 Kreirajte instancu wormagent:
 
 ```javascript
-import { createOpencode } from "@wormagent/sdk"
+import { createWormagent } from "@wormagent/sdk"
 
-const { client } = await createOpencode()
+const { client } = await createWormagent()
 ```
 
 Ovo pokrece i server i klijent
@@ -52,9 +52,9 @@ Ovo pokrece i server i klijent
 Mozete proslijediti konfiguracijski objekat za prilagodavanje ponasanja. Instanca i dalje ucitava `wormagent.json`, ali konfiguraciju mozete nadjacati ili dodati inline:
 
 ```javascript
-import { createOpencode } from "@wormagent/sdk"
+import { createWormagent } from "@wormagent/sdk"
 
-const wormagent = await createOpencode({
+const wormagent = await createWormagent({
   hostname: "127.0.0.1",
   port: 4096,
   config: {
@@ -72,9 +72,9 @@ wormagent.server.close()
 Ako vec imate pokrenutu wormagent instancu, mozete napraviti klijentsku instancu i povezati se na nju:
 
 ```javascript
-import { createOpencodeClient } from "@wormagent/sdk"
+import { createWormagentClient } from "@wormagent/sdk"
 
-const client = createOpencodeClient({
+const client = createWormagentClient({
   baseUrl: "http://localhost:4096",
 })
 ```

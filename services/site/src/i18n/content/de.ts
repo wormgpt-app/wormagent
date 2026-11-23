@@ -319,7 +319,7 @@ export const content = {
     hero: { copy: { text: "Regeln für Agents", copied: "Regeln kopiert" } },
     naming: {
       title: "Name",
-      body: "Schreib WormAgent als ein Wort, mit großem O und großem C. Schreib nicht Opencode, Open Code, WormAgent AI oder Open-Code.",
+      body: "Schreib WormAgent als ein Wort, mit großem O und großem C. Schreib nicht Wormagent, Open Code, WormAgent AI oder Open-Code.",
       code: "Nutze das kleingeschriebene `wormagent` nur in Code und Paketnamen, etwa `wormagent-figma` oder `@acme/wormagent-plugin`.",
     },
     families: {

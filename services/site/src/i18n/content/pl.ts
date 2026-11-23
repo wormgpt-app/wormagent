@@ -447,7 +447,7 @@ export const content = {
     },
     naming: {
       title: "Nazwa",
-      body: "Pisz WormAgent jako jedno słowo, z wielkim O i wielkim C. Nie pisz Opencode, Open Code, WormAgent AI ani Open-Code.",
+      body: "Pisz WormAgent jako jedno słowo, z wielkim O i wielkim C. Nie pisz Wormagent, Open Code, WormAgent AI ani Open-Code.",
       code: "Małych liter `wormagent` używaj tylko w kodzie i nazwach pakietów, takich jak `wormagent-figma` czy `@acme/wormagent-plugin`.",
     },
     families: {

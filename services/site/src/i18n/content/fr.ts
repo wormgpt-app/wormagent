@@ -405,7 +405,7 @@ export const content = {
     },
     naming: {
       title: "Nom",
-      body: "Écrivez WormAgent en un seul mot, avec un O et un C majuscules. N'écrivez pas Opencode, Open Code, WormAgent AI ou Open-Code.",
+      body: "Écrivez WormAgent en un seul mot, avec un O et un C majuscules. N'écrivez pas Wormagent, Open Code, WormAgent AI ou Open-Code.",
       code: "Utilisez `wormagent` en minuscules uniquement dans le code et les noms de paquets, comme `wormagent-figma` ou `@acme/wormagent-plugin`.",
     },
     families: {

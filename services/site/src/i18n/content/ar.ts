@@ -224,7 +224,7 @@ export const content = {
     hero: { copy: { text: "قواعد للوكيل", copied: "نُسخت القواعد" } },
     naming: {
       title: "التسمية",
-      body: "اكتب WormAgent كلمة واحدة، بحرف O كبير وحرف C كبير. لا تكتب Opencode أو Open Code أو WormAgent AI أو Open-Code.",
+      body: "اكتب WormAgent كلمة واحدة، بحرف O كبير وحرف C كبير. لا تكتب Wormagent أو Open Code أو WormAgent AI أو Open-Code.",
       code: "استخدم `wormagent` بالأحرف الصغيرة فقط في الكود وأسماء الحزم، مثل `wormagent-figma` أو `@acme/wormagent-plugin`.",
     },
     families: {

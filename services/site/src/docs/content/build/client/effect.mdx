@@ -1,13 +1,13 @@
 ---
 title: "Effect client"
-description: "Call the OpenCode HTTP API from Effect with @opencode/client/effect, which returns typed Effects and Streams."
+description: "Call the WormAgent HTTP API from Effect with @wormagent/client/effect, which returns typed Effects and Streams."
 ---
 
-`@opencode/client/effect` is the Effect-native client for the OpenCode HTTP API. It returns typed Effects and Streams
-and decodes responses into OpenCode schema values.
+`@wormagent/client/effect` is the Effect-native client for the WormAgent HTTP API. It returns typed Effects and Streams
+and decodes responses into WormAgent schema values.
 
 ```sh
-bun add @opencode/client effect@4.0.1
+bun add @wormagent/client effect@4.0.1
 ```
 
 ## Create a client
@@ -15,12 +15,12 @@ bun add @opencode/client effect@4.0.1
 Create a client with the server URL, then call methods grouped by API resource.
 
 ```ts
-import { AbsolutePath, Location, OpenCode } from "@opencode/client/effect"
+import { AbsolutePath, Location, WormAgent } from "@wormagent/client/effect"
 import { Effect } from "effect"
 import { FetchHttpClient } from "effect/http"
 
 const program = Effect.gen(function* () {
-  const client = yield* OpenCode.make({ baseUrl: "http://localhost:4096" })
+  const client = yield* WormAgent.make({ baseUrl: "http://localhost:4096" })
   const session = yield* client.session.create({
     location: Location.Ref.make({ directory: AbsolutePath.make("/workspace") }),
   })
@@ -45,11 +45,11 @@ per-call location, header, and signal options.
 import { HttpClient, HttpClientRequest } from "effect/http"
 
 const httpClient = yield* HttpClient.HttpClient
-const client = yield* OpenCode.make({ baseUrl: "https://opencode.example.com" }).pipe(
+const client = yield* WormAgent.make({ baseUrl: "https://wormagent.example.com" }).pipe(
   Effect.provideService(
     HttpClient.HttpClient,
     HttpClient.mapRequest(httpClient, (request) =>
-      HttpClientRequest.setHeaders(request, { authorization: `Bearer ${process.env.OPENCODE_TOKEN}` }),
+      HttpClientRequest.setHeaders(request, { authorization: `Bearer ${process.env.WORMAGENT_TOKEN}` }),
     ),
   ),
 )
@@ -67,7 +67,7 @@ import { Effect, Stream } from "effect"
 
 yield* client.event
   .subscribe()
-  .pipe(Stream.runForEach((event) => Effect.logInfo("OpenCode event", { type: event.type })))
+  .pipe(Stream.runForEach((event) => Effect.logInfo("WormAgent event", { type: event.type })))
 ```
 
 Native and RPC event Streams share one lazy connection per client. Constructing
@@ -82,7 +82,7 @@ Use the same shared contract as Promise clients and server plugins:
 
 {/* prettier-ignore */}
 ```ts
-import { Acme } from "opencode-acme-plugin/rpc"
+import { Acme } from "wormagent-acme-plugin/rpc"
 
 const acme = client.rpc(Acme)
 const result = yield* acme.search({ query: "hello" }, { location: { directory: "/workspace" } })
@@ -111,7 +111,7 @@ definitions, schemas, registration, and live subscription semantics.
 
 ## Local background service
 
-The Node-only `@opencode/client/effect/service` entrypoint discovers, starts, authenticates, and stops the local
+The Node-only `@wormagent/client/effect/service` entrypoint discovers, starts, authenticates, and stops the local
 background service as Effects.
 
 ```sh
@@ -122,15 +122,15 @@ Create an authenticated client for the ensured service.
 
 ```ts
 import { NodeFileSystem } from "@effect/platform-node"
-import { OpenCode } from "@opencode/client/effect"
-import { Service } from "@opencode/client/effect/service"
+import { WormAgent } from "@wormagent/client/effect"
+import { Service } from "@wormagent/client/effect/service"
 import { Effect } from "effect"
 import { FetchHttpClient, HttpClient, HttpClientRequest } from "effect/http"
 
 const program = Effect.gen(function* () {
   const endpoint = yield* Service.ensure()
   const httpClient = yield* HttpClient.HttpClient
-  const client = yield* OpenCode.make({ baseUrl: endpoint.url }).pipe(
+  const client = yield* WormAgent.make({ baseUrl: endpoint.url }).pipe(
     Effect.provideService(
       HttpClient.HttpClient,
       HttpClient.mapRequest(httpClient, (request) =>

@@ -28,9 +28,9 @@ npm install @wormagent/sdk
 أنشئ مثيلا من wormagent:
 
 ```javascript
-import { createOpencode } from "@wormagent/sdk"
+import { createWormagent } from "@wormagent/sdk"
 
-const { client } = await createOpencode()
+const { client } = await createWormagent()
 ```
 
 هذا يشغّل خادما وعميلا معا.
@@ -52,9 +52,9 @@ const { client } = await createOpencode()
 يمكنك تمرير كائن إعدادات لتخصيص السلوك. سيستمر المثيل في التقاط `wormagent.json` لديك، لكن يمكنك تجاوز الإعدادات أو إضافة إعدادات مباشرة:
 
 ```javascript
-import { createOpencode } from "@wormagent/sdk"
+import { createWormagent } from "@wormagent/sdk"
 
-const wormagent = await createOpencode({
+const wormagent = await createWormagent({
   hostname: "127.0.0.1",
   port: 4096,
   config: {
@@ -72,9 +72,9 @@ wormagent.server.close()
 إذا كان لديك مثيل wormagent يعمل بالفعل، يمكنك إنشاء مثيل عميل للاتصال به:
 
 ```javascript
-import { createOpencodeClient } from "@wormagent/sdk"
+import { createWormagentClient } from "@wormagent/sdk"
 
-const client = createOpencodeClient({
+const client = createWormagentClient({
   baseUrl: "http://localhost:4096",
 })
 ```

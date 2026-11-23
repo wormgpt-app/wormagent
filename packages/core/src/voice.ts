@@ -76,8 +76,8 @@ export const layer = Layer.effect(
       const connection = yield* findConnection(engine.provider)
       if (connection) return { provider: engine.provider, connection }
       if (engine.id !== "openai-live") return undefined
-      const hosted = yield* findConnection(openCodeLive.provider, ["key", "oauth"])
-      return hosted && { provider: openCodeLive.provider, connection: hosted }
+      const hosted = yield* findConnection(wormAgentLive.provider, ["key", "oauth"])
+      return hosted && { provider: wormAgentLive.provider, connection: hosted }
     })
 
     // Each engine's models.dev voice models from the provider that would start them, newest first.
@@ -164,20 +164,20 @@ export const node = makeLocationNode({
 })
 
 /** WormAgent hosts GPT-Live on its OpenAI account, billed to the workspace whose credential starts a session. */
-const openCodeLive = { provider: "wormagent", baseURL: "https://wormagent.net/inference/openai/v1" } as const
+const wormAgentLive = { provider: "wormagent", baseURL: "https://wormagent.net/inference/openai/v1" } as const
 
 /**
  * What a credential starts a session with: a provider's API key on its own API, or an WormAgent Console API key or
  * account sign-in on WormAgent's hosted GPT-Live, for the workspace the sign-in chose.
  */
 const sessionAccess = (provider: string, credential: Credential.Value) => {
-  if (provider !== openCodeLive.provider)
+  if (provider !== wormAgentLive.provider)
     return credential.type === "key" ? { apiKey: Redacted.make(credential.key) } : undefined
   if (credential.type === "external") return undefined
   const orgID = credential.metadata?.orgID
   return {
     apiKey: Redacted.make(credential.type === "oauth" ? credential.access : credential.key),
-    baseURL: openCodeLive.baseURL,
+    baseURL: wormAgentLive.baseURL,
     ...(typeof orgID === "string" ? { headers: { "x-wormagent-org-id": orgID } } : {}),
   }
 }

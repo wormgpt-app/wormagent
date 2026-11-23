@@ -52,7 +52,7 @@ export function brandContent(t: Translate) {
     },
     naming: {
       title: "Naming",
-      body: "Write WormAgent as one word, with a capital O and a capital C. Do not write Opencode, Open Code, WormAgent AI or Open-Code.",
+      body: "Write WormAgent as one word, with a capital O and a capital C. Do not write Wormagent, Open Code, WormAgent AI or Open-Code.",
       // Names between backticks show as code.
       code: "Use the lowercase `wormagent` only in code and package names, such as `wormagent-figma` or `@acme/wormagent-plugin`.",
     },

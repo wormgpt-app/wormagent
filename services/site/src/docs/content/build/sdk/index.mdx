@@ -1,10 +1,10 @@
 ---
 title: "SDK overview"
-description: "Host OpenCode inside your application with @opencode/sdk, which serves the API in memory with no HTTP listener."
+description: "Host WormAgent inside your application with @wormagent/sdk, which serves the API in memory with no HTTP listener."
 ---
 
-`@opencode/sdk` hosts OpenCode directly inside your application. Unlike the
-[network client](/build/client), it assembles the OpenCode server and routes API
+`@wormagent/sdk` hosts WormAgent directly inside your application. Unlike the
+[network client](/build/client), it assembles the WormAgent server and routes API
 calls through its HTTP router in memory. It opens no HTTP listener and adds no
 network hop between the client and server.
 
@@ -13,33 +13,33 @@ For Cloudflare Durable Objects, see the [Cloudflare guide](/build/sdk/cloudflare
 Install the SDK:
 
 ```sh
-bun add @opencode/sdk
+bun add @wormagent/sdk
 ```
 
 ## Create a host
 
-`OpenCode.create()` returns an explicitly owned host. Use `await using` to
+`WormAgent.create()` returns an explicitly owned host. Use `await using` to
 release its router, Location services, fibers, and scoped plugin registrations:
 
 ```ts
-import { OpenCode } from "@opencode/sdk"
+import { WormAgent } from "@wormagent/sdk"
 
-await using opencode = await OpenCode.create()
-const session = await opencode.sessions.create({
+await using wormagent = await WormAgent.create()
+const session = await wormagent.sessions.create({
   location: { directory: "/workspace" },
 })
 
-await opencode.sessions.prompt({
+await wormagent.sessions.prompt({
   sessionID: session.id,
   text: "Review the current changes",
 })
 ```
 
-Call `await opencode.close()` explicitly when explicit resource management is
+Call `await wormagent.close()` explicitly when explicit resource management is
 not available.
 
 The embedded host uses the same Promise values, declared errors, request
-options, and `AsyncIterable` streams as `@opencode/client`. It exposes the
+options, and `AsyncIterable` streams as `@wormagent/client`. It exposes the
 full generated client and adds the convenience aliases `sessions` and `events`
 for the session and event groups.
 
@@ -51,9 +51,9 @@ failing if that strategy is unavailable.
 
 ```ts
 const projectID = session.projectID
-const worktree = await opencode.worktree.create({ projectID, name: "task" })
-await opencode.worktree.refresh({ projectID })
-await opencode.worktree.remove({ projectID, directory: worktree.directory, force: false })
+const worktree = await wormagent.worktree.create({ projectID, name: "task" })
+await wormagent.worktree.refresh({ projectID })
+await wormagent.worktree.remove({ projectID, directory: worktree.directory, force: false })
 ```
 
 Refresh discovers worktrees across known checkout roots using all available strategies. Register a custom strategy
@@ -62,7 +62,7 @@ through a [plugin's worktree transform](/build/plugins/server#worktrees).
 ## Stream events
 
 ```ts
-for await (const event of opencode.events.subscribe()) {
+for await (const event of wormagent.events.subscribe()) {
   console.log(event.type)
 }
 ```
@@ -72,13 +72,13 @@ iteration to cancel its response body.
 
 ## Customize
 
-Customize your OpenCode instance by registering plugins. Pass plugins to
-`OpenCode.create()` to customize agents, models, tools, and other behavior when
+Customize your WormAgent instance by registering plugins. Pass plugins to
+`WormAgent.create()` to customize agents, models, tools, and other behavior when
 the embedded host starts:
 
 ```ts
-import { Plugin } from "@opencode/plugin"
-import { OpenCode } from "@opencode/sdk"
+import { Plugin } from "@wormagent/plugin"
+import { WormAgent } from "@wormagent/sdk"
 
 const plugin = Plugin.define({
   id: "customize-agent",
@@ -91,10 +91,10 @@ const plugin = Plugin.define({
   },
 })
 
-await using opencode = await OpenCode.create({ plugins: [plugin] })
+await using wormagent = await WormAgent.create({ plugins: [plugin] })
 ```
 
-Call `await opencode.plugin(plugin)` to register another plugin after startup.
+Call `await wormagent.plugin(plugin)` to register another plugin after startup.
 
 See the [full plugins documentation](/build/plugins/server) for plugin hooks,
 transforms, tools, and the complete plugin context.

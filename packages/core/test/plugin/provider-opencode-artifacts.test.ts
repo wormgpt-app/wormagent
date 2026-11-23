@@ -7,9 +7,9 @@ import { Flag } from "@wormagent/core/flag"
 import { Integration } from "@wormagent/core/integration"
 import { Plugin } from "@wormagent/core/plugin"
 import { PluginHost } from "@wormagent/core/plugin/host"
-import { OpencodePlugin } from "@wormagent/core/plugin/provider/wormagent"
-import { OpencodeArtifacts } from "@wormagent/core/plugin/provider/wormagent-artifacts"
-import { OpencodeWatches } from "@wormagent/core/plugin/provider/wormagent-watches"
+import { WormagentPlugin } from "@wormagent/core/plugin/provider/wormagent"
+import { WormagentArtifacts } from "@wormagent/core/plugin/provider/wormagent-artifacts"
+import { WormagentWatches } from "@wormagent/core/plugin/provider/wormagent-watches"
 import { eventually } from "../lib/eventually"
 import { testEffect } from "../lib/effect"
 import { PluginTestLayer } from "./fixture"
@@ -39,8 +39,8 @@ function fakeConsole() {
           {},
           {
             headers: {
-              ...(state.artifacts ? { [OpencodeArtifacts.header]: "1" } : {}),
-              ...(state.watches ? { [OpencodeWatches.header]: "1" } : {}),
+              ...(state.artifacts ? { [WormagentArtifacts.header]: "1" } : {}),
+              ...(state.watches ? { [WormagentWatches.header]: "1" } : {}),
             },
           },
         )
@@ -97,7 +97,7 @@ const start = Effect.fnUntraced(function* (console: ReturnType<typeof fakeConsol
     value: Credential.Key.make({ type: "key", key: "secret", metadata: { server: console.server.url.origin } }),
   })
   const host = yield* PluginHost.make(yield* Plugin.Service, "test")
-  yield* OpencodePlugin.effect(host)
+  yield* WormagentPlugin.effect(host)
   return host
 })
 
@@ -108,7 +108,7 @@ const defaultProvider = Effect.gen(function* () {
 
 const files = { "index.html": "<h1>Hi</h1>", "app.js": "console.log(1)" }
 
-describe("OpencodePlugin artifacts", () => {
+describe("WormagentPlugin artifacts", () => {
   it.effect("adds no Console provider while the Console config doesn't advertise artifacts", () =>
     withConsole((console) =>
       Effect.gen(function* () {

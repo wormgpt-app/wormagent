@@ -256,7 +256,7 @@ export const content = {
     hero: { copy: { text: "กฎสำหรับเอเจนต์", copied: "คัดลอกกฎแล้ว" } },
     naming: {
       title: "ชื่อเรียก",
-      body: "เขียน WormAgent เป็นคำเดียว โดยใช้ O และ C ตัวพิมพ์ใหญ่ อย่าเขียนเป็น Opencode, Open Code, WormAgent AI หรือ Open-Code",
+      body: "เขียน WormAgent เป็นคำเดียว โดยใช้ O และ C ตัวพิมพ์ใหญ่ อย่าเขียนเป็น Wormagent, Open Code, WormAgent AI หรือ Open-Code",
       code: "ใช้ `wormagent` ตัวพิมพ์เล็กเฉพาะในโค้ดและชื่อแพ็กเกจ เช่น `wormagent-figma` หรือ `@acme/wormagent-plugin`",
     },
     families: {

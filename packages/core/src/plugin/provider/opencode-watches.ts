@@ -1,4 +1,4 @@
-export * as OpencodeWatches from "./wormagent-watches.js"
+export * as WormagentWatches from "./wormagent-watches.js"
 
 import { ToolFailure } from "@wormagent/ai/effect"
 import type { Context } from "@wormagent/plugin/effect/plugin"

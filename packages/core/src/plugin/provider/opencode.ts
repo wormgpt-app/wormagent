@@ -30,8 +30,8 @@ import { SharedCache } from "../../shared-cache.js"
 import { Skill } from "../../skill.js"
 import { SkillDiscovery } from "../../skill/discovery.js"
 import { WebSearch } from "../../websearch.js"
-import { OpencodeArtifacts } from "./wormagent-artifacts.js"
-import { OpencodeWatches } from "./wormagent-watches.js"
+import { WormagentArtifacts } from "./wormagent-artifacts.js"
+import { WormagentWatches } from "./wormagent-watches.js"
 import { ProviderRefresh } from "./refresh.js"
 
 const clientID = "wormagent-cli"
@@ -84,7 +84,7 @@ const signedOutMessage = "Reconnect WormAgent Console to continue"
 const ssoMessage = (organization: string | undefined) =>
   `Sign in with SSO again to use ${organization ?? "your WormAgent Console organization"}`
 
-class SsoRequiredError extends Schema.TaggedError<SsoRequiredError>()("OpencodeConsole.SsoRequired", {
+class SsoRequiredError extends Schema.TaggedError<SsoRequiredError>()("WormagentConsole.SsoRequired", {
   organization: Schema.optional(Schema.String),
   url: Schema.String,
 }) {
@@ -94,7 +94,7 @@ class SsoRequiredError extends Schema.TaggedError<SsoRequiredError>()("OpencodeC
 }
 
 // The Console session or refresh token was revoked or expired; only a new device login recovers.
-class SignedOutError extends Schema.TaggedError<SignedOutError>()("OpencodeConsole.SignedOut", {}) {
+class SignedOutError extends Schema.TaggedError<SignedOutError>()("WormagentConsole.SignedOut", {}) {
   override get message() {
     return `${signedOutMessage}.`
   }
@@ -179,7 +179,7 @@ function oauth(http: HttpClient.HttpClient) {
   } satisfies IntegrationOAuthMethodRegistration
 }
 
-export const OpencodePlugin = define<
+export const WormagentPlugin = define<
   | HttpClient.HttpClient
   | Bus.Service
   | Config.Service
@@ -220,11 +220,11 @@ export const OpencodePlugin = define<
     // Status last reported for the active connection, so inference failures can name the fix.
     let reported: IntegrationConnection.Status | undefined
     let explainers: Effect.Success<ReturnType<typeof ctx.session.hook>>[] = []
-    const watches = yield* OpencodeWatches.make(ctx, http)
-    const artifacts = yield* OpencodeArtifacts.make(ctx, http)
+    const watches = yield* WormagentWatches.make(ctx, http)
+    const artifacts = yield* WormagentArtifacts.make(ctx, http)
 
     // Every project signed in to the same workspace shares one fetch, reused while it is younger than `maxAge`.
-    const load = Effect.fn("OpencodePlugin.load")(function* (maxAge: Duration.Input = Duration.minutes(1)) {
+    const load = Effect.fn("WormagentPlugin.load")(function* (maxAge: Duration.Input = Duration.minutes(1)) {
       const connection = yield* ctx.integration.connection.active("wormagent")
       if (!connection) {
         reported = undefined
@@ -519,7 +519,7 @@ export const OpencodePlugin = define<
       consoleSkills.items.forEach((item) => editor.add(item.skill, item.files))
     })
 
-    const apply = Effect.fn("OpencodePlugin.apply")(function* (next: typeof snapshot) {
+    const apply = Effect.fn("WormagentPlugin.apply")(function* (next: typeof snapshot) {
       snapshot = next
       yield* publish(next)
       yield* guard(next)
@@ -559,7 +559,7 @@ export const OpencodePlugin = define<
         )
       })
     // Hooks are scoped per provider so requests to unrelated providers skip the HTTP hook path.
-    const guard = Effect.fn("OpencodePlugin.guard")(function* (next: typeof snapshot) {
+    const guard = Effect.fn("WormagentPlugin.guard")(function* (next: typeof snapshot) {
       yield* Effect.forEach(explainers, (registration) => registration.dispose, { discard: true })
       explainers = yield* Effect.forEach(
         next.connection ? new Set([Provider.ID.wormagent, ...Object.keys(next.remote?.providers ?? {})]) : [],
@@ -608,9 +608,9 @@ function fetchConfig(http: HttpClient.HttpClient, value: Credential.Key | Creden
                 url: yield* ssoUrl(ConsoleAccess.server(value), body.value.connectionId),
               })
           }
-          const watches = response.headers[OpencodeWatches.header] !== undefined
+          const watches = response.headers[WormagentWatches.header] !== undefined
           const lists = response.headers[listsHeader] !== undefined
-          const artifacts = response.headers[OpencodeArtifacts.header] !== undefined
+          const artifacts = response.headers[WormagentArtifacts.header] !== undefined
           const body = yield* HttpClientResponse.filterStatusOk(response).pipe(Effect.flatMap((ok) => ok.json))
           return { ...(yield* Schema.decodeUnknownEffect(ConfigIntegration.Remote)(body)), watches, lists, artifacts }
         }),

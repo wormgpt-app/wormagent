@@ -8,8 +8,8 @@ import { Integration } from "@wormagent/core/integration"
 import { Plugin } from "@wormagent/core/plugin"
 import { PluginHooks } from "@wormagent/core/plugin/hooks"
 import { PluginHost } from "@wormagent/core/plugin/host"
-import { OpencodePlugin } from "@wormagent/core/plugin/provider/wormagent"
-import { OpencodeWatches } from "@wormagent/core/plugin/provider/wormagent-watches"
+import { WormagentPlugin } from "@wormagent/core/plugin/provider/wormagent"
+import { WormagentWatches } from "@wormagent/core/plugin/provider/wormagent-watches"
 import { Session } from "@wormagent/core/session"
 import { SyntheticConflictError } from "@wormagent/core/session/error"
 import { SessionMessage } from "@wormagent/core/session/message"
@@ -89,7 +89,7 @@ function fakeConsole(options: { readonly upgrade?: boolean } = {}) {
       const body = request.method === "POST" ? await request.json() : undefined
       state.requests.push({ method: request.method, path: `${url.pathname}${url.search}`, body })
       if (url.pathname === "/api/v2/config")
-        return Response.json({}, { headers: state.watches ? { [OpencodeWatches.header]: "1" } : {} })
+        return Response.json({}, { headers: state.watches ? { [WormagentWatches.header]: "1" } : {} })
       if (!state.watches && url.pathname.startsWith("/api/event-watches")) return new Response(null, { status: 404 })
       if (url.pathname === "/api/event-watches/stream") {
         if (state.upgrade && server.upgrade(request, { data: undefined })) return undefined
@@ -239,7 +239,7 @@ const location = Effect.fnUntraced(function* () {
       },
     },
   }
-  yield* OpencodePlugin.effect(host)
+  yield* WormagentPlugin.effect(host)
   return { host, wakes, replays, running }
 })
 
@@ -272,7 +272,7 @@ const context = (sessionID: Session.ID): Tool.Context => ({
   progress: () => Effect.void,
 })
 
-describe("OpencodePlugin event watches", () => {
+describe("WormagentPlugin event watches", () => {
   it.effect("stays dormant while the Console config doesn't advertise event watches", () =>
     withConsole({}, (console) =>
       Effect.gen(function* () {
@@ -488,7 +488,7 @@ describe("OpencodePlugin event watches", () => {
         console.push(watchEvent(session.id, "evt_lost"))
         yield* waitUntil(Effect.sync(() => wakes.length === 1 && console.state.lose === 0))
         // The next connection's snapshot sends the unacknowledged event again.
-        console.state.sockets.forEach((socket) => socket.close(OpencodeWatches.LEASE_CLOSE_CODE, "lease"))
+        console.state.sockets.forEach((socket) => socket.close(WormagentWatches.LEASE_CLOSE_CODE, "lease"))
         yield* waitUntil(Effect.sync(() => console.state.acks.flat().includes("evt_lost")))
         expect(replays).toHaveLength(1)
         expect(wakes).toHaveLength(1)
@@ -525,7 +525,7 @@ describe("OpencodePlugin event watches", () => {
         const { host, wakes } = yield* start(console)
         const session = yield* host.session.create({})
         yield* waitUntil(Effect.sync(() => console.state.opens === 1))
-        console.state.sockets.forEach((socket) => socket.close(OpencodeWatches.LEASE_CLOSE_CODE, "lease"))
+        console.state.sockets.forEach((socket) => socket.close(WormagentWatches.LEASE_CLOSE_CODE, "lease"))
         yield* waitUntil(Effect.sync(() => console.state.sockets.size === 0))
         // Arrives while no socket is open; the next connection's snapshot carries it. The test clock never moves, so
         // a backoff would leave the client disconnected.
@@ -542,7 +542,7 @@ describe("OpencodePlugin event watches", () => {
     ),
   )
 
-  for (const code of [1011, OpencodeWatches.OVERSIZED_CLOSE_CODE])
+  for (const code of [1011, WormagentWatches.OVERSIZED_CLOSE_CODE])
     it.effect(`reconnects after a backoff when Console closes the socket with ${code}`, () =>
       withConsole({}, (console) =>
         Effect.gen(function* () {
@@ -691,7 +691,7 @@ describe("OpencodePlugin event watches", () => {
         yield* waitUntil(Effect.sync(() => console.state.lose === 2))
         for (const replayed of [1, 2, 3]) {
           yield* TestClock.adjust("10 minutes")
-          console.state.sockets.forEach((socket) => socket.close(OpencodeWatches.LEASE_CLOSE_CODE, "lease"))
+          console.state.sockets.forEach((socket) => socket.close(WormagentWatches.LEASE_CLOSE_CODE, "lease"))
           yield* waitUntil(Effect.sync(() => replays.length === replayed))
         }
         yield* deliver(console, watchEvent(session.id, "evt_new"))
@@ -837,12 +837,12 @@ describe("OpencodePlugin event watches", () => {
         const session = yield* host.session.create({})
         yield* waitUntil(Effect.sync(() => console.state.opens === 1))
         console.push(
-          ...Array.from({ length: OpencodeWatches.ACK_LIMIT + 1 }, (_, index) =>
+          ...Array.from({ length: WormagentWatches.ACK_LIMIT + 1 }, (_, index) =>
             watchEvent(session.id, `evt_${index}`, { body: "" }),
           ),
         )
-        yield* waitUntil(Effect.sync(() => console.state.acks.flat().length === OpencodeWatches.ACK_LIMIT + 1))
-        expect(console.state.acks.map((ids) => ids.length)).toEqual([OpencodeWatches.ACK_LIMIT, 1])
+        yield* waitUntil(Effect.sync(() => console.state.acks.flat().length === WormagentWatches.ACK_LIMIT + 1))
+        expect(console.state.acks.map((ids) => ids.length)).toEqual([WormagentWatches.ACK_LIMIT, 1])
       }),
     ),
   )
@@ -1110,27 +1110,27 @@ describe("OpencodePlugin event watches", () => {
   )
 })
 
-describe("OpencodeWatches.shellTarget", () => {
+describe("WormagentWatches.shellTarget", () => {
   it.effect("skips failed, ambiguous and non-GitHub commands", () =>
     Effect.sync(() => {
       const push = "To github.com:acme/app.git\n   1111111..2222222  main -> main\n"
-      expect(OpencodeWatches.shellTarget("git push", { exitCode: 0, output: push })).toEqual({
+      expect(WormagentWatches.shellTarget("git push", { exitCode: 0, output: push })).toEqual({
         _tag: "GitHubBranch",
         repo: "acme/app",
         branch: "main",
       })
-      expect(OpencodeWatches.shellTarget("git push", { exitCode: 1, output: push })).toBeUndefined()
+      expect(WormagentWatches.shellTarget("git push", { exitCode: 1, output: push })).toBeUndefined()
       expect(
-        OpencodeWatches.shellTarget("git push --all", { exitCode: 0, output: `${push}   3333333..4444444  dev -> dev\n` }),
+        WormagentWatches.shellTarget("git push --all", { exitCode: 0, output: `${push}   3333333..4444444  dev -> dev\n` }),
       ).toBeUndefined()
       expect(
-        OpencodeWatches.shellTarget("git push", {
+        WormagentWatches.shellTarget("git push", {
           exitCode: 0,
           output: "To gitlab.com:acme/app.git\n   1111111..2222222  main -> main\n",
         }),
       ).toBeUndefined()
-      expect(OpencodeWatches.shellTarget("git push", { exitCode: 0, output: "Everything up-to-date\n" })).toBeUndefined()
-      expect(OpencodeWatches.shellTarget("echo git status", { exitCode: 0, output: push })).toBeUndefined()
+      expect(WormagentWatches.shellTarget("git push", { exitCode: 0, output: "Everything up-to-date\n" })).toBeUndefined()
+      expect(WormagentWatches.shellTarget("echo git status", { exitCode: 0, output: push })).toBeUndefined()
     }),
   )
 })

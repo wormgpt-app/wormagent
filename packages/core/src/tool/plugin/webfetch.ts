@@ -54,7 +54,7 @@ const headers = (format: Format, userAgent: string) => ({
   "Accept-Language": "en-US,en;q=0.9",
 })
 
-const openCodeUserAgent =
+const wormAgentUserAgent =
   "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; WormAgent-User/1.0; +https://wormagent.net"
 
 const isCloudflareChallenge = (error: unknown) => {
@@ -63,7 +63,7 @@ const isCloudflareChallenge = (error: unknown) => {
   return response.status === 403 && response.headers["cf-mitigated"] === "challenge"
 }
 
-const request = (url: string, format: Format, userAgent = openCodeUserAgent) =>
+const request = (url: string, format: Format, userAgent = wormAgentUserAgent) =>
   HttpClientRequest.get(url).pipe(HttpClientRequest.setHeaders(headers(format, userAgent)))
 
 const assertHttpUrl = (url: URL) => {
@@ -81,7 +81,7 @@ const execute = (
   check: (url: string) => Effect.Effect<void, Error>,
   url: string,
   format: Format,
-  userAgent = openCodeUserAgent,
+  userAgent = wormAgentUserAgent,
   redirects = 0,
 ): Effect.Effect<HttpClientResponse.HttpClientResponse, Error> =>
   http.execute(request(url, format, userAgent)).pipe(

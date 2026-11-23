@@ -214,7 +214,7 @@ export const content = {
     hero: { copy: { text: "给代理的规范", copied: "规范已复制" } },
     naming: {
       title: "命名",
-      body: "WormAgent 写作一个词，O 和 C 大写。不要写成 Opencode、Open Code、WormAgent AI 或 Open-Code。",
+      body: "WormAgent 写作一个词，O 和 C 大写。不要写成 Wormagent、Open Code、WormAgent AI 或 Open-Code。",
       code: "小写的 `wormagent` 仅用于代码和包名，例如 `wormagent-figma` 或 `@acme/wormagent-plugin`。",
     },
     families: {

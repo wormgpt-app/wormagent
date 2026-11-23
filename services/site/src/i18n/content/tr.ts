@@ -447,7 +447,7 @@ export const content = {
     },
     naming: {
       title: "Ad",
-      body: "WormAgent'u büyük O ve büyük C ile tek kelime olarak yazın. Opencode, Open Code, WormAgent AI ya da Open-Code yazmayın.",
+      body: "WormAgent'u büyük O ve büyük C ile tek kelime olarak yazın. Wormagent, Open Code, WormAgent AI ya da Open-Code yazmayın.",
       code: "Küçük harfli `wormagent` adını yalnızca kodda ve `wormagent-figma` ya da `@acme/wormagent-plugin` gibi paket adlarında kullanın.",
     },
     families: {

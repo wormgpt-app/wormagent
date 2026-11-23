@@ -4,7 +4,7 @@ import { destinationOrigin } from "./policy"
 /** UX only: the native navigation fence and the document's network allowlist do not depend on this script. */
 export function artifactLinks(cdp: Cdp, current: () => string | undefined, offer: (url: string) => void) {
   const world = "wormagent-artifact-links"
-  const binding = "openCodeArtifactLink"
+  const binding = "wormAgentArtifactLink"
   const installed = new Map<string, Promise<void>>()
   let ready: Promise<void> | undefined
 

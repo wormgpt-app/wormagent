@@ -12,7 +12,7 @@ import pkg from "../package.json"
 import { discoverPluginRuntimeSpecifiers, pluginRuntimeLoaderCode } from "@wormagent/plugin/runtime-modules"
 import { buildAppArchive } from "./app-assets"
 import { verifyArtifact, verifySimulationGraph } from "./verify-artifact"
-import { resolveOpencodePty } from "./wormagent-pty"
+import { resolveWormagentPty } from "./wormagent-pty"
 import { NativeArch } from "../../../script/native-arch"
 import { bundledModelsSnapshot, modelsSnapshotPlugin } from "../../core/script/models-snapshot"
 
@@ -128,7 +128,7 @@ const wsReexportPlugin: BunPlugin = {
 }
 
 for (const item of targets) {
-  const wormagentPty = await resolveOpencodePty({
+  const wormagentPty = await resolveWormagentPty({
     platform: item.os,
     arch: item.arch,
     ...(item.os === "linux" ? { libc: item.abi ?? "glibc" } : {}),

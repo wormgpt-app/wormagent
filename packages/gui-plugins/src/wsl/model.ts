@@ -1,12 +1,12 @@
 import fuzzysort from "fuzzysort"
-import type { WslInstalledDistro, WslOnlineDistro, WslOpencodeCheck, WslServersState } from "./contract"
+import type { WslInstalledDistro, WslOnlineDistro, WslWormagentCheck, WslServersState } from "./contract"
 import {
   selectWslDialogAdding,
   selectWslDialogBusy,
   selectWslDialogCatalogSearch,
   selectWslDialogCatalogTarget,
   selectWslDialogInstallingCatalog,
-  selectWslDialogInstallingOpencode,
+  selectWslDialogInstallingWormagent,
   selectWslDialogSelectedDistro,
   selectWslDialogView,
   type WslDialogState,
@@ -122,7 +122,7 @@ export function addServerViewModel(input: {
       selectedDistro,
       wormagentCheck,
       busy: working,
-      installingOpencode: selectWslDialogInstallingOpencode(input.dialog, selectedDistro),
+      installingWormagent: selectWslDialogInstallingWormagent(input.dialog, selectedDistro),
       adding: selectWslDialogAdding(input.dialog),
       probingAddable: input.probingAddable,
     }),
@@ -194,11 +194,11 @@ function addServerDistroStatus(input: {
 
   if (!check) return probing ? checkingStatus() : undefined
 
-  if (check.matchesDesktop === false) return { label: { key: "onboarding.updateOpencode" }, tone: "warning" }
+  if (check.matchesDesktop === false) return { label: { key: "onboarding.updateWormagent" }, tone: "warning" }
 
   if (!check.resolvedPath) return { label: { key: "onboarding.distroStatus.wormagentMissing" }, tone: "warning" }
 
-  if (check.error) return { label: { key: "onboarding.installOpencode" }, tone: "warning" }
+  if (check.error) return { label: { key: "onboarding.installWormagent" }, tone: "warning" }
 
   return { label: { key: "onboarding.distroStatus.ready" }, tone: "success" }
 }
@@ -210,21 +210,21 @@ function checkingStatus(): DistroStatus {
 function addServerPrimaryButton(input: {
   state: WslServersState | undefined
   selectedDistro: string | null
-  wormagentCheck: WslOpencodeCheck | null
+  wormagentCheck: WslWormagentCheck | null
   /** Main runs a job the dialog waits for, or the dialog waits for its own call. */
   busy: boolean
   /** The dialog asked main to install WormAgent in the selected distro and waits for the answer. */
-  installingOpencode: boolean
+  installingWormagent: boolean
   adding: boolean
   probingAddable: boolean
 }): AddServerPrimaryButton {
   const ready = !!input.selectedDistro && wslDistroReady(input.state, input.selectedDistro)
   const probingSelected = input.probingAddable && !addServerSelectedDistroSettled(input.state, input.selectedDistro)
   const job = input.selectedDistro ? input.state?.distroJobs[input.selectedDistro] : undefined
-  const probingOpencode = probingSelected || (ready && (!input.wormagentCheck || job === "probing"))
-  const installingOpencode = job === "updating" || input.installingOpencode
+  const probingWormagent = probingSelected || (ready && (!input.wormagentCheck || job === "probing"))
+  const installingWormagent = job === "updating" || input.installingWormagent
 
-  if (!ready || probingOpencode) {
+  if (!ready || probingWormagent) {
     return {
       variant: "contrast",
       label: probingSelected ? { key: "onboarding.distroStatus.checking" } : { key: "server.add" },
@@ -235,19 +235,19 @@ function addServerPrimaryButton(input: {
     }
   }
 
-  if (!addServerOpencodeReady(input.wormagentCheck)) {
+  if (!addServerWormagentReady(input.wormagentCheck)) {
     const update = !!input.wormagentCheck?.resolvedPath && input.wormagentCheck.matchesDesktop === false
 
     return {
       variant: "neutral",
-      label: installingOpencode
-        ? { key: "onboarding.updatingOpencode" }
+      label: installingWormagent
+        ? { key: "onboarding.updatingWormagent" }
         : update
-          ? { key: "onboarding.updateOpencode" }
-          : { key: "onboarding.installOpencode" },
+          ? { key: "onboarding.updateWormagent" }
+          : { key: "onboarding.installWormagent" },
       disabled: input.busy,
       action: "install-wormagent",
-      loading: installingOpencode,
+      loading: installingWormagent,
       width: update ? "138px" : "129px",
     }
   }
@@ -262,7 +262,7 @@ function addServerPrimaryButton(input: {
   }
 }
 
-function addServerOpencodeReady(check: WslOpencodeCheck | null) {
+function addServerWormagentReady(check: WslWormagentCheck | null) {
   return !!check?.resolvedPath && check.matchesDesktop !== false && !check.error
 }
 

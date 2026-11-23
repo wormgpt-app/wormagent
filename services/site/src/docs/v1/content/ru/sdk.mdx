@@ -28,9 +28,9 @@ npm install @wormagent/sdk
 Создайте экземпляр wormagent:
 
 ```javascript
-import { createOpencode } from "@wormagent/sdk"
+import { createWormagent } from "@wormagent/sdk"
 
-const { client } = await createOpencode()
+const { client } = await createWormagent()
 ```
 
 Это запускает и сервер, и клиент.
@@ -52,9 +52,9 @@ const { client } = await createOpencode()
 Вы можете передать объект конфигурации для настройки поведения. Экземпляр по-прежнему получает ваш `wormagent.json`, но вы можете переопределить или добавить встроенную конфигурацию:
 
 ```javascript
-import { createOpencode } from "@wormagent/sdk"
+import { createWormagent } from "@wormagent/sdk"
 
-const wormagent = await createOpencode({
+const wormagent = await createWormagent({
   hostname: "127.0.0.1",
   port: 4096,
   config: {
@@ -72,9 +72,9 @@ wormagent.server.close()
 Если у вас уже есть работающий экземпляр wormagent, вы можете создать экземпляр клиента для подключения к нему:
 
 ```javascript
-import { createOpencodeClient } from "@wormagent/sdk"
+import { createWormagentClient } from "@wormagent/sdk"
 
-const client = createOpencodeClient({
+const client = createWormagentClient({
   baseUrl: "http://localhost:4096",
 })
 ```

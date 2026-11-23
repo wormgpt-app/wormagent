@@ -185,7 +185,7 @@ mod tests {
     #[test]
     fn a_shim_names_its_exe() {
         assert_eq!(shim_target(EXE_SHIM), Some("\\node_modules\\@wormagent\\cli\\bin\\wormagent.exe"));
-        assert_eq!(shim_target("\"%~dp0\\bin\\Opencode.EXE\" %*"), Some("\\bin\\Opencode.EXE"));
+        assert_eq!(shim_target("\"%~dp0\\bin\\Wormagent.EXE\" %*"), Some("\\bin\\Wormagent.EXE"));
         assert_eq!(shim_target(NODE_SHIM), None);
         assert_eq!(shim_target("\"%dp0%\\bin\\wormagent.js\" %*"), None);
         assert_eq!(shim_target("\"%dp0%\\%x%.exe\" %*"), None);

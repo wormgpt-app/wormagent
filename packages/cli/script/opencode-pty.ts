@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises"
 import { createRequire } from "node:module"
 import path from "node:path"
 
-export type OpencodePtyAsset = {
+export type WormagentPtyAsset = {
   readonly source: string
   readonly version: string
   readonly sha256: string
@@ -18,7 +18,7 @@ type Target = {
 const core = createRequire(path.resolve(import.meta.dirname, "../../core/package.json"))
 const pty = createRequire(core.resolve("@wormagent/pty/package.json"))
 
-export async function resolveOpencodePty(target: Target): Promise<OpencodePtyAsset | undefined> {
+export async function resolveWormagentPty(target: Target): Promise<WormagentPtyAsset | undefined> {
   if (target.platform !== "darwin" && target.platform !== "linux" && target.platform !== "win32") return undefined
   if (target.arch !== "arm64" && target.arch !== "x64") return undefined
 

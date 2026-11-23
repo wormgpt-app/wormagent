@@ -8,7 +8,7 @@ import { originOf, type PermissionKind } from "./site-permissions"
 // page's call therefore asks the pane first, through a CDP binding, and reaches Blink only once the pane lets it.
 // A page that works around the wrapper only gets the old order: the site's own request still needs the user's Allow.
 
-const BINDING = "openCodeMediaGate"
+const BINDING = "wormAgentMediaGate"
 
 const Ask = Schema.fromJsonString(
   Schema.Struct({ id: Schema.Int.check(Schema.isGreaterThan(0)), audio: Schema.Boolean, video: Schema.Boolean }),
@@ -70,7 +70,7 @@ export function mediaGateScript(answer: string) {
  * own session or in an out-of-process frame's.
  */
 export function guardMediaRequests(cdp: Cdp, decide: (ask: MediaAsk) => Promise<boolean>) {
-  const answer = `openCodeMediaAnswer${crypto.randomUUID().replaceAll("-", "")}`
+  const answer = `wormAgentMediaAnswer${crypto.randomUUID().replaceAll("-", "")}`
   // Each execution context's origin and frame, by session and id, so a held call is decided for its real document.
   const contexts = new Map<string, { readonly origin: string; readonly frameId?: string }>()
   const key = (sessionID: string | undefined, id: number) => `${sessionID ?? ""}\n${id}`

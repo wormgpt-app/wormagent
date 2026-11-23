@@ -258,7 +258,7 @@ export const content = {
     hero: { copy: { text: "에이전트용 규칙", copied: "규칙 복사됨" } },
     naming: {
       title: "명칭",
-      body: "WormAgent는 대문자 O와 대문자 C를 써서 한 단어로 표기합니다. Opencode, Open Code, WormAgent AI, Open-Code로 쓰지 마세요.",
+      body: "WormAgent는 대문자 O와 대문자 C를 써서 한 단어로 표기합니다. Wormagent, Open Code, WormAgent AI, Open-Code로 쓰지 마세요.",
       code: "소문자 `wormagent`는 `wormagent-figma`나 `@acme/wormagent-plugin`처럼 코드와 패키지 이름에만 쓰세요.",
     },
     families: {

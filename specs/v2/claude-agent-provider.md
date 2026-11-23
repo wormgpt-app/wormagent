@@ -57,8 +57,8 @@ Claude Code reads none of the user's Claude settings. The plugin passes every se
 - Built-in tools. Claude uses wormagent's tools instead.
 - Auto compaction. wormagent compacts instead.
 - Auto memory. Claude saves notes about the user and project to its own files and reads them in later sessions. Only Claude models would see them, and wormagent could not show or control them.
-- Away summaries. Claude Code writes a recap when you come back to an idle terminal session. Opencode does not do this.
-- Tool search. Claude Code hides MCP tools until Claude searches for them. All of wormagent's tools reach Claude as MCP tools, so this would hide every one of them. Opencode also has native tool deferral through codemode for normal MCPs.
+- Away summaries. Claude Code writes a recap when you come back to an idle terminal session. Wormagent does not do this.
+- Tool search. Claude Code hides MCP tools until Claude searches for them. All of wormagent's tools reach Claude as MCP tools, so this would hide every one of them. Wormagent also has native tool deferral through codemode for normal MCPs.
 - The advisor tool. Claude can ask a stronger model for advice in the middle of a task, using the user's plan. wormagent could not show or control these calls.
 - The non-streaming fallback. When a stream fails partway, Claude Code retries without streaming, and wormagent would hang waiting for the step to end.
 - The refusal fallback. When a safety classifier flags a request, Claude Code switches the session to another model, so the model running would no longer match the one picked in wormagent.

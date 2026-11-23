@@ -1,4 +1,4 @@
-export * as OpencodeArtifacts from "./wormagent-artifacts.js"
+export * as WormagentArtifacts from "./wormagent-artifacts.js"
 
 import { createHash } from "node:crypto"
 import type { Context } from "@wormagent/plugin/effect/plugin"

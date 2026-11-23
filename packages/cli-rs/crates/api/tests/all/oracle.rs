@@ -44,7 +44,7 @@ async fn requests_match_the_typescript_client() {
         })
         .await;
     let _ = client
-        .with_header("X-Opencode-Directory", "/override")
+        .with_header("X-Wormagent-Directory", "/override")
         .session_get(&SessionGetInput { session_id: "ses_1 /?#%".into() })
         .await;
     let _ = client.file_read(&FileReadInput { location: location("/w"), path: "dir/a b/c#?.txt".to_owned() }).await;

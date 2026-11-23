@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url"
 import { getNodeAssets } from "@opentui/core/node-assets"
 import { attentionSoundAssets, type NodeTarget, photonWasmAsset } from "../src/node/target"
 import { collectFiles } from "./files"
-import { resolveOpencodePty } from "./wormagent-pty"
+import { resolveWormagentPty } from "./wormagent-pty"
 
 const dir = path.resolve(import.meta.dirname, "..")
 
@@ -19,7 +19,7 @@ export type NodeAsset = {
 }
 
 export async function collectNodeAssets(target: NodeTarget) {
-  const wormagentPty = await resolveOpencodePty({
+  const wormagentPty = await resolveWormagentPty({
     platform: target.platform,
     arch: target.arch,
     ...(target.platform === "linux" ? { libc: "glibc" as const } : {}),

@@ -52,7 +52,7 @@ await call("session.list", () =>
   client.session.list({ limit: 5, order: "desc", search: "héllo wörld+?", parentID: null, archived: false }),
 )
 await call("session.get", () =>
-  client.session.get({ sessionID: "ses_1 /?#%" }, { headers: { "X-Opencode-Directory": "/override" } }),
+  client.session.get({ sessionID: "ses_1 /?#%" }, { headers: { "X-Wormagent-Directory": "/override" } }),
 )
 await call("file.read", () => client.file.read({ path: "dir/a b/c#?.txt", location: { directory: "/w" } }))
 await call("session.prompt", () =>

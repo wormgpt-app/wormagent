@@ -1,4 +1,4 @@
-import type { WslOpencodeCheck, WslServersState } from "./contract"
+import type { WslWormagentCheck, WslServersState } from "./contract"
 
 /** A configured distro's settings row, from main's state alone. A server still starting can be updated or removed. */
 export function wslRowView(state: WslServersState | undefined, distro: string) {
@@ -16,10 +16,10 @@ export function wslRowView(state: WslServersState | undefined, distro: string) {
   }
 }
 
-function wormagentAction(check: WslOpencodeCheck | undefined) {
+function wormagentAction(check: WslWormagentCheck | undefined) {
   if (!check) return
 
-  if (!check.resolvedPath) return "onboarding.installOpencode"
+  if (!check.resolvedPath) return "onboarding.installWormagent"
 
-  if (check.matchesDesktop === false) return "onboarding.updateOpencode"
+  if (check.matchesDesktop === false) return "onboarding.updateWormagent"
 }

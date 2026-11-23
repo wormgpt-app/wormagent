@@ -290,7 +290,7 @@ export const content = {
     hero: { copy: { text: "Правила для агента", copied: "Скопировано" } },
     naming: {
       title: "Написание",
-      body: "Пишите WormAgent одним словом, с заглавными O и C. Не пишите Opencode, Open Code, WormAgent AI или Open-Code.",
+      body: "Пишите WormAgent одним словом, с заглавными O и C. Не пишите Wormagent, Open Code, WormAgent AI или Open-Code.",
       code: "Строчное `wormagent` используйте только в коде и названиях пакетов, например `wormagent-figma` или `@acme/wormagent-plugin`.",
     },
     families: {
