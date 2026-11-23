@@ -2,112 +2,155 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>WormAgent — The open source coding agent | WormGPT</title>
-<meta name="description" content="WormAgent — The open source coding agent by WormGPT. يعمل على جهازك، مع أي موديل (200+ provider). Desktop, Terminal, Mobile, SDK.">
+<meta name="description" content="WormAgent by WormGPT — AI coding agent يعمل على جهازك مع 200+ موديل. Desktop • Terminal • Mobile • SDK.">
 <link rel="icon" href="/favicon-v3.ico">
-<link rel="apple-touch-icon" href="/apple-touch-icon-v3.png">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#FF0000;--red2:#8B0000;--black:#000;--dark:#0a0000}
-body{font-family:ui-monospace,Menlo,Consolas,monospace;background:#000;color:#fff;line-height:1.7;min-height:100vh}
-body::before{content:"";position:fixed;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#FF0000,#8B0000,#FF0000);background-size:200% 100%;animation:redMove 3s linear infinite;z-index:9999}
-@keyframes redMove{0%{background-position:0% 50%}100%{background-position:200% 50%}}
-a{color:#FF0000;text-decoration:none}
-a:hover{text-decoration:underline}
-.wrap{max-width:760px;margin:0 auto;padding:48px 20px 60px}
-.header{display:flex;align-items:center;justify-content:space-between;padding:12px 0 24px;border-bottom:1px solid #1a0000}
-.logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.04em}
-.logo i{width:32px;height:32px;background:linear-gradient(135deg,#FF0000,#8B0000);display:grid;place-items:center;border-radius:8px;font-style:normal;font-size:18px}
-.logo span{font-size:20px}
-.logo small{color:#888;font-weight:400;font-size:12px;margin-right:8px}
-.badge{border:1px solid #330000;color:#FF0000;padding:6px 12px;border-radius:999px;font-size:12px}
-h1{font-size:32px;line-height:1.25;margin:28px 0 12px;font-weight:900}
-h1 em{color:#FF0000;font-style:normal}
-.sub{color:#aaa;font-size:15px;margin-bottom:22px}
-.card{background:linear-gradient(180deg,#0a0000,#000);border:1px solid #220000;border-radius:16px;padding:18px;margin:14px 0}
-.card h3{font-size:13px;letter-spacing:.08em;color:#FF0000;margin-bottom:10px}
-.cmd{position:relative;background:#000;border:1px solid #330000;border-radius:12px;padding:14px 44px 14px 14px;font-size:13px;overflow:auto;white-space:pre-wrap;word-break:break-all;color:#fff}
-.cmd code{color:#fff}
-.copy{position:absolute;top:8px;left:8px;background:#FF0000;color:#fff;border:0;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
-.copy:active{transform:scale(.96)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
-@media(max-width:640px){.grid{grid-template-columns:1fr} h1{font-size:26px}}
-.mini{font-size:12px;color:#888;margin-top:8px}
-.steps{list-style:none;display:grid;gap:10px;margin:12px 0}
-.steps li{display:flex;gap:10px;align-items:flex-start;background:#0a0000;border:1px solid #1a0000;border-radius:12px;padding:12px}
-.steps li b{background:#FF0000;color:#fff;width:24px;height:24px;display:grid;place-items:center;border-radius:999px;font-size:12px;flex:0 0 24px}
-.footer{margin-top:28px;padding-top:16px;border-top:1px solid #1a0000;color:#666;font-size:12px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+:root{--red:#FF0000;--red2:#8B0000;--red3:#FF2D2D}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#000;color:#fff;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto 0;height:420px;background:radial-gradient(600px 300px at 50% 0%,rgba(255,0,0,.18),transparent 70%),radial-gradient(800px 400px at 80% 0%,rgba(255,0,0,.10),transparent 70%);pointer-events:none;z-index:0}
+.topbar{position:fixed;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#FF0000,#8B0000,#FF0000);background-size:200% 100%;animation:move 3s linear infinite;z-index:9999}
+@keyframes move{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+.nav{height:64px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#FF0000 0%,#8B0000 100%);display:grid;place-items:center;box-shadow:0 8px 30px rgba(255,0,0,.35);font-family:ui-monospace,monospace;font-weight:900}
+.logo b{font-size:18px;letter-spacing:.02em}
+.logo b em{color:var(--red);font-style:normal}
+.logo small{color:#888;font-size:11px;display:block;margin-top:-2px}
+.nav a{font-size:13px;color:#aaa;border:1px solid #222;padding:8px 14px;border-radius:999px;text-decoration:none;transition:.2s}
+.nav a:hover{color:#fff;border-color:#FF0000;background:rgba(255,0,0,.08)}
+.hero{text-align:center;padding:42px 0 18px;animation:fadeUp .7s ease}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.14em;color:#FF6B6B;background:rgba(255,0,0,.08);border:1px solid rgba(255,0,0,.18);padding:6px 12px;border-radius:999px}
+.eyebrow i{width:7px;height:7px;background:#FF0000;border-radius:50%;box-shadow:0 0 10px #FF0000;animation:float 2s ease infinite}
+h1{font-size:42px;line-height:1.05;letter-spacing:-.03em;margin:18px 0 12px;font-weight:900}
+h1 span{background:linear-gradient(180deg,#fff 30%,#FF6B6B 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+@media(max-width:640px){h1{font-size:32px}}
+.sub{color:#a8a8a8;font-size:15.5px;line-height:1.8;max-width:620px;margin:0 auto}
+.sub strong{color:#fff}
+.terminal{margin:26px auto 0;max-width:680px;background:linear-gradient(180deg,#0f0f0f,#0a0a0a);border:1px solid #1e1e1e;border-radius:16px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 0 1px rgba(255,0,0,.08);animation:fadeUp .8s ease .1s both}
+.term-bar{height:38px;display:flex;align-items:center;gap:6px;padding:0 14px;background:#0f0f0f;border-bottom:1px solid #1e1e1e}
+.dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#FF5F56}.dot.y{background:#FFBD2E}.dot.g{background:#27C93F}
+.term-bar span{margin-right:auto;font-size:11.5px;color:#666;font-family:ui-monospace,monospace}
+.cmd-row{display:flex;align-items:center;gap:10px;padding:16px 16px 8px;font-family:ui-monospace,monospace;font-size:13.5px}
+.prompt{color:#FF0000;flex:0 0 auto}
+.cmd-row code{color:#fff;word-break:break-all}
+.copy{margin-right:auto;background:#FF0000;color:#fff;border:0;border-radius:8px;padding:7px 12px;font-size:12px;cursor:pointer;transition:.15s;flex:0 0 auto}
+.copy:hover{background:#CC0000}
+.copy:active{transform:scale(.97)}
+.hint{padding:0 16px 14px;color:#777;font-size:11.5px}
+.tabs{display:flex;gap:8px;justify-content:center;margin:16px 0 0;flex-wrap:wrap}
+.tab{font-size:12.5px;padding:9px 14px;border-radius:999px;border:1px solid #222;background:#0a0a0a;color:#aaa;cursor:pointer;transition:.2s}
+.tab.active,.tab:hover{background:#FF0000;border-color:#FF0000;color:#fff;box-shadow:0 6px 20px rgba(255,0,0,.25)}
+.panel{display:none}
+.panel.active{display:block;animation:fadeUp .35s ease}
+.card{background:linear-gradient(180deg,rgba(255,0,0,.06),rgba(255,0,0,.02));border:1px solid rgba(255,0,0,.12);border-radius:14px;padding:14px;margin:12px auto 0;max-width:680px}
+.card h3{font-size:12px;letter-spacing:.08em;color:#FF6B6B;margin-bottom:10px}
+.code{position:relative;background:#000;border:1px solid #222;border-radius:12px;padding:13px 44px 13px 14px;font-family:ui-monospace,monospace;font-size:12.8px;overflow:auto}
+.code code{white-space:pre-wrap;word-break:break-all}
+.steps{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px auto 0;max-width:680px}
+@media(max-width:640px){.steps{grid-template-columns:1fr}}
+.step{background:rgba(255,255,255,.03);border:1px solid #1e1e1e;border-radius:14px;padding:14px;display:flex;gap:12px}
+.step n{width:28px;height:28px;border-radius:999px;background:linear-gradient(135deg,#FF0000,#8B0000);display:grid;place-items:center;font-size:12px;font-weight:900;flex:0 0 28px;box-shadow:0 4px 14px rgba(255,0,0,.3)}
+.step p{font-size:13px;color:#ccc;line-height:1.6}
+.step p b{color:#fff}
+.footer{margin:28px 0 30px;padding-top:16px;border-top:1px solid #111;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:#666;font-size:12px}
+.footer a{color:#FF6B6B;text-decoration:none}
+.footer a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
+<div class="topbar"></div>
 <div class="wrap">
-  <div class="header">
-    <div class="logo"><i>›_</i><span>WormAgent</span><small>by WormGPT</small></div>
-    <a class="badge" href="https://github.com/wormgpt-app/wormagent" target="_blank">GitHub ↗</a>
+  <div class="nav">
+    <div class="logo"><div class="logo-mark">›_</div><div><b>Worm<em>Agent</em></b><small>by WormGPT • wormagent.net</small></div></div>
+    <a href="https://github.com/wormgpt-app/wormagent" target="_blank">GitHub ↗</a>
   </div>
 
-  <h1><em>WormAgent</em> — The open source<br>coding agent</h1>
-  <p class="sub">يعمل على جهازك، مع أي موديل من 200+ مزود (Claude, GPT, Gemini...). سريع، مفتوح المصدر (MIT)، ويعمل على Desktop و Terminal و Mobile و SDK.</p>
-
-  <div class="card">
-    <h3>⚡ التثبيت — سطر واحد</h3>
-    <div class="cmd"><button class="copy" onclick="copy(this)">نسخ</button><code>curl -fsSL https://wormagent.net/install | bash</code></div>
-    <div class="mini">يُثبّت <code>wormagent</code> في <code>~/.wormagent/bin</code> ويضيفه للـ PATH تلقائياً.</div>
+  <div class="hero">
+    <div class="eyebrow"><i></i> OPEN SOURCE • MIT • v2.4.1</div>
+    <h1><span>WormAgent</span> — وكيل البرمجة<br>الذي يعمل حيث تعمل</h1>
+    <p class="sub">يعمل <strong>على جهازك</strong> مع أي موديل من <strong>200+ مزود</strong> (Claude, GPT, Gemini...). سريع، آمن، ومفتوح المصدر.<br>Desktop • Terminal • Mobile • SDK — نفس الـ Agent في كل مكان.</p>
   </div>
 
-  <div class="grid">
+  <div class="terminal">
+    <div class="term-bar"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span>zsh — wormagent</span></div>
+    <div class="cmd-row"><span class="prompt">›</span><code id="mainCmd">curl -fsSL https://wormagent.net/install | bash</code><button class="copy" onclick="copyCmd('mainCmd',this)">نسخ</button></div>
+    <div class="hint">يُثبّت <code>wormagent</code> في <code>~/.wormagent/bin</code> ويضيفه للـ PATH تلقائياً — سطر واحد فقط.</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="openTab('v2',this)">v2 (موصى به)</button>
+    <button class="tab" onclick="openTab('v1',this)">v1</button>
+    <button class="tab" onclick="openTab('npm',this)">npm / bun</button>
+    <button class="tab" onclick="openTab('win',this)">Windows</button>
+  </div>
+
+  <div id="v2" class="panel active">
     <div class="card">
-      <h3>v2 (موصى به)</h3>
-      <div class="cmd"><button class="copy" onclick="copy(this)">نسخ</button><code>curl -fsSL https://wormagent.net/v2/install | bash</code></div>
-    </div>
-    <div class="card">
-      <h3>v1</h3>
-      <div class="cmd"><button class="copy" onclick="copy(this)">نسخ</button><code>curl -fsSL https://wormagent.net/v1/install | bash</code></div>
+      <h3>تثبيت v2</h3>
+      <div class="code"><button class="copy" onclick="copy(this)">نسخ</button><code>curl -fsSL https://wormagent.net/v2/install | bash</code></div>
     </div>
   </div>
-
-  <div class="card">
-    <h3>📦 npm / bun</h3>
-    <div class="cmd"><button class="copy" onclick="copy(this)">نسخ</button><code>npm i -g @wormagent/cli
+  <div id="v1" class="panel">
+    <div class="card">
+      <h3>تثبيت v1</h3>
+      <div class="code"><button class="copy" onclick="copy(this)">نسخ</button><code>curl -fsSL https://wormagent.net/v1/install | bash</code></div>
+    </div>
+  </div>
+  <div id="npm" class="panel">
+    <div class="card">
+      <h3>npm / bun</h3>
+      <div class="code"><button class="copy" onclick="copy(this)">نسخ</button><code>npm i -g @wormagent/cli
 # أو
 bun add -g @wormagent/cli</code></div>
+    </div>
+  </div>
+  <div id="win" class="panel">
+    <div class="card">
+      <h3>Windows — PowerShell</h3>
+      <div class="code"><button class="copy" onclick="copy(this)">نسخ</button><code>irm https://wormagent.net/install | iex</code></div>
+    </div>
   </div>
 
-  <div class="card">
-    <h3>🪟 Windows (PowerShell)</h3>
-    <div class="cmd"><button class="copy" onclick="copy(this)">نسخ</button><code>irm https://wormagent.net/install | iex</code></div>
-  </div>
-
-  <div class="card">
+  <div class="card" style="max-width:680px;margin-top:14px">
     <h3>▶️ التشغيل</h3>
-    <div class="cmd"><button class="copy" onclick="copy(this)">نسخ</button><code>wormagent
+    <div class="code"><button class="copy" onclick="copy(this)">نسخ</button><code>wormagent
 wormagent --help
 wormagent --version</code></div>
   </div>
 
-  <div class="card">
-    <h3>📖 شرح سريع</h3>
-    <ol class="steps">
-      <li><b>1</b><div><strong>ثبّت</strong> — شغّل أحد أوامر التثبيت أعلاه.</div></li>
-      <li><b>2</b><div><strong>شغّل</strong> — اكتب <code>wormagent</code> في الطرفية.</div></li>
-      <li><b>3</b><div><strong>اختر الموديل</strong> — 200+ provider (Models.dev) أو ابدأ مجاناً.</div></li>
-      <li><b>4</b><div><strong>اعمل</strong> — Desktop / Terminal / Mobile / SDK — نفس الـ Agent في كل مكان.</div></li>
-    </ol>
-    <p class="mini">MIT license — مبني على opencode (SST) ومعاد تسميته لـ WormAgent.net بواسطة WormGPT.</p>
+  <div class="steps">
+    <div class="step"><n>1</n><p><b>ثبّت</b> — شغّل أحد أوامر التثبيت أعلاه</p></div>
+    <div class="step"><n>2</n><p><b>شغّل</b> — اكتب <code>wormagent</code> في الطرفية</p></div>
+    <div class="step"><n>3</n><p><b>اختر الموديل</b> — 200+ provider أو ابدأ مجاناً</p></div>
+    <div class="step"><n>4</n><p><b>اعمل</b> — Desktop / Terminal / Mobile / SDK</p></div>
   </div>
 
   <div class="footer">
     <span>© WormGPT — <a href="https://wormgpt.app">wormgpt.app</a> · <a href="https://wormagent.net">wormagent.net</a></span>
-    <span><a href="https://github.com/wormgpt-app/wormagent">Source</a> · <a href="https://t.me/wormgpt_app">Telegram</a></span>
+    <span><a href="https://github.com/wormgpt-app/wormagent">Source</a> · <a href="https://t.me/wormgpt_app">Telegram</a> · MIT</span>
   </div>
 </div>
 <script>
 function copy(btn){
-  const code=btn.nextElementSibling.innerText;
-  navigator.clipboard.writeText(code).then(()=>{
-    const o=btn.innerText;btn.innerText='تم ✓';setTimeout(()=>btn.innerText=o,1200)
-  })
+  const c=btn.nextElementSibling.innerText;
+  navigator.clipboard.writeText(c).then(()=>{const t=btn.innerText;btn.innerText='تم ✓';setTimeout(()=>btn.innerText=t,1200)})
+}
+function copyCmd(id,btn){
+  const c=document.getElementById(id).innerText;
+  navigator.clipboard.writeText(c).then(()=>{const t=btn.innerText;btn.innerText='تم ✓';setTimeout(()=>btn.innerText=t,1200)})
+}
+function openTab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
 }
 </script>
 </body>
