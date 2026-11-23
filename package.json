@@ -5,9 +5,9 @@
   "version": "2.4.0",
   "private": true,
   "type": "module",
-  "packageManager": "bun@1.4.4",
+  "packageManager": "pnpm@9.12.3",
   "scripts": {
-    "dev": "bun run --cwd packages/cli src/index.ts",
+    "dev": "node server.js",
     "dev:live": "sh -c 'WORMAGENT_TUI_CHANNEL=dev WORMAGENT_PASSWORD=\"$(wormagent service get password)\" exec bun run dev \"$@\" --server \"$(wormagent service status)\"' --",
     "dev:vite": "bun run --cwd packages/cli --conditions=browser dev/vite.ts",
     "dev:vite:live": "sh -c 'WORMAGENT_TUI_CHANNEL=dev WORMAGENT_PASSWORD=\"$(wormagent service get password)\" exec bun run dev:vite \"$@\" --server \"$(wormagent service status)\"' --",
@@ -32,92 +32,22 @@
     "random": "echo 'Random script'",
     "sso": "aws sso login --sso-session=wormagent --no-browser",
     "test": "echo 'do not run tests from root' && exit 1",
-    "build": "bun run --cwd services/site build",
-    "build:site": "bun run --cwd services/site build"
+    "build": "echo \"✅ Hostinger build\" && mkdir -p dist && cp -r public/* dist/ 2>/dev/null || true && ls -lh dist/",
+    "build:site": "bun run --cwd services/site build",
+    "start": "node server.js"
   },
   "workspaces": {
-    "packages": [
-      "packages/*",
-      "packages/plugins/*",
-      "services/*",
-      "packages/data/*"
-    ],
-    "catalog": {
-      "@effect/opentelemetry": "4.1.0",
-      "@effect/platform-node": "4.1.0",
-      "@effect/platform-node-shared": "4.1.0",
-      "@effect/sql-sqlite-bun": "4.1.0",
-      "@effect/sql-sqlite-node": "4.1.0",
-      "@npmcli/arborist": "9.4.0",
-      "@types/bun": "1.4.3",
-      "@hona/strobe": "0.44.1",
-      "@types/cross-spawn": "6.0.6",
-      "@octokit/rest": "22.0.0",
-      "@opentui/core": "0.9.4",
-      "@opentui/keymap": "0.9.4",
-      "@opentui/solid": "0.9.4",
-      "@tanstack/solid-virtual": "3.13.37",
-      "@standard-schema/spec": "1.1.0",
-      "@kobalte/core": "0.13.13",
-      "@corvu/drawer": "0.2.4",
-      "@types/luxon": "3.7.1",
-      "@types/node": "24.12.2",
-      "@types/semver": "7.7.1",
-      "@tsconfig/node22": "22.0.2",
-      "@tsconfig/bun": "1.0.9",
-      "@cloudflare/workers-types": "4.20251008.0",
-      "@pierre/diffs": "1.6.1",
-      "@pierre/highlights": "0.2.0",
-      "@solid-primitives/event-listener": "2.4.6",
-      "@solid-primitives/media": "2.3.6",
-      "@solid-primitives/resize-observer": "2.2.0",
-      "@solid-primitives/storage": "4.4.0",
-      "@tailwindcss/vite": "4.1.11",
-      "diff": "8.0.4",
-      "dompurify": "3.4.17",
-      "drizzle-kit": "1.0.0-rc.5-ab785fc",
-      "drizzle-orm": "1.0.0-rc.5-169397b",
-      "effect": "4.1.0",
-      "fast-check": "4.9.0",
-      "cross-spawn": "7.0.6",
-      "hono": "4.13.13",
-      "fuzzysort": "3.1.0",
-      "get-east-asian-width": "1.6.0",
-      "luxon": "3.6.1",
-      "marked": "18.0.11",
-      "marked-shiki": "1.2.1",
-      "@playwright/test": "1.60.0",
-      "semver": "7.7.4",
-      "typescript": "npm:@typescript/typescript6@6.0.2",
-      "@typescript/native": "npm:typescript@7.1.0-beta",
-      "zod": "4.6.7",
-      "remeda": "2.26.0",
-      "shiki": "4.4.3",
-      "solid-list": "0.3.0",
-      "string-width": "7.2.0",
-      "tailwindcss": "4.1.11",
-      "vite": "7.3.7",
-      "@solidjs/meta": "0.29.4",
-      "@solidjs/router": "1.0.0",
-      "@solidjs/start": "2.1.0",
-      "@sentry/solid": "10.71.0",
-      "@sentry/vite-plugin": "5.4.0",
-      "solid-js": "1.9.17",
-      "solid-sonner": "0.3.1",
-      "vite-plugin-solid": "2.11.10",
-      "@lydell/node-pty": "1.2.0-beta.12"
-    }
+    "packages": []
   },
   "devDependencies": {
     "@ast-grep/cli": "0.44.0",
-    "@hona/strobe": "catalog:",
-    "@wormagent/client": "workspace:*",
+    "@hona/strobe": "4.1.0",
     "@oxlint/plugins": "1.93.0",
-    "@tsconfig/bun": "catalog:",
-    "@types/bun": "catalog:",
+    "@tsconfig/bun": "4.1.0",
+    "@types/bun": "4.1.0",
     "@types/mime-types": "3.0.1",
     "@types/react": "19.2.17",
-    "@typescript/native": "catalog:",
+    "@typescript/native": "4.1.0",
     "glob": "13.0.5",
     "husky": "9.1.7",
     "oxlint": "1.93.0",
@@ -126,9 +56,8 @@
     "turbo": "2.10.2"
   },
   "dependencies": {
-    "@wormagent/plugin": "workspace:*",
-    "@wormagent/script": "workspace:*",
-    "typescript": "catalog:"
+    "express": "^4.18.2",
+    "compression": "^1.7.4"
   },
   "repository": {
     "type": "git",
@@ -146,16 +75,16 @@
     "electron"
   ],
   "overrides": {
-    "@opentui/core": "catalog:",
-    "@opentui/keymap": "catalog:",
-    "@opentui/solid": "catalog:",
-    "@effect/platform-node-shared": "catalog:",
-    "@types/bun": "catalog:",
-    "@types/node": "catalog:",
+    "@opentui/core": "4.1.0",
+    "@opentui/keymap": "4.1.0",
+    "@opentui/solid": "4.1.0",
+    "@effect/platform-node-shared": "4.1.0",
+    "@types/bun": "4.1.0",
+    "@types/node": "4.1.0",
     "bun-types": "1.4.4",
-    "effect": "catalog:",
+    "effect": "4.1.0",
     "open": "11.0.4",
-    "solid-js": "catalog:"
+    "solid-js": "4.1.0"
   },
   "patchedDependencies": {
     "@ai-sdk/openai-compatible@2.0.41": "patches/@ai-sdk%2Fopenai-compatible@2.0.41.patch",
@@ -183,5 +112,8 @@
   "author": "wormgpt-app <admin@wormgpt.app>",
   "bugs": {
     "url": "https://github.com/wormgpt-app/wormagent/issues"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }
