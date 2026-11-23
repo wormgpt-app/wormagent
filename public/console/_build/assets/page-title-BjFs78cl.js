@@ -1,0 +1,1 @@
+import{Rt as e}from"./visitor-B6l4_Qt5.js";var t=`WormAgent Console`,n=e=>`${e} | ${t}`,[r,i]=e([]);export{n as t};

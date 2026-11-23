@@ -30,7 +30,7 @@
     "random": "echo 'Random script'",
     "sso": "aws sso login --sso-session=wormagent --no-browser",
     "test": "echo 'do not run tests from root' && exit 1",
-    "build": "echo \"✅ Building WormAgent.net (full opencode.ai clone)\" && mkdir -p dist && cp -r public/* dist/ && echo \"Built $(find dist -type f | wc -l) files\" && ls -lh dist/ | head -10",
+    "build": "echo \"✅ WormAgent.net 33M 261 files\" && mkdir -p dist && cp -r public/* dist/ && echo \"Built $(find dist -type f | wc -l) files\"",
     "build:site": "bun run --cwd services/site build",
     "start": "node server.js",
     "postinstall": "echo \"✅ Hostinger postinstall — skip bun\""
