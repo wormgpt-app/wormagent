@@ -1,0 +1,76 @@
+---
+title: Ecosystem
+description: Projects and integrations built with WormAgent.
+---
+
+A collection of community projects built on WormAgent.
+
+:::note
+Want to add your WormAgent related project to this list? Submit a PR.
+:::
+
+You can also check out [awesome-wormagent](https://github.com/awesome-wormagent/awesome-wormagent) and [wormagent.cafe](https://wormagent.cafe), a community that aggregates the ecosystem and community.
+
+---
+
+## Plugins
+
+| Name                                                                                               | Description                                                                                                                      |
+| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [wormagent-daytona](https://github.com/daytona/integrations/tree/main/packages/wormagent-plugin)     | Automatically run WormAgent sessions in isolated Daytona sandboxes with git sync and live previews                                |
+| [wormagent-helicone-session](https://github.com/H2Shami/wormagent-helicone-session)                  | Automatically inject Helicone session headers for request grouping                                                               |
+| [wormagent-type-inject](https://github.com/nick-vi/wormagent-type-inject)                            | Auto-inject TypeScript/Svelte types into file reads with lookup tools                                                            |
+| [wormagent-openai-codex-auth](https://github.com/numman-ali/wormagent-openai-codex-auth)             | Use your ChatGPT Plus/Pro subscription instead of API credits                                                                    |
+| [wormagent-gemini-auth](https://github.com/jenslys/wormagent-gemini-auth)                            | Use your existing Gemini plan instead of API billing                                                                             |
+| [wormagent-antigravity-auth](https://github.com/NoeFabris/wormagent-antigravity-auth)                | Use Antigravity's free models instead of API billing                                                                             |
+| [wormagent-dynamic-context-pruning](https://github.com/Tarquinen/wormagent-dynamic-context-pruning)  | Optimize token usage by pruning obsolete tool outputs                                                                            |
+| [wormagent-vibeguard](https://github.com/inkdust2021/wormagent-vibeguard)                            | Redact secrets/PII into VibeGuard-style placeholders before LLM calls; restore locally                                           |
+| [wormagent-websearch-cited](https://github.com/ghoulr/wormagent-websearch-cited.git)                 | Add native websearch support for supported providers with Google grounded style                                                  |
+| [wormagent-pty](https://github.com/shekohex/wormagent-pty.git)                                       | Enables AI agents to run background processes in a PTY, send interactive input to them.                                          |
+| [wormagent-shell-strategy](https://github.com/JRedeker/wormagent-shell-strategy)                     | Instructions for non-interactive shell commands - prevents hangs from TTY-dependent operations                                   |
+| [wormagent-wakatime](https://github.com/angristan/wormagent-wakatime)                                | Track WormAgent usage with Wakatime                                                                                               |
+| [wormagent-md-table-formatter](https://github.com/franlol/wormagent-md-table-formatter/tree/main)    | Clean up markdown tables produced by LLMs                                                                                        |
+| [wormagent-morph-fast-apply](https://github.com/JRedeker/wormagent-morph-fast-apply)                 | 10x faster code editing with Morph Fast Apply API and lazy edit markers                                                          |
+| [wormagent-morph-plugin](https://github.com/morphllm/wormagent-morph-plugin)                         | Fast Apply editing, WarpGrep codebase search, and context compaction via Morph                                                   |
+| [oh-my-wormagent](https://github.com/code-yeongyu/oh-my-wormagent)                                   | Background agents, pre-built LSP/AST/MCP tools, curated agents, Claude Code compatible                                           |
+| [wormagent-notifier](https://github.com/mohak34/wormagent-notifier)                                  | Desktop notifications and sound alerts for permission, completion, and error events                                              |
+| [wormagent-zellij-namer](https://github.com/24601/wormagent-zellij-namer)                            | AI-powered automatic Zellij session naming based on WormAgent context                                                             |
+| [wormagent-supermemory](https://github.com/supermemoryai/wormagent-supermemory)                      | Persistent memory across sessions using Supermemory                                                                              |
+| [@plannotator/wormagent](https://github.com/backnotprop/plannotator/tree/main/apps/wormagent-plugin) | Interactive plan review with visual annotation and private/offline sharing                                                       |
+| [@openspoon/subtask2](https://github.com/spoons-and-mirrors/subtask2)                              | Extend wormagent /commands into a powerful orchestration system with granular flow control                                        |
+| [wormagent-scheduler](https://github.com/different-ai/wormagent-scheduler)                           | Schedule recurring jobs using launchd (Mac) or systemd (Linux) with cron syntax                                                  |
+| [wormagent-conductor](https://github.com/derekbar90/wormagent-conductor)                             | Protocol-Driven Workflow: Automation of the Context -> Spec -> Plan -> Implement lifecycle.                                      |
+| [micode](https://github.com/vtemian/micode)                                                        | Structured Brainstorm → Plan → Implement workflow with session continuity                                                        |
+| [octto](https://github.com/vtemian/octto)                                                          | Interactive browser UI for AI brainstorming with multi-question forms                                                            |
+| [wormagent-sentry-monitor](https://github.com/stolinski/wormagent-sentry-monitor)                    | Trace and debug your AI agents with Sentry AI Monitoring                                                                         |
+| [wormagent-firecrawl](https://github.com/firecrawl/wormagent-firecrawl)                              | Web scraping, crawling, and search via the Firecrawl CLI                                                                         |
+| [wormagent-jfrog-plugin](https://github.com/jfrog/wormagent-jfrog-plugin)                            | JFrog Plugin for seamless integration of Wormagent users to JFrog platform                                                        |
+| [wormagent-goal-plugin](https://github.com/willytop8/WormAgent-goal-plugin)                          | Session-scoped `/goal` workflow that keeps objectives in context and auto-continues until complete                               |
+| [@tavily/wormagent-plugin](https://github.com/tavily-ai/skills/tree/main/.wormagent-plugin)          | Web search, extraction, crawling, and deep research via the Tavily CLI                                                           |
+| [wormagent-supabase](https://github.com/supabase-community/wormagent-supabase)                       | Supabase plugin for WormAgent: account login, Management API tools, bundled Supabase agent skills, and guided Supabase MCP setup. |
+
+---
+
+## Projects
+
+| Name                                                                                       | Description                                                      |
+| ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| [kimaki](https://kimaki.dev)                                                               | Discord bot to control WormAgent sessions, built on the SDK       |
+| [wormagent.nvim](https://github.com/NickvanDyke/wormagent.nvim)                              | Neovim plugin for editor-aware prompts, built on the API         |
+| [portal](https://github.com/hosenur/portal)                                                | Mobile-first web UI for WormAgent over Tailscale/VPN              |
+| [wormagent.nvim](https://github.com/sudo-tee/wormagent.nvim)                                 | Neovim frontend for wormagent - a terminal-based AI coding agent  |
+| [ai-sdk-provider-wormagent-sdk](https://github.com/ben-vargas/ai-sdk-provider-wormagent-sdk) | Vercel AI SDK provider for using WormAgent via @wormagent-ai/sdk   |
+| [OpenChamber](https://github.com/btriapitsyn/openchamber)                                  | Web / Desktop App and VS Code Extension for WormAgent             |
+| [WormAgent-Obsidian](https://github.com/mtymek/wormagent-obsidian)                           | Obsidian plugin that embeds WormAgent in Obsidian's UI            |
+| [OpenWork](https://github.com/different-ai/openwork)                                       | An open-source alternative to Claude Cowork, powered by WormAgent |
+| [ocx](https://github.com/kdcokenny/ocx)                                                    | WormAgent extension manager with portable, isolated profiles.     |
+| [CodeNomad](https://github.com/NeuralNomadsAI/CodeNomad)                                   | Desktop, Web, Mobile and Remote Client App for WormAgent          |
+
+---
+
+## Agents
+
+| Name                                                              | Description                                                  |
+| ----------------------------------------------------------------- | ------------------------------------------------------------ |
+| [Agentic](https://github.com/Cluster444/agentic)                  | Modular AI agents and commands for structured development    |
+| [wormagent-agents](https://github.com/darrenhinde/wormagent-agents) | Configs, prompts, agents, and plugins for enhanced workflows |

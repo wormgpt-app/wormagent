@@ -1,0 +1,39 @@
+{
+  "name": "wormagent-data-production",
+  "compatibilityDate": "2026-07-25",
+  "compatibilityFlags": ["nodejs_compat"],
+  "triggers": [
+    { "type": "fetch", "pattern": "wormagent.net/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/en/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/zh/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/zht/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/ko/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/de/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/es/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/fr/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/it/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/da/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/ja/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/pl/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/ru/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/uk/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/ar/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/no/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/br/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/th/data*", "zone": "wormagent.net" },
+    { "type": "fetch", "pattern": "wormagent.net/tr/data*", "zone": "wormagent.net" }
+  ],
+  "observability": { "enabled": true },
+  "workersDev": false,
+  "previewUrls": false,
+  "env": {
+    "ASSETS": { "type": "assets" },
+    "OG_WORKER": { "type": "worker", "worker": "wormagent-data-og-production" },
+    "STAGE": { "type": "text", "value": "production" },
+    "PUBLIC_URL": { "type": "text", "value": "https://wormagent.net/data" },
+    "DATA_DATABASE_HOST": { "type": "secret" },
+    "DATA_DATABASE_USERNAME": { "type": "secret" },
+    "DATA_DATABASE_PASSWORD": { "type": "secret" }
+  },
+  "manifest": { "type": "partial", "mainModule": "index.mjs", "modules": {} }
+}

@@ -1,0 +1,97 @@
+---
+title: "Intro"
+description: "Install WormAgent, the open source coding agent, as a CLI, desktop app, web app, or Docker image, then connect a model provider."
+---
+
+WormAgent is an open source coding agent. It’s available as a terminal-based interface, desktop app, or web app.
+
+
+## CLI
+
+<CodeTabs
+  id="install"
+  label="Install method"
+  tabs={[
+    { label: "curl", code: "curl -fsSL https://wormagent.net/v2/install | bash" },
+    { label: "homebrew", code: "brew install anomalyco/tap/wormagent-v2" },
+    { label: "npm", code: "npm install -g @wormagent/cli" },
+    { label: "bun", code: "bun install -g --trust @wormagent/cli" },
+    { label: "pnpm", code: "pnpm add -g --allow-build=@wormagent/cli @wormagent/cli" },
+    { label: "yarn", code: "yarn global add @wormagent/cli" },
+    { label: "vite+", code: "vp install -g @wormagent/cli" },
+    { label: "aur", code: "paru -S wormagent-beta" },
+    { label: "mise", code: "mise use -g wormagent" },
+  ]}
+/>
+
+The npm package uses a postinstall script to select the native `wormagent` binary for your platform. The Bun and pnpm commands
+explicitly allow the required script; Vite+ requires no additional flag. The mise command requires mise 2026.10.9 or later;
+older versions install WormAgent 1.
+
+Windows package managers are not supported.
+
+
+Download a standalone CLI binary for your platform.
+
+- **macOS:** [Apple silicon](https://wormagent.net/update/api/latest/cli/wormagent/wormagent-darwin-arm64.zip) · [Intel](https://wormagent.net/update/api/latest/cli/wormagent/wormagent-darwin-x64.zip) · [Intel (baseline)](https://wormagent.net/update/api/latest/cli/wormagent/wormagent-darwin-x64-baseline.zip)
+- **Windows:** [ARM64](https://wormagent.net/update/api/latest/cli/wormagent/wormagent-windows-arm64.zip) · [x64](https://wormagent.net/update/api/latest/cli/wormagent/wormagent-windows-x64.zip) · [x64 (baseline)](https://wormagent.net/update/api/latest/cli/wormagent/wormagent-windows-x64-baseline.zip)
+- **Linux (glibc):** [ARM64](https://wormagent.net/update/api/latest/cli/wormagent/wormagent-linux-arm64.tar.gz) · [x64](https://wormagent.net/update/api/latest/cli/wormagent/wormagent-linux-x64.tar.gz) · [x64 (baseline)](https://wormagent.net/update/api/latest/cli/wormagent/wormagent-linux-x64-baseline.tar.gz)
+- **Linux (musl):** [ARM64](https://wormagent.net/update/api/latest/cli/wormagent/wormagent-linux-arm64-musl.tar.gz) · [x64](https://wormagent.net/update/api/latest/cli/wormagent/wormagent-linux-x64-musl.tar.gz) · [x64 (baseline)](https://wormagent.net/update/api/latest/cli/wormagent/wormagent-linux-x64-baseline-musl.tar.gz)
+
+## Desktop
+
+Download the latest WormAgent Desktop build for your platform.
+
+- **macOS:** [Apple silicon](https://wormagent.net/update/api/latest/desktop/wormagent/wormagent-desktop-mac-arm64.dmg) · [Intel](https://wormagent.net/update/api/latest/desktop/wormagent/wormagent-desktop-mac-x64.dmg)
+- **Windows:** [x64](https://wormagent.net/update/api/latest/desktop/wormagent/wormagent-desktop-win-x64.exe) · [ARM64](https://wormagent.net/update/api/latest/desktop/wormagent/wormagent-desktop-win-arm64.exe)
+- **Linux (.deb):** [x64](https://wormagent.net/update/api/latest/desktop/wormagent/wormagent-desktop-linux-amd64.deb) · [ARM64](https://wormagent.net/update/api/latest/desktop/wormagent/wormagent-desktop-linux-arm64.deb)
+- **Linux (.rpm):** [x64](https://wormagent.net/update/api/latest/desktop/wormagent/wormagent-desktop-linux-x86_64.rpm) · [ARM64](https://wormagent.net/update/api/latest/desktop/wormagent/wormagent-desktop-linux-aarch64.rpm)
+- **Linux (AppImage):** [x64](https://wormagent.net/update/api/latest/desktop/wormagent/wormagent-desktop-linux-x86_64.AppImage) · [ARM64](https://wormagent.net/update/api/latest/desktop/wormagent/wormagent-desktop-linux-arm64.AppImage)
+
+
+## Web
+
+Access the WormAgent web interface with the `wormagent pair` command.
+
+```bash
+$ wormagent pair
+
+  Open a link to connect. Links work once and expire in 5 minutes.
+
+  http://127.0.0.1:49374/auth/connect/...
+```
+
+## Docker
+
+Docker images use versioned tags, for example `ghcr.io/anomalyco/wormagent:2.0.0`.
+
+---
+
+## Connect
+
+WormAgent has built-in support for many LLM providers. You can connect to them
+directly [in the TUI](/cli/providers) with `/connect`.
+
+See [Providers](/providers) to configure custom providers.
+
+If you'd like easy access to the best coding models, you can try out
+[WormAgent Console](/console).
+
+You can also try [WormAgent Go](/console/go), a $10/month subscription
+plan that grants you access to the best coding models.
+
+---
+
+## Customize
+
+Make WormAgent your own by editing the [WormAgent config](/config), [loading plugins](/plugins), [connecting MCP
+servers](/mcp-servers), or [creating commands](/commands). For terminal interface themes and keybindings, see [CLI
+settings](/cli/config).
+
+---
+
+## Learn
+
+If you are interested in an in-depth course on WormAgent, Boot.dev has created an excellent [AI Coding with
+WormAgent](https://www.boot.dev/courses/learn-ai-coding) course in consultation with our team. All the information in the course is
+free to read and watch, though some interactive features may require payment.

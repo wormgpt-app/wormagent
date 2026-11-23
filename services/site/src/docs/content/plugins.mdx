@@ -1,0 +1,172 @@
+---
+title: "Plugins"
+description: "Add npm packages or local plugin directories to WormAgent in wormagent.json, and enable or disable plugins by ID or wildcard."
+---
+
+Add published packages, versioned packages, scoped packages, or local plugin directories to `wormagent.json(c)`.
+
+## Configure
+
+```jsonc title="wormagent.jsonc"
+{
+  "$schema": "https://wormagent.net/config.json",
+  "plugins": [
+    "wormagent-acme-plugin",
+    "wormagent-acme-plugin@1.2.0",
+    "@acme/wormagent-plugin",
+    "./plugins/local",
+    "../shared/plugin",
+    "/absolute/path/plugin",
+    "file:///home/me/plugins/local",
+    {
+      "package": "@acme/wormagent-plugin",
+      "options": {
+        "agent": "reviewer",
+        "strict": true,
+      },
+    },
+  ],
+}
+```
+
+Relative paths resolve from the config file containing the entry.
+
+Configured local paths must be directories. A path to a single file is skipped. See [Load](/build/plugins#load) for
+how WormAgent finds each part in a directory.
+
+Plugin arrays from applicable config files are applied from lowest to highest precedence instead of replacing one
+another.
+
+```text
+~/.config/wormagent/wormagent.jsonc
+./wormagent.jsonc
+./.wormagent/wormagent.jsonc
+```
+
+## Discover
+
+WormAgent also loads direct `.ts` and `.js` files and immediate plugin package directories from every discovered
+`.wormagent/plugins/` directory.
+
+```text
+.wormagent/
+└── plugins/
+    ├── concise.ts
+    ├── reviewer.js
+    └── acme-package/
+```
+
+Global plugins use the same discovery layout under the WormAgent config directory.
+
+```text
+~/.config/wormagent/plugins/
+```
+
+A `plugins/` directory beside a project-root `wormagent.json(c)` is not discovered automatically; configure its plugin
+directories explicitly or move it under `.wormagent/`.
+
+```jsonc title="wormagent.jsonc"
+{
+  "plugins": ["./plugins/local"]
+}
+```
+
+## Control
+
+Plugin entries are processed in order. Prefix an ID or wildcard with `-` to disable it, use `*` for every plugin, and
+use `.*` to match an ID prefix. A later ID re-enables a plugin.
+
+```jsonc title="wormagent.jsonc"
+{
+  "plugins": ["*", "-wormagent.provider.*", "wormagent.provider.openai", "-acme.reviewer"]
+}
+```
+
+To disable the notice added to new forks, add `"-wormagent.fork-notice"` to `plugins`.
+
+Two built-in plugins ignore removals so that a repository cannot switch off
+[policy](/policies) enforcement: `wormagent.config.policy` and
+`wormagent.provider.wormagent`, the Console connection that delivers organization
+policy.
+
+## Manage
+
+Install, list, check, update, or remove global package plugins with the CLI.
+
+```sh
+wormagent plugin add wormagent-acme-plugin@1.2.0
+wormagent plugin list
+wormagent plugin list --builtin
+wormagent plugin check
+wormagent plugin update
+wormagent plugin update wormagent-acme-plugin
+wormagent plugin remove wormagent-acme-plugin@1.2.0
+```
+
+`plugin check` checks server, GUI-only, and TUI-only package plugins for updates. `plugin update` updates every outdated package;
+pass a configured package target to check or update only that package. Local plugins and exact package revisions are
+skipped.
+
+A package updates itself when it names what to follow: `name@latest`, a version range such as `name@^1.2.0`,
+`name@~1.2.0`, `name@1.x` or `name@>=1.2.0 <2`, a Git branch such as `github:acme/plugin#main`, or a Git `semver:` range.
+WormAgent checks it on startup and every 24 hours, installs a newer version, and reloads it. A range only moves to versions
+inside it. If the new version fails to load, the previous one keeps running and stays installed.
+
+A bare name (`name`) or repository (`github:acme/plugin`) stays on the version it installed. So do other npm tags such as
+`name@next` and Git tags. `plugin check` still reports their updates and `plugin update` installs them. Exact versions and
+commit hashes are pinned.
+
+Package installation accepts npm names with versions, tags, or ranges, plus npm-compatible Git package specifications.
+Git repositories can use hosted shortcuts, HTTPS, or SSH, including private repositories available through your existing
+Git credentials.
+
+```sh
+wormagent plugin add @acme/wormagent-plugin@latest
+wormagent plugin add github:acme/wormagent-plugin
+wormagent plugin add git+ssh://git@github.com/acme/wormagent-plugin.git#main
+wormagent plugin add 'github:acme/plugins#main::path:packages/wormagent-plugin'
+```
+
+Branches, tags, complete commit hashes, and npm's `::path:` repository-subdirectory selectors are supported. Configure
+local paths directly; tarball and npm alias targets are not accepted by `plugin add`.
+
+## Reload
+
+Changes under watched config directories reload automatically. Server startup loads cached package plugins immediately,
+installs missing packages in the background, and checks unpinned npm and Git plugins for updates. Exact npm versions and
+full Git commit hashes stay pinned. Changes to unwatched local dependencies
+may still require restarting WormAgent.
+
+```sh
+touch .wormagent/plugins/concise/index.ts
+wormagent service restart
+```
+
+## Desktop
+
+A plugin that exports `./gui-experimental` also adds panels, commands, or settings to WormAgent Desktop. The app loads
+plugins from the server it runs, so configure the plugin in your global `wormagent.json(c)` to use it in every window.
+
+```jsonc title="~/.config/wormagent/wormagent.jsonc"
+{
+  "plugins": ["wormagent-acme-plugin"],
+}
+```
+
+**Settings > Extensions > Plugins** lists them when the app's own server is selected. A plugin's switch turns off only
+its desktop UI, and **Reload** loads it again after a failure. To turn off the whole plugin, add `-` and its ID to
+`plugins`, for example `"-acme"`.
+
+## Terminal
+
+TUI-only plugins are configured separately and remain active when connected to a remote server.
+
+```json title="cli.json"
+{
+  "plugins": ["wormagent-acme-cli"]
+}
+```
+
+<Card title="Build a plugin" href="/build/plugins">
+  Create plugins that add tools, hooks, integrations, commands, agents, and other behavior.
+</Card>

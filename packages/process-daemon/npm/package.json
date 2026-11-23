@@ -1,0 +1,40 @@
+{
+  "name": "@wormagent/pty",
+  "version": "0.6.0",
+  "description": "Persistent PTY service for WormAgent",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anomalyco/wormagent.git",
+    "directory": "packages/process-daemon/npm"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "wormagent-pty": "./bin/wormagent-pty.js"
+  },
+  "files": [
+    "bin",
+    "index.d.ts",
+    "index.js"
+  ],
+  "optionalDependencies": {
+    "@wormagent/pty-darwin-arm64": "0.6.0",
+    "@wormagent/pty-darwin-x64": "0.6.0",
+    "@wormagent/pty-linux-arm64-gnu": "0.6.0",
+    "@wormagent/pty-linux-arm64-musl": "0.6.0",
+    "@wormagent/pty-linux-x64-gnu": "0.6.0",
+    "@wormagent/pty-linux-x64-musl": "0.6.0",
+    "@wormagent/pty-win32-arm64": "0.6.0",
+    "@wormagent/pty-win32-x64": "0.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

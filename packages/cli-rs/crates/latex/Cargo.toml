@@ -1,0 +1,23 @@
+[package]
+name = "wormagent-latex"
+description = "Terminal renderer for fenced and inline LaTeX."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+# The plugin depends on the plugin API alone; the host turns what it returns into widgets.
+[dependencies]
+wormagent-plugin-abi.workspace = true
+unicode-segmentation = "1"
+unicode-width.workspace = true
+
+[dev-dependencies]
+wormagent-plugin.workspace = true
+wormagent-ui.workspace = true
+opentui.workspace = true
+wormagent-parity.workspace = true
+serde_json.workspace = true

@@ -1,0 +1,25 @@
+import { WormAgent } from "@wormagent/client"
+import { Service } from "@wormagent/client/effect/service"
+import { Effect } from "effect"
+import { EOL } from "node:os"
+import { Commands } from "../commands"
+import { Runtime } from "../../framework/runtime"
+import { ServerConnection } from "../../services/server-connection"
+import { waitForPlugins } from "../../services/plugin-startup"
+
+export default Runtime.handler(
+  Commands.commands.models,
+  Effect.fn("cli.models")(function* () {
+    const server = yield* ServerConnection.resolve()
+    const client = WormAgent.make({
+      baseUrl: server.endpoint.url,
+      headers: Service.headers(server.endpoint),
+    })
+    yield* waitForPlugins(client, process.cwd())
+    const response = yield* Effect.promise(() => client.model.list({ location: { directory: process.cwd() } }))
+    const models = response.data
+      .map((model) => `${model.providerID}/${model.id}`)
+      .toSorted((a, b) => a.localeCompare(b))
+    if (models.length > 0) process.stdout.write(models.join(EOL) + EOL)
+  }),
+)

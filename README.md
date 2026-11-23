@@ -1,105 +1,115 @@
+<!-- WormAgent — rebranded from OpenCode (https://github.com/sst/opencode), MIT licensed. © SST — see LICENSE. -->
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:FF0000,100:000000&height=220&section=header&text=WormAgent&fontSize=75&fontAlignY=35&desc=Your%20Personal%20Agent%20%E2%80%A2%20Official%20of%20WormGPT&descAlignY=58&animation=fadeIn&fontColor=FFFFFF" />
+  <a href="https://wormagent.net">
+    <picture>
+      <source srcset=".github/assets/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
+      <source srcset=".github/assets/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
+      <img src=".github/assets/logo-ornate-light.svg" alt="WormAgent logo">
+    </picture>
+  </a>
+</p>
+<p align="center">The open source AI coding agent.</p>
+<p align="center">
+  <a href="https://wormagent.net/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
+  <a href="https://www.npmjs.com/package/@wormagent/cli"><img alt="npm" src="https://img.shields.io/npm/v/@wormagent/cli?style=flat-square" /></a>
+  <a href="https://github.com/anomalyco/wormagent/actions/workflows/release.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/wormagent/release.yml?style=flat-square&branch=dev" /></a>
 </p>
 
 <p align="center">
-  <a href="https://wormagent.net"><img src="https://img.shields.io/badge/WormAgent.net-LIVE-FF0000?style=for-the-badge&logo=safari&logoColor=white" /></a>
-  <a href="https://wormgpt.app"><img src="https://img.shields.io/badge/WormGPT.app-000000?style=for-the-badge&logo=openai&logoColor=FF0000" /></a>
-  <a href="https://t.me/wormgpt_app"><img src="https://img.shields.io/badge/Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" /></a>
-  <a href="https://github.com/wormgpt-app/wormagent"><img src="https://img.shields.io/github/stars/wormgpt-app/wormagent?style=social" /></a>
+  <a href="README.md">English</a> |
+  <a href="README.zh.md">简体中文</a> |
+  <a href="README.zht.md">繁體中文</a> |
+  <a href="README.ko.md">한국어</a> |
+  <a href="README.de.md">Deutsch</a> |
+  <a href="README.es.md">Español</a> |
+  <a href="README.fr.md">Français</a> |
+  <a href="README.it.md">Italiano</a> |
+  <a href="README.da.md">Dansk</a> |
+  <a href="README.ja.md">日本語</a> |
+  <a href="README.pl.md">Polski</a> |
+  <a href="README.ru.md">Русский</a> |
+  <a href="README.bs.md">Bosanski</a> |
+  <a href="README.ar.md">العربية</a> |
+  <a href="README.no.md">Norsk</a> |
+  <a href="README.br.md">Português (Brasil)</a> |
+  <a href="README.th.md">ไทย</a> |
+  <a href="README.tr.md">Türkçe</a> |
+  <a href="README.uk.md">Українська</a> |
+  <a href="README.bn.md">বাংলা</a> |
+  <a href="README.gr.md">Ελληνικά</a> |
+  <a href="README.vi.md">Tiếng Việt</a>
 </p>
 
-<p align="center">
-  <b>🔗 Official Site:</b> <a href="https://wormagent.net"><b>https://wormagent.net</b></a> &nbsp;|&nbsp; <b>GitHub:</b> <a href="https://github.com/wormgpt-app/wormagent"><b>wormgpt-app/wormagent</b></a>
-</p>
+[![WormAgent Terminal UI](services/site/public/v1/docs/assets/lander/screenshot.png)](https://wormagent.net)
 
 ---
 
-# 🌀 WormAgent — وكيلك الشخصي
-
-> **الوكيل الشخصي الرسمي من WormGPT** — يشتغل على جهازك أنت، يتربط بنماذج الوكيل في حسابك على [wormgpt.app](https://wormgpt.app)، ويعيش فين ما تتكلم: **تليجرام، واتساب، ديسكورد و+20 قناة.**
-
-**Site:** https://wormagent.net &nbsp;|&nbsp; **Owner:** [wormgpt-app](https://github.com/wormgpt-app) &nbsp;|&nbsp; **Telegram:** [t.me/wormgpt_app](https://t.me/wormgpt_app)
-
----
-
-## ⚡ التثبيت — أقل من دقيقة
+### Installation
 
 ```bash
-# Linux / macOS / Termux
-curl -fsSL https://wormagent.net/install | bash
+# YOLO
+curl -fsSL https://wormagent.net/v2/install | bash
 
-# Windows (PowerShell)
-irm https://wormagent.net/install | iex
+# Package managers
+npm i -g @wormagent/cli@latest      # or bun/pnpm/yarn
+brew install anomalyco/tap/wormagent-v2 # macOS and Linux (recommended, always up to date)
+brew install wormagent              # macOS and Linux (official brew formula, updated less)
+sudo pacman -S wormagent            # Arch Linux (Stable)
+paru -S wormagent-beta              # Arch Linux (Latest from AUR)
+mise use -g wormagent               # Any OS
+nix run github:anomalyco/wormagent  # Nix
 ```
 
-**3 حقول بس:** `API key` من [wormgpt.app](https://wormgpt.app) + `Bot token` من [@BotFather](https://t.me/BotFather) + `Telegram ID` — الباقي تلقائي.
+> [!TIP]
+> Remove versions older than 0.1.x before installing.
+
+### Desktop App (BETA)
+
+WormAgent is also available as a desktop application. Download it from [wormagent.net/download](https://wormagent.net/download).
+
+| Platform              | Download                           |
+| --------------------- | ---------------------------------- |
+| macOS (Apple Silicon) | `wormagent-desktop-mac-arm64.dmg`   |
+| macOS (Intel)         | `wormagent-desktop-mac-x64.dmg`     |
+| Windows               | `wormagent-desktop-win-x64.exe`     |
+| Linux                 | `.deb`, `.rpm`, or `.AppImage`     |
 
 ```bash
-wormagent
-# › قراءة مساحة العمل — 42 ملف · 6 مجلدات
-# › المهمة: صلّح اختبار المصادقة الفاشل
-# ✓ 38 نجح · 0 فشل — خلصت في 41 ثانية
+# macOS (Homebrew)
+brew install --cask wormagent-desktop
 ```
 
----
+#### Installation Directory
 
-## 🔗 الربط بين WormAgent.net و GitHub
+The install script installs WormAgent to `$HOME/.wormagent/bin`.
 
-هذا المستودع **مربوط رسمياً** بـ **WormAgent.net**:
+### Agents
 
-| الاتجاه | التفاصيل |
-|---------|----------|
-| **GitHub → Site** | `homepage: https://wormagent.net` في إعدادات المستودع + Topics + README links |
-| **Site → GitHub** | زر **GitHub ↗** في [wormagent.net](https://wormagent.net) يشير إلى `github.com/wormgpt-app/wormagent` (يعمل حتى من الرابط القديم `BlackXV2vip/wormagent` عبر redirect) |
-| **Telegram** | القناة الرسمية [t.me/wormgpt_app](https://t.me/wormgpt_app) مربوطة في الطرفين |
+WormAgent includes two built-in agents you can switch between with the `Tab` key.
 
-**للتحقق:**
-- GitHub: https://github.com/wormgpt-app/wormagent (homepage = wormagent.net ✅)
-- Site: https://wormagent.net (Hostinger + Next.js, يربط GitHub)
-- Owner: https://github.com/wormgpt-app (البروفايل يعرض WormAgent)
+- **build** - Default, full-access agent for development work
+- **plan** - Read-only agent for analysis and code exploration
+  - Denies file edits by default
+  - Asks permission before running bash commands
+  - Ideal for exploring unfamiliar codebases or planning changes
 
----
+Also included is a **general** subagent for complex searches and multistep tasks.
+This is used internally and can be invoked using `@general` in messages.
 
-## 🧠 القدرات
+Learn more about [agents](https://wormagent.net/docs/agents).
 
-- **يفهم مشروعك كاملاً** — يفهرس ملفاتك قبل أي تعديل
-- **تنفيذ حقيقي** — يشغّل الأوامر والاختبارات جوه مساحة عملك
-- **وكيل على قنواتك** — نفس الوكيل على تليجرام واتساب ديسكورد
-- **مفتاح WormGPT واحد** — نماذج الوكيل جاهزة فوراً
-- **صلاحيات بتحكمك** — موافقة قبل أي أمر حسّاس
-- **يشتغل بدون شاشة** — SSH, حاوية, سيرفر headless
+### Documentation
 
----
+For more info on how to configure WormAgent, [**head over to our docs**](https://wormagent.net/docs).
 
-## 🌐 +20 قناة
+### Contributing
 
-`Telegram` `WhatsApp` `Discord` `Slack` `Signal` `iMessage` `Matrix` `MS Teams` `IRC` `WebChat` `LINE` `Twitch` `Nostr` `Google Chat` `Mattermost` `Feishu` ...
+If you're interested in contributing to WormAgent, please read our [contributing docs](./CONTRIBUTING.md) before submitting a pull request.
+
+### Building on WormAgent
+
+If you are working on a project that's related to WormAgent and is using "wormagent" as part of its name, for example "wormagent-dashboard" or "wormagent-mobile", please add a note to your README to clarify that it is not built by the WormAgent team and is not affiliated with us in any way.
 
 ---
 
-## 📦 الروابط الرسمية
-
-- **WormGPT App:** https://wormgpt.app — شات، صور، كود، ملفات، صوت + API
-- **WormAgent.net:** https://wormagent.net — الوكيل الشخصي
-- **Telegram:** https://t.me/wormgpt_app — الأخبار والتحديثات
-- **GitHub:** https://github.com/wormgpt-app — كل المستودعات
-
----
-
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:000000,100:FF0000&height=120&section=footer&text=WormAgent.net&fontSize=32&fontAlignY=65&desc=wormgpt.app%20%E2%80%A2%20GitHub%20Connected&descAlignY=40&fontColor=FFFFFF" />
-</p>
-
-<p align="center">
-  <sub>© 2026 wormgpt-app • Owner of wormgpt.app + WormAgent.net • Sidi Salim, Egypt 🇪🇬</sub>
-</p>
-
----
-## 🔄 تحديث 2026-11-23 — تغيير اليوزر
-
-- **قبل:** `github.com/BlackXV2vip/wormagent`
-- **بعد:** `github.com/wormgpt-app/wormagent`
-- **الحالة:** الرابط القديم يعمل Redirect تلقائي (302) إلى الجديد، لا انقطاع.
-- **الموقع الحي:** https://wormagent.net لا يزال يظهر الرابط القديم في النص، لكنه يعمل. لتحديث النص، يجب تعديل ملفات Hostinger وإعادة النشر.
-
+**Join our community** [Discord](https://discord.gg/wormagent) | [X.com](https://x.com/wormagent)

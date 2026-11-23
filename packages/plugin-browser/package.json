@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@wormagent/plugin-browser",
+  "version": "2.4.0",
+  "description": "WormAgent's desktop browser plugin",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anomalyco/wormagent.git",
+    "directory": "packages/plugin-browser"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./rpc": "./src/rpc.ts",
+    "./workspace": "./src/workspace.ts",
+    "./preview-path": "./src/preview-path.ts",
+    "./proxy": "./src/proxy.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "pack": "bun run script/pack.ts",
+    "typecheck": "bun check --no-script -p tsconfig.test.json",
+    "typecheck:tsc": "tsc --noEmit -p tsconfig.test.json",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@wormagent/plugin": "workspace:*",
+    "@wormagent/schema": "workspace:*",
+    "@wormagent/util": "workspace:*",
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@tsconfig/bun": "catalog:",
+    "@types/bun": "catalog:",
+    "@typescript/native": "catalog:",
+    "typescript": "catalog:"
+  }
+}

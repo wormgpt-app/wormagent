@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=WormAgent
+Exec=/opt/WormAgent/ai.wormagent %U
+Terminal=false
+Type=Application
+Icon=ai.wormagent
+StartupWMClass=ai.wormagent.desktop
+NoDisplay=true
+Comment=Open source AI coding agent
+Categories=Development;

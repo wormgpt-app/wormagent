@@ -1,0 +1,104 @@
+---
+title: "Cloudflare"
+description: "Run WormAgent inside a Cloudflare Durable Object with @wormagent/sdk/workerd, backed by the object's SQLite storage."
+---
+
+Use `@wormagent/sdk/workerd` inside a Cloudflare Durable Object. This profile uses the object's SQLite storage,
+persists durable events for eviction recovery, and replaces unavailable local filesystem and process services.
+
+```sh
+bun add @wormagent/sdk
+```
+
+Hold one host for the lifetime of the Durable Object instance instead of creating one for every request.
+
+```ts
+import { WormAgentWorkerd } from "@wormagent/sdk/workerd"
+import myPlugin from "./my-plugin"
+
+export class WormAgentDO {
+  private readonly wormagent: Promise<WormAgentWorkerd.Interface>
+
+  constructor(state: DurableObjectState) {
+    this.wormagent = state.blockConcurrencyWhile(() =>
+      WormAgentWorkerd.create({
+        storage: state.storage,
+        config: { default_agent: "build" },
+        plugins: [myPlugin],
+      }),
+    )
+  }
+
+  async fetch() {
+    const wormagent = await this.wormagent
+    return Response.json(await wormagent.server.info())
+  }
+}
+```
+
+`blockConcurrencyWhile` keeps every Durable Object event out until the host is ready and resets the object if
+initialization fails. The retained Promise gives request handlers direct access to the same host after startup.
+
+```ts
+constructor(state: DurableObjectState) {
+  this.wormagent = state.blockConcurrencyWhile(() =>
+    WormAgentWorkerd.create({ storage: state.storage }),
+  )
+}
+```
+
+Wrangler selects WormAgent's Workerd-safe implementations through the `workerd` package condition. Cloudflare may evict
+a Durable Object without running cleanup, so correctness does not depend on `close()` being called.
+
+```jsonc title="wrangler.jsonc"
+{
+  "compatibility_flags": ["nodejs_compat"]
+}
+```
+
+## Route outbound requests
+
+Pass `fetch` to route WormAgent's outbound HTTP requests (WormAgent Console config, model requests, web fetch and
+search, well-known config, and remote MCP servers) through a custom handler such as a Service Binding. Agent code in
+Code Mode continues to use `globalThis.fetch`.
+
+```ts
+WormAgentWorkerd.create({
+  storage: state.storage,
+  fetch: (input, init) => {
+    const request = new Request(input, init)
+    return new URL(request.url).hostname === "console.example.com" ? env.CONSOLE.fetch(request) : fetch(request)
+  },
+})
+```
+
+## Customize
+
+Customize your WormAgent instance by registering plugins bundled with your
+Worker. Pass plugins to `WormAgentWorkerd.create()` to customize agents, models,
+tools, and other behavior:
+
+```ts
+import { Plugin } from "@wormagent/plugin"
+import { WormAgentWorkerd } from "@wormagent/sdk/workerd"
+
+const plugin = Plugin.define({
+  id: "customize-agent",
+  async setup(ctx) {
+    await ctx.agent.transform((agents) => {
+      agents.update("build", (agent) => {
+        agent.description = "Builds features and fixes bugs for our team"
+      })
+    })
+  },
+})
+
+await WormAgentWorkerd.create({
+  storage: state.storage,
+  config: { default_agent: "build" },
+  plugins: [plugin],
+})
+```
+
+See the [full plugins documentation](/build/plugins/server) for plugin hooks,
+transforms, tools, and the complete plugin context.

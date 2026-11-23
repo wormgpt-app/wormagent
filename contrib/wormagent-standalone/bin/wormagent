@@ -1,0 +1,49 @@
+#!/bin/bash
+# WormAgent.net - Rebranded from opencode
+# Site: https://WormAgent.net
+# Version: 1.19.6-wormagent
+
+CORE="/home/user/.opencode/bin/opencode"
+SITE="https://WormAgent.net"
+
+# تخصيص الألوان
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+# معالجة --version بشكل مخصص
+if [[ "$1" == "--version" || "$1" == "-v" ]]; then
+  echo -e "${CYAN}WormAgent v1.19.6${NC} — ${GREEN}WormAgent.net${NC}"
+  echo -e "Core: opencode 1.19.6 (rebranded)"
+  echo -e "Site: ${YELLOW}https://WormAgent.net${NC}"
+  exit 0
+fi
+
+# معالجة --help مع استبدال جذري
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+  echo -e "${CYAN}"
+  echo "  ██╗    ██╗ ██████╗ ██████╗ ███╗   ███╗ █████╗  ██████╗ ███████╗███╗   ██╗████████╗"
+  echo "  ██║    ██║██╔═══██╗██╔══██╗████╗ ████║██╔══██╗██╔════╝ ██╔════╝████╗  ██║╚══██╔══╝"
+  echo "  ██║ █╗ ██║██║   ██║██████╔╝██╔████╔██║███████║██║  ███╗█████╗  ██╔██╗ ██║   ██║   "
+  echo "  ██║███╗██║██║   ██║██╔══██╗██║╚██╔╝██║██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║   "
+  echo "  ╚███╔███╔╝╚██████╔╝██║  ██║██║ ╚═╝ ██║██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║   "
+  echo "   ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝   "
+  echo -e "${NC}"
+  echo -e "${GREEN}WormAgent.net${NC} — The Next Generation AI Coding Agent"
+  echo -e "Rebranded from opencode • ${YELLOW}https://WormAgent.net${NC}"
+  echo ""
+  # عرض المساعدة الأصلية مع استبدال opencode -> WormAgent
+  $CORE --help 2>&1 | sed 's/opencode/WormAgent/g' | sed 's/OPENCODE/WORMAGENT/g' | sed 's/opencode\.ai/WormAgent.net/g'
+  exit 0
+fi
+
+# إذا بدون معاملات، اعرض الهيدر ثم شغل الواجهة
+if [[ $# -eq 0 ]]; then
+  echo -e "${CYAN}🌀 WormAgent.net${NC} — launching WormAgent..."
+  echo -e "   Site: ${YELLOW}https://WormAgent.net${NC} • Type ${GREEN}WormAgent --help${NC} for help"
+  echo ""
+fi
+
+# تمرير كل شيء للـ core مع استبدال المخرجات إن أمكن
+exec $CORE "$@" 2>&1 | sed 's/opencode/WormAgent/g' | sed 's/opencode\.ai/WormAgent.net/g' 2>&1 || exec $CORE "$@"

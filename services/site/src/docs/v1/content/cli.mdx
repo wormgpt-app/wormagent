@@ -1,0 +1,818 @@
+---
+title: CLI
+description: WormAgent CLI options and commands.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+The WormAgent CLI by default starts the [TUI](/docs/tui) when run without any arguments.
+
+```bash
+wormagent
+```
+
+But it also accepts commands as documented on this page. This allows you to interact with WormAgent programmatically.
+
+```bash
+wormagent run "Explain how closures work in JavaScript"
+```
+
+---
+
+### tui
+
+Start the WormAgent terminal user interface.
+
+```bash
+wormagent [project]
+```
+
+#### Flags
+
+| Flag                                        | Short | Description                                                             |
+| ------------------------------------------- | ----- | ----------------------------------------------------------------------- |
+| <nobr><code>{"--continue"}</code></nobr>    | `-c`  | Continue the last session                                               |
+| <nobr><code>{"--session"}</code></nobr>     | `-s`  | Session ID to continue                                                  |
+| <nobr><code>{"--fork"}</code></nobr>        |       | Fork the session when continuing (use with `--continue` or `--session`) |
+| <nobr><code>{"--prompt"}</code></nobr>      |       | Prompt to use                                                           |
+| <nobr><code>{"--model"}</code></nobr>       | `-m`  | Model to use in the form of provider/model                              |
+| <nobr><code>{"--agent"}</code></nobr>       |       | Agent to use                                                            |
+| <nobr><code>{"--auto"}</code></nobr>        |       | Auto-approve permissions that are not explicitly denied                 |
+| <nobr><code>{"--port"}</code></nobr>        |       | Port to listen on                                                       |
+| <nobr><code>{"--hostname"}</code></nobr>    |       | Hostname to listen on                                                   |
+| <nobr><code>{"--mdns"}</code></nobr>        |       | Enable mDNS discovery                                                   |
+| <nobr><code>{"--mdns-domain"}</code></nobr> |       | Custom mDNS domain name                                                 |
+| <nobr><code>{"--cors"}</code></nobr>        |       | Additional browser origin(s) to allow CORS                              |
+
+---
+
+## Commands
+
+The WormAgent CLI also has the following commands.
+
+---
+
+### agent
+
+Manage agents for WormAgent.
+
+```bash
+wormagent agent [command]
+```
+
+---
+
+#### create
+
+Create a new agent with custom configuration.
+
+```bash
+wormagent agent create
+```
+
+This command will guide you through creating a new agent with a custom system prompt and permission configuration. Anything you don't allow is denied in the generated agent's frontmatter.
+
+##### Flags
+
+| Flag                                        | Short | Description                                                                                                                                                                                                                |
+| ------------------------------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <nobr><code>{"--path"}</code></nobr>        |       | Config directory whose `agents/` subdirectory receives the file (defaults to global or `.wormagent` based on the prompt)                                                                                                    |
+| <nobr><code>{"--description"}</code></nobr> |       | What the agent should do                                                                                                                                                                                                   |
+| <nobr><code>{"--mode"}</code></nobr>        |       | Agent mode: `all`, `primary`, or `subagent`                                                                                                                                                                                |
+| <nobr><code>{"--permissions"}</code></nobr> |       | Comma-separated list of permissions to allow (default: all). Available: `bash`, `read`, `edit`, `glob`, `grep`, `webfetch`, `task`, `todowrite`, `websearch`, `lsp`, `skill`. Anything omitted is denied. Alias: `--tools` |
+| <nobr><code>{"--model"}</code></nobr>       | `-m`  | Model to use, in `provider/model` format                                                                                                                                                                                   |
+
+Passing all of `--path`, `--description`, `--mode`, and `--permissions` runs the command non-interactively.
+
+---
+
+#### list
+
+List all available agents.
+
+```bash
+wormagent agent list
+```
+
+---
+
+### attach
+
+Attach a terminal to an already running WormAgent backend server started via `serve` or `web` commands.
+
+```bash
+wormagent attach [url]
+```
+
+This allows using the TUI with a remote WormAgent backend. For example:
+
+```bash
+# Start the backend server for web/mobile access
+wormagent web --port 4096 --hostname 0.0.0.0
+
+# In another terminal, attach the TUI to the running backend
+wormagent attach http://10.20.30.40:4096
+```
+
+#### Flags
+
+| Flag                                     | Short | Description                                                                |
+| ---------------------------------------- | ----- | -------------------------------------------------------------------------- |
+| <nobr><code>{"--dir"}</code></nobr>      |       | Working directory to start TUI in                                          |
+| <nobr><code>{"--continue"}</code></nobr> | `-c`  | Continue the last session                                                  |
+| <nobr><code>{"--session"}</code></nobr>  | `-s`  | Session ID to continue                                                     |
+| <nobr><code>{"--fork"}</code></nobr>     |       | Fork the session when continuing (use with `--continue` or `--session`)    |
+| <nobr><code>{"--password"}</code></nobr> | `-p`  | Basic auth password (defaults to `WORMAGENT_SERVER_PASSWORD`)               |
+| <nobr><code>{"--username"}</code></nobr> | `-u`  | Basic auth username (defaults to `WORMAGENT_SERVER_USERNAME` or `wormagent`) |
+
+---
+
+### auth
+
+Command to manage credentials and login for providers.
+
+```bash
+wormagent auth [command]
+```
+
+---
+
+#### login
+
+WormAgent is powered by the provider list at [Models.dev](https://models.dev), so you can use `wormagent auth login` to configure API keys for any provider you'd like to use. This is stored in `~/.local/share/wormagent/auth.json`.
+
+```bash
+wormagent auth login
+```
+
+When WormAgent starts up it loads the providers from the credentials file. And if there are any keys defined in your environments or a `.env` file in your project.
+
+##### Flags
+
+| Flag                                     | Short | Description                                          |
+| ---------------------------------------- | ----- | ---------------------------------------------------- |
+| <nobr><code>{"--provider"}</code></nobr> | `-p`  | Provider ID or name to log in to                     |
+| <nobr><code>{"--method"}</code></nobr>   | `-m`  | Login method label to use, skipping method selection |
+
+---
+
+#### list
+
+Lists all the authenticated providers as stored in the credentials file.
+
+```bash
+wormagent auth list
+```
+
+Or the short version.
+
+```bash
+wormagent auth ls
+```
+
+---
+
+#### logout
+
+Logs you out of a provider by clearing it from the credentials file.
+
+```bash
+wormagent auth logout
+```
+
+---
+
+### completion
+
+Generate a shell completion script.
+
+```bash
+wormagent completion
+```
+
+---
+
+### github
+
+Manage the GitHub agent for repository automation.
+
+```bash
+wormagent github [command]
+```
+
+---
+
+#### install
+
+Install the GitHub agent in your repository.
+
+```bash
+wormagent github install
+```
+
+This sets up the necessary GitHub Actions workflow and guides you through the configuration process. [Learn more](/docs/github).
+
+---
+
+#### run
+
+Run the GitHub agent. This is typically used in GitHub Actions.
+
+```bash
+wormagent github run
+```
+
+##### Flags
+
+| Flag                                  | Description                            |
+| ------------------------------------- | -------------------------------------- |
+| <nobr><code>{"--event"}</code></nobr> | GitHub mock event to run the agent for |
+| <nobr><code>{"--token"}</code></nobr> | GitHub personal access token           |
+
+---
+
+### mcp
+
+Manage Model Context Protocol servers.
+
+```bash
+wormagent mcp [command]
+```
+
+---
+
+#### add
+
+Add an MCP server to your configuration.
+
+```bash
+wormagent mcp add
+```
+
+This command will guide you through adding either a local or remote MCP server.
+
+---
+
+#### list
+
+List all configured MCP servers and their connection status.
+
+```bash
+wormagent mcp list
+```
+
+Or use the short version.
+
+```bash
+wormagent mcp ls
+```
+
+---
+
+#### auth
+
+Authenticate with an OAuth-enabled MCP server.
+
+```bash
+wormagent mcp auth [name]
+```
+
+If you don't provide a server name, you'll be prompted to select from available OAuth-capable servers.
+
+You can also list OAuth-capable servers and their authentication status.
+
+```bash
+wormagent mcp auth list
+```
+
+Or use the short version.
+
+```bash
+wormagent mcp auth ls
+```
+
+---
+
+#### logout
+
+Remove OAuth credentials for an MCP server.
+
+```bash
+wormagent mcp logout [name]
+```
+
+---
+
+#### debug
+
+Debug OAuth connection issues for an MCP server.
+
+```bash
+wormagent mcp debug <name>
+```
+
+---
+
+### models
+
+List all available models from configured providers.
+
+```bash
+wormagent models [provider]
+```
+
+This command displays all models available across your configured providers in the format `provider/model`.
+
+This is useful for figuring out the exact model name to use in [your config](/docs/config/).
+
+You can optionally pass a provider ID to filter models by that provider.
+
+```bash
+wormagent models anthropic
+```
+
+#### Flags
+
+| Flag                                    | Description                                                  |
+| --------------------------------------- | ------------------------------------------------------------ |
+| <nobr><code>{"--refresh"}</code></nobr> | Refresh the models cache from models.dev                     |
+| <nobr><code>{"--verbose"}</code></nobr> | Use more verbose model output (includes metadata like costs) |
+
+Use the `--refresh` flag to update the cached model list. This is useful when new models have been added to a provider and you want to see them in WormAgent.
+
+```bash
+wormagent models --refresh
+```
+
+---
+
+### run
+
+Run wormagent in non-interactive mode by passing a prompt directly.
+
+```bash
+wormagent run [message..]
+```
+
+This is useful for scripting, automation, or when you want a quick answer without launching the full TUI. For example.
+
+```bash "wormagent run"
+wormagent run Explain the use of context in Go
+```
+
+You can also attach to a running `wormagent serve` instance to avoid MCP server cold boot times on every run:
+
+```bash
+# Start a headless server in one terminal
+wormagent serve
+
+# In another terminal, run commands that attach to it
+wormagent run --attach http://localhost:4096 "Explain async/await in JavaScript"
+```
+
+#### Flags
+
+| Flag                                     | Short | Description                                                                |
+| ---------------------------------------- | ----- | -------------------------------------------------------------------------- |
+| <nobr><code>{"--command"}</code></nobr>  |       | The command to run, use message for args                                   |
+| <nobr><code>{"--continue"}</code></nobr> | `-c`  | Continue the last session                                                  |
+| <nobr><code>{"--session"}</code></nobr>  | `-s`  | Session ID to continue                                                     |
+| <nobr><code>{"--fork"}</code></nobr>     |       | Fork the session when continuing (use with `--continue` or `--session`)    |
+| <nobr><code>{"--model"}</code></nobr>    | `-m`  | Model to use in the form of provider/model                                 |
+| <nobr><code>{"--agent"}</code></nobr>    |       | Agent to use                                                               |
+| <nobr><code>{"--file"}</code></nobr>     | `-f`  | File(s) to attach to message                                               |
+| <nobr><code>{"--format"}</code></nobr>   |       | Format: default (formatted) or json (raw JSON events)                      |
+| <nobr><code>{"--title"}</code></nobr>    |       | Title for the session (uses truncated prompt if no value provided)         |
+| <nobr><code>{"--attach"}</code></nobr>   |       | Attach to a running wormagent server (e.g., http://localhost:4096)          |
+| <nobr><code>{"--password"}</code></nobr> | `-p`  | Basic auth password (defaults to `WORMAGENT_SERVER_PASSWORD`)               |
+| <nobr><code>{"--username"}</code></nobr> | `-u`  | Basic auth username (defaults to `WORMAGENT_SERVER_USERNAME` or `wormagent`) |
+| <nobr><code>{"--dir"}</code></nobr>      |       | Directory to run in, or path on the remote server when attaching           |
+| <nobr><code>{"--port"}</code></nobr>     |       | Port for the local server (defaults to random port)                        |
+| <nobr><code>{"--variant"}</code></nobr>  |       | Model variant (provider-specific reasoning effort)                         |
+| <nobr><code>{"--thinking"}</code></nobr> |       | Show thinking blocks                                                       |
+| <nobr><code>{"--auto"}</code></nobr>     |       | Auto-approve permissions that are not explicitly denied                    |
+
+---
+
+### serve
+
+Start a headless WormAgent server for API access. Check out the [server docs](/docs/server) for the full HTTP interface.
+
+```bash
+wormagent serve
+```
+
+This starts an HTTP server that provides API access to wormagent functionality without the TUI interface. Set `WORMAGENT_SERVER_PASSWORD` to enable HTTP basic auth (username defaults to `wormagent`).
+
+#### Flags
+
+| Flag                                        | Description                                |
+| ------------------------------------------- | ------------------------------------------ |
+| <nobr><code>{"--port"}</code></nobr>        | Port to listen on                          |
+| <nobr><code>{"--hostname"}</code></nobr>    | Hostname to listen on                      |
+| <nobr><code>{"--mdns"}</code></nobr>        | Enable mDNS discovery                      |
+| <nobr><code>{"--mdns-domain"}</code></nobr> | Custom mDNS domain name                    |
+| <nobr><code>{"--cors"}</code></nobr>        | Additional browser origin(s) to allow CORS |
+
+---
+
+### session
+
+Manage WormAgent sessions.
+
+```bash
+wormagent session [command]
+```
+
+---
+
+#### list
+
+List all WormAgent sessions.
+
+```bash
+wormagent session list
+```
+
+##### Flags
+
+| Flag                                      | Short | Description                          |
+| ----------------------------------------- | ----- | ------------------------------------ |
+| <nobr><code>{"--max-count"}</code></nobr> | `-n`  | Limit to N most recent sessions      |
+| <nobr><code>{"--format"}</code></nobr>    |       | Output format: table or json (table) |
+
+---
+
+#### delete
+
+Delete an WormAgent session.
+
+```bash
+wormagent session delete <sessionID>
+```
+
+---
+
+### stats
+
+Show token usage and cost statistics for your WormAgent sessions.
+
+```bash
+wormagent stats
+```
+
+#### Flags
+
+| Flag                                    | Description                                                                 |
+| --------------------------------------- | --------------------------------------------------------------------------- |
+| <nobr><code>{"--days"}</code></nobr>    | Show stats for the last N days (all time)                                   |
+| <nobr><code>{"--tools"}</code></nobr>   | Number of tools to show (all)                                               |
+| <nobr><code>{"--models"}</code></nobr>  | Show model usage breakdown (hidden by default). Pass a number to show top N |
+| <nobr><code>{"--project"}</code></nobr> | Filter by project (all projects, empty string: current project)             |
+
+---
+
+### export
+
+Export session data as JSON.
+
+```bash
+wormagent export [sessionID]
+```
+
+If you don't provide a session ID, you'll be prompted to select from available sessions.
+
+#### Flags
+
+| Flag                                     | Description                           |
+| ---------------------------------------- | ------------------------------------- |
+| <nobr><code>{"--sanitize"}</code></nobr> | Redact sensitive transcript/file data |
+
+---
+
+### import
+
+Import session data from a JSON file.
+
+```bash
+wormagent import <file>
+```
+
+```bash
+wormagent import session.json
+```
+
+---
+
+### web
+
+Start a headless WormAgent server with a web interface.
+
+```bash
+wormagent web
+```
+
+This starts an HTTP server and opens a web browser to access WormAgent through a web interface. Set `WORMAGENT_SERVER_PASSWORD` to enable HTTP basic auth (username defaults to `wormagent`).
+
+#### Flags
+
+| Flag                                        | Description                                |
+| ------------------------------------------- | ------------------------------------------ |
+| <nobr><code>{"--port"}</code></nobr>        | Port to listen on                          |
+| <nobr><code>{"--hostname"}</code></nobr>    | Hostname to listen on                      |
+| <nobr><code>{"--mdns"}</code></nobr>        | Enable mDNS discovery                      |
+| <nobr><code>{"--mdns-domain"}</code></nobr> | Custom mDNS domain name                    |
+| <nobr><code>{"--cors"}</code></nobr>        | Additional browser origin(s) to allow CORS |
+
+---
+
+### acp
+
+Start an ACP (Agent Client Protocol) server.
+
+```bash
+wormagent acp
+```
+
+This command starts an ACP server that communicates via stdin/stdout using nd-JSON.
+
+#### Flags
+
+| Flag                                        | Description                                |
+| ------------------------------------------- | ------------------------------------------ |
+| <nobr><code>{"--cwd"}</code></nobr>         | Working directory                          |
+| <nobr><code>{"--port"}</code></nobr>        | Port to listen on                          |
+| <nobr><code>{"--hostname"}</code></nobr>    | Hostname to listen on                      |
+| <nobr><code>{"--mdns"}</code></nobr>        | Enable mDNS discovery                      |
+| <nobr><code>{"--mdns-domain"}</code></nobr> | Custom mDNS domain name                    |
+| <nobr><code>{"--cors"}</code></nobr>        | Additional browser origin(s) to allow CORS |
+
+---
+
+### plugin
+
+Install a plugin and update your config.
+
+```bash
+wormagent plugin <module>
+```
+
+Or use the alias.
+
+```bash
+wormagent plug <module>
+```
+
+#### Flags
+
+| Flag                                   | Short | Description                     |
+| -------------------------------------- | ----- | ------------------------------- |
+| <nobr><code>{"--global"}</code></nobr> | `-g`  | Install in global config        |
+| <nobr><code>{"--force"}</code></nobr>  | `-f`  | Replace existing plugin version |
+
+---
+
+### pr
+
+Fetch and checkout a GitHub PR branch, then run WormAgent.
+
+```bash
+wormagent pr <number>
+```
+
+---
+
+### db
+
+Database tools.
+
+```bash
+wormagent db [query]
+```
+
+#### Flags
+
+| Flag                                   | Description                    |
+| -------------------------------------- | ------------------------------ |
+| <nobr><code>{"--format"}</code></nobr> | Output format: `json` or `tsv` |
+
+---
+
+#### path
+
+Print the database path.
+
+```bash
+wormagent db path
+```
+
+---
+
+### debug
+
+Debugging and troubleshooting tools.
+
+```bash
+wormagent debug [command]
+```
+
+---
+
+#### agent
+
+Show a loaded agent's configuration. Use `wormagent agent list` to list all agents.
+
+```bash
+wormagent debug agent build
+```
+
+---
+
+#### config
+
+Show the resolved configuration.
+
+```bash
+wormagent debug config
+```
+
+---
+
+#### paths
+
+Show global paths (data, config, cache, state).
+
+```bash
+wormagent debug paths
+```
+
+This prints all global paths. To print the database path, use:
+
+```bash
+wormagent db path
+```
+
+---
+
+#### Other debug commands
+
+| Command                                     | Description                                              |
+| ------------------------------------------- | -------------------------------------------------------- |
+| `wormagent debug info`                       | Show the version, OS, terminal, and configured plugins   |
+| `wormagent debug skill`                      | List available skills                                    |
+| `wormagent debug scrap`                      | List known projects                                      |
+| `wormagent debug file list <path>`           | List files in a directory                                |
+| `wormagent debug file read <path>`           | Read a file as JSON with base64-encoded content          |
+| `wormagent debug file search <query>`        | Search file paths                                        |
+| `wormagent debug rg files`                   | List files using ripgrep; accepts `--glob` and `--limit` |
+| `wormagent debug rg search <pattern>`        | Search file contents; accepts `--glob` and `--limit`     |
+| `wormagent debug lsp diagnostics <file>`     | Get LSP diagnostics for a file                           |
+| `wormagent debug lsp symbols <query>`        | Search workspace symbols                                 |
+| `wormagent debug lsp document-symbols <uri>` | Get symbols from a document                              |
+| `wormagent debug snapshot track`             | Track the current snapshot state                         |
+| `wormagent debug snapshot patch <hash>`      | Show changed files for a snapshot hash                   |
+| `wormagent debug snapshot diff <hash>`       | Show the diff for a snapshot hash                        |
+| `wormagent debug startup`                    | Print startup timing                                     |
+
+---
+
+### uninstall
+
+Uninstall WormAgent and remove all related files.
+
+```bash
+wormagent uninstall
+```
+
+#### Flags
+
+| Flag                                        | Short | Description                                 |
+| ------------------------------------------- | ----- | ------------------------------------------- |
+| <nobr><code>{"--keep-config"}</code></nobr> | `-c`  | Keep configuration files                    |
+| <nobr><code>{"--keep-data"}</code></nobr>   | `-d`  | Keep session data and snapshots             |
+| <nobr><code>{"--dry-run"}</code></nobr>     |       | Show what would be removed without removing |
+| <nobr><code>{"--force"}</code></nobr>       | `-f`  | Skip confirmation prompts                   |
+
+---
+
+### upgrade
+
+Updates wormagent to the latest version or a specific version.
+
+```bash
+wormagent upgrade [target]
+```
+
+To upgrade to the latest version.
+
+```bash
+wormagent upgrade
+```
+
+To upgrade to a specific version.
+
+```bash
+wormagent upgrade v0.1.48
+```
+
+To upgrade to WormAgent 2 and remove WormAgent 1:
+
+```bash
+wormagent upgrade --major
+```
+
+#### Flags
+
+| Flag                                   | Short | Description                                                       |
+| -------------------------------------- | ----- | ----------------------------------------------------------------- |
+| <nobr><code>{"--method"}</code></nobr> | `-m`  | The installation method that was used; curl, npm, pnpm, bun, brew |
+| <nobr><code>{"--major"}</code></nobr>  |       | Upgrade to WormAgent 2 and remove WormAgent 1                       |
+
+---
+
+## Global Flags
+
+The wormagent CLI takes the following global flags.
+
+| Flag                                       | Short | Description                          |
+| ------------------------------------------ | ----- | ------------------------------------ |
+| <nobr><code>{"--help"}</code></nobr>       | `-h`  | Display help                         |
+| <nobr><code>{"--version"}</code></nobr>    | `-v`  | Print version number                 |
+| <nobr><code>{"--print-logs"}</code></nobr> |       | Print logs to stderr                 |
+| <nobr><code>{"--log-level"}</code></nobr>  |       | Log level (DEBUG, INFO, WARN, ERROR) |
+| <nobr><code>{"--pure"}</code></nobr>       |       | Run without external plugins         |
+
+---
+
+## Environment variables
+
+WormAgent can be configured using environment variables.
+
+| Variable                              | Type    | Description                                                                  |
+| ------------------------------------- | ------- | ---------------------------------------------------------------------------- |
+| `WORMAGENT_GIT_BASH_PATH`              | string  | Path to Git Bash executable on Windows                                       |
+| `WORMAGENT_CONFIG`                     | string  | Path to config file                                                          |
+| `WORMAGENT_TUI_CONFIG`                 | string  | Path to TUI config file                                                      |
+| `WORMAGENT_CONFIG_DIR`                 | string  | Path to config directory                                                     |
+| `WORMAGENT_CONFIG_CONTENT`             | string  | Inline json config content                                                   |
+| `WORMAGENT_DISABLE_AUTOUPDATE`         | boolean | Disable automatic update checks                                              |
+| `WORMAGENT_DISABLE_PRUNE`              | boolean | Disable pruning of old data                                                  |
+| `WORMAGENT_DISABLE_TERMINAL_TITLE`     | boolean | Disable automatic terminal title updates                                     |
+| `WORMAGENT_PERMISSION`                 | string  | Inlined json permissions config                                              |
+| `WORMAGENT_DISABLE_DEFAULT_PLUGINS`    | boolean | Disable default plugins                                                      |
+| `WORMAGENT_DISABLE_LSP_DOWNLOAD`       | boolean | Disable automatic LSP server downloads                                       |
+| `WORMAGENT_ENABLE_EXPERIMENTAL_MODELS` | boolean | Enable experimental models                                                   |
+| `WORMAGENT_DISABLE_AUTOCOMPACT`        | boolean | Disable automatic context compaction                                         |
+| `WORMAGENT_DISABLE_CLAUDE_CODE`        | boolean | Disable reading from `.claude` (prompt + skills)                             |
+| `WORMAGENT_DISABLE_CLAUDE_CODE_PROMPT` | boolean | Disable reading `~/.claude/CLAUDE.md`                                        |
+| `WORMAGENT_DISABLE_CLAUDE_CODE_SKILLS` | boolean | Disable loading `.claude/skills`                                             |
+| `WORMAGENT_DISABLE_MODELS_FETCH`       | boolean | Disable fetching models from remote sources                                  |
+| `WORMAGENT_DISABLE_MOUSE`              | boolean | Disable mouse capture in the TUI                                             |
+| `WORMAGENT_FAKE_VCS`                   | string  | Fake VCS provider for testing purposes                                       |
+| `WORMAGENT_CLIENT`                     | string  | Client identifier (defaults to `cli`)                                        |
+| `WORMAGENT_ENABLE_EXA`                 | boolean | Enable Exa web search tools                                                  |
+| `WORMAGENT_ENABLE_PARALLEL`            | boolean | Enable Parallel web search tools                                             |
+| `WORMAGENT_SERVER_PASSWORD`            | string  | Enable basic auth for `serve`/`web`                                          |
+| `WORMAGENT_SERVER_USERNAME`            | string  | Override basic auth username (default `wormagent`)                            |
+| `WORMAGENT_MODELS_URL`                 | string  | Custom URL for fetching models configuration                                 |
+| `WORMAGENT_MODELS_PATH`                | string  | Load the model catalog from a local JSON file                                |
+| `WORMAGENT_DB`                         | string  | Database path; relative paths resolve under the data directory               |
+| `WORMAGENT_PURE`                       | boolean | Run without external plugins, like `--pure`                                  |
+| `WORMAGENT_DISABLE_PROJECT_CONFIG`     | boolean | Disable project configuration and project instruction files                  |
+| `WORMAGENT_DISABLE_EXTERNAL_SKILLS`    | boolean | Disable skill discovery in `.claude` and `.agents` directories               |
+| `WORMAGENT_DISABLE_EMBEDDED_WEB_UI`    | boolean | Disable the bundled web UI and use the remote UI fallback                    |
+| `WORMAGENT_DISABLE_FFF`                | boolean | Use ripgrep instead of the native file finder; enabled by default on Windows |
+| `WORMAGENT_ENABLE_QUESTION_TOOL`       | boolean | Enable the question tool for clients other than the CLI, app, and desktop    |
+| `WORMAGENT_ALWAYS_NOTIFY_UPDATE`       | boolean | Show update notifications even without a newer version                       |
+| `WORMAGENT_SHOW_TTFD`                  | boolean | Show time-to-first-delta timing                                              |
+| `WORMAGENT_LOG_LEVEL`                  | string  | Log level: `DEBUG`, `INFO`, `WARN`, or `ERROR`                               |
+| `WORMAGENT_PRINT_LOGS`                 | string  | Set to `1` to also print logs to stderr                                      |
+| `WORMAGENT_AUTO_HEAP_SNAPSHOT`         | boolean | Capture a heap snapshot when memory usage exceeds 2 GiB                      |
+
+---
+
+### Experimental
+
+These environment variables enable experimental features that may change or be removed.
+
+| Variable                                        | Type    | Description                             |
+| ----------------------------------------------- | ------- | --------------------------------------- |
+| `WORMAGENT_EXPERIMENTAL`                         | boolean | Enable the experimental umbrella flag   |
+| `WORMAGENT_EXPERIMENTAL_ICON_DISCOVERY`          | boolean | Enable icon discovery                   |
+| `WORMAGENT_EXPERIMENTAL_DISABLE_COPY_ON_SELECT`  | boolean | Disable copy on select in TUI           |
+| `WORMAGENT_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS` | number  | Default timeout for bash commands in ms |
+| `WORMAGENT_EXPERIMENTAL_OUTPUT_TOKEN_MAX`        | number  | Max output tokens for LLM responses     |
+| `WORMAGENT_EXPERIMENTAL_FILEWATCHER`             | boolean | Enable file watcher for entire dir      |
+| `WORMAGENT_EXPERIMENTAL_OXFMT`                   | boolean | Enable oxfmt formatter                  |
+| `WORMAGENT_EXPERIMENTAL_LSP_TOOL`                | boolean | Enable experimental LSP tool            |
+| `WORMAGENT_EXPERIMENTAL_DISABLE_FILEWATCHER`     | boolean | Disable file watcher                    |
+| `WORMAGENT_EXPERIMENTAL_EXA`                     | boolean | Enable experimental Exa features        |
+| `WORMAGENT_EXPERIMENTAL_LSP_TY`                  | boolean | Enable TY LSP for python files          |
+| `WORMAGENT_EXPERIMENTAL_CODE_MODE`               | boolean | Enable code-mode tool execution         |
+| `WORMAGENT_EXPERIMENTAL_WEBSOCKETS`              | boolean | Use WebSockets for OpenAI requests      |
+| `WORMAGENT_EXPERIMENTAL_PLAN_MODE`               | boolean | Enable plan mode                        |
+| `WORMAGENT_EXPERIMENTAL_BACKGROUND_SUBAGENTS`    | boolean | Enable background subagent tasks        |
+| `WORMAGENT_EXPERIMENTAL_EVENT_SYSTEM`            | boolean | Enable experimental event system        |
+| `WORMAGENT_EXPERIMENTAL_NATIVE_LLM`              | boolean | Enable native LLM request path          |
+| `WORMAGENT_EXPERIMENTAL_PARALLEL`                | boolean | Enable parallel web search execution    |
+| `WORMAGENT_EXPERIMENTAL_WORKSPACES`              | boolean | Enable workspace support                |

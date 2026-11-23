@@ -1,0 +1,6 @@
+{
+    "languageMode": "strict",
+    "aliases": {
+        "wormagent": "../../crates/plugin/src/luau/wormagent"
+    }
+}
