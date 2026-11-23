@@ -1511,8 +1511,8 @@ function ThousandsScene(props: { c: Ctx }) {
 // half, ▄ bottom half, "_" a cell of shadow background, "^" a top half over shadow, "~" and ","
 // shadow halves. A cell is twice as tall as it is wide, so each half-cell is one square module.
 const TUI_LOGO = {
-  left: ["                   ", "█▀▀█ █▀▀█ █▀▀█ █▀▀▄", "█__█ █__█ █^^^ █__█", "▀▀▀▀ █▀▀▀ ▀▀▀▀ ▀~~▀"],
-  right: ["             ▄     ", "█▀▀▀ █▀▀█ █▀▀█ █▀▀█", "█___ █__█ █__█ █^^^", "▀▀▀▀ ▀▀▀▀ ▀▀▀▀ ▀▀▀▀"],
+  left: ["                   ", "█   █ █▀▀█ █▀▀█ █▄ ▄█", "█ █ █ █  █ █▀▀▄ █ ▀ █", " ▀ ▀  ▀▀▀▀ ▀  ▀ ▀   ▀"],
+  right: ["             ▄     ", "█▀▀█ █▀▀█ █▀▀▀ █  █ ▀▀█▀▀", "█ ▀▀ █▀▀█ █▀▀  █▄ █   █", "▀▀▀▀ ▀  ▀ ▀▀▀▀ ▀ ▀▀   ▀"],
 }
 
 function TerminalScene(props: { c: Ctx }) {
