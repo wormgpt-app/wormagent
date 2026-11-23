@@ -3,38 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WormAgent.net - The Next Generation AI Coding Agent</title>
+<title>WormAgent.net — وكيلك الشخصي | Official of WormGPT</title>
+<meta name="description" content="WormAgent — وكيلك الشخصي الرسمي من WormGPT. يشتغل على جهازك، يتربط بنماذج WormGPT، ويعيش على تليجرام واتساب ديسكورد +20 قناة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0a0f;color:#fff;overflow-x:hidden}
-nav{position:fixed;top:0;width:100%;background:rgba(10,10,15,0.8);backdrop-filter:blur(12px);border-bottom:1px solid #1a1a2e;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;z-index:100}
-.logo{font-size:1.8rem;font-weight:900;letter-spacing:-1px}
-.logo span{color:#00ff88}
-.nav-links a{color:#a0a0b0;text-decoration:none;margin:0 1rem;transition:0.3s}
-.nav-links a:hover{color:#00ff88}
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem;background:radial-gradient(ellipse at top, #1a1a3e 0%, transparent 50%), radial-gradient(ellipse at bottom, #0f2a1a 0%, transparent 50%)}
-.hero h1{font-size:4.5rem;font-weight:900;line-height:1;letter-spacing:-3px;margin-bottom:1rem}
-.hero h1 span{background:linear-gradient(135deg,#00ff88,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:1.3rem;color:#a0a0b0;max-width:600px;margin:0 auto 2.5rem}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#000;color:#fff;overflow-x:hidden}
+a{color:#FF0000;text-decoration:none}
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(0,0,0,0.7);backdrop-filter:blur(16px);border-bottom:1px solid #1a0000;display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem}
+.logo{font-weight:900;font-size:1.7rem;letter-spacing:-1px}
+.logo span{color:#FF0000}
+.nav-links a{margin:0 0.8rem;color:#aaa;font-weight:600;transition:0.2s}
+.nav-links a:hover{color:#FF0000}
+.btn{padding:0.9rem 1.8rem;border-radius:100px;font-weight:800;border:none;cursor:pointer;transition:0.3s;display:inline-flex;gap:0.5rem;align-items:center;text-decoration:none}
+.btn-red{background:#FF0000;color:#fff;box-shadow:0 8px 30px rgba(255,0,0,0.35)}
+.btn-red:hover{background:#cc0000;transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,0,0,0.5)}
+.btn-ghost{background:transparent;color:#fff;border:1px solid #330000}
+.btn-ghost:hover{border-color:#FF0000;color:#FF0000}
+.hero{position:relative;min-height:88vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:7rem 1.5rem 3rem;overflow:hidden;background:radial-gradient(1200px 600px at 50% -10%, #330000 0%, transparent 60%), linear-gradient(180deg, #0a0000 0%, #000 100%)}
+.wave{position:absolute;top:0;left:0;right:0;height:280px;background:linear-gradient(180deg, #FF0000 0%, #8B0000 40%, transparent 100%);opacity:0.9;animation:waveMove 4s ease-in-out infinite}
+@keyframes waveMove{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-inner{position:relative;z-index:2;max-width:900px}
+.badge{display:inline-block;background:rgba(255,0,0,0.12);border:1px solid rgba(255,0,0,0.3);color:#FF4d4d;padding:0.4rem 0.9rem;border-radius:100px;font-size:0.85rem;font-weight:700;margin-bottom:1.2rem}
+.hero h1{font-size:clamp(2.8rem,7vw,5rem);font-weight:900;line-height:0.9;letter-spacing:-3px}
+.hero h1 span{background:linear-gradient(135deg,#FF0000,#FF8a8a);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:#aaa;font-size:1.25rem;max-width:680px;margin:1rem auto 2rem;line-height:1.7}
 .cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.btn{padding:1rem 2.5rem;border-radius:100px;font-weight:700;font-size:1.1rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;transition:0.3s;border:none}
-.btn-primary{background:#00ff88;color:#000}
-.btn-primary:hover{background:#00e67a;transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,255,136,0.3)}
-.btn-secondary{background:transparent;color:#fff;border:1px solid #2a2a3e}
-.btn-secondary:hover{border-color:#00ff88;color:#00ff88}
-.code-box{background:#14141f;border:1px solid #2a2a3e;border-radius:16px;padding:1.5rem;text-align:left;direction:ltr;max-width:600px;margin:3rem auto 0;font-family:'JetBrains Mono',monospace;position:relative}
-.code-header{display:flex;gap:6px;margin-bottom:1rem}
-.dot{width:12px;height:12px;border-radius:50%}
-.dot-r{background:#ff5f56}.dot-y{background:#ffbd2e}.dot-g{background:#27c93f}
-code{color:#e0e0ff;font-size:0.95rem}
-code span.c{color:#6a9955}code span.k{color:#569cd6}code span.s{color:#ce9178}code span.v{color:#00ff88}
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;padding:4rem 2rem;max-width:1200px;margin:0 auto}
-.card{background:#14141f;border:1px solid #1a1a2e;border-radius:20px;padding:2rem;transition:0.3s}
-.card:hover{border-color:#00ff88;transform:translateY(-4px)}
-.card h3{font-size:1.3rem;margin-bottom:0.5rem}
-.card p{color:#a0a0b0;line-height:1.6}
-.badge{display:inline-block;background:#1a2e1f;color:#00ff88;padding:0.3rem 0.8rem;border-radius:100px;font-size:0.8rem;font-weight:700;margin-bottom:1rem}
-footer{text-align:center;padding:3rem;color:#606078;border-top:1px solid #1a1a2e;margin-top:4rem}
+.code{margin:2.5rem auto 0;max-width:760px;background:#0a0a0a;border:1px solid #220000;border-radius:16px;overflow:hidden;text-align:left;direction:ltr}
+.code-head{display:flex;align-items:center;gap:6px;padding:0.8rem 1rem;background:#0f0000;border-bottom:1px solid #220000}
+.dot{width:12px;height:12px;border-radius:50%}.r{background:#FF5f56}.y{background:#FFBD2E}.g{background:#27C93F}
+.code-body{padding:1.2rem 1.2rem 1.4rem;font-family:ui-monospace,Menlo,monospace;font-size:0.95rem;color:#e5e5e5}
+.code-body .c{color:#888}.code-body .k{color:#FF4d4d}.code-body .v{color:#FF0000}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;max-width:1100px;margin:3rem auto;padding:0 1.5rem}
+.card{background:linear-gradient(180deg,#0f0000 0%,#0a0a0a 100%);border:1px solid #220000;border-radius:20px;padding:1.6rem;transition:0.3s}
+.card:hover{border-color:#FF0000;transform:translateY(-4px);box-shadow:0 16px 40px rgba(255,0,0,0.15)}
+.card h3{color:#fff;margin-bottom:0.4rem}
+.card p{color:#999;line-height:1.6;font-size:0.95rem}
+.install{max-width:900px;margin:3rem auto;padding:0 1.5rem;text-align:center}
+.install h2{font-size:2rem;margin-bottom:1rem}
+.install h2 span{color:#FF0000}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin:1.5rem 0;text-align:right}
+.step{background:#0a0a0a;border:1px solid #220000;border-radius:16px;padding:1.2rem}
+.step b{color:#FF0000}
+.channels{max-width:1000px;margin:3rem auto;padding:0 1.5rem;text-align:center}
+.chips{display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center;margin-top:1rem}
+.chip{background:#0a0a0a;border:1px solid #220000;padding:0.5rem 0.9rem;border-radius:100px;color:#ccc;font-size:0.9rem}
+footer{margin-top:3rem;border-top:1px solid #1a0000;padding:2rem 1.5rem;text-align:center;color:#666;background:#050000}
 </style>
 </head>
 <body>
@@ -43,39 +57,70 @@ footer{text-align:center;padding:3rem;color:#606078;border-top:1px solid #1a1a2e
   <div class="nav-links">
     <a href="#features">المميزات</a>
     <a href="#install">التثبيت</a>
-    <a href="https://WormAgent.net/docs">التوثيق</a>
+    <a href="https://wormgpt.app">WormGPT.app</a>
+    <a href="https://t.me/wormgpt_app">تليجرام</a>
+    <a href="https://github.com/wormgpt-app/wormagent">GitHub</a>
   </div>
 </nav>
+
 <section class="hero">
-  <div>
-    <div class="badge">✦ Rebranded from opencode • v1.19.6 WormAgent Edition</div>
-    <h1>Worm<span>Agent</span></h1>
-    <p>أقوى وكيل برمجة AI في الطرفية. سريع، مفتوح المصدر، ويعمل مع +75 مزود ذكاء اصطناعي.</p>
+  <div class="wave"></div>
+  <div class="hero-inner">
+    <div class="badge">🔴 Owner: wormgpt-app • Official of WormGPT • v2.4.0</div>
+    <h1>وكيلك <span>الشخصي</span></h1>
+    <p>على أجهزتك. على قنواتك. WormAgent يشتغل على جهازك أنت، يتربط بنماذج الوكيل في حسابك على <b style="color:#fff">wormgpt.app</b>، ويعيش فين ما تتكلم: تليجرام، واتساب، ديسكورد و+20 قناة.</p>
     <div class="cta">
-      <a href="#install" class="btn btn-primary">⚡ ابدأ الآن</a>
-      <a href="https://github.com" class="btn btn-secondary">GitHub ↗</a>
+      <a class="btn btn-red" href="#install">⚡ ثبّت الآن</a>
+      <a class="btn btn-ghost" href="https://github.com/wormgpt-app/wormagent">GitHub ↗</a>
     </div>
-    <div class="code-box" id="install">
-      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
-      <code>
-        <span class="c"># ثبّت WormAgent في سطر واحد</span><br>
-        <span class="k">curl</span> -fsSL https://WormAgent.net/install | <span class="k">bash</span><br><br>
-        <span class="c"># أو عبر npm</span><br>
-        <span class="k">npm</span> install -g <span class="v">wormagent</span><br><br>
-        <span class="c"># شغّل الوكيل</span><br>
-        <span class="v">WormAgent</span> <span class="s">"ابنِ لي API متكامل"</span>
-      </code>
+    <div class="code" id="install">
+      <div class="code-head"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><span style="margin-right:0.6rem;color:#999;font-size:0.85rem"> WormAgent — Install</span></div>
+      <div class="code-body">
+        <div class="c"># Linux / macOS / Termux — سطر واحد</div>
+        <div><span class="k">curl</span> -fsSL https://wormagent.net/install | <span class="k">bash</span></div>
+        <div style="height:0.6rem"></div>
+        <div class="c"># Windows (PowerShell)</div>
+        <div><span class="k">irm</span> https://wormagent.net/install | <span class="k">iex</span></div>
+        <div style="height:0.8rem"></div>
+        <div class="c"># ثم</div>
+        <div><span class="v">wormagent</span> <span style="color:#999">— يبدأ ويقرأ مشروعك</span></div>
+      </div>
     </div>
   </div>
 </section>
+
 <section class="features" id="features">
-  <div class="card"><h3>🌀 سريع كالدودة</h3><p>مبني بـ Go و Bun، يبدأ في أقل من 50ms ويعمل مباشرة في الطرفية بدون إعدادات معقدة.</p></div>
-  <div class="card"><h3>🧠 يدعم كل النماذج</h3><p>Claude, GPT-5, Gemini, Grok وأكثر من 75 مزود. نماذج مجانية متضمنة للبدء فوراً.</p></div>
-  <div class="card"><h3>🔧 قابل للتخصيص</h3><p>Agents, Skills, MCP servers, وأوامر مخصصة - صمم وكيلك الخاص كما تريد.</p></div>
+  <div class="card"><h3>🧠 يفهم مشروعك كاملاً</h3><p>بيفهرس ملفاتك ويقراها قبل أي تعديل — فاهم البنية مش بيخمّن.</p></div>
+  <div class="card"><h3>⚡ تنفيذ حقيقي</h3><p>يشغّل الأوامر والاختبارات جوه مساحة عملك، يقرا النتيجة، ويصلّح اللي فشل.</p></div>
+  <div class="card"><h3>💬 وكيل على قنواتك</h3><p>نفس الوكيل يرد عليك على تليجرام وواتساب وديسكورد — جلسة واحدة مستمرة.</p></div>
+  <div class="card"><h3>🔑 مفتاح WormGPT واحد</h3><p>اربطه بمفتاح API من wormgpt.app — نماذج الوكيل جاهزة فوراً.</p></div>
+  <div class="card"><h3>🛡️ صلاحيات بتحكمك</h3><p>موافقة صريحة منك قبل أي أمر حسّاس أو كتابة خارج النطاق.</p></div>
+  <div class="card"><h3>🖥️ يشتغل بدون شاشة</h3><p>عبر SSH، جوه حاوية، أو على سيرفر من غير واجهة — نفس التجربة.</p></div>
 </section>
+
+<section class="install">
+  <h2>يتثبّت في أقل من <span>دقيقة</span></h2>
+  <p style="color:#999">3 حقول بس: مفتاح API + توكن البوت + آيدي تليجرام — الباقي تلقائي.</p>
+  <div class="steps">
+    <div class="step"><b>1 — شغّل المثبّت</b><br><span style="color:#999">أمر واحد على Linux/macOS/Termux أو PowerShell. المثبّت يتأكد من كل خطوة.</span></div>
+    <div class="step"><b>2 — اربط حسابك</b><br><span style="color:#999">مفتاح API من wormgpt.app + توكن البوت من @BotFather + آيدي تليجرام.</span></div>
+    <div class="step"><b>3 — ابدأ الشغل</b><br><span style="color:#999">افتح أي مشروع وشغّل wormagent — أو ابعت لبوت تليجرام مباشرة.</span></div>
+  </div>
+  <a class="btn btn-red" href="https://wormagent.net/install">انسخ أمر التثبيت</a>
+</section>
+
+<section class="channels">
+  <h2>وكيل واحد. <span style="color:#FF0000">+20 قناة.</span></h2>
+  <p style="color:#999">بيعيش فين ما بتتكلم أصلاً.</p>
+  <div class="chips">
+    <span class="chip">Telegram</span><span class="chip">WhatsApp</span><span class="chip">Discord</span><span class="chip">Slack</span><span class="chip">Signal</span><span class="chip">iMessage</span><span class="chip">Matrix</span><span class="chip">MS Teams</span><span class="chip">IRC</span><span class="chip">WebChat</span><span class="chip">LINE</span><span class="chip">Twitch</span><span class="chip">Nostr</span><span class="chip">Google Chat</span><span class="chip">Mattermost</span><span class="chip">Feishu</span>
+  </div>
+</section>
+
 <footer>
-  <p><strong>WormAgent.net</strong> • Rebranded with ♥ from opencode • © 2026 WormAgent</p>
-  <p style="margin-top:0.5rem;font-size:0.9rem">Original by opencode.ai • WormAgent Edition by you</p>
+  <div style="font-weight:800;color:#fff">WormAgent.net — Official of WormGPT</div>
+  <div style="margin:0.5rem 0"> <a href="https://wormgpt.app">wormgpt.app</a> • <a href="https://t.me/wormgpt_app">t.me/wormgpt_app</a> • <a href="https://github.com/wormgpt-app/wormagent">github.com/wormgpt-app/wormagent</a></div>
+  <div>© 2026 wormgpt-app • Sidi Salim, Egypt 🇪🇬 • صنع بـ ♥ و 🔴⚫</div>
 </footer>
 </body>
 </html>
